@@ -1,0 +1,24 @@
+---
+title: "About"
+image: profile.jpg
+about:
+  template: trestles
+  image-width: 10em
+  image-shape: rounded
+  links:
+    - icon: twitter
+      text: Twitter
+      href: https://twitter.com/thosegradients
+      aria-label: Twitter
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/deepakr05/
+      aria-label: Linkedin
+    - icon: github
+      text: Github
+      href: https://github.com/dr563105
+      aria-label: GitHub
+
+---
+
+About this blog

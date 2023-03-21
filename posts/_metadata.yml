@@ -1,0 +1,27 @@
+# options specified here will apply to all posts in this folder
+
+# freeze computational output
+# (see https://quarto.org/docs/projects/code-execution.html#freeze)
+freeze: true
+
+# Enable banner style title blocks
+title-block-banner: true 
+
+# Enable CC licence appendix
+# 
+
+# Default for table of contents
+toc: true
+toc-title: Table of contents
+toc-location: left
+
+# enable comments
+comments: 
+  utterances:
+    repo: dr563105/blog_comments
+
+# Enable footer at the end of each posts
+# format: 
+#   html:
+#     include-after-body: ../footer.html
+

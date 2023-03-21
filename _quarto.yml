@@ -1,0 +1,49 @@
+project:
+  type: website
+  preview: 
+    port: 6543
+
+website:
+  title: "Deepak Ramani"
+  description: "This is Deepak Ramani's personal blog."
+  site-url: https://dr563105.github.io/  
+  repo-url: https://github.com/dr563105/quarto-blog
+  # favicon: favicon.jpg
+  open-graph: true
+  twitter-card:
+    creator: "@thosegradients"
+    card-style: summary_large_image
+  navbar:
+    background: "#eeeeee"
+    right:
+      - text: Blog
+        href: blog.qmd
+      # - icon: github
+      #   href: https://github.com/
+      # - icon: twitter
+      #   href: https://twitter.com
+      # - icon: rss
+      #   href: blog.xml
+      - text: Archive
+        href: archive.qmd
+  google-analytics: 
+    tracking-id: "UA-207674206-1"
+    anonymize-ip: true
+  cookie-consent:
+    type: express
+    palette: light
+  # reader-mode: true
+  search: 
+    location: navbar
+    copy-button: true
+ 
+format:
+  html:
+    theme: 
+      light: ember.scss
+      # dark: darkly
+    css: styles.css
+    code-link: true
+
+execute: 
+  freeze: auto
