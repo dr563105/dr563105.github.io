@@ -40,14 +40,14 @@ website:
 format:
   html:
     theme: 
-      light: ember.scss
+      light: ./_includes/ember.scss
       # dark: darkly
-    css: styles.css
+    css: ./_includes/styles.css
     code-link: true
     include-before-body: 
-      ../analytics.html
+      ./_includes/analytics.html
     include-in-header: 
-      ../google-ads.html
+      ./_includes/google-ads.html
 
 execute: 
   freeze: auto

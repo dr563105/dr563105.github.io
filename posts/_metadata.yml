@@ -23,4 +23,4 @@ comments:
 # Enable footer at the end of each posts
 # format: 
 #   html:
-#     include-after-body: ../footer.html
+#     include-after-body: ../_includes/footer.html
