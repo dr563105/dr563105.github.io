@@ -44,6 +44,10 @@ format:
       # dark: darkly
     css: styles.css
     code-link: true
+    include-before-body: 
+      ../analytics.html
+    include-in-header: 
+      ../google-ads.html
 
 execute: 
   freeze: auto

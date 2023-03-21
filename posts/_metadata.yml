@@ -24,9 +24,3 @@ comments:
 # format: 
 #   html:
 #     include-after-body: ../footer.html
-
-format: 
-  html: 
-    include-before-body: ../google-tag.html
-    include-in-header: ../google-ads.html
-
