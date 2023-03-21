@@ -7,7 +7,7 @@ website:
   title: "Deepak Ramani"
   description: "This is Deepak Ramani's personal blog."
   site-url: https://dr563105.github.io/  
-  repo-url: https://github.com/dr563105/quarto-blog
+  repo-url: https://github.com/dr563105/dr563105.github.io
   # favicon: favicon.jpg
   open-graph: true
   twitter-card:
@@ -27,7 +27,7 @@ website:
       - text: Archive
         href: archive.qmd
   google-analytics: 
-    tracking-id: "UA-207674206-1"
+    tracking-id: "G-8HL173849C"
     anonymize-ip: true
   cookie-consent:
     type: express

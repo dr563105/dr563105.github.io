@@ -25,3 +25,7 @@ comments:
 #   html:
 #     include-after-body: ../footer.html
 
+format: 
+  html: 
+    include-before-body: ../google-tag.html
+
