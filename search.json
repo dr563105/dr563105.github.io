@@ -1,37 +1,282 @@
 [
   {
-    "objectID": "blog.html",
-    "href": "blog.html",
-    "title": "Deepak Ramani",
+    "objectID": "posts/2022-01-09-dotfiles/index.html",
+    "href": "posts/2022-01-09-dotfiles/index.html",
+    "title": "Manage dotfiles with GNU Stow",
     "section": "",
-    "text": "Post With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nMar 19, 2023\n\n\n0 min\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nMar 16, 2023\n\n\n0 min\n\n\n\n\n\n\nNo matching items"
+    "text": "In this post, I will try to guide in organise your dotfiles in the cloud and manage them using GNU Stow."
   },
   {
-    "objectID": "posts/welcome/index.html",
-    "href": "posts/welcome/index.html",
-    "title": "Welcome To My Blog",
-    "section": "",
-    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
+    "objectID": "posts/2022-01-09-dotfiles/index.html#what-are-dotfiles",
+    "href": "posts/2022-01-09-dotfiles/index.html#what-are-dotfiles",
+    "title": "Manage dotfiles with GNU Stow",
+    "section": "What are dotfiles?",
+    "text": "What are dotfiles?\nFor a casual user, the term dotfiles may sound strange and confusing but it is nothing but application(app) configuration files in developer talk. The apps generally refer to certain files to configure itself.\nPeople usually store these files in a remote location such as a Github repository and retrieve them when needed.\nDotfiles allow personalisation. They can be restored in a new machine saving time. Preparing and organising the dotfiles with some initial effort, help developers save a lot of time later.\nA few examples of dotfiles are .bashrc, .vimrc, .gitignore.\n\n\n\n\n\n\nImportant\n\n\n\nPay attention to personal information inside these files. Never store secure keys, passwords in public domains.\n\n\n\n\nThings to know\n\nWhich app’s config files need to stored.\nWhere do those config files are located.\n\n\n\nCommon config files that need storing\n\n.bashrc or .zshrc\n.vimrc or init.vim(in the case of neovim)\n.gitignore_global and .gitconfig\nTerminal emulator config files\nIDE of choice config files\nAnyother config you want to save\n\nIn fact, if there is an app that you have configured heavily and frequently use, its config files must be stored. In the case the said app doesn’t allow exporting of configurations, it is highly recommended to move onto one that allows it.\n\n\nWhere are most required dotfiles located?\nMost files are present in $HOME or $XDG_CONFIG_HOME directories. $XDG_CONFIG_HOME defines the base directory relative to which user-specific configuration files should be stored. If $XDG_CONFIG_HOME is either not set or empty, a default equal to $HOME/.config should be used."
   },
   {
-    "objectID": "posts/post-with-code/index.html",
-    "href": "posts/post-with-code/index.html",
-    "title": "Post With Code",
+    "objectID": "posts/2022-01-09-dotfiles/index.html#gnu-stow",
+    "href": "posts/2022-01-09-dotfiles/index.html#gnu-stow",
+    "title": "Manage dotfiles with GNU Stow",
+    "section": "GNU Stow",
+    "text": "GNU Stow\nSome prominent results when googled for storing dotfiles are this Atlassian tutorial and using yadm. However, I found those harder to get started.\nGNU Stow on the other hand is an easy-to-use symlink farm manager. As described in their website, it takes distinct packages of software and/or data located in separate directories on the filesystem, and makes them appear to be installed in the same place.\nThis strategy works brilliantly for dotfiles. Borrowing explanation from Brandon Invergo’s article:\n\nThe procedure is simple. I created the ${HOME}/dotfiles directory and then inside it I made subdirectories for all the programs whose configurations I wanted to manage. Inside each of those directories, I moved in all the appropriate files, maintaining the directory structure of my home directory. So, if a file normally resides at the top level of your home directory, it would go into the top level of the program’s subdirectory. If a file normally goes in the default ${XDG_CONFIG_HOME}/${PKGNAME} location (${HOME}/.config/${PKGNAME}), then it would instead go in ${HOME}/dotfiles/${PKGNAME}/.config/${PKGNAME} and so on.\n\n\nInstall Stow\n\n\nTerminal\n\nsudo apt stow # <1>\n\nbrew install stow # <2>\n\n\nUbuntu\nHomebrew Mac\n\n\n\nPlacing the files\nNow, it might look complex at first. Let me explain with some examples. - .bashrc or .zshrc are present/needed in $HOME directory, so inside $HOME/dotfiles create a subdirectory with bashrc or zshrc and place the original .bashrc or .zshrc file appropriately inside their folder. GNU Stow understands that the dotfile, when symlinked, will create a symlink-copy in the $HOME directory. For future modifications, file in either locations can be edited. But for simplicity, use $HOME/dotfiles directory. - A complicated example would be a config file located deep inside subfolders: nvim’s or neovim’s init.vim or init.lua file. It is present in $HOME/.config/nvim/init.vim. For Stow to understand, it must be placed like this – $HOME/dotfiles/nvim/.config/nvim/init.vim\nFor further reading, I recommend brilliantly written Jake Weisler’s post on GNU Stow.\n\n\nUseful Stow commands\nIf correctly installed, then running the command stow --help should list options to use Stow. Most used commands are\n\n\nTerminal\n\nstow <packagename> # <1> \nstow -n <packagename> # <2> \nstow -D <packagename> # <3> \nstow -R <packagename> # <4> \n\n\nactivates symlink\ntrial runs or simulates symlink generation. Effective for checking for errors\ndelete stowed package\nrestows package\n\n\n\nActivating Stow\nSo if we have created three subdirectories inside dotfiles say zsh, git, nvim, then\n\n\nTerminal\n\nstow bash git nvim\n\nwill activate their symlinks.\nIf returned to $HOME and $XDG_CONFIG_HOME and verified, then we will see,\n\n\nTerminal\n\n.gitconfig -> .dotfiles/git/.gitconfig\n.zshrc -> .dotfiles/zsh/.zshrc\nnvim -> ../.dotfiles/nvim/.config/nvim\n\nThe most awesome thing in all this is, the directory structure needs to be created only once. For future requirement, one simply clones the dotfiles directory and activates symlinks."
+  },
+  {
+    "objectID": "posts/2022-01-09-dotfiles/index.html#storing-files-in-git",
+    "href": "posts/2022-01-09-dotfiles/index.html#storing-files-in-git",
+    "title": "Manage dotfiles with GNU Stow",
+    "section": "Storing files in Git",
+    "text": "Storing files in Git\nThe dotfiles directory now becomes important to store in a remote location for safe keeping. Usually a git repository is the preferred method. For instructions on how to use git, look up various tutorials on Git in the internet.\nIn summary, I have written a short, albeit technical write up on GNU Stow, and its uses for storing dotfiles. Feel free to ask questions in the comments or via various means linked in the blog."
+  },
+  {
+    "objectID": "posts/2022-02-06-skim-vimtex/index.html",
+    "href": "posts/2022-02-06-skim-vimtex/index.html",
+    "title": "Setup Skim PDF reader with VimTeX in Mac OS",
     "section": "",
-    "text": "This is a post with executable code.\nimport numpy as np\nnp.randint(10)\nFor a demonstration of a line plot on a polar axis, see Figure 1.\n\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\nfig, ax = plt.subplots(\n  subplot_kw = {'projection': 'polar'} \n)\nax.plot(theta, r)\nax.set_rticks([0.5, 1, 1.5, 2])\nax.grid(True)\nplt.show()\n\n\n\n\nFigure 1: A line plot on a polar axis"
+    "text": "VimTeX plugin written by Karl Yngve Lervåg is one of the goto plugins to manage LaTeX files with Vim/Neovim text editors. VimTeX allows integration with several PDF viewers. In Mac OS, Skim and Zathura PDF readers allow easy integration with LaTeX. Since Zathura’s installation in Mac OS involves more steps, we will be using Skim for this post."
+  },
+  {
+    "objectID": "posts/2022-02-06-skim-vimtex/index.html#install-skim",
+    "href": "posts/2022-02-06-skim-vimtex/index.html#install-skim",
+    "title": "Setup Skim PDF reader with VimTeX in Mac OS",
+    "section": "Install Skim",
+    "text": "Install Skim\nWith Homebrew\n\n\nTerminal\n\nbrew install --cask skim\n\nOr download the dmg file of the current version(as of writing latest version is v1.6.8) from Skim’s website."
+  },
+  {
+    "objectID": "posts/2022-02-06-skim-vimtex/index.html#install-vimtex",
+    "href": "posts/2022-02-06-skim-vimtex/index.html#install-vimtex",
+    "title": "Setup Skim PDF reader with VimTeX in Mac OS",
+    "section": "Install VimTeX",
+    "text": "Install VimTeX\nUsing vim-plug plugin manager we add the following line to .vimrc or init.vim or init.lua\n\n\nInside init.vim\n\nPlug 'lervag/vimtex'"
+  },
+  {
+    "objectID": "posts/2022-02-06-skim-vimtex/index.html#pdf-preview",
+    "href": "posts/2022-02-06-skim-vimtex/index.html#pdf-preview",
+    "title": "Setup Skim PDF reader with VimTeX in Mac OS",
+    "section": "Pdf preview",
+    "text": "Pdf preview\nConversion between TeX and PDF is one of the most common operations while writing a scientific document. Though it is possible to open the PDF file in one of the commercially available PDF readers, a seamless integration with neovim(in our case) is appreciated. This is where Skim comes into the picture. By default, Skim allows native, seamless integration with the LaTex editor of choice. In our case, we can make VimTex interact with Skim with just a few lines of config."
+  },
+  {
+    "objectID": "posts/2022-02-06-skim-vimtex/index.html#configurations",
+    "href": "posts/2022-02-06-skim-vimtex/index.html#configurations",
+    "title": "Setup Skim PDF reader with VimTeX in Mac OS",
+    "section": "Configurations",
+    "text": "Configurations\n\nMinimal setup and Forward Search\nWe require the following lines to make VimTeX talk to Skim within neovim. This direction of communication, is known as forward search.\n\n\nInside init.vim\n\n# Hover over the number at the end of each line to see its importance\nlet g:vimtex_view_method = 'skim' # <1>\n\n\nlet g:vimtex_view_skim_sync = 1 # <2>\nlet g:vimtex_view_skim_activate = 1 # <3>\n\n\nChoose which program to use to view PDF file.\nValue 1 allows forward search after every successful compilation.\nValue 1 allows change focus to skim after command :VimtexView is given.\n\nThe forward search allows any change made in the TeX file automatically refreshes Skim to reflect those changes in PDF. One of the other common uses is cursor sync between the TeX file and PDF. Setting let g:vimtex_view_skim_sync allows placing the cursor in some position in the Tex file sync with the same position in the PDF after every successful compilation(:VimtexCompile). Setting let g:vimtex_view_skim_activate allows to shift focus of control from neovim to Skim and bring it to foreground.\n\n\nInverse or Backward Search\nSo far there was only one channel of communication between neovim(editor) and Skim. A backward communication is possible but it took quite bit of hacking to get it to work. More on that read this jdhao’s post. However, with the release of VimTex v2.8, it has become simple to setup.\nConsider a scenario where we are going through a paper and find an error, instead of going back to source TeX file and finding the error location can be cumbersome. Using backward search, we can go to the error location from PDF to TeX. For Skim, to activate backward search press shift and command together and click the position in PDF using the mouse. That location gets reflected in the editor in the background. For more information, see :h :VimtexInverseSearch\nNatively, every instance of neovim starts a server 1. With Skim as client and nvim as server, we can interact in that direction.\nIn order to do so, in the preferances pane of Skim, navigate to Sync tab. There, in the PDF-TeX Sync support, make preset as custom, command as nvim(use vim if you use vim editor), and set arguments as --headless -c \"VimtexInverseSearch %line '%file'\".\n\n\n\n\n\n\n\nImportant\n\n\n\nSkim must be started by VimTeX (either through compiler callback or explicitly via lv) for backward sync to work! (This is how Skim “knows” which neovim instance – terminal or GUI – to sync to.)"
+  },
+  {
+    "objectID": "posts/2022-02-06-skim-vimtex/index.html#conclusion",
+    "href": "posts/2022-02-06-skim-vimtex/index.html#conclusion",
+    "title": "Setup Skim PDF reader with VimTeX in Mac OS",
+    "section": "Conclusion",
+    "text": "Conclusion\nWith just four lines of settings in the init.vim file and a line in Skim preferances, we can activate both forward and backward search features with VimTeX."
+  },
+  {
+    "objectID": "posts/2022-04-27-getting-started-with-s3/data/30-days-create-folds.html",
+    "href": "posts/2022-04-27-getting-started-with-s3/data/30-days-create-folds.html",
+    "title": "Deepak Ramani's blog",
+    "section": "",
+    "text": "::: {.cell _cell_guid=‘b1076dfc-b9ad-4769-8c92-a6c4dae69d19’ _uuid=‘8f2839f25d086af736a60e9eeb907d3b93b6e0e5’ execution=‘{“iopub.execute_input”:“2021-08-16T20:16:18.360034Z”,“iopub.status.busy”:“2021-08-16T20:16:18.358906Z”,“iopub.status.idle”:“2021-08-16T20:16:19.347479Z”,“shell.execute_reply”:“2021-08-16T20:16:19.348020Z”,“shell.execute_reply.started”:“2021-08-16T20:05:04.468564Z”}’ papermill=‘{“duration”:0.999913,“end_time”:“2021-08-16T20:16:19.348363”,“exception”:false,“start_time”:“2021-08-16T20:16:18.348450”,“status”:“completed”}’ tags=‘[]’ execution_count=1}\nimport numpy as np\nimport pandas as pd\nfrom sklearn import model_selection\n:::\n\ndf_train = pd.read_csv(\"../input/30-days-of-ml/train.csv\")\n\n\ndf_train[\"kfold\"] = -1\n\n\nkf = model_selection.KFold(n_splits=5, shuffle=True, random_state=42)\nfor fold, (train_indicies, valid_indicies) in enumerate(kf.split(X=df_train)):\n    df_train.loc[valid_indicies, \"kfold\"] = fold\n\n\ndf_train.to_csv(\"train_folds.csv\", index=False)"
+  },
+  {
+    "objectID": "posts/2022-04-27-getting-started-with-s3/index.html",
+    "href": "posts/2022-04-27-getting-started-with-s3/index.html",
+    "title": "Getting started with S3 using boto3",
+    "section": "",
+    "text": "Boto3 is an AWS python SDK that allows access to AWS services like EC2 and S3. It provides a python object-oriented API and as well as low-level access to AWS services"
+  },
+  {
+    "objectID": "posts/2022-04-27-getting-started-with-s3/index.html#create-a-session-and-client",
+    "href": "posts/2022-04-27-getting-started-with-s3/index.html#create-a-session-and-client",
+    "title": "Getting started with S3 using boto3",
+    "section": "Create a session and client",
+    "text": "Create a session and client\nBoto3’s region defaults to N-Virginia. To create buckets in another region, region name has to be explicitly mentioned using session object.\n\nsession = boto3.Session(region_name='us-east-2')\ns3client = session.client('s3')\ns3resource = boto3.resource('s3')\n\nS3 buckets have to follow bucket naming rules.\n\nbucket_names = ['my-s3bucket1-usohio-region', 'my-s3bucket2-usohio-region']\ns3location = {'LocationConstraint': 'us-east-2'}"
+  },
+  {
+    "objectID": "posts/2022-04-27-getting-started-with-s3/index.html#check-if-bucket-exists-in-s3",
+    "href": "posts/2022-04-27-getting-started-with-s3/index.html#check-if-bucket-exists-in-s3",
+    "title": "Getting started with S3 using boto3",
+    "section": "Check if bucket exists in S3",
+    "text": "Check if bucket exists in S3\nChecking for something before creation is one of the important tasks to avoid unnecessary errors. Here we check if the buckets already exists.\n\ndef check_bucket(bucket):\n    \"\"\"\n    Checks if a bucket is present in S3\n    args:\n    bucket: takes bucket name\n    \"\"\"\n    try:\n        s3client.head_bucket(Bucket=bucket)\n        print('Bucket exists')\n        return True\n    except botocore.exceptions.ClientError as e:\n        # If a client error is thrown, then check that it was a 404 error.\n        # If it was a 404 error, then the bucket does not exist.\n        error_code = int(e.response['Error']['Code'])\n        if error_code == 403:\n            print(\"Private Bucket. Forbidden Access!\")\n            return True\n        elif error_code == 404:\n            print(\"Bucket Does Not Exist!\")\n            return False\n\n\nfor bucket in bucket_names: \n    print(check_bucket(bucket))\n\nBucket exists\nTrue\n\n\nBucket exists\nTrue"
+  },
+  {
+    "objectID": "posts/2022-04-27-getting-started-with-s3/index.html#create-a-bucket-in-s3",
+    "href": "posts/2022-04-27-getting-started-with-s3/index.html#create-a-bucket-in-s3",
+    "title": "Getting started with S3 using boto3",
+    "section": "Create a bucket in S3",
+    "text": "Create a bucket in S3\nIf the buckets don’t exist, we create them. We need to supply bucket name, a dictionary specifying in which region the bucket has to be created.\n\nfor bucket_name in bucket_names: \n    if not(check_bucket(bucket_name)):\n        print('Creating a bucket..')\n        s3client.create_bucket(Bucket = bucket_name, CreateBucketConfiguration=s3location)\n\nBucket exists\n\n\nBucket exists"
+  },
+  {
+    "objectID": "posts/2022-04-27-getting-started-with-s3/index.html#bucket-versioning",
+    "href": "posts/2022-04-27-getting-started-with-s3/index.html#bucket-versioning",
+    "title": "Getting started with S3 using boto3",
+    "section": "Bucket Versioning",
+    "text": "Bucket Versioning\nBucket versioning initial state is not set by default. The response from when not initialised doesn’t carry status information rather status dict is absent. Status expects two return states: enabled, suspended. On first creation, the status is in disabled, an unknown state.\nSo in order to make it appear in the REST response, bucket must be enabled by calling the BucketVersioning() boto3 resource function. If we then check the status, it will be present in the REST response.\n\ndef get_buckets_versioning_client(bucketname):\n    \"\"\"\n    Checks if bucket versioning is enabled/suspended or initialised\n    Args:\n    bucketname: bucket name to check versioning\n    Returns: response status - enabled or suspended\n    \"\"\"\n    response = s3client.get_bucket_versioning(Bucket = bucketname)\n    if 'Status' in response and (response['Status'] == 'Enabled' or response['Status'] == 'Suspended'):\n        print(f'Bucket {bucketname} status: {response[\"Status\"]}')\n        return response['Status']\n    else:\n        print(f'Bucket versioning not initialised for bucket: {bucketname}. Enabling...')\n        s3resource.BucketVersioning(bucket_name=bucketname).enable()\n        enable_response = s3resource.BucketVersioning(bucket_name=bucket_name).status\n        return enable_response\n\n\nfor bucket_name in bucket_names: \n    version_status = get_buckets_versioning_client(bucket_name)\n    print(f'Versioning status: {version_status}')\n\nBucket my-s3bucket1-usohio-region status: Enabled\nVersioning status: Enabled\n\n\nBucket my-s3bucket2-usohio-region status: Enabled\nVersioning status: Enabled"
+  },
+  {
+    "objectID": "posts/2022-04-27-getting-started-with-s3/index.html#to-suspend-bucket-versioning",
+    "href": "posts/2022-04-27-getting-started-with-s3/index.html#to-suspend-bucket-versioning",
+    "title": "Getting started with S3 using boto3",
+    "section": "To suspend bucket versioning",
+    "text": "To suspend bucket versioning\n\nfor bucket_name in bucket_names:\n    version_status = get_buckets_versioning_client(bucket_name)\n    print(f'Versioning status: {version_status}')\n    if version_status == 'Enabled':\n        print('Disabling again..')\n        s3resource.BucketVersioning(bucket_name=bucket_name).suspend()\n\nBucket my-s3bucket1-usohio-region status: Enabled\nVersioning status: Enabled\nDisabling again..\n\n\nBucket my-s3bucket2-usohio-region status: Enabled\nVersioning status: Enabled\nDisabling again.."
+  },
+  {
+    "objectID": "posts/2022-04-27-getting-started-with-s3/index.html#to-enable-bucket-versioning",
+    "href": "posts/2022-04-27-getting-started-with-s3/index.html#to-enable-bucket-versioning",
+    "title": "Getting started with S3 using boto3",
+    "section": "To enable bucket versioning",
+    "text": "To enable bucket versioning\n\nfor bucket_name in bucket_names:\n    version_status = get_buckets_versioning_client(bucket_name)\n    print(f'Versioning status: {version_status}')\n    if version_status == 'Suspended':\n        print('Enabling again..')\n        s3resource.BucketVersioning(bucket_name=bucket_name).enable()\n\nBucket my-s3bucket1-usohio-region status: Suspended\nVersioning status: Suspended\nEnabling again..\n\n\nBucket my-s3bucket2-usohio-region status: Suspended\nVersioning status: Suspended\nEnabling again.."
+  },
+  {
+    "objectID": "posts/2022-04-27-getting-started-with-s3/index.html#get-bucket-list-from-s3",
+    "href": "posts/2022-04-27-getting-started-with-s3/index.html#get-bucket-list-from-s3",
+    "title": "Getting started with S3 using boto3",
+    "section": "Get bucket list from S3",
+    "text": "Get bucket list from S3\nWe can list the buckets in S3 using list_buckets() client function. It return a dict. We can iterate through Buckets key to find the names of the buckets.\n\nbuckets_list = s3client.list_buckets()\nfor bucket in buckets_list['Buckets']:\n    print(bucket['Name'])\n\nmlops-project-sales-forecast-bucket\nmlops-project-sales-forecast-bucket-dr563105-mlops-project\nmy-s3bucket1-usohio-region\nmy-s3bucket2-usohio-region\ns3-for-terraform-state"
+  },
+  {
+    "objectID": "posts/2022-04-27-getting-started-with-s3/index.html#upload-files-to-s3",
+    "href": "posts/2022-04-27-getting-started-with-s3/index.html#upload-files-to-s3",
+    "title": "Getting started with S3 using boto3",
+    "section": "Upload files to S3",
+    "text": "Upload files to S3\nBoto3 allows file upload to S3. The upload_file client function requires three mandatory arguments -\n1. filename of the file to be uploaded\n2. bucket_name, Into which bucket the file would be uploaded\n3. key, name of the file in S3\n\ndef upload_files_to_s3(filename, bucket_name, key=None, ExtraArgs=None):\n    \"\"\"\n    Uploads file to S3 bucket\n    Args:\n    filename: takes local filename to be uploaded\n    bucker_name: name of the bucket into which the file is uploaded\n    key: name of the file in the bucket. Default:None\n    ExtraArgs: other arguments. Default:None\n    \"\"\"\n    if key is None:\n        key = filename\n    \n    try:\n        s3client.upload_file(filename,bucket_name,key)\n        print(f'uploaded file:{filename}')\n    except botocore.exceptions.ClientError as e:\n        print(e)\n\nWe can make use of glob module to upload multiple files in a folder\n\nbucket1_files = [files[1],files[2]]\nbucket2_files = [files[0],files[3]]\nbucket1_files, bucket2_files\n\n(['data/30-days-create-folds.ipynb',\n  'data/ARK_GENOMIC_REVOLUTION_ETF_ARKG_HOLDINGS.csv'],\n ['data/Player Data.xlsx', 'data/star_pattern_turtlesim.png'])\n\n\n\nfor file in bucket1_files:\n    upload_files_to_s3(file,bucket_name=bucket_names[0])\n\nuploaded file:data/30-days-create-folds.ipynb\n\n\nuploaded file:data/ARK_GENOMIC_REVOLUTION_ETF_ARKG_HOLDINGS.csv\n\n\n\nfor file in bucket2_files:\n    upload_files_to_s3(file,bucket_name=bucket_names[1])\n\nuploaded file:data/Player Data.xlsx\n\n\nuploaded file:data/star_pattern_turtlesim.png"
+  },
+  {
+    "objectID": "posts/2022-04-27-getting-started-with-s3/index.html#get-files-list",
+    "href": "posts/2022-04-27-getting-started-with-s3/index.html#get-files-list",
+    "title": "Getting started with S3 using boto3",
+    "section": "Get files list",
+    "text": "Get files list\nGetting the files list from each bucket done using list_objects client function. It returns dict and we can iterate through Contents key to retrieve the filenames.\n\nfor bucket in bucket_names:\n    print(f'Listing object inside bucket:{bucket}')\n    list_obj_response = s3client.list_objects(Bucket=bucket)\n    for obj in list_obj_response['Contents']:\n        print(obj['Key'])\n    print()\n\nListing object inside bucket:my-s3bucket1-usohio-region\n\n\ndata/30-days-create-folds.ipynb\ndata/ARK_GENOMIC_REVOLUTION_ETF_ARKG_HOLDINGS.csv\n\nListing object inside bucket:my-s3bucket2-usohio-region\n\n\ndata/Player Data.xlsx\ndata/star_pattern_turtlesim.png"
+  },
+  {
+    "objectID": "posts/2022-04-27-getting-started-with-s3/index.html#download-files",
+    "href": "posts/2022-04-27-getting-started-with-s3/index.html#download-files",
+    "title": "Getting started with S3 using boto3",
+    "section": "Download files",
+    "text": "Download files\nDownloading a file is very similar to uploading one. We need specify bucket name, name of the file to be downloaded, and the destination filename.\n\nprint(f'Downloading files from bucket:{bucket_names[1]}')\ns3client.download_file(Bucket=bucket_names[1],Key='data/star_pattern_turtlesim.png',Filename='downloaded_turtlesim.jpg')\n\nDownloading files from bucket:my-s3bucket2-usohio-region"
+  },
+  {
+    "objectID": "posts/2022-04-27-getting-started-with-s3/index.html#conclusion",
+    "href": "posts/2022-04-27-getting-started-with-s3/index.html#conclusion",
+    "title": "Getting started with S3 using boto3",
+    "section": "Conclusion",
+    "text": "Conclusion\nThis blog post shows how to use the boto3 python SDK to manage S3 aws service. With the help of documentation, we can implement require functionalities."
+  },
+  {
+    "objectID": "posts/2021-09-24-using-json-normalize/index.html",
+    "href": "posts/2021-09-24-using-json-normalize/index.html",
+    "title": "Using json_normalize Pandas function",
+    "section": "",
+    "text": "Javascript Object Notation(JSON) is a widely used format for storing and exchanging data. Coming from the relational database, it could be difficult to understand NoSQL databases that use JSON to store data and similarly REST API’s response. JSON is also used in storing football event data. It allows easy addition of features in the future.\nThough JSON format allows for easier exchange of data, for analysis, a tabular form would be appropriate. A JSON structure can be of two forms: a JSON object and list of JSON objects. Since our programming language of choice is Python, those structures can be somewhat called as a dictionary object or list of dicts.\n1\nImporting pandas library,"
+  },
+  {
+    "objectID": "posts/2021-09-24-using-json-normalize/index.html#flattening-a-simple-json",
+    "href": "posts/2021-09-24-using-json-normalize/index.html#flattening-a-simple-json",
+    "title": "Using json_normalize Pandas function",
+    "section": "1 Flattening a simple JSON",
+    "text": "1 Flattening a simple JSON\nA dict\nLet us consider a simple dictionary: 3 keys and their respective values.\n\nviv = {\n    \"player_id\" : 15623, \n    \"player_name\" : \"Vivianne Miedema\", \n    \"jersey_number\" : 11}\nviv\n\n{'player_id': 15623, 'player_name': 'Vivianne Miedema', 'jersey_number': 11}\n\n\nWe use the json_normalize API2 to flatten a JSON dict.\n\ndf = pd.json_normalize(viv);df\n\n\n\n\n\n  \n    \n      \n      player_id\n      player_name\n      jersey_number\n    \n  \n  \n    \n      0\n      15623\n      Vivianne Miedema\n      11\n    \n  \n\n\n\n\n\ndf.info()\n\n<class 'pandas.core.frame.DataFrame'>\nRangeIndex: 1 entries, 0 to 0\nData columns (total 3 columns):\n #   Column         Non-Null Count  Dtype \n---  ------         --------------  ----- \n 0   player_id      1 non-null      int64 \n 1   player_name    1 non-null      object\n 2   jersey_number  1 non-null      int64 \ndtypes: int64(2), object(1)\nmemory usage: 152.0+ bytes\n\n\n\nSide Note: If the data contains something that is not compatible with python, in this case a null variable, there are two choices:\n\n\n\nChange null to None\nPass the data through json.loads function\n\n\nChange null to None\n\nnull = None\nviv1 = { \"player_id\" : 15623, \"player_name\" : \"Vivianne Miedema\", \"jersey_number\" : 11, \"player_nickname\" : null}\nviv1\n\n{'player_id': 15623,\n 'player_name': 'Vivianne Miedema',\n 'jersey_number': 11,\n 'player_nickname': None}\n\n\nMake data as string and pass to json.loads\n\nimport json\nviv1 = '{ \"player_id\" : 15623, \"player_name\" : \"Vivianne Miedema\", \"jersey_number\" : 11, \"player_nickname\" : null}'\nviv1 = json.loads(viv1)\nviv1\n\n{'player_id': 15623,\n 'player_name': 'Vivianne Miedema',\n 'jersey_number': 11,\n 'player_nickname': None}\n\n\n\n1.1 A list of dicts\n\nplayer_list = [\n    { \"player_id\" : 15623, \"player_name\" : \"Vivianne Miedema\", \"jersey_number\" : 11, \"player_nickname\" : null },\n    { \"player_id\" : 10658, \"player_name\" : \"Danielle van de Donk\", \"jersey_number\" : 7, \"player_nickname\" : null }\n]\npd.json_normalize(player_list)\n\n\n\n\n\n  \n    \n      \n      player_id\n      player_name\n      jersey_number\n      player_nickname\n    \n  \n  \n    \n      0\n      15623\n      Vivianne Miedema\n      11\n      None\n    \n    \n      1\n      10658\n      Danielle van de Donk\n      7\n      None\n    \n  \n\n\n\n\nWe have the JSON list of dicts in a tabular form. All the keys become columns and their values as entries.\nWhen we flattern a list with a key-value pair missing for an entry, instead of an error, NaN(not a number) is stored.\n\nplayer_list = [\n    { \"player_id\" : 15623, \"player_name\" : \"Vivianne Miedema\", \"jersey_number\" : 11, \"player_nickname\" : null },\n    { \"player_id\" : 10658, \"player_name\" : \"Danielle van de Donk\"}\n]\npd.json_normalize(player_list)\n\n\n\n\n\n  \n    \n      \n      player_id\n      player_name\n      jersey_number\n      player_nickname\n    \n  \n  \n    \n      0\n      15623\n      Vivianne Miedema\n      11.0\n      NaN\n    \n    \n      1\n      10658\n      Danielle van de Donk\n      NaN\n      NaN\n    \n  \n\n\n\n\nNote: See how player_nickname when not specified also turns to NaN from None."
+  },
+  {
+    "objectID": "posts/2021-09-24-using-json-normalize/index.html#flattening-a-multi-level-json",
+    "href": "posts/2021-09-24-using-json-normalize/index.html#flattening-a-multi-level-json",
+    "title": "Using json_normalize Pandas function",
+    "section": "2 Flattening a multi-level JSON",
+    "text": "2 Flattening a multi-level JSON\n\n2.1 A simple dict\n\nat_kick0ff = {\n  \"id\":\"d712fb93-c464-4621-98ba-f2bdcd5641db\",\n  \"timestamp\":\"00:00:00.000\",\n  \"duration\":0.0,\n  \"lineup\":{\n      \"player\":{\n        \"id\":15623,\n        \"name\":\"Vivianne Miedema\"\n      },\n      \"position\":{\n        \"id\":23,\n        \"name\":\"Center Forward\"\n      },\n      \"jersey_number\":11\n    }\n}\nat_kick0ff\n\n{'id': 'd712fb93-c464-4621-98ba-f2bdcd5641db',\n 'timestamp': '00:00:00.000',\n 'duration': 0.0,\n 'lineup': {'player': {'id': 15623, 'name': 'Vivianne Miedema'},\n  'position': {'id': 23, 'name': 'Center Forward'},\n  'jersey_number': 11}}\n\n\n\npd.json_normalize(at_kick0ff)\n\n\n\n\n\n  \n    \n      \n      id\n      timestamp\n      duration\n      lineup.player.id\n      lineup.player.name\n      lineup.position.id\n      lineup.position.name\n      lineup.jersey_number\n    \n  \n  \n    \n      0\n      d712fb93-c464-4621-98ba-f2bdcd5641db\n      00:00:00.000\n      0.0\n      15623\n      Vivianne Miedema\n      23\n      Center Forward\n      11\n    \n  \n\n\n\n\nYou can see that lineup dictionary key’s nested key-value pairs have been expanded into individual columns. If you feel that is unnecessary, we can restrict expansion by using max_level argument. With max_level=1, the flattening goes one level deeper.\n\npd.json_normalize(at_kick0ff, max_level=1)\n\n\n\n\n\n  \n    \n      \n      id\n      timestamp\n      duration\n      lineup.player\n      lineup.position\n      lineup.jersey_number\n    \n  \n  \n    \n      0\n      d712fb93-c464-4621-98ba-f2bdcd5641db\n      00:00:00.000\n      0.0\n      {'id': 15623, 'name': 'Vivianne Miedema'}\n      {'id': 23, 'name': 'Center Forward'}\n      11\n    \n  \n\n\n\n\n\n\n2.2 A list of dicts\n\nfirst_pass = [\n  {\n    \"id\":\"15758edb-58cd-49c4-a817-d2ef48ba3bcf\",\n    \"timestamp\":\"00:00:00.504\",\n    \"type\":{\n      \"id\":30,\n      \"name\":\"Pass\"\n    },\n    \"play_pattern\":{\n      \"id\":9,\n      \"name\":\"From Kick Off\"\n    },\n    \"player\":{\n      \"id\":15623,\n      \"name\":\"Vivianne Miedema\"\n    },\n    \"pass\":{\n      \"recipient\":{\n        \"id\":10666,\n        \"name\":\"Dominique Johanna Anna Bloodworth\"\n      },\n      \"length\":25.455845,\n      \"angle\":-2.3561945,\n      \"height\":{\n        \"id\":1,\n        \"name\":\"Ground Pass\"\n      },\n      \"end_location\":[\n        42.0,\n        22.0\n      ]\n    }\n  }, {\n  \"id\" : \"ab5674a4-e824-4143-9f6f-3f1645557413\",\n  \"timestamp\" : \"00:00:04.201\",\n  \"type\" : {\n    \"id\" : 30,\n    \"name\" : \"Pass\"\n  },\n  \"play_pattern\" : {\n    \"id\" : 9,\n    \"name\" : \"From Kick Off\"\n  },\n  \"player\" : {\n    \"id\" : 10666,\n    \"name\" : \"Dominique Johanna Anna Bloodworth\"\n  },\n  \"location\" : [ 45.0, 29.0 ],\n  \"duration\" : 1.795201,\n  \"pass\" : {\n    \"length\" : 51.62364,\n    \"angle\" : 0.55038595,\n    \"height\" : {\n      \"id\" : 3,\n      \"name\" : \"High Pass\"\n    },\n    \"end_location\" : [ 89.0, 56.0 ]\n  }\n}\n]\n    \npd.json_normalize(first_pass)\n\n\n\n\n\n  \n    \n      \n      id\n      timestamp\n      type.id\n      type.name\n      play_pattern.id\n      play_pattern.name\n      player.id\n      player.name\n      pass.recipient.id\n      pass.recipient.name\n      pass.length\n      pass.angle\n      pass.height.id\n      pass.height.name\n      pass.end_location\n      location\n      duration\n    \n  \n  \n    \n      0\n      15758edb-58cd-49c4-a817-d2ef48ba3bcf\n      00:00:00.504\n      30\n      Pass\n      9\n      From Kick Off\n      15623\n      Vivianne Miedema\n      10666.0\n      Dominique Johanna Anna Bloodworth\n      25.455845\n      -2.356194\n      1\n      Ground Pass\n      [42.0, 22.0]\n      NaN\n      NaN\n    \n    \n      1\n      ab5674a4-e824-4143-9f6f-3f1645557413\n      00:00:04.201\n      30\n      Pass\n      9\n      From Kick Off\n      10666\n      Dominique Johanna Anna Bloodworth\n      NaN\n      NaN\n      51.623640\n      0.550386\n      3\n      High Pass\n      [89.0, 56.0]\n      [45.0, 29.0]\n      1.795201\n    \n  \n\n\n\n\nLimiting the levels…\n\npd.json_normalize(first_pass, max_level=0)\n\n\n\n\n\n  \n    \n      \n      id\n      timestamp\n      type\n      play_pattern\n      player\n      pass\n      location\n      duration\n    \n  \n  \n    \n      0\n      15758edb-58cd-49c4-a817-d2ef48ba3bcf\n      00:00:00.504\n      {'id': 30, 'name': 'Pass'}\n      {'id': 9, 'name': 'From Kick Off'}\n      {'id': 15623, 'name': 'Vivianne Miedema'}\n      {'recipient': {'id': 10666, 'name': 'Dominique...\n      NaN\n      NaN\n    \n    \n      1\n      ab5674a4-e824-4143-9f6f-3f1645557413\n      00:00:04.201\n      {'id': 30, 'name': 'Pass'}\n      {'id': 9, 'name': 'From Kick Off'}\n      {'id': 10666, 'name': 'Dominique Johanna Anna ...\n      {'length': 51.62364, 'angle': 0.55038595, 'hei...\n      [45.0, 29.0]\n      1.795201"
+  },
+  {
+    "objectID": "posts/2021-09-24-using-json-normalize/index.html#flattening-a-json-nested-list",
+    "href": "posts/2021-09-24-using-json-normalize/index.html#flattening-a-json-nested-list",
+    "title": "Using json_normalize Pandas function",
+    "section": "3 Flattening a JSON nested list",
+    "text": "3 Flattening a JSON nested list\n\n3.1 A simple dict\nFor this case, let us consider a simpler example than of football event data. The key info has list of dictionaries inside its structure. We call it nested dict.\n\nawfc = {\n    'team': 'AWFC',\n    'location': 'London',\n    'ranking': 1,\n    'info': {\n        'manager': 'Joe',\n        'contacts': {\n          'email': {\n              'coaching': 'joe@afc.com',\n              'general': 'info@afc.com'\n          },\n          'tel': '123456789',\n      }\n    },\n    'players': [\n      { 'name': 'Viv' },\n      { 'name': 'DvD' },\n      { 'name': 'Kim' }\n    ],\n};awfc\n\n{'team': 'AWFC',\n 'location': 'London',\n 'ranking': 1,\n 'info': {'manager': 'Joe',\n  'contacts': {'email': {'coaching': 'joe@afc.com', 'general': 'info@afc.com'},\n   'tel': '123456789'}},\n 'players': [{'name': 'Viv'}, {'name': 'DvD'}, {'name': 'Kim'}]}\n\n\nThe players column has a list of dicts. So, we can flatten that column using record_path argument.\n\npd.json_normalize(awfc, record_path=['players'])\n\n\n\n\n\n  \n    \n      \n      name\n    \n  \n  \n    \n      0\n      Viv\n    \n    \n      1\n      DvD\n    \n    \n      2\n      Kim\n    \n  \n\n\n\n\nBut, making a separate table with no reference id has no meaning. To prevent that we can append revelant columns to the new table using meta argument. Here we want their team and Telephone number. The tel key lies within info->contacts->tel. So, we need provide that path like so ['info', 'contacts', 'tel'].\n\npd.json_normalize(awfc, record_path=['players'], meta=['team',['info', 'contacts', 'tel']])\n\n\n\n\n\n  \n    \n      \n      name\n      team\n      info.contacts.tel\n    \n  \n  \n    \n      0\n      Viv\n      AWFC\n      123456789\n    \n    \n      1\n      DvD\n      AWFC\n      123456789\n    \n    \n      2\n      Kim\n      AWFC\n      123456789\n    \n  \n\n\n\n\nThe order in which those paths are mentioned, the order in which those columns are appended.\n\npd.json_normalize(awfc, record_path=['players'], meta=['team',['info', 'contacts', 'tel'],['info', 'manager']])\n\n\n\n\n\n  \n    \n      \n      name\n      team\n      info.contacts.tel\n      info.manager\n    \n  \n  \n    \n      0\n      Viv\n      AWFC\n      123456789\n      Joe\n    \n    \n      1\n      DvD\n      AWFC\n      123456789\n      Joe\n    \n    \n      2\n      Kim\n      AWFC\n      123456789\n      Joe\n    \n  \n\n\n\n\n\n\n3.2 A list of dicts\n\njson_list = [\n    { \n        'team': 'arsenal', \n        'colour': 'red-white',\n        'info': {\n            'staff': { \n                'physio': 'xxxx', \n                'doctor': 'yyyy' \n            }\n        },\n        'players': [\n            { \n                'name': 'Viv', \n                'sex': 'F', \n                'stats': { 'goals': 101, 'assists': 40 } \n            },\n            { \n                'name': 'Beth', \n                'sex': 'F', \n                'stats': { 'goals': 60, 'assists': 25 } \n            },\n        ]\n    },\n    { \n        'team': 'city', \n        'colour': 'blue',\n        'info': {\n            'staff': { \n                'physio': 'aaaa', \n                'doctor': 'bbbb' \n            }\n        },\n        'players': [\n            { 'name': 'Steph', 'sex': 'F' },\n            { 'name': 'Lucy', 'sex': 'F' },\n        ]\n    },\n]\n\npd.json_normalize(json_list)\n\n\n\n\n\n  \n    \n      \n      team\n      colour\n      players\n      info.staff.physio\n      info.staff.doctor\n    \n  \n  \n    \n      0\n      arsenal\n      red-white\n      [{'name': 'Viv', 'sex': 'F', 'stats': {'goals'...\n      xxxx\n      yyyy\n    \n    \n      1\n      city\n      blue\n      [{'name': 'Steph', 'sex': 'F'}, {'name': 'Lucy...\n      aaaa\n      bbbb\n    \n  \n\n\n\n\n\npd.json_normalize(json_list, record_path =['players'])\n\n\n\n\n\n  \n    \n      \n      name\n      sex\n      stats.goals\n      stats.assists\n    \n  \n  \n    \n      0\n      Viv\n      F\n      101.0\n      40.0\n    \n    \n      1\n      Beth\n      F\n      60.0\n      25.0\n    \n    \n      2\n      Steph\n      F\n      NaN\n      NaN\n    \n    \n      3\n      Lucy\n      F\n      NaN\n      NaN\n    \n  \n\n\n\n\nHow about we now append the players’ team, colour, and their physio.\n\npd.json_normalize(\n    json_list, \n    record_path =['players'], \n    meta=['team', 'colour', ['info', 'staff', 'physio']]\n)\n\n\n\n\n\n  \n    \n      \n      name\n      sex\n      stats.goals\n      stats.assists\n      team\n      colour\n      info.staff.physio\n    \n  \n  \n    \n      0\n      Viv\n      F\n      101.0\n      40.0\n      arsenal\n      red-white\n      xxxx\n    \n    \n      1\n      Beth\n      F\n      60.0\n      25.0\n      arsenal\n      red-white\n      xxxx\n    \n    \n      2\n      Steph\n      F\n      NaN\n      NaN\n      city\n      blue\n      aaaa\n    \n    \n      3\n      Lucy\n      F\n      NaN\n      NaN\n      city\n      blue\n      aaaa"
+  },
+  {
+    "objectID": "posts/2021-09-24-using-json-normalize/index.html#ignoring-key-errors",
+    "href": "posts/2021-09-24-using-json-normalize/index.html#ignoring-key-errors",
+    "title": "Using json_normalize Pandas function",
+    "section": "4 Ignoring key errors",
+    "text": "4 Ignoring key errors\n\njson_list = [\n    { \n        'team': 'arsenal', \n        'colour': 'red-white',\n        'info': {\n            'staff': { \n                'physio': 'xxxx', \n                'doctor': 'yyyy' \n            }\n        },\n        'players': [\n            { \n                'name': 'Viv', \n                'sex': 'F', \n                'stats': { 'goals': 101, 'assists': 40 } \n            },\n            { \n                'name': 'Beth', \n                'sex': 'F', \n                'stats': { 'goals': 60, 'assists': 25 } \n            },\n        ]\n    },\n    { \n        'team': 'city', \n        'colour': 'blue',\n        'info': {\n            'staff': { \n                'doctor': 'bbbb' \n            }\n        },\n        'players': [\n            { 'name': 'Steph', 'sex': 'F' },\n            { 'name': 'Lucy', 'sex': 'F' },\n        ]\n    },\n]\n\nNotice that the key physio is missing from the entry team=city. What happens if we try to access physio key inside meta?\n\npd.json_normalize(\n    json_list, \n    record_path =['players'], \n    meta=['team', 'colour', ['info', 'staff', 'physio']],\n)\n\nKeyError: \"Key 'physio' not found. To replace missing values of 'physio' with np.nan, pass in errors='ignore'\"\n\n\nHow come stats.goals and stats.assists didn’t generate an error but that above does? Because, the meta argument expects values to be present for listed keys in meta by default. We can ignore those errors(as suggested) using errors='ignore'\n\npd.json_normalize(\n    json_list, \n    record_path =['players'], \n    meta=['team', 'colour', ['info', 'staff', 'physio']],\n    errors='ignore'\n)\n\n\n\n\n\n  \n    \n      \n      name\n      sex\n      stats.goals\n      stats.assists\n      team\n      colour\n      info.staff.physio\n    \n  \n  \n    \n      0\n      Viv\n      F\n      101.0\n      40.0\n      arsenal\n      red-white\n      xxxx\n    \n    \n      1\n      Beth\n      F\n      60.0\n      25.0\n      arsenal\n      red-white\n      xxxx\n    \n    \n      2\n      Steph\n      F\n      NaN\n      NaN\n      city\n      blue\n      NaN\n    \n    \n      3\n      Lucy\n      F\n      NaN\n      NaN\n      city\n      blue\n      NaN"
+  },
+  {
+    "objectID": "posts/2021-09-24-using-json-normalize/index.html#custom-separator-sep",
+    "href": "posts/2021-09-24-using-json-normalize/index.html#custom-separator-sep",
+    "title": "Using json_normalize Pandas function",
+    "section": "5 Custom separator sep",
+    "text": "5 Custom separator sep\nWe notice that by default pandas uses . to indicate the direction of the path. We can change that using the sep argument.\n\nTip: Usually an underscore is used instead of .\n\n\njson_list = [\n    { \n        'team': 'arsenal', \n        'colour': 'red-white',\n        'info': {\n            'staff': { \n                'physio': 'xxxx', \n                'doctor': 'yyyy' \n            }\n        },\n        'players': [\n            { \n                'name': 'Viv', \n                'sex': 'F', \n                'stats': { 'goals': 101, 'assists': 40 } \n            },\n            { \n                'name': 'Beth', \n                'sex': 'F', \n                'stats': { 'goals': 60, 'assists': 25 } \n            },\n        ]\n    },\n    { \n        'team': 'city', \n        'colour': 'blue',\n        'info': {\n            'staff': { \n                'physio': 'aaaa', \n                'doctor': 'bbbb' \n            }\n        },\n        'players': [\n            { 'name': 'Steph', 'sex': 'F' },\n            { 'name': 'Lucy', 'sex': 'F' },\n        ]\n    },\n]\n\n\npd.json_normalize(\n    json_list, \n    record_path =['players'], \n    meta=['team', 'colour', ['info', 'staff', 'physio']],\n    sep='->'\n)\n\n\n\n\n\n  \n    \n      \n      name\n      sex\n      stats->goals\n      stats->assists\n      team\n      colour\n      info->staff->physio\n    \n  \n  \n    \n      0\n      Viv\n      F\n      101.0\n      40.0\n      arsenal\n      red-white\n      xxxx\n    \n    \n      1\n      Beth\n      F\n      60.0\n      25.0\n      arsenal\n      red-white\n      xxxx\n    \n    \n      2\n      Steph\n      F\n      NaN\n      NaN\n      city\n      blue\n      aaaa\n    \n    \n      3\n      Lucy\n      F\n      NaN\n      NaN\n      city\n      blue\n      aaaa"
+  },
+  {
+    "objectID": "posts/2021-09-24-using-json-normalize/index.html#adding-context-to-record-and-meta-data-using-record_prefix-and-meta_prefix",
+    "href": "posts/2021-09-24-using-json-normalize/index.html#adding-context-to-record-and-meta-data-using-record_prefix-and-meta_prefix",
+    "title": "Using json_normalize Pandas function",
+    "section": "6 Adding context to record and meta data using record_prefix and meta_prefix",
+    "text": "6 Adding context to record and meta data using record_prefix and meta_prefix\n\npd.json_normalize(\n    json_list, \n    record_path=['players'], \n    meta=['team', 'colour', ['info', 'staff', 'physio']],\n    meta_prefix='meta-',\n    record_prefix='player-',\n    sep='->'\n)\n\n\n\n\n\n  \n    \n      \n      player-name\n      player-sex\n      player-stats->goals\n      player-stats->assists\n      meta-team\n      meta-colour\n      meta-info->staff->physio\n    \n  \n  \n    \n      0\n      Viv\n      F\n      101.0\n      40.0\n      arsenal\n      red-white\n      xxxx\n    \n    \n      1\n      Beth\n      F\n      60.0\n      25.0\n      arsenal\n      red-white\n      xxxx\n    \n    \n      2\n      Steph\n      F\n      NaN\n      NaN\n      city\n      blue\n      aaaa\n    \n    \n      3\n      Lucy\n      F\n      NaN\n      NaN\n      city\n      blue\n      aaaa"
+  },
+  {
+    "objectID": "posts/2021-09-24-using-json-normalize/index.html#working-with-a-local-file",
+    "href": "posts/2021-09-24-using-json-normalize/index.html#working-with-a-local-file",
+    "title": "Using json_normalize Pandas function",
+    "section": "7 Working with a local file",
+    "text": "7 Working with a local file\nIn most scenarios, we won’t be making new JSON object ourselves instead use JSON formatted files. We make use python’s json module and read the file, then use pandas’ json_normalize to flatten it into a dataframe.\n\nimport json\n# load data using Python JSON module\nwith open('movies.json') as f:\n    data = json.load(f)\n    \n# Normalizing data\npd.json_normalize(data)\n\n\n\n\n\n  \n    \n      \n      Title\n      US Gross\n      Worldwide Gross\n      US DVD Sales\n      Production Budget\n      Release Date\n      MPAA Rating\n      Running Time min\n      Distributor\n      Source\n      Major Genre\n      Creative Type\n      Director\n      Rotten Tomatoes Rating\n      IMDB Rating\n      IMDB Votes\n    \n  \n  \n    \n      0\n      The Land Girls\n      146083\n      146083\n      NaN\n      8000000\n      Jun 12 1998\n      R\n      NaN\n      Gramercy\n      None\n      None\n      None\n      None\n      NaN\n      6.1\n      1071.0\n    \n    \n      1\n      First Love, Last Rites\n      10876\n      10876\n      NaN\n      300000\n      Aug 07 1998\n      R\n      NaN\n      Strand\n      None\n      Drama\n      None\n      None\n      NaN\n      6.9\n      207.0\n    \n    \n      2\n      I Married a Strange Person\n      203134\n      203134\n      NaN\n      250000\n      Aug 28 1998\n      None\n      NaN\n      Lionsgate\n      None\n      Comedy\n      None\n      None\n      NaN\n      6.8\n      865.0\n    \n    \n      3\n      Four Rooms\n      4301000\n      4301000\n      NaN\n      4000000\n      Dec 25 1995\n      R\n      NaN\n      Miramax\n      Original Screenplay\n      Comedy\n      Contemporary Fiction\n      Robert Rodriguez\n      14.0\n      6.4\n      34328.0\n    \n    \n      4\n      The Four Seasons\n      42488161\n      42488161\n      NaN\n      6500000\n      May 22 1981\n      None\n      NaN\n      Universal\n      Original Screenplay\n      Comedy\n      Contemporary Fiction\n      Alan Alda\n      71.0\n      7.0\n      1814.0\n    \n    \n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n    \n    \n      63\n      Big Things\n      0\n      0\n      NaN\n      50000\n      Dec 31 2009\n      None\n      NaN\n      None\n      None\n      None\n      None\n      None\n      NaN\n      NaN\n      NaN\n    \n    \n      64\n      Bogus\n      4357406\n      4357406\n      NaN\n      32000000\n      Sep 06 1996\n      PG\n      NaN\n      Warner Bros.\n      Original Screenplay\n      Comedy\n      Fantasy\n      Norman Jewison\n      40.0\n      4.8\n      2742.0\n    \n    \n      65\n      Beverly Hills Cop\n      234760478\n      316300000\n      NaN\n      15000000\n      Dec 05 1984\n      None\n      NaN\n      Paramount Pictures\n      Original Screenplay\n      Action\n      Contemporary Fiction\n      Martin Brest\n      83.0\n      7.3\n      45065.0\n    \n    \n      66\n      Beverly Hills Cop II\n      153665036\n      276665036\n      NaN\n      20000000\n      May 20 1987\n      R\n      NaN\n      Paramount Pictures\n      Original Screenplay\n      Action\n      Contemporary Fiction\n      Tony Scott\n      46.0\n      6.1\n      29712.0\n    \n    \n      67\n      Beverly Hills Cop III\n      42586861\n      119180938\n      NaN\n      50000000\n      May 25 1994\n      R\n      NaN\n      Paramount Pictures\n      Original Screenplay\n      Action\n      Contemporary Fiction\n      John Landis\n      10.0\n      5.0\n      21199.0\n    \n  \n\n68 rows × 16 columns"
+  },
+  {
+    "objectID": "posts/2021-09-24-using-json-normalize/index.html#working-with-url",
+    "href": "posts/2021-09-24-using-json-normalize/index.html#working-with-url",
+    "title": "Using json_normalize Pandas function",
+    "section": "8 Working with URL",
+    "text": "8 Working with URL\nReading a JSON file from an url needs an extra module in requests as any data from the Internet carries overheads that are necessary for efficient exchange of information(REST API). So, in order to read the file contents, we call upon requests’ text attribute which fetches the contents of the file.\nHere, we use json.loads and not json.load as loads function expects contents(string) rather than a file pointer. If looked closely into the json module, the load calls loads using read() on the file.\n\nimport requests\n\nURL = 'https://vega.github.io/vega-datasets/data/cars.json'\n\ndata = json.loads(requests.get(URL).text)\npd.json_normalize(data)\n\n\n\n\n\n  \n    \n      \n      Name\n      Miles_per_Gallon\n      Cylinders\n      Displacement\n      Horsepower\n      Weight_in_lbs\n      Acceleration\n      Year\n      Origin\n    \n  \n  \n    \n      0\n      chevrolet chevelle malibu\n      18.0\n      8\n      307.0\n      130.0\n      3504\n      12.0\n      1970-01-01\n      USA\n    \n    \n      1\n      buick skylark 320\n      15.0\n      8\n      350.0\n      165.0\n      3693\n      11.5\n      1970-01-01\n      USA\n    \n    \n      2\n      plymouth satellite\n      18.0\n      8\n      318.0\n      150.0\n      3436\n      11.0\n      1970-01-01\n      USA\n    \n    \n      3\n      amc rebel sst\n      16.0\n      8\n      304.0\n      150.0\n      3433\n      12.0\n      1970-01-01\n      USA\n    \n    \n      4\n      ford torino\n      17.0\n      8\n      302.0\n      140.0\n      3449\n      10.5\n      1970-01-01\n      USA\n    \n    \n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n      ...\n    \n    \n      401\n      ford mustang gl\n      27.0\n      4\n      140.0\n      86.0\n      2790\n      15.6\n      1982-01-01\n      USA\n    \n    \n      402\n      vw pickup\n      44.0\n      4\n      97.0\n      52.0\n      2130\n      24.6\n      1982-01-01\n      Europe\n    \n    \n      403\n      dodge rampage\n      32.0\n      4\n      135.0\n      84.0\n      2295\n      11.6\n      1982-01-01\n      USA\n    \n    \n      404\n      ford ranger\n      28.0\n      4\n      120.0\n      79.0\n      2625\n      18.6\n      1982-01-01\n      USA\n    \n    \n      405\n      chevy s-10\n      31.0\n      4\n      119.0\n      82.0\n      2720\n      19.4\n      1982-01-01\n      USA\n    \n  \n\n406 rows × 9 columns"
+  },
+  {
+    "objectID": "posts/2021-09-24-using-json-normalize/index.html#conclusion",
+    "href": "posts/2021-09-24-using-json-normalize/index.html#conclusion",
+    "title": "Using json_normalize Pandas function",
+    "section": "9 Conclusion",
+    "text": "9 Conclusion\nWe saw the use of json_normalize function in pandas library. It helps take a JSON data, flatten it, and make it as a dataframe for easier analysis."
+  },
+  {
+    "objectID": "posts/2021-09-18-kaggle-setup/index.html",
+    "href": "posts/2021-09-18-kaggle-setup/index.html",
+    "title": "Setting up Kaggle on Linux/Mac",
+    "section": "",
+    "text": "Most of latest data science innovations happen at Kaggle. Kaggle hosts, in addtion to competitions, a large collection of datasets from various fields. The easiest way to interact with Kaggle is through its public API via command-line tool(CLI). Setting it up outside of Kaggle kernels is one of first tasks. In this post, I will guide you through that process."
+  },
+  {
+    "objectID": "posts/2021-09-18-kaggle-setup/index.html#installation",
+    "href": "posts/2021-09-18-kaggle-setup/index.html#installation",
+    "title": "Setting up Kaggle on Linux/Mac",
+    "section": "Installation",
+    "text": "Installation\n\n\nTerminal\n\npip install --user kaggle\n\n\n\n\n\n\n\nTip\n\n\n\nTip: Install kaggle package inside your conda ML development environment rather than outside of it or in base env.\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nDon’t do sudo pip install kaggle as it would require admin privileges for every run."
+  },
+  {
+    "objectID": "posts/2021-09-18-kaggle-setup/index.html#download-api-token",
+    "href": "posts/2021-09-18-kaggle-setup/index.html#download-api-token",
+    "title": "Setting up Kaggle on Linux/Mac",
+    "section": "Download API token",
+    "text": "Download API token\n\nCreate/login into your kaggle account.\nFrom the site header, click on your user profile picture and select Account. You will be land on your profile with account tab active.\nScroll down to API section. Click Create New API Token. A json file will be downloaded your default download directory."
+  },
+  {
+    "objectID": "posts/2021-09-18-kaggle-setup/index.html#move-.json-file-to-the-correct-location",
+    "href": "posts/2021-09-18-kaggle-setup/index.html#move-.json-file-to-the-correct-location",
+    "title": "Setting up Kaggle on Linux/Mac",
+    "section": "Move .json file to the correct location",
+    "text": "Move .json file to the correct location\n\nMove it to .kaggle in the home directory. Create if absent.\n\n\n\nTerminal\n\ncd\nmkdir ~/.kaggle\nmv <location>/kaggle.json ~/.kaggle/kaggle.json\n\n\nFor your security, ensure that other users of your computer do not have read access to your credentials. On Unix-based systems you can do this with the following command:\n\n\n\nTerminal\n\nchmod 600 ~/.kaggle/kaggle.json\n\n\nRestart the terminal and navigate to the env where kaggle package is installed if necessary."
+  },
+  {
+    "objectID": "posts/2021-09-18-kaggle-setup/index.html#check-if-it-is-properly-installed",
+    "href": "posts/2021-09-18-kaggle-setup/index.html#check-if-it-is-properly-installed",
+    "title": "Setting up Kaggle on Linux/Mac",
+    "section": "Check if it is properly installed",
+    "text": "Check if it is properly installed\n\nRun:\n\n\n\nTerminal\n\n$python\n>>>import kaggle\n\nImporting kaggle shouldn’t return an error. If there is error, check whether you’re in the right env where kaggle is installed.\nIf no error, exit the shell and type the following command in the terminal.\n\n\nTerminal\n\nkaggle competitions list\n\nIf installed properly, the command will list all the entered competitions. 1. If not, the binary path may be incorrect. Usually it is installed in ~/.local/bin Try using\n\n\nTerminal\n\n~/.local/bin/kaggle competitions list\n\n\nIf the above command works, export that binary path to the shell environment(bashrc) so that you might use just kaggle next time."
+  },
+  {
+    "objectID": "posts/2021-09-18-kaggle-setup/index.html#api-usage",
+    "href": "posts/2021-09-18-kaggle-setup/index.html#api-usage",
+    "title": "Setting up Kaggle on Linux/Mac",
+    "section": "API usage",
+    "text": "API usage\nIt is time to use the Kaggle API. For example, to see what dataset command offers, in the CLI enter\n\n\nTerminal\n\nkaggle dataset --help\n\n\n\n\n\n\n\nTip\n\n\n\nTip: Remember to comply with competition’s terms and conditions before downloading the dataset. You will get an error forbidden if you try to download before agreeing.\n\n\nFor more info on the API, Kaggle’s github page is an excellent resource."
   },
   {
     "objectID": "archive.html",
     "href": "archive.html",
     "title": "Archive",
     "section": "",
-    "text": "Post With Code\n\n\n\n\n\n\n\n\n\nMar 19, 2023\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\n\n\n\nMar 16, 2023\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "About",
-    "section": "",
-    "text": "About this blog"
+    "text": "Date\n\n\nTitle\n\n\n\n\n\n\nApr 27, 2022\n\n\nGetting started with S3 using boto3\n\n\n\n\nFeb 6, 2022\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n\n\nSep 24, 2021\n\n\nUsing json_normalize Pandas function\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n\n\n\n\nNo matching items"
   }
 ]

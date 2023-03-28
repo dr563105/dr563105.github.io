@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://dr563105.github.io/blog.html</loc>
-    <lastmod>2023-03-21T19:11:10.278Z</lastmod>
+    <loc>https://dr563105.github.io/about.html</loc>
+    <lastmod>2023-03-28T20:23:25.979Z</lastmod>
   </url>
   <url>
-    <loc>https://dr563105.github.io/posts/welcome/index.html</loc>
-    <lastmod>2023-03-21T19:11:11.119Z</lastmod>
+    <loc>https://dr563105.github.io/resume.html</loc>
+    <lastmod>2023-03-28T20:23:27.051Z</lastmod>
   </url>
   <url>
-    <loc>https://dr563105.github.io/posts/post-with-code/index.html</loc>
-    <lastmod>2023-03-21T19:11:11.611Z</lastmod>
+    <loc>https://dr563105.github.io/posts/2022-01-09-dotfiles/index.html</loc>
+    <lastmod>2023-03-28T20:23:27.551Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2022-02-06-skim-vimtex/index.html</loc>
+    <lastmod>2023-03-28T20:23:27.983Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2022-04-27-getting-started-with-s3/data/30-days-create-folds.html</loc>
+    <lastmod>2023-03-28T20:23:28.339Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2022-04-27-getting-started-with-s3/index.html</loc>
+    <lastmod>2023-03-28T20:23:29.019Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2021-09-24-using-json-normalize/index.html</loc>
+    <lastmod>2023-03-28T20:23:30.075Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2021-09-18-kaggle-setup/index.html</loc>
+    <lastmod>2023-03-28T20:23:30.479Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/archive.html</loc>
-    <lastmod>2023-03-21T19:11:12.011Z</lastmod>
+    <lastmod>2023-03-28T20:23:30.891Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/index.html</loc>
-    <lastmod>2023-03-21T19:11:12.371Z</lastmod>
+    <lastmod>2023-03-28T20:23:31.323Z</lastmod>
   </url>
 </urlset>
