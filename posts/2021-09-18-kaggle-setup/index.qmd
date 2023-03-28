@@ -1,8 +1,5 @@
 ---
-# toc: true
-# layout: post
-# author: Deepak Ramani
-image: kaggle_logo.png
+image: Kaggle_logo.png
 description: A guide to setup Kaggle API on Linux/Mac.
 categories: [kaggle, markdown]
 title: Setting up Kaggle on Linux/Mac
