@@ -1,0 +1,26 @@
+---
+title: "Deepak Ramani"
+description: "A collection of my technical blogs written on machine learning, data engineering, and data science. "
+image: profile.jpg
+about:
+  template: trestles
+  image-width: 10em
+  image-shape: rounded
+  links:
+    - icon: twitter
+      text: Twitter
+      href: https://twitter.com/thosegradients
+      aria-label: Twitter
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/deepakr05/
+      aria-label: Linkedin
+    - icon: github
+      text: Github
+      href: https://github.com/dr563105
+      aria-label: GitHub
+    - icon: cup-hot-fill
+      text: Buy Me A Coffee
+      href: https://www.buymeacoffee.com/dr563105
+      aria-label: Buy Me a Coffee
+---

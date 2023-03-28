@@ -4,50 +4,79 @@ project:
     port: 6543
 
 website:
-  title: "Deepak Ramani"
+  favicon: logo.png
+  title: "Deepak Ramani's blog"
   description: "This is Deepak Ramani's personal blog."
   site-url: https://dr563105.github.io/  
   repo-url: https://github.com/dr563105/dr563105.github.io
-  # favicon: favicon.jpg
+  repo-actions: source
+  repo-branch: master
   open-graph: true
   twitter-card:
     creator: "@thosegradients"
-    card-style: summary_large_image
+  page-navigation: true
   navbar:
-    background: "#eeeeee"
+    title: false
+    left: 
+      - text: Home
+        href: index.qmd
+      # - text: Projects
+      #   menu:
+      #     - text: MLOPS
+      #       href: projects/mlops.qmd
+      #     - text: Data Enginnering
+      #       href: projects/data-engg.qmd
+      # - text: Notes
+      #   href: notes/index.qmd
+      # - text: Hobbies
+      #   menu: 
+      #     - text: Books/Audiobooks
+      #       href: hobbies/books/cradle/index.qmd
+      #     - text: Football
+      #       href: hobbies/football/index.qmd
     right:
-      - text: Blog
-        href: blog.qmd
-      # - icon: github
-      #   href: https://github.com/
-      # - icon: twitter
-      #   href: https://twitter.com
-      # - icon: rss
-      #   href: blog.xml
-      - text: Archive
-        href: archive.qmd
+      - text: About
+        href: about.qmd
+      - text: Resume
+        href: resume.qmd
+
+  # sidebar: 
+  #   - title: Notes
+  #     pinned: true
+  #     collapse-level: 1
+  #     style: docked
+  #     contents: notes/**
+
   google-analytics: 
     tracking-id: "G-8HL173849C"
     anonymize-ip: true
   cookie-consent:
     type: express
     palette: light
-  # reader-mode: true
   search: 
     location: navbar
     copy-button: true
- 
+  page-footer: 
+    left: powered by [Quarto](https://quarto.org)
+    right:
+      - text: Archive
+        href: archive.qmd
+      - icon: rss
+        href: index.xml
+
 format:
   html:
     theme: 
-      light: ./_includes/ember.scss
-      # dark: darkly
-    css: ./_includes/styles.css
-    code-link: true
+      light: [_includes/light-theme.scss]
+      dark: [_includes/dark-theme.scss]
+    highlight-style: dracula
+    # css: _includes/styles.css
     include-before-body: 
-      ./_includes/analytics.html
+      _includes/analytics.html
     include-in-header: 
-      ./_includes/google-ads.html
+      _includes/google-ads.html
+    code-link: true
+    smooth-scroll: true
 
 execute: 
   freeze: auto

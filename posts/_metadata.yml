@@ -6,21 +6,20 @@ freeze: true
 
 # Enable banner style title blocks
 title-block-banner: true 
-
-# Enable CC licence appendix
-# 
-
+# title-block-banner-color: "#f4f1ed"
 # Default for table of contents
 toc: true
 toc-title: Table of contents
+toc-depth: 2
 toc-location: left
 
 # enable comments
 comments: 
   utterances:
     repo: dr563105/blog_comments
+    theme: github-dark
 
 # Enable footer at the end of each posts
-# format: 
-#   html:
-#     include-after-body: ../_includes/footer.html
+format: 
+  html:
+    include-after-body: ../_includes/footer.html

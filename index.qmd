@@ -1,24 +1,24 @@
 ---
-title: "About"
-image: profile.jpg
-about:
-  template: trestles
-  image-width: 10em
-  image-shape: rounded
-  links:
-    - icon: twitter
-      text: Twitter
-      href: https://twitter.com/thosegradients
-      aria-label: Twitter
-    - icon: linkedin
-      text: LinkedIn
-      href: https://www.linkedin.com/in/deepakr05/
-      aria-label: Linkedin
-    - icon: github
-      text: Github
-      href: https://github.com/dr563105
-      aria-label: GitHub
-
+sidebar: false
+listing:
+  - id: posts-listing
+    contents: posts/**/*.qmd
+    sort: "date desc"
+    type: table
+    table-hover: true
+    categories: true
+    sort-ui: false
+    filter-ui: false
+    fields: [image, date, title, reading-time]
+    feed: true
+    image-align: left
+    page-size: 8
+  
+page-layout: article
+title-block-banner: true
 ---
 
-About this blog
+## Blog Posts
+:::{.posts-listing}
+:::
+

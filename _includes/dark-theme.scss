@@ -1,0 +1,101 @@
+/*-- scss:defaults --*/
+$teal: #147C91;
+$cream: #e7e3de;
+$cream-darker: #bebab3;
+$dark-sage-green: #44493f;
+$light-sage-green: #D1D9CE;
+$light-gray: #aebfca;
+$purple: #6253ba;
+$black: #222222;
+$callout-color-important: #eb0a0a;
+
+// use litera as the base
+// $theme: "slate" !default;
+
+// import google fonts
+@import 'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap';
+@import 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap';
+
+// use Atkinson Hyperlegible font if available
+$font-family-sans-serif:      "Atkinson Hyperlegible", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+
+/*-- Base document colours --*/
+$navbar-bg: $cream-darker; // navbar
+$navbar-fg: $black; // navbar foreground elements
+$body-bg: $dark-sage-green; // page background 
+$body-color: $light-gray; // page text 
+$footer-bg: $cream-darker; // footer 
+$footer-fg: $black;
+$code-color: $cream;
+
+/*-- scss:rules --*/
+// litera is serif by default: revert to san-serif
+p {
+  font-family: $font-family-sans-serif;
+}
+
+//section number colour
+.header-section-number {
+    color: #e08362dd
+}
+//toc sidebar link colour when active
+.sidebar nav[role=doc-toc] ul>li>a.active,.sidebar nav[role=doc-toc] ul>li>ul>li>a.active {
+    border-left: 1.5px solid #0d6efd;
+    color: #14a6bd !important
+}
+
+//callout important header background
+div.callout-important.callout-style-default > .callout-header {
+background-color: #000000;//#c93141;
+}
+
+//callout text colour
+div.callout.callout-style-default:not(.no-icon) div.callout-title-container {
+  color: #fbf9f9;
+}
+
+//callout warning header background
+div.callout-warning.callout-style-default > .callout-header {
+background-color: #0b0a02;
+}
+
+//code-annotation tippy box(bubble) background
+.tippy-box[data-theme~=quarto] {
+  background-color: #c9ce2d;
+  color: black;
+}
+
+//quarto categories colours
+.quarto-title .quarto-categories .quarto-category {
+  color: brown;
+  opacity: 0.7;
+  font-family: "Fira Code", monospace;
+}
+
+a.nav-link {
+  display: inline-block;
+  position: relative;
+  color: #091d27;
+}
+
+a.nav-link::before{
+  transition: all 0.5;
+}
+a.nav-link::after{
+  content: '';
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #030e13;
+  transition: transform 0.4s ease;
+}
+
+a.nav-link:hover::after {
+  transform: scaleX(1);
+  opacity: 1;
+  transition: all 0.4s;
+}
