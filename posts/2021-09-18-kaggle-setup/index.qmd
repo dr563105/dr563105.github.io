@@ -1,5 +1,5 @@
 ---
-image: Kaggle_logo.png
+image: kaggle.png
 description: A guide to setup Kaggle API on Linux/Mac.
 categories: [kaggle, markdown]
 title: Setting up Kaggle on Linux/Mac
