@@ -1,0 +1,2184 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2023-05-10">
+<meta name="description" content="Notes on data analysis on finance data">
+
+<title>Deepak Ramani’s blog - Notes - LinkedIn course - Financial data analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../logo.png" rel="icon" type="image/png">
+<script src="../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": true,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-8HL173849C', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"express",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  });
+});
+</script> 
+  
+<style>html{ scroll-behavior: smooth; }</style>
+<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9028821857593432" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<meta property="og:title" content="Deepak Ramani’s blog - Notes - LinkedIn course - Financial data analysis">
+<meta property="og:description" content="Notes on data analysis on finance data">
+<meta property="og:image" content="https://dr563105.github.io/notes/py_for_finance_files/figure-html/cell-5-output-2.png">
+<meta property="og:site-name" content="Deepak Ramani's blog">
+<meta property="og:image:height" content="503">
+<meta property="og:image:width" content="737">
+<meta name="twitter:title" content="Deepak Ramani’s blog - Notes - LinkedIn course - Financial data analysis">
+<meta name="twitter:description" content="Notes on data analysis on finance data">
+<meta name="twitter:image" content="https://dr563105.github.io/notes/py_for_finance_files/figure-html/cell-5-output-2.png">
+<meta name="twitter:creator" content="@thosegradients">
+<meta name="twitter:image-height" content="503">
+<meta name="twitter:image-width" content="737">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../notes/index.html" rel="" target="">
+ <span class="menu-text">Notes</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../resume.pdf" rel="" target="">
+ <span class="menu-text">Resume</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">LinkedIn course - Financial data analysis notes</h1>
+                  <div>
+        <div class="description">
+          Notes on data analysis on finance data
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">May 10, 2023</p>
+      </div>
+    </div>
+    
+      <div>
+      <div class="quarto-title-meta-heading">Modified</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date-modified">May 19, 2023</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#loading-data" id="toc-loading-data" class="nav-link active" data-scroll-target="#loading-data">Loading data</a>
+  <ul class="collapse">
+  <li><a href="#chaining" id="toc-chaining" class="nav-link" data-scroll-target="#chaining">Chaining</a></li>
+  </ul></li>
+  <li><a href="#plotting" id="toc-plotting" class="nav-link" data-scroll-target="#plotting">Plotting</a></li>
+  <li><a href="#resampling" id="toc-resampling" class="nav-link" data-scroll-target="#resampling">Resampling</a></li>
+  <li><a href="#candle-stick-chart" id="toc-candle-stick-chart" class="nav-link" data-scroll-target="#candle-stick-chart">Candle Stick chart</a></li>
+  <li><a href="#calculations" id="toc-calculations" class="nav-link" data-scroll-target="#calculations">Calculations</a>
+  <ul class="collapse">
+  <li><a href="#returns" id="toc-returns" class="nav-link" data-scroll-target="#returns">Returns</a></li>
+  <li><a href="#cumulative-returns" id="toc-cumulative-returns" class="nav-link" data-scroll-target="#cumulative-returns">Cumulative returns</a></li>
+  <li><a href="#volatility" id="toc-volatility" class="nav-link" data-scroll-target="#volatility">Volatility</a></li>
+  <li><a href="#moving-averages-or-rolling-windows" id="toc-moving-averages-or-rolling-windows" class="nav-link" data-scroll-target="#moving-averages-or-rolling-windows">Moving averages or rolling windows</a></li>
+  <li><a href="#plotting-mas" id="toc-plotting-mas" class="nav-link" data-scroll-target="#plotting-mas">Plotting MAs</a></li>
+  </ul></li>
+  <li><a href="#technical-analysis" id="toc-technical-analysis" class="nav-link" data-scroll-target="#technical-analysis">Technical analysis</a>
+  <ul class="collapse">
+  <li><a href="#obv--on-balance-volume" id="toc-obv--on-balance-volume" class="nav-link" data-scroll-target="#obv--on-balance-volume">OBV- On-balance Volume</a></li>
+  <li><a href="#accumulation-distribution-indicator" id="toc-accumulation-distribution-indicator" class="nav-link" data-scroll-target="#accumulation-distribution-indicator">Accumulation distribution indicator</a></li>
+  <li><a href="#rsi---relative-strength-index" id="toc-rsi---relative-strength-index" class="nav-link" data-scroll-target="#rsi---relative-strength-index">RSI - Relative strength index</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/dr563105/dr563105.github.io/blob/master/notes/py_for_finance.qmd" class="toc-action">View source</a></p></div></div></nav>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
+
+
+
+
+<p>For financial data analysis, it is important to know certain terminologies, their purpose, and how to calculate them.</p>
+<p>I’m taking <a href="https://twitter.com/__mharrison__">Matt Harrison</a>’s Linkedin course on <a href="https://www.linkedin.com/learning/getting-started-with-python-for-finance">Python for Finance</a>. Here I note down all the Pandas techniques and concepts explored in the course. As always if you find an error, don’t hesitate to contact me.</p>
+<section id="loading-data" class="level1">
+<h1>Loading data</h1>
+<p>We use the <code>yfinance</code> library to load our stock data. The stocks listed in NASDAQ stock exchange are identified using a unique symbol aka <strong>ticker</strong> . I was interested in seeing how Pfizer(PFE) stocks fair in the last 3 years.</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> yfinance <span class="im">as</span> yf</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>pharma_df <span class="op">=</span> yf.download(<span class="st">'PFE JNJ'</span>, start<span class="op">=</span><span class="st">'2015-01-01'</span>, end<span class="op">=</span><span class="st">'2023-04-28'</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>pharma_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[                       0%                       ][*********************100%***********************]  2 of 2 completed</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">Adj Close</th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">Close</th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">High</th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">Low</th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">Open</th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">Volume</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">JNJ</th>
+<th data-quarto-table-cell-role="th">PFE</th>
+<th data-quarto-table-cell-role="th">JNJ</th>
+<th data-quarto-table-cell-role="th">PFE</th>
+<th data-quarto-table-cell-role="th">JNJ</th>
+<th data-quarto-table-cell-role="th">PFE</th>
+<th data-quarto-table-cell-role="th">JNJ</th>
+<th data-quarto-table-cell-role="th">PFE</th>
+<th data-quarto-table-cell-role="th">JNJ</th>
+<th data-quarto-table-cell-role="th">PFE</th>
+<th data-quarto-table-cell-role="th">JNJ</th>
+<th data-quarto-table-cell-role="th">PFE</th>
+</tr>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Date</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-02</td>
+<td>83.703026</td>
+<td>21.793072</td>
+<td>104.519997</td>
+<td>29.724857</td>
+<td>105.550003</td>
+<td>30.151802</td>
+<td>104.129997</td>
+<td>29.620493</td>
+<td>105.050003</td>
+<td>29.667933</td>
+<td>5753600</td>
+<td>16371571</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2015-01-05</td>
+<td>83.118408</td>
+<td>21.674822</td>
+<td>103.790001</td>
+<td>29.563566</td>
+<td>104.730003</td>
+<td>29.800758</td>
+<td>103.680000</td>
+<td>29.421251</td>
+<td>104.480003</td>
+<td>29.743834</td>
+<td>8079300</td>
+<td>24786391</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-06</td>
+<td>82.709999</td>
+<td>21.855675</td>
+<td>103.279999</td>
+<td>29.810247</td>
+<td>104.989998</td>
+<td>30.227703</td>
+<td>102.940002</td>
+<td>29.525618</td>
+<td>104.339996</td>
+<td>29.667933</td>
+<td>7428000</td>
+<td>29468681</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2015-01-07</td>
+<td>84.535889</td>
+<td>22.154793</td>
+<td>105.559998</td>
+<td>30.218216</td>
+<td>105.830002</td>
+<td>30.237192</td>
+<td>103.809998</td>
+<td>29.962049</td>
+<td>103.910004</td>
+<td>30.094877</td>
+<td>7931700</td>
+<td>20248816</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-08</td>
+<td>85.200562</td>
+<td>22.606922</td>
+<td>106.389999</td>
+<td>30.834915</td>
+<td>106.489998</td>
+<td>30.967743</td>
+<td>105.750000</td>
+<td>30.569260</td>
+<td>106.059998</td>
+<td>30.683111</td>
+<td>9916000</td>
+<td>49169522</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<section id="chaining" class="level2">
+<h2 class="anchored" data-anchor-id="chaining">Chaining</h2>
+<p>Matt introduces one of the features in Pandas called <strong>chaining</strong>. It allows reading the code as a recipe. One can simply go through from top to bottom and understand how the code works. We leverage <code>pipe()</code> pandas function. We can use it call any function.</p>
+<p>From the two stocks, <code>PFE</code> and <code>JNJ</code>, we need only <code>PFE</code>. So, we can try to use chaining principle.</p>
+<section id="without-chaining" class="level3">
+<h3 class="anchored" data-anchor-id="without-chaining">Without chaining</h3>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fix_cols(df):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    cols <span class="op">=</span> df.columns</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    outer <span class="op">=</span> [col[<span class="dv">0</span>] <span class="cf">for</span> col <span class="kw">in</span> cols]</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    df.columns <span class="op">=</span> outer</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>pfe_df1 <span class="op">=</span> pharma_df.iloc[:,<span class="dv">1</span>::<span class="dv">2</span>]</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>pfe_df1 <span class="op">=</span> fix_cols(pfe_df1)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>pfe_df1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Adj Close</th>
+<th data-quarto-table-cell-role="th">Close</th>
+<th data-quarto-table-cell-role="th">High</th>
+<th data-quarto-table-cell-role="th">Low</th>
+<th data-quarto-table-cell-role="th">Open</th>
+<th data-quarto-table-cell-role="th">Volume</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Date</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-02</td>
+<td>21.793072</td>
+<td>29.724857</td>
+<td>30.151802</td>
+<td>29.620493</td>
+<td>29.667933</td>
+<td>16371571</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2015-01-05</td>
+<td>21.674822</td>
+<td>29.563566</td>
+<td>29.800758</td>
+<td>29.421251</td>
+<td>29.743834</td>
+<td>24786391</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-06</td>
+<td>21.855675</td>
+<td>29.810247</td>
+<td>30.227703</td>
+<td>29.525618</td>
+<td>29.667933</td>
+<td>29468681</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2015-01-07</td>
+<td>22.154793</td>
+<td>30.218216</td>
+<td>30.237192</td>
+<td>29.962049</td>
+<td>30.094877</td>
+<td>20248816</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-08</td>
+<td>22.606922</td>
+<td>30.834915</td>
+<td>30.967743</td>
+<td>30.569260</td>
+<td>30.683111</td>
+<td>49169522</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-21</td>
+<td>39.779552</td>
+<td>40.209999</td>
+<td>40.299999</td>
+<td>39.910000</td>
+<td>40.090000</td>
+<td>19227100</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-04-24</td>
+<td>39.482765</td>
+<td>39.910000</td>
+<td>40.200001</td>
+<td>39.709999</td>
+<td>40.189999</td>
+<td>17633700</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-25</td>
+<td>38.908978</td>
+<td>39.330002</td>
+<td>39.919998</td>
+<td>39.279999</td>
+<td>39.750000</td>
+<td>24492400</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-04-26</td>
+<td>38.216469</td>
+<td>38.630001</td>
+<td>39.189999</td>
+<td>38.400002</td>
+<td>39.160000</td>
+<td>22401400</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-27</td>
+<td>38.325291</td>
+<td>38.740002</td>
+<td>38.830002</td>
+<td>38.310001</td>
+<td>38.619999</td>
+<td>22434000</td>
+</tr>
+</tbody>
+</table>
+
+<p>2094 rows × 6 columns</p>
+</div>
+</div>
+</div>
+</section>
+<section id="with-chaining" class="level3">
+<h3 class="anchored" data-anchor-id="with-chaining">With chaining</h3>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pfe_df <span class="op">=</span> (pharma_df</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a> .iloc[:,<span class="dv">1</span>::<span class="dv">2</span>] <span class="co"># retrieves only PFE stock data</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a> .pipe(fix_cols) <span class="co"># Removes the ticker and just shows </span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>pfe_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Adj Close</th>
+<th data-quarto-table-cell-role="th">Close</th>
+<th data-quarto-table-cell-role="th">High</th>
+<th data-quarto-table-cell-role="th">Low</th>
+<th data-quarto-table-cell-role="th">Open</th>
+<th data-quarto-table-cell-role="th">Volume</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Date</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-02</td>
+<td>21.793072</td>
+<td>29.724857</td>
+<td>30.151802</td>
+<td>29.620493</td>
+<td>29.667933</td>
+<td>16371571</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2015-01-05</td>
+<td>21.674822</td>
+<td>29.563566</td>
+<td>29.800758</td>
+<td>29.421251</td>
+<td>29.743834</td>
+<td>24786391</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-06</td>
+<td>21.855675</td>
+<td>29.810247</td>
+<td>30.227703</td>
+<td>29.525618</td>
+<td>29.667933</td>
+<td>29468681</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2015-01-07</td>
+<td>22.154793</td>
+<td>30.218216</td>
+<td>30.237192</td>
+<td>29.962049</td>
+<td>30.094877</td>
+<td>20248816</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-08</td>
+<td>22.606922</td>
+<td>30.834915</td>
+<td>30.967743</td>
+<td>30.569260</td>
+<td>30.683111</td>
+<td>49169522</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-21</td>
+<td>39.779552</td>
+<td>40.209999</td>
+<td>40.299999</td>
+<td>39.910000</td>
+<td>40.090000</td>
+<td>19227100</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-04-24</td>
+<td>39.482765</td>
+<td>39.910000</td>
+<td>40.200001</td>
+<td>39.709999</td>
+<td>40.189999</td>
+<td>17633700</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-25</td>
+<td>38.908978</td>
+<td>39.330002</td>
+<td>39.919998</td>
+<td>39.279999</td>
+<td>39.750000</td>
+<td>24492400</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-04-26</td>
+<td>38.216469</td>
+<td>38.630001</td>
+<td>39.189999</td>
+<td>38.400002</td>
+<td>39.160000</td>
+<td>22401400</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-27</td>
+<td>38.325291</td>
+<td>38.740002</td>
+<td>38.830002</td>
+<td>38.310001</td>
+<td>38.619999</td>
+<td>22434000</td>
+</tr>
+</tbody>
+</table>
+
+<p>2094 rows × 6 columns</p>
+</div>
+</div>
+</div>
+<p>As you can see this makes an easier reading. We use the <code>pipe()</code> to call our <code>fix_cols</code> function. The resulting dataframe has only the outer level column names. Indeed, I agree that as more analysis are added, it gets complicated and harder to understand. Indeed, the intermediate calculation steps are not shown in the final version which makes it difficult to visualise the operation instantaneously.</p>
+</section>
+</section>
+</section>
+<section id="plotting" class="level1">
+<h1>Plotting</h1>
+<p>Since Pandas’ plotting functionality is built on top of Matplotlib, we use it easily to plot our data.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(pharma_df</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a> .iloc[:,<span class="dv">1</span>::<span class="dv">2</span>] <span class="co"># retrieves only PFE stock data</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a> .pipe(fix_cols) <span class="co"># Removes the ticker and just shows </span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a> .Close <span class="co"># fetches only the Close column. Dataframe is now a series</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a> .plot() <span class="co"># date is used at x-axis and the Close column values at y-axis.</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="py_for_finance_files/figure-html/cell-5-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p>We can also adjust plot window size using Matplotlib’s <code>figsize</code> function.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pfe_vol <span class="op">=</span> (pharma_df</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a> .iloc[:,<span class="dv">1</span>::<span class="dv">2</span>] <span class="co"># retrieves only PFE stock data</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a> .pipe(fix_cols) <span class="co"># Removes the ticker and just shows </span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a> .Volume <span class="co"># fetches only the volume column. Dataframe is now a series</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a> .plot(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">2</span>)) <span class="co"># date is used at x-axis and the volume column values at y-axis.</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="py_for_finance_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="resampling" class="level1">
+<h1>Resampling</h1>
+<p>Since we have date as our row index, we can leverage <code>.resample()</code> feature of Pandas to convert our <code>PFE</code> raw data into time periods we want to visualise. The <code>.resample()</code> takes in an argument which is appropriate for the index. In our case it is date. So, it can take monthly(<code>M</code>), weekly(<code>W</code>), daily(<code>Y</code>), quarterly(<code>Q</code>) etc. Bi monthly is possible with <code>2M</code>.</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a> .Close</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a> .resample(<span class="st">'M'</span>) <span class="co"># returns resampler object. Looks for an aggregate function.</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a> .mean() <span class="co"># monthly average</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a> .plot()</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="py_for_finance_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p>If we want to aggregate two columns, then we can use <code>.agg()</code> function.</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a> .resample(<span class="st">'M'</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a> .agg({<span class="st">'Close'</span>: <span class="st">'max'</span>, <span class="st">'Open'</span>: <span class="st">'first'</span>})</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a> .loc[<span class="st">'jan 2020'</span>: <span class="st">'apr 2023'</span>]</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a> .plot()</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="py_for_finance_files/figure-html/cell-8-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="candle-stick-chart" class="level1">
+<h1>Candle Stick chart</h1>
+<p>With stock data, it is easier to visualise its pattern using a candle stick chart. Candle stick plot is not in Pandas. We can write our own plot function using matplotlib.</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> dates</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">5</span>))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_candle(df, ax):</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#wick</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    ax.vlines(x<span class="op">=</span>df.index, ymin<span class="op">=</span>df.Low, ymax<span class="op">=</span>df.High, colors<span class="op">=</span><span class="st">'k'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#red - decrease</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    red <span class="op">=</span> df.query(<span class="st">'Close &lt; Open'</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    ax.vlines(x<span class="op">=</span>red.index, ymin<span class="op">=</span>red.Close, ymax<span class="op">=</span>red.Open, colors<span class="op">=</span><span class="st">'r'</span>, linewidth<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#green - increase</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    green <span class="op">=</span> df.query(<span class="st">'Close &gt;= Open'</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    ax.vlines(x<span class="op">=</span>green.index, ymin<span class="op">=</span>green.Close, ymax<span class="op">=</span>green.Open, colors<span class="op">=</span><span class="st">'g'</span>,linewidth<span class="op">=</span><span class="dv">3</span>) <span class="co">#check this</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_major_locator(dates.MonthLocator())</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_major_formatter(dates.DateFormatter(<span class="st">'%b-%y'</span>))</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_minor_locator(dates.DayLocator())</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    ax.grid(color<span class="op">=</span><span class="st">'grey'</span>)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a> .resample(<span class="st">'d'</span>)</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a> .agg({<span class="st">'Close'</span>: <span class="st">'last'</span>, <span class="st">'Open'</span>: <span class="st">'first'</span>, <span class="st">'Low'</span>:<span class="st">'min'</span>, <span class="st">'High'</span>:<span class="st">'max'</span>})</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a> .loc[<span class="st">'jan 2023'</span>: <span class="st">'apr 2023'</span>]</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a> .pipe(plot_candle,ax)</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Close</th>
+<th data-quarto-table-cell-role="th">Open</th>
+<th data-quarto-table-cell-role="th">Low</th>
+<th data-quarto-table-cell-role="th">High</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Date</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-01-01</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-01-02</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-01-03</td>
+<td>51.259998</td>
+<td>51.009998</td>
+<td>50.820000</td>
+<td>51.330002</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-01-04</td>
+<td>50.130001</td>
+<td>50.290001</td>
+<td>49.520000</td>
+<td>50.630001</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-01-05</td>
+<td>49.660000</td>
+<td>49.730000</td>
+<td>48.919998</td>
+<td>49.990002</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-23</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-04-24</td>
+<td>39.910000</td>
+<td>40.189999</td>
+<td>39.709999</td>
+<td>40.200001</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-25</td>
+<td>39.330002</td>
+<td>39.750000</td>
+<td>39.279999</td>
+<td>39.919998</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-04-26</td>
+<td>38.630001</td>
+<td>39.160000</td>
+<td>38.400002</td>
+<td>39.189999</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-27</td>
+<td>38.740002</td>
+<td>38.619999</td>
+<td>38.310001</td>
+<td>38.830002</td>
+</tr>
+</tbody>
+</table>
+
+<p>117 rows × 4 columns</p>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="py_for_finance_files/figure-html/cell-9-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p>With the chart, we can determine the patterns such as bearish, bullish etc. We can change <code>.loc</code>for the period we want to see the pattern.</p>
+</section>
+<section id="calculations" class="level1">
+<h1>Calculations</h1>
+<p>In this section we learn certain metrics used on financial data.</p>
+<section id="returns" class="level2">
+<h2 class="anchored" data-anchor-id="returns">Returns</h2>
+<p>How much percentage of return can be expected? With pandas, we can simply use <code>.pct_change()</code> function and get the values. Plotting them is as simple as shown previously.</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a> .pct_change()</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a> .Close</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a> .plot()</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="./images/returns_plot.png" class="img-fluid"></p>
+<p>Histogram can be an option but it doesn’t show negative swing. Somewhat appropriate would be to use bar plot.</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a> .pct_change()</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a> .Close</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a> .iloc[<span class="op">-</span><span class="dv">100</span>:] <span class="co">#last 100 rows</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a> .plot.bar()</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="./images/returns_barplot.png" class="img-fluid"></p>
+<p>This plot shows the negative trends but the X-axis is illegible. We don’t know on which date the closing stock prices changed. This is because Pandas converts/groups whatever on the x-axis into categorical variables. For example, for categorical variable such as elephants, dogs and cats this works but for dates that isn’t correct.</p>
+<p>What if we explicitly say the x-axis as <code>dates</code>.</p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">4</span>))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a> .pct_change()</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a> .Close</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a> .iloc[<span class="op">-</span><span class="dv">100</span>:]</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a> .plot.bar(ax<span class="op">=</span>ax)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_locator(dates.MonthLocator())</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(dates.DateFormatter(<span class="st">'%b-%y'</span>))</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_minor_locator(dates.DayLocator())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="./images/returns_barplot_1970.png" class="img-fluid"></p>
+<p>1970?!? Still Pandas converts dates to categorical variables.</p>
+<p>The solution Matt suggests is to use matplotlib.</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_bar(series, ax):</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    ax.bar(series.index, series)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_major_locator(dates.MonthLocator())</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_major_formatter(dates.DateFormatter(<span class="st">'%b-%y'</span>))</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_minor_locator(dates.DayLocator())</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> series</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">4</span>))</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>_ <span class="op">=</span> ( pfe_df</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a> .pct_change()</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a> .Close</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a> .iloc[<span class="op">-</span><span class="dv">100</span>:]</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a> .pipe(my_bar, ax)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="./images/returns_barplot_plt.png" class="img-fluid"></p>
+<p>Looks good now.</p>
+</section>
+<section id="cumulative-returns" class="level2">
+<h2 class="anchored" data-anchor-id="cumulative-returns">Cumulative returns</h2>
+<p>Cumulative returns shows the investment amount gained or lost over time. The formula is given by <span class="math display">\[
+cumulative\_return = \frac{(current\_price - original\_price)}{(curent\_price)}
+\]</span></p>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a> .Close</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a> .sub(pfe_df.Close[<span class="dv">0</span>])</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a> .div(pfe_df.Close[<span class="dv">0</span>])</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a> .plot()</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="py_for_finance_files/figure-html/cell-14-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Another alternate way is to numpy’s <code>cumprod</code> function.</p>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a> .Close</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a> .add(<span class="dv">1</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a> .cumprod()</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a> .sub(<span class="dv">1</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a> .plot()</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/Users/dross/miniforge3/envs/mlops/lib/python3.9/site-packages/numpy/core/fromnumeric.py:57: RuntimeWarning:
+
+overflow encountered in accumulate
+</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="py_for_finance_files/figure-html/cell-15-output-3.png" class="img-fluid"></p>
+</div>
+</div>
+<p>As you can see both plots give the same result.</p>
+<p>If we’re to use <code>.pipe</code> here, we can do like so:</p>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc_cumrets(df, col):</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>     ser <span class="op">=</span> df[col]</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>     <span class="cf">return</span> (ser</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>             .sub(ser[<span class="dv">0</span>])</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>             .div(ser[<span class="dv">0</span>])</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a> .pipe(calc_cumrets,<span class="st">'Close'</span>)</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a> .plot()</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="py_for_finance_files/figure-html/cell-16-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<section id="lambda-functions-or-anonymous-functions" class="level3">
+<h3 class="anchored" data-anchor-id="lambda-functions-or-anonymous-functions">Lambda functions or anonymous functions</h3>
+<p>Using lambda functions we can make impropmtu functions and use it with our chaining.</p>
+<p>We would traditionally call a function like so:</p>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_returns(df):</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> calc_cumrets(df, <span class="st">'Close'</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>get_returns(pfe_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>Date
+2015-01-02    0.000000
+2015-01-05   -0.005426
+2015-01-06    0.002873
+2015-01-07    0.016598
+2015-01-08    0.037344
+                ...   
+2023-04-21    0.352740
+2023-04-24    0.342647
+2023-04-25    0.323135
+2023-04-26    0.299586
+2023-04-27    0.303286
+Name: Close, Length: 2094, dtype: float64</code></pre>
+</div>
+</div>
+<p>However, if we are to use <code>lambda</code>, then the above code can be written as:</p>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">lambda</span> df: get_returns(df))(pfe_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>Date
+2015-01-02    0.000000
+2015-01-05   -0.005426
+2015-01-06    0.002873
+2015-01-07    0.016598
+2015-01-08    0.037344
+                ...   
+2023-04-21    0.352740
+2023-04-24    0.342647
+2023-04-25    0.323135
+2023-04-26    0.299586
+2023-04-27    0.303286
+Name: Close, Length: 2094, dtype: float64</code></pre>
+</div>
+</div>
+<p>Now, with cumulative returns calculation, it would be useful if those values can be assigned to a new column in the dataframe. It is here that a Pandas feature in <code>.assign</code> function is helpful. It helps create new columns. We can couple <code>.assign</code> and <code>lambda</code> together.</p>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>pfe_df <span class="op">=</span> (pfe_df</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a> .assign(cum_rets<span class="op">=</span><span class="kw">lambda</span> df:calc_cumrets(df, <span class="st">'Close'</span>))</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="volatility" class="level2">
+<h2 class="anchored" data-anchor-id="volatility">Volatility</h2>
+<p>Volatility is a statistical measure of the dispertion of the returns for a given market index in this case stocks. In most cases, higher the volatility, the riskier the stock. It is often measured from either standard deviation or variance between returns from that stock. Remember <code>standard deviation</code> is the measure of deviation of the data relative to its mean.</p>
+<p>Just like <code>mean()</code>, we can calculate <code>std()</code>.</p>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a> .Close</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a> <span class="co">#.mean()</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a> .std()</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>6.69077286484766</code></pre>
+</div>
+</div>
+<p>The <code>.assign()</code> allows consective chaining methods to use these newly created columns. In the below code block, we can use the <code>pct_change_close</code> created in the first line in to the second line. Then, we can calculate 30 day <code>rolling</code> volatility. Rolling is nothing but a time frame in which the volatility is calculated. We can see that for the first 15 days the volatility is <code>NaN</code>(not a number) and on the 30th day, there is an entry.</p>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a> .assign(pct_change_close<span class="op">=</span>pfe_df.Close.pct_change())</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a> .pct_change_close</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a> .rolling(<span class="dv">30</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a> .std()</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>Date
+2015-01-02         NaN
+2015-01-05         NaN
+2015-01-06         NaN
+2015-01-07         NaN
+2015-01-08         NaN
+                ...   
+2023-04-21    0.008945
+2023-04-24    0.009058
+2023-04-25    0.009192
+2023-04-26    0.009718
+2023-04-27    0.009543
+Name: pct_change_close, Length: 2094, dtype: float64</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#rolling volatility</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a> .assign(close_volatility<span class="op">=</span>pfe_df.rolling(<span class="dv">30</span>).Close.std(),</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>         percent_volatility<span class="op">=</span>pfe_df.Close.pct_change().rolling(<span class="dv">30</span>).std())</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a> .iloc[:,<span class="op">-</span><span class="dv">2</span>:] <span class="co"># fetch only the last two columns</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a> .plot(subplots<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>array([&lt;AxesSubplot:xlabel='Date'&gt;, &lt;AxesSubplot:xlabel='Date'&gt;],
+      dtype=object)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="py_for_finance_files/figure-html/cell-22-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p>We can also use <code>.resample</code> to calculate 15 day volatility as we have <code>date</code> as index.</p>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 15 day volatility</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a> .assign(pct_change_close<span class="op">=</span>pfe_df.Close.pct_change())</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a> .resample(<span class="st">'15D'</span>)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a> .std()</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Adj Close</th>
+<th data-quarto-table-cell-role="th">Close</th>
+<th data-quarto-table-cell-role="th">High</th>
+<th data-quarto-table-cell-role="th">Low</th>
+<th data-quarto-table-cell-role="th">Open</th>
+<th data-quarto-table-cell-role="th">Volume</th>
+<th data-quarto-table-cell-role="th">cum_rets</th>
+<th data-quarto-table-cell-role="th">pct_change_close</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Date</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-02</td>
+<td>0.423588</td>
+<td>0.577756</td>
+<td>0.554235</td>
+<td>0.536322</td>
+<td>0.565220</td>
+<td>8.716662e+06</td>
+<td>0.019437</td>
+<td>0.009335</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2015-01-17</td>
+<td>0.408931</td>
+<td>0.557768</td>
+<td>0.552896</td>
+<td>0.473576</td>
+<td>0.428281</td>
+<td>6.992238e+06</td>
+<td>0.018764</td>
+<td>0.011556</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-02-01</td>
+<td>0.864666</td>
+<td>1.092056</td>
+<td>1.124398</td>
+<td>1.137237</td>
+<td>1.027460</td>
+<td>1.347935e+07</td>
+<td>0.036739</td>
+<td>0.013012</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2015-02-16</td>
+<td>0.103079</td>
+<td>0.139368</td>
+<td>0.153115</td>
+<td>0.158683</td>
+<td>0.142704</td>
+<td>5.436585e+06</td>
+<td>0.004689</td>
+<td>0.006524</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-03-03</td>
+<td>0.232107</td>
+<td>0.313819</td>
+<td>0.310265</td>
+<td>0.285296</td>
+<td>0.329080</td>
+<td>6.907642e+06</td>
+<td>0.010557</td>
+<td>0.008226</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-02-19</td>
+<td>0.912909</td>
+<td>0.922787</td>
+<td>0.942723</td>
+<td>1.064260</td>
+<td>1.025597</td>
+<td>4.710137e+06</td>
+<td>0.031044</td>
+<td>0.011505</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-03-06</td>
+<td>0.510382</td>
+<td>0.515904</td>
+<td>0.386680</td>
+<td>0.472090</td>
+<td>0.610293</td>
+<td>1.148802e+07</td>
+<td>0.017356</td>
+<td>0.011168</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-03-21</td>
+<td>0.414519</td>
+<td>0.419005</td>
+<td>0.428108</td>
+<td>0.305953</td>
+<td>0.396622</td>
+<td>3.416600e+06</td>
+<td>0.014096</td>
+<td>0.009084</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-04-05</td>
+<td>0.495242</td>
+<td>0.500601</td>
+<td>0.483455</td>
+<td>0.430794</td>
+<td>0.424291</td>
+<td>4.807599e+06</td>
+<td>0.016841</td>
+<td>0.008860</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-20</td>
+<td>0.647205</td>
+<td>0.654208</td>
+<td>0.613951</td>
+<td>0.713320</td>
+<td>0.629458</td>
+<td>2.507162e+06</td>
+<td>0.022009</td>
+<td>0.010312</td>
+</tr>
+</tbody>
+</table>
+
+<p>203 rows × 8 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 15 day rolling volatility</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a> .assign(pct_change_close<span class="op">=</span>pfe_df.Close.pct_change())</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a> .rolling(window<span class="op">=</span><span class="dv">15</span>, min_periods<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a> .std()</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Adj Close</th>
+<th data-quarto-table-cell-role="th">Close</th>
+<th data-quarto-table-cell-role="th">High</th>
+<th data-quarto-table-cell-role="th">Low</th>
+<th data-quarto-table-cell-role="th">Open</th>
+<th data-quarto-table-cell-role="th">Volume</th>
+<th data-quarto-table-cell-role="th">cum_rets</th>
+<th data-quarto-table-cell-role="th">pct_change_close</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Date</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-02</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2015-01-05</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-06</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2015-01-07</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-08</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-21</td>
+<td>0.591463</td>
+<td>0.597864</td>
+<td>0.638385</td>
+<td>0.562327</td>
+<td>0.596404</td>
+<td>3.967966e+06</td>
+<td>0.020113</td>
+<td>0.009691</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-04-24</td>
+<td>0.657297</td>
+<td>0.664410</td>
+<td>0.695511</td>
+<td>0.616351</td>
+<td>0.626652</td>
+<td>3.915626e+06</td>
+<td>0.022352</td>
+<td>0.009383</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-25</td>
+<td>0.771667</td>
+<td>0.780017</td>
+<td>0.784388</td>
+<td>0.725364</td>
+<td>0.709656</td>
+<td>4.093416e+06</td>
+<td>0.026241</td>
+<td>0.008983</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-04-26</td>
+<td>0.957201</td>
+<td>0.967559</td>
+<td>0.939399</td>
+<td>0.930587</td>
+<td>0.843585</td>
+<td>4.133347e+06</td>
+<td>0.032551</td>
+<td>0.009559</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-27</td>
+<td>1.047608</td>
+<td>1.058944</td>
+<td>1.047459</td>
+<td>1.068349</td>
+<td>1.011878</td>
+<td>3.287318e+06</td>
+<td>0.035625</td>
+<td>0.008130</td>
+</tr>
+</tbody>
+</table>
+
+<p>2094 rows × 8 columns</p>
+</div>
+</div>
+</div>
+<p>What happens if the assinged new column name is same as the pandas function name and we have to use further for our analysis? We can include that ‘assigned’ column within <code>[]</code>(square) braces and use it. In the below example, we can see how <code>pct_change</code> conflicts with pandas and is therefore must be put inside <code>[]</code> to access it.</p>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 15 day rolling volatility</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a> .assign(pct_change<span class="op">=</span>pfe_df.Close.pct_change())</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a> .rolling(window<span class="op">=</span><span class="dv">15</span>, min_periods<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a> .std()</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a> <span class="co">#.pct_change</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a> [<span class="st">"pct_change"</span>]</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a> .plot()</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="py_for_finance_files/figure-html/cell-25-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="moving-averages-or-rolling-windows" class="level2">
+<h2 class="anchored" data-anchor-id="moving-averages-or-rolling-windows">Moving averages or rolling windows</h2>
+<p>Moving average(MA) of a stock is calculated to help smooth out the price data by creating a constantly updated average price. It helps to mitigate the impacts of random, short-term fluctuations on the prices of the stock over a time period. There are two types of moving averages - <code>simple</code> which is just the arithmetic mean of the given prices over a specified number of days and <code>exponential</code> which is the weighted average that gives significance to the recent prices than old ones, making it an indicator that is more responsive to new infotmation.</p>
+<p>MA is used to identify the tread direction of a stock or to determine its support and resistance level as it depends on the past prices. The longer the period for the MA, the greater the lag. A 200-day MA has much greater lag than 20-day MA. The gold standard used by investers are 50-day and 200-day MAs.</p>
+<p>Shorter MA for short-term investment and longer MA for long-term. A rising MA means upward trend and declining means downward trend.</p>
+<section id="what-is-a-golden-cross" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-a-golden-cross">What is a Golden Cross?</h3>
+<p>A golden cross is a chart pattern in which a short-term moving average crosses above a long-term moving average. The golden cross is a bullish breakout pattern formed from a crossover involving a security’s short-term moving average such as the 15-day moving average, breaking above its long-term moving average, such as the 50-day moving average. As long-term indicators carry more weight, the golden cross indicates a bull market on the horizon and is reinforced by high trading volumes.</p>
+</section>
+<section id="lag" class="level3">
+<h3 class="anchored" data-anchor-id="lag">Lag</h3>
+<p>These lags can be calculated in Pandas using <code>shift</code> function. <code>shift(1)</code> means shift index one place down. <code>shift(2)</code> means two places down. For example,</p>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a> .assign(s1<span class="op">=</span>pfe_df.Close.shift(<span class="dv">1</span>),</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>         s2<span class="op">=</span>pfe_df.Close.shift(<span class="dv">2</span>))</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a> [[<span class="st">"s1"</span>,<span class="st">"s2"</span>]]</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">s1</th>
+<th data-quarto-table-cell-role="th">s2</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Date</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-02</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2015-01-05</td>
+<td>29.724857</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-06</td>
+<td>29.563566</td>
+<td>29.724857</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2015-01-07</td>
+<td>29.810247</td>
+<td>29.563566</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-08</td>
+<td>30.218216</td>
+<td>29.810247</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-21</td>
+<td>39.849998</td>
+<td>40.240002</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-04-24</td>
+<td>40.209999</td>
+<td>39.849998</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-25</td>
+<td>39.910000</td>
+<td>40.209999</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-04-26</td>
+<td>39.330002</td>
+<td>39.910000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-27</td>
+<td>38.630001</td>
+<td>39.330002</td>
+</tr>
+</tbody>
+</table>
+
+<p>2094 rows × 2 columns</p>
+</div>
+</div>
+</div>
+<p>the <code>Close</code> value in the first row will be on the second row for <code>shift(1)</code> and two rows down for <code>shift(2)</code>.</p>
+<p>Now for simple 3-day moving average, we need to average <code>Close</code>, <code>s1</code>, and <code>s2</code>. We can do it manually using a <code>lambda</code> and use the <code>rolling</code> pandas with <code>window=3</code> specified.</p>
+<div class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a> .assign(s1<span class="op">=</span>pfe_df.Close.shift(<span class="dv">1</span>),</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>         s2<span class="op">=</span>pfe_df.Close.shift(<span class="dv">2</span>),</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>         ma3<span class="op">=</span><span class="kw">lambda</span> df_:df_.loc[:,[<span class="st">"Close"</span>, <span class="st">"s1"</span>, <span class="st">"s2"</span>]].mean(axis<span class="op">=</span><span class="st">'columns'</span>),</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>         ma3_builtin<span class="op">=</span>pfe_df.Close.rolling(<span class="dv">3</span>).mean()</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>[[<span class="st">"s1"</span>,<span class="st">"s2"</span>,<span class="st">"ma3"</span>,<span class="st">"ma3_builtin"</span>]]</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">s1</th>
+<th data-quarto-table-cell-role="th">s2</th>
+<th data-quarto-table-cell-role="th">ma3</th>
+<th data-quarto-table-cell-role="th">ma3_builtin</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Date</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-02</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>29.724857</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2015-01-05</td>
+<td>29.724857</td>
+<td>NaN</td>
+<td>29.644212</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-06</td>
+<td>29.563566</td>
+<td>29.724857</td>
+<td>29.699557</td>
+<td>29.699557</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2015-01-07</td>
+<td>29.810247</td>
+<td>29.563566</td>
+<td>29.864010</td>
+<td>29.864010</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-08</td>
+<td>30.218216</td>
+<td>29.810247</td>
+<td>30.287793</td>
+<td>30.287793</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-21</td>
+<td>39.849998</td>
+<td>40.240002</td>
+<td>40.100000</td>
+<td>40.100000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-04-24</td>
+<td>40.209999</td>
+<td>39.849998</td>
+<td>39.989999</td>
+<td>39.989999</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-25</td>
+<td>39.910000</td>
+<td>40.209999</td>
+<td>39.816667</td>
+<td>39.816667</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-04-26</td>
+<td>39.330002</td>
+<td>39.910000</td>
+<td>39.290001</td>
+<td>39.290001</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-27</td>
+<td>38.630001</td>
+<td>39.330002</td>
+<td>38.900002</td>
+<td>38.900002</td>
+</tr>
+</tbody>
+</table>
+
+<p>2094 rows × 4 columns</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="plotting-mas" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-mas">Plotting MAs</h2>
+<p>We are getting comfortable with plotting. We select the columns needed to plotted - [‘Close’, ‘ma3_builtin’] for last 200 rows.</p>
+<div class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a> .assign(s1<span class="op">=</span>pfe_df.Close.shift(<span class="dv">1</span>),</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>         s2<span class="op">=</span>pfe_df.Close.shift(<span class="dv">2</span>),</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>         ma3<span class="op">=</span><span class="kw">lambda</span> df_:df_.loc[:,[<span class="st">"Close"</span>, <span class="st">"s1"</span>, <span class="st">"s2"</span>]].mean(axis<span class="op">=</span><span class="st">'columns'</span>),</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>         ma3_builtin<span class="op">=</span>pfe_df.Close.rolling(<span class="dv">3</span>).mean()</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a> [[<span class="st">'Close'</span>, <span class="st">'ma3_builtin'</span>]]</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a> .iloc[<span class="op">-</span><span class="dv">200</span>:]</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a> .plot()</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="py_for_finance_files/figure-html/cell-28-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p>As we can see the MA smoothes out the little peaks and troughs.</p>
+<section id="golden-cross" class="level3">
+<h3 class="anchored" data-anchor-id="golden-cross">Golden Cross</h3>
+<p>Some experts say if there is a crossover between MA-50 and MA-200, it is an indicator to buy or sell.</p>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a> .assign(ma50<span class="op">=</span>pfe_df.Close.rolling(<span class="dv">50</span>).mean(),</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>         ma200<span class="op">=</span>pfe_df.Close.rolling(<span class="dv">200</span>).mean()</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a> [[<span class="st">"Close"</span>,<span class="st">"ma50"</span>,<span class="st">"ma200"</span>]]</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a> .iloc[<span class="op">-</span><span class="dv">650</span>:]</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a> .plot()</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
+<pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="py_for_finance_files/figure-html/cell-29-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="technical-analysis" class="level1">
+<h1>Technical analysis</h1>
+<p>Technical analysis studies the price and volumes of the investments. Studying the trends on prices and volumes give analyst to evaluate and identify trading opportunities.</p>
+<p>Technical analysis tools are used to scrutinize the ways supply and demand for a security will affect changes in price, volume, and implied volatility. Past prices are used to determine future prices.</p>
+<section id="obv--on-balance-volume" class="level2">
+<h2 class="anchored" data-anchor-id="obv--on-balance-volume">OBV- On-balance Volume</h2>
+<p>OBV is one such used for technical analysis. It is a momentum indicator that uses volume to predict changes in stock price.</p>
+<section id="what-does-on-balance-volume-tell-you" class="level3">
+<h3 class="anchored" data-anchor-id="what-does-on-balance-volume-tell-you">What Does On-Balance Volume Tell You?</h3>
+<p>The actual value of the OBV is unimportant; concentrate on its direction. (source: <a href="https://www.fidelity.com/learning-center/trading-investing/technical-analysis/technical-indicator-guide/obv">fidelity</a>)</p>
+<ul>
+<li><p>When both price and OBV are making higher peaks and higher troughs, the upward trend is likely to continue.</p></li>
+<li><p>When both price and OBV are making lower peaks and lower troughs, the downward trend is likely to continue.</p></li>
+<li><p>During a trading range, if the OBV is rising, accumulation may be taking place—a warning of an upward breakout.</p></li>
+<li><p>During a trading range, if the OBV is falling, distribution may be taking place—a warning of a downward breakout.</p></li>
+<li><p>When price continues to make higher peaks and OBV fails to make higher peaks, the upward trend is likely to stall or fail. This is called a negative divergence.</p></li>
+<li><p>When price continues to make lower troughs and OBV fails to make lower troughs, the downward trend is likely to stall or fail. This is called a positive divergence.</p></li>
+</ul>
+</section>
+<section id="obv-calculation" class="level3">
+<h3 class="anchored" data-anchor-id="obv-calculation">OBV calculation</h3>
+<p>If today’s close is greater than yesterday’s close then: OBV = Yesterday’s OBV + Today’s Volume</p>
+<p>If today’s close is less than yesterday’s close then: OBV = Yesterday’s OBV – Today’s Volume</p>
+<p>If today’s close is equal to yesterday’s close then: OBV = Yesterday’s OBV</p>
+<p><span class="math display">\[
+OBV = OBV_{prev} + \begin{cases}
+volume, \text{ if close &gt; close}_{prev} \\
+0, \text{ if close = close}_{prev}\\
+-volume, \text{ if close &lt; close}_{prev}
+\end{cases}
+\]</span></p>
+<p>where</p>
+<p>OBV = current on-balance volume level</p>
+<p>OBV<sub>prev</sub> = previous on-balance volume level</p>
+<p>volume = Latest trading volume amount</p>
+</section>
+</section>
+<section id="accumulation-distribution-indicator" class="level2">
+<h2 class="anchored" data-anchor-id="accumulation-distribution-indicator">Accumulation distribution indicator</h2>
+</section>
+<section id="rsi---relative-strength-index" class="level2">
+<h2 class="anchored" data-anchor-id="rsi---relative-strength-index">RSI - Relative strength index</h2>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<!-- <div>
+<hr>
+<h3> Support my work with a coffee </h3>
+<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="dr563105" data-color="#56B4E9" data-emoji=""  data-font="Poppins" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#FFDD00" ></script>
+
+<hr>
+</div> -->
+<div>
+<h3 style="color: teal">Want to support my blog?</h3>
+<a href="https://www.buymeacoffee.com/dr563105" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-blue.png" alt="Buy Me A Coffee" height="30"></a>
+</div>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="dr563105/blog_comments" issue-term="pathname" theme="github-dark" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright 2023, Deepak Ramani | powered by <a href="https://quarto.org">Quarto</a></div>   
+    <div class="nav-footer-center"><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../archive.html">Archive</a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="../index.xml">
+      <i class="bi bi-rss" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

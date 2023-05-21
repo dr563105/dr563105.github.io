@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.475">
+<meta name="generator" content="quarto-1.3.353">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Deepak Ramani">
-<meta name="dcterms.date" content="2021-09-24">
+<meta name="dcterms.date" content="2022-09-24">
 <meta name="description" content="A tutorial with examples on flattening JSON object using json_normalize pandas function">
 
 <title>Deepak Ramani’s blog - Using json_normalize Pandas function</title>
@@ -20,9 +20,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -49,43 +50,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -163,13 +134,13 @@ cookieconsent.run({
 
 <meta property="og:title" content="Deepak Ramani’s blog - Using json_normalize Pandas function">
 <meta property="og:description" content="A tutorial with examples on flattening JSON object using json_normalize pandas function">
-<meta property="og:image" content="https://dr563105.github.io/posts/2021-09-24-using-json-normalize/pandas-logo.png">
+<meta property="og:image" content="https://dr563105.github.io/posts/2022-09-24-using-json-normalize/pandas-logo.png">
 <meta property="og:site-name" content="Deepak Ramani's blog">
 <meta property="og:image:height" content="147">
 <meta property="og:image:width" content="391">
 <meta name="twitter:title" content="Deepak Ramani’s blog - Using json_normalize Pandas function">
 <meta name="twitter:description" content="A tutorial with examples on flattening JSON object using json_normalize pandas function">
-<meta name="twitter:image" content="https://dr563105.github.io/posts/2021-09-24-using-json-normalize/pandas-logo.png">
+<meta name="twitter:image" content="https://dr563105.github.io/posts/2022-09-24-using-json-normalize/pandas-logo.png">
 <meta name="twitter:creator" content="@thosegradients">
 <meta name="twitter:image-height" content="147">
 <meta name="twitter:image-width" content="391">
@@ -182,30 +153,34 @@ cookieconsent.run({
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html">
+    <a class="nav-link" href="../../index.html" rel="" target="">
  <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../notes/index.html" rel="" target="">
+ <span class="menu-text">Notes</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html">
+    <a class="nav-link" href="../../about.html" rel="" target="">
  <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../resume.html">
+    <a class="nav-link" href="../../resume.pdf" rel="" target="">
  <span class="menu-text">Resume</span></a>
   </li>  
 </ul>
-              <div class="quarto-toggle-container">
-                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-              </div>
-              <div id="quarto-search" class="" title="Search"></div>
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
@@ -241,7 +216,7 @@ cookieconsent.run({
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">September 24, 2021</p>
+        <p class="date">September 24, 2022</p>
       </div>
     </div>
     
@@ -251,23 +226,24 @@ cookieconsent.run({
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul class="collapse">
-  <li><a href="#flattening-a-simple-json" id="toc-flattening-a-simple-json" class="nav-link active" data-scroll-target="#flattening-a-simple-json"><span class="toc-section-number">1</span>  Flattening a simple JSON</a></li>
-  <li><a href="#flattening-a-multi-level-json" id="toc-flattening-a-multi-level-json" class="nav-link" data-scroll-target="#flattening-a-multi-level-json"><span class="toc-section-number">2</span>  Flattening a multi-level JSON</a></li>
-  <li><a href="#flattening-a-json-nested-list" id="toc-flattening-a-json-nested-list" class="nav-link" data-scroll-target="#flattening-a-json-nested-list"><span class="toc-section-number">3</span>  Flattening a JSON nested list</a></li>
-  <li><a href="#ignoring-key-errors" id="toc-ignoring-key-errors" class="nav-link" data-scroll-target="#ignoring-key-errors"><span class="toc-section-number">4</span>  Ignoring key errors</a></li>
-  <li><a href="#custom-separator-sep" id="toc-custom-separator-sep" class="nav-link" data-scroll-target="#custom-separator-sep"><span class="toc-section-number">5</span>  Custom separator <code>sep</code></a></li>
-  <li><a href="#adding-context-to-record-and-meta-data-using-record_prefix-and-meta_prefix" id="toc-adding-context-to-record-and-meta-data-using-record_prefix-and-meta_prefix" class="nav-link" data-scroll-target="#adding-context-to-record-and-meta-data-using-record_prefix-and-meta_prefix"><span class="toc-section-number">6</span>  Adding context to record and meta data using <em>record_prefix</em> and <em>meta_prefix</em></a></li>
-  <li><a href="#working-with-a-local-file" id="toc-working-with-a-local-file" class="nav-link" data-scroll-target="#working-with-a-local-file"><span class="toc-section-number">7</span>  Working with a local file</a></li>
-  <li><a href="#working-with-url" id="toc-working-with-url" class="nav-link" data-scroll-target="#working-with-url"><span class="toc-section-number">8</span>  Working with URL</a></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="toc-section-number">9</span>  Conclusion</a></li>
+  <li><a href="#flattening-a-simple-json" id="toc-flattening-a-simple-json" class="nav-link active" data-scroll-target="#flattening-a-simple-json"><span class="header-section-number">1</span> Flattening a simple JSON</a></li>
+  <li><a href="#flattening-a-multi-level-json" id="toc-flattening-a-multi-level-json" class="nav-link" data-scroll-target="#flattening-a-multi-level-json"><span class="header-section-number">2</span> Flattening a multi-level JSON</a></li>
+  <li><a href="#flattening-a-json-nested-list" id="toc-flattening-a-json-nested-list" class="nav-link" data-scroll-target="#flattening-a-json-nested-list"><span class="header-section-number">3</span> Flattening a JSON nested list</a></li>
+  <li><a href="#ignoring-key-errors" id="toc-ignoring-key-errors" class="nav-link" data-scroll-target="#ignoring-key-errors"><span class="header-section-number">4</span> Ignoring key errors</a></li>
+  <li><a href="#custom-separator-sep" id="toc-custom-separator-sep" class="nav-link" data-scroll-target="#custom-separator-sep"><span class="header-section-number">5</span> Custom separator <code>sep</code></a></li>
+  <li><a href="#adding-context-to-record-and-meta-data-using-record_prefix-and-meta_prefix" id="toc-adding-context-to-record-and-meta-data-using-record_prefix-and-meta_prefix" class="nav-link" data-scroll-target="#adding-context-to-record-and-meta-data-using-record_prefix-and-meta_prefix"><span class="header-section-number">6</span> Adding context to record and meta data using <em>record_prefix</em> and <em>meta_prefix</em></a></li>
+  <li><a href="#working-with-a-local-file" id="toc-working-with-a-local-file" class="nav-link" data-scroll-target="#working-with-a-local-file"><span class="header-section-number">7</span> Working with a local file</a></li>
+  <li><a href="#working-with-url" id="toc-working-with-url" class="nav-link" data-scroll-target="#working-with-url"><span class="header-section-number">8</span> Working with URL</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">9</span> Conclusion</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/dr563105/dr563105.github.io/blob/master/posts/2021-09-24-using-json-normalize/index.qmd" class="toc-action">View source</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/dr563105/dr563105.github.io/blob/master/posts/2022-09-24-using-json-normalize/index.qmd" class="toc-action">View source</a></p></div></div></nav>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
     </div>
@@ -311,27 +287,28 @@ cookieconsent.run({
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.json_normalize(viv)<span class="op">;</span>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>player_id</th>
-      <th>player_name</th>
-      <th>jersey_number</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>15623</td>
-      <td>Vivianne Miedema</td>
-      <td>11</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">player_id</th>
+<th data-quarto-table-cell-role="th">player_name</th>
+<th data-quarto-table-cell-role="th">jersey_number</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>15623</td>
+<td>Vivianne Miedema</td>
+<td>11</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -393,36 +370,37 @@ memory usage: 152.0+ bytes</code></pre>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>pd.json_normalize(player_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>player_id</th>
-      <th>player_name</th>
-      <th>jersey_number</th>
-      <th>player_nickname</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>15623</td>
-      <td>Vivianne Miedema</td>
-      <td>11</td>
-      <td>None</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>10658</td>
-      <td>Danielle van de Donk</td>
-      <td>7</td>
-      <td>None</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">player_id</th>
+<th data-quarto-table-cell-role="th">player_name</th>
+<th data-quarto-table-cell-role="th">jersey_number</th>
+<th data-quarto-table-cell-role="th">player_nickname</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>15623</td>
+<td>Vivianne Miedema</td>
+<td>11</td>
+<td>None</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>10658</td>
+<td>Danielle van de Donk</td>
+<td>7</td>
+<td>None</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -435,36 +413,37 @@ memory usage: 152.0+ bytes</code></pre>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>pd.json_normalize(player_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>player_id</th>
-      <th>player_name</th>
-      <th>jersey_number</th>
-      <th>player_nickname</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>15623</td>
-      <td>Vivianne Miedema</td>
-      <td>11.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>10658</td>
-      <td>Danielle van de Donk</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">player_id</th>
+<th data-quarto-table-cell-role="th">player_name</th>
+<th data-quarto-table-cell-role="th">jersey_number</th>
+<th data-quarto-table-cell-role="th">player_nickname</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>15623</td>
+<td>Vivianne Miedema</td>
+<td>11.0</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>10658</td>
+<td>Danielle van de Donk</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -505,37 +484,38 @@ memory usage: 152.0+ bytes</code></pre>
 <div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pd.json_normalize(at_kick0ff)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>id</th>
-      <th>timestamp</th>
-      <th>duration</th>
-      <th>lineup.player.id</th>
-      <th>lineup.player.name</th>
-      <th>lineup.position.id</th>
-      <th>lineup.position.name</th>
-      <th>lineup.jersey_number</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>d712fb93-c464-4621-98ba-f2bdcd5641db</td>
-      <td>00:00:00.000</td>
-      <td>0.0</td>
-      <td>15623</td>
-      <td>Vivianne Miedema</td>
-      <td>23</td>
-      <td>Center Forward</td>
-      <td>11</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">timestamp</th>
+<th data-quarto-table-cell-role="th">duration</th>
+<th data-quarto-table-cell-role="th">lineup.player.id</th>
+<th data-quarto-table-cell-role="th">lineup.player.name</th>
+<th data-quarto-table-cell-role="th">lineup.position.id</th>
+<th data-quarto-table-cell-role="th">lineup.position.name</th>
+<th data-quarto-table-cell-role="th">lineup.jersey_number</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>d712fb93-c464-4621-98ba-f2bdcd5641db</td>
+<td>00:00:00.000</td>
+<td>0.0</td>
+<td>15623</td>
+<td>Vivianne Miedema</td>
+<td>23</td>
+<td>Center Forward</td>
+<td>11</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -543,33 +523,34 @@ memory usage: 152.0+ bytes</code></pre>
 <div class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pd.json_normalize(at_kick0ff, max_level<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>id</th>
-      <th>timestamp</th>
-      <th>duration</th>
-      <th>lineup.player</th>
-      <th>lineup.position</th>
-      <th>lineup.jersey_number</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>d712fb93-c464-4621-98ba-f2bdcd5641db</td>
-      <td>00:00:00.000</td>
-      <td>0.0</td>
-      <td>{'id': 15623, 'name': 'Vivianne Miedema'}</td>
-      <td>{'id': 23, 'name': 'Center Forward'}</td>
-      <td>11</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">timestamp</th>
+<th data-quarto-table-cell-role="th">duration</th>
+<th data-quarto-table-cell-role="th">lineup.player</th>
+<th data-quarto-table-cell-role="th">lineup.position</th>
+<th data-quarto-table-cell-role="th">lineup.jersey_number</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>d712fb93-c464-4621-98ba-f2bdcd5641db</td>
+<td>00:00:00.000</td>
+<td>0.0</td>
+<td>{'id': 15623, 'name': 'Vivianne Miedema'}</td>
+<td>{'id': 23, 'name': 'Center Forward'}</td>
+<td>11</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -640,75 +621,76 @@ memory usage: 152.0+ bytes</code></pre>
 <span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a>pd.json_normalize(first_pass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>id</th>
-      <th>timestamp</th>
-      <th>type.id</th>
-      <th>type.name</th>
-      <th>play_pattern.id</th>
-      <th>play_pattern.name</th>
-      <th>player.id</th>
-      <th>player.name</th>
-      <th>pass.recipient.id</th>
-      <th>pass.recipient.name</th>
-      <th>pass.length</th>
-      <th>pass.angle</th>
-      <th>pass.height.id</th>
-      <th>pass.height.name</th>
-      <th>pass.end_location</th>
-      <th>location</th>
-      <th>duration</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>15758edb-58cd-49c4-a817-d2ef48ba3bcf</td>
-      <td>00:00:00.504</td>
-      <td>30</td>
-      <td>Pass</td>
-      <td>9</td>
-      <td>From Kick Off</td>
-      <td>15623</td>
-      <td>Vivianne Miedema</td>
-      <td>10666.0</td>
-      <td>Dominique Johanna Anna Bloodworth</td>
-      <td>25.455845</td>
-      <td>-2.356194</td>
-      <td>1</td>
-      <td>Ground Pass</td>
-      <td>[42.0, 22.0]</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>ab5674a4-e824-4143-9f6f-3f1645557413</td>
-      <td>00:00:04.201</td>
-      <td>30</td>
-      <td>Pass</td>
-      <td>9</td>
-      <td>From Kick Off</td>
-      <td>10666</td>
-      <td>Dominique Johanna Anna Bloodworth</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>51.623640</td>
-      <td>0.550386</td>
-      <td>3</td>
-      <td>High Pass</td>
-      <td>[89.0, 56.0]</td>
-      <td>[45.0, 29.0]</td>
-      <td>1.795201</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">timestamp</th>
+<th data-quarto-table-cell-role="th">type.id</th>
+<th data-quarto-table-cell-role="th">type.name</th>
+<th data-quarto-table-cell-role="th">play_pattern.id</th>
+<th data-quarto-table-cell-role="th">play_pattern.name</th>
+<th data-quarto-table-cell-role="th">player.id</th>
+<th data-quarto-table-cell-role="th">player.name</th>
+<th data-quarto-table-cell-role="th">pass.recipient.id</th>
+<th data-quarto-table-cell-role="th">pass.recipient.name</th>
+<th data-quarto-table-cell-role="th">pass.length</th>
+<th data-quarto-table-cell-role="th">pass.angle</th>
+<th data-quarto-table-cell-role="th">pass.height.id</th>
+<th data-quarto-table-cell-role="th">pass.height.name</th>
+<th data-quarto-table-cell-role="th">pass.end_location</th>
+<th data-quarto-table-cell-role="th">location</th>
+<th data-quarto-table-cell-role="th">duration</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>15758edb-58cd-49c4-a817-d2ef48ba3bcf</td>
+<td>00:00:00.504</td>
+<td>30</td>
+<td>Pass</td>
+<td>9</td>
+<td>From Kick Off</td>
+<td>15623</td>
+<td>Vivianne Miedema</td>
+<td>10666.0</td>
+<td>Dominique Johanna Anna Bloodworth</td>
+<td>25.455845</td>
+<td>-2.356194</td>
+<td>1</td>
+<td>Ground Pass</td>
+<td>[42.0, 22.0]</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>ab5674a4-e824-4143-9f6f-3f1645557413</td>
+<td>00:00:04.201</td>
+<td>30</td>
+<td>Pass</td>
+<td>9</td>
+<td>From Kick Off</td>
+<td>10666</td>
+<td>Dominique Johanna Anna Bloodworth</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>51.623640</td>
+<td>0.550386</td>
+<td>3</td>
+<td>High Pass</td>
+<td>[89.0, 56.0]</td>
+<td>[45.0, 29.0]</td>
+<td>1.795201</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -716,48 +698,49 @@ memory usage: 152.0+ bytes</code></pre>
 <div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>pd.json_normalize(first_pass, max_level<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>id</th>
-      <th>timestamp</th>
-      <th>type</th>
-      <th>play_pattern</th>
-      <th>player</th>
-      <th>pass</th>
-      <th>location</th>
-      <th>duration</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>15758edb-58cd-49c4-a817-d2ef48ba3bcf</td>
-      <td>00:00:00.504</td>
-      <td>{'id': 30, 'name': 'Pass'}</td>
-      <td>{'id': 9, 'name': 'From Kick Off'}</td>
-      <td>{'id': 15623, 'name': 'Vivianne Miedema'}</td>
-      <td>{'recipient': {'id': 10666, 'name': 'Dominique...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>ab5674a4-e824-4143-9f6f-3f1645557413</td>
-      <td>00:00:04.201</td>
-      <td>{'id': 30, 'name': 'Pass'}</td>
-      <td>{'id': 9, 'name': 'From Kick Off'}</td>
-      <td>{'id': 10666, 'name': 'Dominique Johanna Anna ...</td>
-      <td>{'length': 51.62364, 'angle': 0.55038595, 'hei...</td>
-      <td>[45.0, 29.0]</td>
-      <td>1.795201</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">timestamp</th>
+<th data-quarto-table-cell-role="th">type</th>
+<th data-quarto-table-cell-role="th">play_pattern</th>
+<th data-quarto-table-cell-role="th">player</th>
+<th data-quarto-table-cell-role="th">pass</th>
+<th data-quarto-table-cell-role="th">location</th>
+<th data-quarto-table-cell-role="th">duration</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>15758edb-58cd-49c4-a817-d2ef48ba3bcf</td>
+<td>00:00:00.504</td>
+<td>{'id': 30, 'name': 'Pass'}</td>
+<td>{'id': 9, 'name': 'From Kick Off'}</td>
+<td>{'id': 15623, 'name': 'Vivianne Miedema'}</td>
+<td>{'recipient': {'id': 10666, 'name': 'Dominique...</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>ab5674a4-e824-4143-9f6f-3f1645557413</td>
+<td>00:00:04.201</td>
+<td>{'id': 30, 'name': 'Pass'}</td>
+<td>{'id': 9, 'name': 'From Kick Off'}</td>
+<td>{'id': 10666, 'name': 'Dominique Johanna Anna ...</td>
+<td>{'length': 51.62364, 'angle': 0.55038595, 'hei...</td>
+<td>[45.0, 29.0]</td>
+<td>1.795201</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -803,31 +786,32 @@ memory usage: 152.0+ bytes</code></pre>
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>pd.json_normalize(awfc, record_path<span class="op">=</span>[<span class="st">'players'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>name</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Viv</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>DvD</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Kim</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Viv</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>DvD</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Kim</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -835,39 +819,40 @@ memory usage: 152.0+ bytes</code></pre>
 <div class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>pd.json_normalize(awfc, record_path<span class="op">=</span>[<span class="st">'players'</span>], meta<span class="op">=</span>[<span class="st">'team'</span>,[<span class="st">'info'</span>, <span class="st">'contacts'</span>, <span class="st">'tel'</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>name</th>
-      <th>team</th>
-      <th>info.contacts.tel</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Viv</td>
-      <td>AWFC</td>
-      <td>123456789</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>DvD</td>
-      <td>AWFC</td>
-      <td>123456789</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Kim</td>
-      <td>AWFC</td>
-      <td>123456789</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">team</th>
+<th data-quarto-table-cell-role="th">info.contacts.tel</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Viv</td>
+<td>AWFC</td>
+<td>123456789</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>DvD</td>
+<td>AWFC</td>
+<td>123456789</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Kim</td>
+<td>AWFC</td>
+<td>123456789</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -875,43 +860,44 @@ memory usage: 152.0+ bytes</code></pre>
 <div class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pd.json_normalize(awfc, record_path<span class="op">=</span>[<span class="st">'players'</span>], meta<span class="op">=</span>[<span class="st">'team'</span>,[<span class="st">'info'</span>, <span class="st">'contacts'</span>, <span class="st">'tel'</span>],[<span class="st">'info'</span>, <span class="st">'manager'</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="17">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>name</th>
-      <th>team</th>
-      <th>info.contacts.tel</th>
-      <th>info.manager</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Viv</td>
-      <td>AWFC</td>
-      <td>123456789</td>
-      <td>Joe</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>DvD</td>
-      <td>AWFC</td>
-      <td>123456789</td>
-      <td>Joe</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Kim</td>
-      <td>AWFC</td>
-      <td>123456789</td>
-      <td>Joe</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">team</th>
+<th data-quarto-table-cell-role="th">info.contacts.tel</th>
+<th data-quarto-table-cell-role="th">info.manager</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Viv</td>
+<td>AWFC</td>
+<td>123456789</td>
+<td>Joe</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>DvD</td>
+<td>AWFC</td>
+<td>123456789</td>
+<td>Joe</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Kim</td>
+<td>AWFC</td>
+<td>123456789</td>
+<td>Joe</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -960,89 +946,91 @@ memory usage: 152.0+ bytes</code></pre>
 <span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a>pd.json_normalize(json_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="18">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>team</th>
-      <th>colour</th>
-      <th>players</th>
-      <th>info.staff.physio</th>
-      <th>info.staff.doctor</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>arsenal</td>
-      <td>red-white</td>
-      <td>[{'name': 'Viv', 'sex': 'F', 'stats': {'goals'...</td>
-      <td>xxxx</td>
-      <td>yyyy</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>city</td>
-      <td>blue</td>
-      <td>[{'name': 'Steph', 'sex': 'F'}, {'name': 'Lucy...</td>
-      <td>aaaa</td>
-      <td>bbbb</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">team</th>
+<th data-quarto-table-cell-role="th">colour</th>
+<th data-quarto-table-cell-role="th">players</th>
+<th data-quarto-table-cell-role="th">info.staff.physio</th>
+<th data-quarto-table-cell-role="th">info.staff.doctor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>arsenal</td>
+<td>red-white</td>
+<td>[{'name': 'Viv', 'sex': 'F', 'stats': {'goals'...</td>
+<td>xxxx</td>
+<td>yyyy</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>city</td>
+<td>blue</td>
+<td>[{'name': 'Steph', 'sex': 'F'}, {'name': 'Lucy...</td>
+<td>aaaa</td>
+<td>bbbb</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
 <div class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pd.json_normalize(json_list, record_path <span class="op">=</span>[<span class="st">'players'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>name</th>
-      <th>sex</th>
-      <th>stats.goals</th>
-      <th>stats.assists</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Viv</td>
-      <td>F</td>
-      <td>101.0</td>
-      <td>40.0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Beth</td>
-      <td>F</td>
-      <td>60.0</td>
-      <td>25.0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Steph</td>
-      <td>F</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Lucy</td>
-      <td>F</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">sex</th>
+<th data-quarto-table-cell-role="th">stats.goals</th>
+<th data-quarto-table-cell-role="th">stats.assists</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Viv</td>
+<td>F</td>
+<td>101.0</td>
+<td>40.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Beth</td>
+<td>F</td>
+<td>60.0</td>
+<td>25.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Steph</td>
+<td>F</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Lucy</td>
+<td>F</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -1054,65 +1042,66 @@ memory usage: 152.0+ bytes</code></pre>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    meta<span class="op">=</span>[<span class="st">'team'</span>, <span class="st">'colour'</span>, [<span class="st">'info'</span>, <span class="st">'staff'</span>, <span class="st">'physio'</span>]]</span>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>name</th>
-      <th>sex</th>
-      <th>stats.goals</th>
-      <th>stats.assists</th>
-      <th>team</th>
-      <th>colour</th>
-      <th>info.staff.physio</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Viv</td>
-      <td>F</td>
-      <td>101.0</td>
-      <td>40.0</td>
-      <td>arsenal</td>
-      <td>red-white</td>
-      <td>xxxx</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Beth</td>
-      <td>F</td>
-      <td>60.0</td>
-      <td>25.0</td>
-      <td>arsenal</td>
-      <td>red-white</td>
-      <td>xxxx</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Steph</td>
-      <td>F</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>city</td>
-      <td>blue</td>
-      <td>aaaa</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Lucy</td>
-      <td>F</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>city</td>
-      <td>blue</td>
-      <td>aaaa</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">sex</th>
+<th data-quarto-table-cell-role="th">stats.goals</th>
+<th data-quarto-table-cell-role="th">stats.assists</th>
+<th data-quarto-table-cell-role="th">team</th>
+<th data-quarto-table-cell-role="th">colour</th>
+<th data-quarto-table-cell-role="th">info.staff.physio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Viv</td>
+<td>F</td>
+<td>101.0</td>
+<td>40.0</td>
+<td>arsenal</td>
+<td>red-white</td>
+<td>xxxx</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Beth</td>
+<td>F</td>
+<td>60.0</td>
+<td>25.0</td>
+<td>arsenal</td>
+<td>red-white</td>
+<td>xxxx</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Steph</td>
+<td>F</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>city</td>
+<td>blue</td>
+<td>aaaa</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Lucy</td>
+<td>F</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>city</td>
+<td>blue</td>
+<td>aaaa</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -1179,65 +1168,66 @@ memory usage: 152.0+ bytes</code></pre>
 <span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    errors<span class="op">=</span><span class="st">'ignore'</span></span>
 <span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="23">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>name</th>
-      <th>sex</th>
-      <th>stats.goals</th>
-      <th>stats.assists</th>
-      <th>team</th>
-      <th>colour</th>
-      <th>info.staff.physio</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Viv</td>
-      <td>F</td>
-      <td>101.0</td>
-      <td>40.0</td>
-      <td>arsenal</td>
-      <td>red-white</td>
-      <td>xxxx</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Beth</td>
-      <td>F</td>
-      <td>60.0</td>
-      <td>25.0</td>
-      <td>arsenal</td>
-      <td>red-white</td>
-      <td>xxxx</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Steph</td>
-      <td>F</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>city</td>
-      <td>blue</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Lucy</td>
-      <td>F</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>city</td>
-      <td>blue</td>
-      <td>NaN</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">sex</th>
+<th data-quarto-table-cell-role="th">stats.goals</th>
+<th data-quarto-table-cell-role="th">stats.assists</th>
+<th data-quarto-table-cell-role="th">team</th>
+<th data-quarto-table-cell-role="th">colour</th>
+<th data-quarto-table-cell-role="th">info.staff.physio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Viv</td>
+<td>F</td>
+<td>101.0</td>
+<td>40.0</td>
+<td>arsenal</td>
+<td>red-white</td>
+<td>xxxx</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Beth</td>
+<td>F</td>
+<td>60.0</td>
+<td>25.0</td>
+<td>arsenal</td>
+<td>red-white</td>
+<td>xxxx</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Steph</td>
+<td>F</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>city</td>
+<td>blue</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Lucy</td>
+<td>F</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>city</td>
+<td>blue</td>
+<td>NaN</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -1296,65 +1286,66 @@ memory usage: 152.0+ bytes</code></pre>
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    sep<span class="op">=</span><span class="st">'-&gt;'</span></span>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="25">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>name</th>
-      <th>sex</th>
-      <th>stats-&gt;goals</th>
-      <th>stats-&gt;assists</th>
-      <th>team</th>
-      <th>colour</th>
-      <th>info-&gt;staff-&gt;physio</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Viv</td>
-      <td>F</td>
-      <td>101.0</td>
-      <td>40.0</td>
-      <td>arsenal</td>
-      <td>red-white</td>
-      <td>xxxx</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Beth</td>
-      <td>F</td>
-      <td>60.0</td>
-      <td>25.0</td>
-      <td>arsenal</td>
-      <td>red-white</td>
-      <td>xxxx</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Steph</td>
-      <td>F</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>city</td>
-      <td>blue</td>
-      <td>aaaa</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Lucy</td>
-      <td>F</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>city</td>
-      <td>blue</td>
-      <td>aaaa</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">sex</th>
+<th data-quarto-table-cell-role="th">stats-&gt;goals</th>
+<th data-quarto-table-cell-role="th">stats-&gt;assists</th>
+<th data-quarto-table-cell-role="th">team</th>
+<th data-quarto-table-cell-role="th">colour</th>
+<th data-quarto-table-cell-role="th">info-&gt;staff-&gt;physio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Viv</td>
+<td>F</td>
+<td>101.0</td>
+<td>40.0</td>
+<td>arsenal</td>
+<td>red-white</td>
+<td>xxxx</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Beth</td>
+<td>F</td>
+<td>60.0</td>
+<td>25.0</td>
+<td>arsenal</td>
+<td>red-white</td>
+<td>xxxx</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Steph</td>
+<td>F</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>city</td>
+<td>blue</td>
+<td>aaaa</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Lucy</td>
+<td>F</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>city</td>
+<td>blue</td>
+<td>aaaa</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -1371,65 +1362,66 @@ memory usage: 152.0+ bytes</code></pre>
 <span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    sep<span class="op">=</span><span class="st">'-&gt;'</span></span>
 <span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>player-name</th>
-      <th>player-sex</th>
-      <th>player-stats-&gt;goals</th>
-      <th>player-stats-&gt;assists</th>
-      <th>meta-team</th>
-      <th>meta-colour</th>
-      <th>meta-info-&gt;staff-&gt;physio</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Viv</td>
-      <td>F</td>
-      <td>101.0</td>
-      <td>40.0</td>
-      <td>arsenal</td>
-      <td>red-white</td>
-      <td>xxxx</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Beth</td>
-      <td>F</td>
-      <td>60.0</td>
-      <td>25.0</td>
-      <td>arsenal</td>
-      <td>red-white</td>
-      <td>xxxx</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Steph</td>
-      <td>F</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>city</td>
-      <td>blue</td>
-      <td>aaaa</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Lucy</td>
-      <td>F</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>city</td>
-      <td>blue</td>
-      <td>aaaa</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">player-name</th>
+<th data-quarto-table-cell-role="th">player-sex</th>
+<th data-quarto-table-cell-role="th">player-stats-&gt;goals</th>
+<th data-quarto-table-cell-role="th">player-stats-&gt;assists</th>
+<th data-quarto-table-cell-role="th">meta-team</th>
+<th data-quarto-table-cell-role="th">meta-colour</th>
+<th data-quarto-table-cell-role="th">meta-info-&gt;staff-&gt;physio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Viv</td>
+<td>F</td>
+<td>101.0</td>
+<td>40.0</td>
+<td>arsenal</td>
+<td>red-white</td>
+<td>xxxx</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Beth</td>
+<td>F</td>
+<td>60.0</td>
+<td>25.0</td>
+<td>arsenal</td>
+<td>red-white</td>
+<td>xxxx</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Steph</td>
+<td>F</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>city</td>
+<td>blue</td>
+<td>aaaa</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Lucy</td>
+<td>F</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>city</td>
+<td>blue</td>
+<td>aaaa</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -1446,243 +1438,244 @@ memory usage: 152.0+ bytes</code></pre>
 <span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Normalizing data</span></span>
 <span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>pd.json_normalize(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="27">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Title</th>
-      <th>US Gross</th>
-      <th>Worldwide Gross</th>
-      <th>US DVD Sales</th>
-      <th>Production Budget</th>
-      <th>Release Date</th>
-      <th>MPAA Rating</th>
-      <th>Running Time min</th>
-      <th>Distributor</th>
-      <th>Source</th>
-      <th>Major Genre</th>
-      <th>Creative Type</th>
-      <th>Director</th>
-      <th>Rotten Tomatoes Rating</th>
-      <th>IMDB Rating</th>
-      <th>IMDB Votes</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>The Land Girls</td>
-      <td>146083</td>
-      <td>146083</td>
-      <td>NaN</td>
-      <td>8000000</td>
-      <td>Jun 12 1998</td>
-      <td>R</td>
-      <td>NaN</td>
-      <td>Gramercy</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>NaN</td>
-      <td>6.1</td>
-      <td>1071.0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>First Love, Last Rites</td>
-      <td>10876</td>
-      <td>10876</td>
-      <td>NaN</td>
-      <td>300000</td>
-      <td>Aug 07 1998</td>
-      <td>R</td>
-      <td>NaN</td>
-      <td>Strand</td>
-      <td>None</td>
-      <td>Drama</td>
-      <td>None</td>
-      <td>None</td>
-      <td>NaN</td>
-      <td>6.9</td>
-      <td>207.0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>I Married a Strange Person</td>
-      <td>203134</td>
-      <td>203134</td>
-      <td>NaN</td>
-      <td>250000</td>
-      <td>Aug 28 1998</td>
-      <td>None</td>
-      <td>NaN</td>
-      <td>Lionsgate</td>
-      <td>None</td>
-      <td>Comedy</td>
-      <td>None</td>
-      <td>None</td>
-      <td>NaN</td>
-      <td>6.8</td>
-      <td>865.0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Four Rooms</td>
-      <td>4301000</td>
-      <td>4301000</td>
-      <td>NaN</td>
-      <td>4000000</td>
-      <td>Dec 25 1995</td>
-      <td>R</td>
-      <td>NaN</td>
-      <td>Miramax</td>
-      <td>Original Screenplay</td>
-      <td>Comedy</td>
-      <td>Contemporary Fiction</td>
-      <td>Robert Rodriguez</td>
-      <td>14.0</td>
-      <td>6.4</td>
-      <td>34328.0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>The Four Seasons</td>
-      <td>42488161</td>
-      <td>42488161</td>
-      <td>NaN</td>
-      <td>6500000</td>
-      <td>May 22 1981</td>
-      <td>None</td>
-      <td>NaN</td>
-      <td>Universal</td>
-      <td>Original Screenplay</td>
-      <td>Comedy</td>
-      <td>Contemporary Fiction</td>
-      <td>Alan Alda</td>
-      <td>71.0</td>
-      <td>7.0</td>
-      <td>1814.0</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>63</th>
-      <td>Big Things</td>
-      <td>0</td>
-      <td>0</td>
-      <td>NaN</td>
-      <td>50000</td>
-      <td>Dec 31 2009</td>
-      <td>None</td>
-      <td>NaN</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>64</th>
-      <td>Bogus</td>
-      <td>4357406</td>
-      <td>4357406</td>
-      <td>NaN</td>
-      <td>32000000</td>
-      <td>Sep 06 1996</td>
-      <td>PG</td>
-      <td>NaN</td>
-      <td>Warner Bros.</td>
-      <td>Original Screenplay</td>
-      <td>Comedy</td>
-      <td>Fantasy</td>
-      <td>Norman Jewison</td>
-      <td>40.0</td>
-      <td>4.8</td>
-      <td>2742.0</td>
-    </tr>
-    <tr>
-      <th>65</th>
-      <td>Beverly Hills Cop</td>
-      <td>234760478</td>
-      <td>316300000</td>
-      <td>NaN</td>
-      <td>15000000</td>
-      <td>Dec 05 1984</td>
-      <td>None</td>
-      <td>NaN</td>
-      <td>Paramount Pictures</td>
-      <td>Original Screenplay</td>
-      <td>Action</td>
-      <td>Contemporary Fiction</td>
-      <td>Martin Brest</td>
-      <td>83.0</td>
-      <td>7.3</td>
-      <td>45065.0</td>
-    </tr>
-    <tr>
-      <th>66</th>
-      <td>Beverly Hills Cop II</td>
-      <td>153665036</td>
-      <td>276665036</td>
-      <td>NaN</td>
-      <td>20000000</td>
-      <td>May 20 1987</td>
-      <td>R</td>
-      <td>NaN</td>
-      <td>Paramount Pictures</td>
-      <td>Original Screenplay</td>
-      <td>Action</td>
-      <td>Contemporary Fiction</td>
-      <td>Tony Scott</td>
-      <td>46.0</td>
-      <td>6.1</td>
-      <td>29712.0</td>
-    </tr>
-    <tr>
-      <th>67</th>
-      <td>Beverly Hills Cop III</td>
-      <td>42586861</td>
-      <td>119180938</td>
-      <td>NaN</td>
-      <td>50000000</td>
-      <td>May 25 1994</td>
-      <td>R</td>
-      <td>NaN</td>
-      <td>Paramount Pictures</td>
-      <td>Original Screenplay</td>
-      <td>Action</td>
-      <td>Contemporary Fiction</td>
-      <td>John Landis</td>
-      <td>10.0</td>
-      <td>5.0</td>
-      <td>21199.0</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Title</th>
+<th data-quarto-table-cell-role="th">US Gross</th>
+<th data-quarto-table-cell-role="th">Worldwide Gross</th>
+<th data-quarto-table-cell-role="th">US DVD Sales</th>
+<th data-quarto-table-cell-role="th">Production Budget</th>
+<th data-quarto-table-cell-role="th">Release Date</th>
+<th data-quarto-table-cell-role="th">MPAA Rating</th>
+<th data-quarto-table-cell-role="th">Running Time min</th>
+<th data-quarto-table-cell-role="th">Distributor</th>
+<th data-quarto-table-cell-role="th">Source</th>
+<th data-quarto-table-cell-role="th">Major Genre</th>
+<th data-quarto-table-cell-role="th">Creative Type</th>
+<th data-quarto-table-cell-role="th">Director</th>
+<th data-quarto-table-cell-role="th">Rotten Tomatoes Rating</th>
+<th data-quarto-table-cell-role="th">IMDB Rating</th>
+<th data-quarto-table-cell-role="th">IMDB Votes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>The Land Girls</td>
+<td>146083</td>
+<td>146083</td>
+<td>NaN</td>
+<td>8000000</td>
+<td>Jun 12 1998</td>
+<td>R</td>
+<td>NaN</td>
+<td>Gramercy</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>NaN</td>
+<td>6.1</td>
+<td>1071.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>First Love, Last Rites</td>
+<td>10876</td>
+<td>10876</td>
+<td>NaN</td>
+<td>300000</td>
+<td>Aug 07 1998</td>
+<td>R</td>
+<td>NaN</td>
+<td>Strand</td>
+<td>None</td>
+<td>Drama</td>
+<td>None</td>
+<td>None</td>
+<td>NaN</td>
+<td>6.9</td>
+<td>207.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>I Married a Strange Person</td>
+<td>203134</td>
+<td>203134</td>
+<td>NaN</td>
+<td>250000</td>
+<td>Aug 28 1998</td>
+<td>None</td>
+<td>NaN</td>
+<td>Lionsgate</td>
+<td>None</td>
+<td>Comedy</td>
+<td>None</td>
+<td>None</td>
+<td>NaN</td>
+<td>6.8</td>
+<td>865.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Four Rooms</td>
+<td>4301000</td>
+<td>4301000</td>
+<td>NaN</td>
+<td>4000000</td>
+<td>Dec 25 1995</td>
+<td>R</td>
+<td>NaN</td>
+<td>Miramax</td>
+<td>Original Screenplay</td>
+<td>Comedy</td>
+<td>Contemporary Fiction</td>
+<td>Robert Rodriguez</td>
+<td>14.0</td>
+<td>6.4</td>
+<td>34328.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>The Four Seasons</td>
+<td>42488161</td>
+<td>42488161</td>
+<td>NaN</td>
+<td>6500000</td>
+<td>May 22 1981</td>
+<td>None</td>
+<td>NaN</td>
+<td>Universal</td>
+<td>Original Screenplay</td>
+<td>Comedy</td>
+<td>Contemporary Fiction</td>
+<td>Alan Alda</td>
+<td>71.0</td>
+<td>7.0</td>
+<td>1814.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">63</td>
+<td>Big Things</td>
+<td>0</td>
+<td>0</td>
+<td>NaN</td>
+<td>50000</td>
+<td>Dec 31 2009</td>
+<td>None</td>
+<td>NaN</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">64</td>
+<td>Bogus</td>
+<td>4357406</td>
+<td>4357406</td>
+<td>NaN</td>
+<td>32000000</td>
+<td>Sep 06 1996</td>
+<td>PG</td>
+<td>NaN</td>
+<td>Warner Bros.</td>
+<td>Original Screenplay</td>
+<td>Comedy</td>
+<td>Fantasy</td>
+<td>Norman Jewison</td>
+<td>40.0</td>
+<td>4.8</td>
+<td>2742.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">65</td>
+<td>Beverly Hills Cop</td>
+<td>234760478</td>
+<td>316300000</td>
+<td>NaN</td>
+<td>15000000</td>
+<td>Dec 05 1984</td>
+<td>None</td>
+<td>NaN</td>
+<td>Paramount Pictures</td>
+<td>Original Screenplay</td>
+<td>Action</td>
+<td>Contemporary Fiction</td>
+<td>Martin Brest</td>
+<td>83.0</td>
+<td>7.3</td>
+<td>45065.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">66</td>
+<td>Beverly Hills Cop II</td>
+<td>153665036</td>
+<td>276665036</td>
+<td>NaN</td>
+<td>20000000</td>
+<td>May 20 1987</td>
+<td>R</td>
+<td>NaN</td>
+<td>Paramount Pictures</td>
+<td>Original Screenplay</td>
+<td>Action</td>
+<td>Contemporary Fiction</td>
+<td>Tony Scott</td>
+<td>46.0</td>
+<td>6.1</td>
+<td>29712.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">67</td>
+<td>Beverly Hills Cop III</td>
+<td>42586861</td>
+<td>119180938</td>
+<td>NaN</td>
+<td>50000000</td>
+<td>May 25 1994</td>
+<td>R</td>
+<td>NaN</td>
+<td>Paramount Pictures</td>
+<td>Original Screenplay</td>
+<td>Action</td>
+<td>Contemporary Fiction</td>
+<td>John Landis</td>
+<td>10.0</td>
+<td>5.0</td>
+<td>21199.0</td>
+</tr>
+</tbody>
 </table>
+
 <p>68 rows × 16 columns</p>
 </div>
 </div>
@@ -1700,159 +1693,160 @@ memory usage: 152.0+ bytes</code></pre>
 <span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> json.loads(requests.get(URL).text)</span>
 <span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>pd.json_normalize(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="28">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Name</th>
-      <th>Miles_per_Gallon</th>
-      <th>Cylinders</th>
-      <th>Displacement</th>
-      <th>Horsepower</th>
-      <th>Weight_in_lbs</th>
-      <th>Acceleration</th>
-      <th>Year</th>
-      <th>Origin</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>chevrolet chevelle malibu</td>
-      <td>18.0</td>
-      <td>8</td>
-      <td>307.0</td>
-      <td>130.0</td>
-      <td>3504</td>
-      <td>12.0</td>
-      <td>1970-01-01</td>
-      <td>USA</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>buick skylark 320</td>
-      <td>15.0</td>
-      <td>8</td>
-      <td>350.0</td>
-      <td>165.0</td>
-      <td>3693</td>
-      <td>11.5</td>
-      <td>1970-01-01</td>
-      <td>USA</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>plymouth satellite</td>
-      <td>18.0</td>
-      <td>8</td>
-      <td>318.0</td>
-      <td>150.0</td>
-      <td>3436</td>
-      <td>11.0</td>
-      <td>1970-01-01</td>
-      <td>USA</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>amc rebel sst</td>
-      <td>16.0</td>
-      <td>8</td>
-      <td>304.0</td>
-      <td>150.0</td>
-      <td>3433</td>
-      <td>12.0</td>
-      <td>1970-01-01</td>
-      <td>USA</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>ford torino</td>
-      <td>17.0</td>
-      <td>8</td>
-      <td>302.0</td>
-      <td>140.0</td>
-      <td>3449</td>
-      <td>10.5</td>
-      <td>1970-01-01</td>
-      <td>USA</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>401</th>
-      <td>ford mustang gl</td>
-      <td>27.0</td>
-      <td>4</td>
-      <td>140.0</td>
-      <td>86.0</td>
-      <td>2790</td>
-      <td>15.6</td>
-      <td>1982-01-01</td>
-      <td>USA</td>
-    </tr>
-    <tr>
-      <th>402</th>
-      <td>vw pickup</td>
-      <td>44.0</td>
-      <td>4</td>
-      <td>97.0</td>
-      <td>52.0</td>
-      <td>2130</td>
-      <td>24.6</td>
-      <td>1982-01-01</td>
-      <td>Europe</td>
-    </tr>
-    <tr>
-      <th>403</th>
-      <td>dodge rampage</td>
-      <td>32.0</td>
-      <td>4</td>
-      <td>135.0</td>
-      <td>84.0</td>
-      <td>2295</td>
-      <td>11.6</td>
-      <td>1982-01-01</td>
-      <td>USA</td>
-    </tr>
-    <tr>
-      <th>404</th>
-      <td>ford ranger</td>
-      <td>28.0</td>
-      <td>4</td>
-      <td>120.0</td>
-      <td>79.0</td>
-      <td>2625</td>
-      <td>18.6</td>
-      <td>1982-01-01</td>
-      <td>USA</td>
-    </tr>
-    <tr>
-      <th>405</th>
-      <td>chevy s-10</td>
-      <td>31.0</td>
-      <td>4</td>
-      <td>119.0</td>
-      <td>82.0</td>
-      <td>2720</td>
-      <td>19.4</td>
-      <td>1982-01-01</td>
-      <td>USA</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Name</th>
+<th data-quarto-table-cell-role="th">Miles_per_Gallon</th>
+<th data-quarto-table-cell-role="th">Cylinders</th>
+<th data-quarto-table-cell-role="th">Displacement</th>
+<th data-quarto-table-cell-role="th">Horsepower</th>
+<th data-quarto-table-cell-role="th">Weight_in_lbs</th>
+<th data-quarto-table-cell-role="th">Acceleration</th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Origin</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>chevrolet chevelle malibu</td>
+<td>18.0</td>
+<td>8</td>
+<td>307.0</td>
+<td>130.0</td>
+<td>3504</td>
+<td>12.0</td>
+<td>1970-01-01</td>
+<td>USA</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>buick skylark 320</td>
+<td>15.0</td>
+<td>8</td>
+<td>350.0</td>
+<td>165.0</td>
+<td>3693</td>
+<td>11.5</td>
+<td>1970-01-01</td>
+<td>USA</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>plymouth satellite</td>
+<td>18.0</td>
+<td>8</td>
+<td>318.0</td>
+<td>150.0</td>
+<td>3436</td>
+<td>11.0</td>
+<td>1970-01-01</td>
+<td>USA</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>amc rebel sst</td>
+<td>16.0</td>
+<td>8</td>
+<td>304.0</td>
+<td>150.0</td>
+<td>3433</td>
+<td>12.0</td>
+<td>1970-01-01</td>
+<td>USA</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>ford torino</td>
+<td>17.0</td>
+<td>8</td>
+<td>302.0</td>
+<td>140.0</td>
+<td>3449</td>
+<td>10.5</td>
+<td>1970-01-01</td>
+<td>USA</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">401</td>
+<td>ford mustang gl</td>
+<td>27.0</td>
+<td>4</td>
+<td>140.0</td>
+<td>86.0</td>
+<td>2790</td>
+<td>15.6</td>
+<td>1982-01-01</td>
+<td>USA</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">402</td>
+<td>vw pickup</td>
+<td>44.0</td>
+<td>4</td>
+<td>97.0</td>
+<td>52.0</td>
+<td>2130</td>
+<td>24.6</td>
+<td>1982-01-01</td>
+<td>Europe</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">403</td>
+<td>dodge rampage</td>
+<td>32.0</td>
+<td>4</td>
+<td>135.0</td>
+<td>84.0</td>
+<td>2295</td>
+<td>11.6</td>
+<td>1982-01-01</td>
+<td>USA</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">404</td>
+<td>ford ranger</td>
+<td>28.0</td>
+<td>4</td>
+<td>120.0</td>
+<td>79.0</td>
+<td>2625</td>
+<td>18.6</td>
+<td>1982-01-01</td>
+<td>USA</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">405</td>
+<td>chevy s-10</td>
+<td>31.0</td>
+<td>4</td>
+<td>119.0</td>
+<td>82.0</td>
+<td>2720</td>
+<td>19.4</td>
+<td>1982-01-01</td>
+<td>USA</td>
+</tr>
+</tbody>
 </table>
+
 <p>406 rows × 9 columns</p>
 </div>
 </div>
@@ -2026,9 +2020,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -2093,6 +2101,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -2137,8 +2231,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-    <div class="nav-footer-left">powered by <a href="https://quarto.org">Quarto</a></div>   
-      <div class="nav-footer-center"><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-left">Copyright 2023, Deepak Ramani | powered by <a href="https://quarto.org">Quarto</a></div>   
+    <div class="nav-footer-center"><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">

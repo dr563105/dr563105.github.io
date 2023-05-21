@@ -1,21 +1,36 @@
 [
   {
-    "listing": "/archive.html",
+    "listing": "/notes/index.html",
     "items": [
-      "/posts/2022-04-27-getting-started-with-s3/index.html",
-      "/posts/2022-02-06-skim-vimtex/index.html",
-      "/posts/2022-01-09-dotfiles/index.html",
-      "/posts/2021-09-24-using-json-normalize/index.html",
-      "/posts/2021-09-18-kaggle-setup/index.html"
+      "/notes/py_for_finance.html",
+      "/notes/python_concepts.html"
     ]
   },
   {
     "listing": "/index.html",
     "items": [
-      "/posts/2022-04-27-getting-started-with-s3/index.html",
-      "/posts/2022-02-06-skim-vimtex/index.html",
+      "/posts/2023-04-27-getting-started-with-s3/index.html",
+      "/posts/2023-02-06-skim-vimtex/index.html",
+      "/posts/2022-09-24-using-json-normalize/index.html",
       "/posts/2022-01-09-dotfiles/index.html",
-      "/posts/2021-09-24-using-json-normalize/index.html",
+      "/posts/2021-09-18-kaggle-setup/index.html"
+    ]
+  },
+  {
+    "listing": "/projects/index.html",
+    "items": [
+      "/projects/mlops.html"
+    ]
+  },
+  {
+    "listing": "/archive.html",
+    "items": [
+      "/notes/py_for_finance.html",
+      "/posts/2023-04-27-getting-started-with-s3/index.html",
+      "/posts/2023-02-06-skim-vimtex/index.html",
+      "/posts/2022-09-24-using-json-normalize/index.html",
+      "/notes/python_concepts.html",
+      "/posts/2022-01-09-dotfiles/index.html",
       "/posts/2021-09-18-kaggle-setup/index.html"
     ]
   }
