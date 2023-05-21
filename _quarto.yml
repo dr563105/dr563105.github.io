@@ -1,7 +1,7 @@
 project:
   type: website
   preview: 
-    port: 6543
+    port: 6542
 
 website:
   favicon: logo.png
@@ -21,13 +21,14 @@ website:
       - text: Home
         href: index.qmd
       # - text: Projects
+      #   href: projects/index.qmd
       #   menu:
       #     - text: MLOPS
-      #       href: projects/mlops.qmd
+      #       file: projects/mlops.qmd
       #     - text: Data Enginnering
       #       href: projects/data-engg.qmd
-      # - text: Notes
-      #   href: notes/index.qmd
+      - text: Notes
+        href: notes/index.qmd
       # - text: Hobbies
       #   menu: 
       #     - text: Books/Audiobooks
@@ -38,7 +39,7 @@ website:
       - text: About
         href: about.qmd
       - text: Resume
-        href: resume.qmd
+        href: resume.pdf
 
   # sidebar: 
   #   - title: Notes
@@ -57,7 +58,8 @@ website:
     location: navbar
     copy-button: true
   page-footer: 
-    left: powered by [Quarto](https://quarto.org)
+    left: Copyright 2023, Deepak Ramani |
+          powered by [Quarto](https://quarto.org)
     right:
       - text: Archive
         href: archive.qmd

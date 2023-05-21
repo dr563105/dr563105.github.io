@@ -1,0 +1,534 @@
+---
+date: "2023-05-10"
+date-modified: "2023-05-19"
+toc: true
+title: Notes - LinkedIn course - Financial data analysis
+description: Notes on data analysis on finance data
+---
+For financial data analysis, it is important to know certain terminologies, their purpose,
+and how to calculate them. 
+
+I'm taking [Matt Harrison](https://twitter.com/__mharrison__)'s Linkedin course on [Python
+for Finance](https://www.linkedin.com/learning/getting-started-with-python-for-finance).
+Here I note down all the Pandas techniques and concepts explored in the course. As always if you find an error,
+don't hesitate to contact me.
+
+# Loading data
+
+We use the `yfinance` library to load our stock data. The stocks listed in NASDAQ stock
+exchange are identified using a unique symbol aka **ticker** . I was interested in seeing how
+Pfizer(PFE) stocks fair in the last 3 years.
+
+```{python}
+import yfinance as yf
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt 
+
+pharma_df = yf.download('PFE JNJ', start='2015-01-01', end='2023-04-28')
+pharma_df.head()
+```
+
+## Chaining
+
+Matt introduces one of the features in Pandas called **chaining**. It allows reading the
+code as a recipe. One can simply go through from top to bottom and understand how the code
+works. We leverage `pipe()` pandas function. We can use it call any function. 
+
+From the two stocks, `PFE` and `JNJ`, we need only `PFE`. So, we can try to use chaining
+principle. 
+
+### Without chaining
+
+```{python}
+def fix_cols(df):
+    cols = df.columns
+    outer = [col[0] for col in cols]
+    df.columns = outer
+    return df
+
+pfe_df1 = pharma_df.iloc[:,1::2]
+pfe_df1 = fix_cols(pfe_df1)
+pfe_df1
+```
+
+### With chaining
+
+```{python}
+pfe_df = (pharma_df
+ .iloc[:,1::2] # retrieves only PFE stock data
+ .pipe(fix_cols) # Removes the ticker and just shows 
+)
+pfe_df
+```
+
+As you can see this makes an easier reading. We use the `pipe()` to call our `fix_cols`
+function. The resulting dataframe has only the outer level column names. 
+Indeed, I agree that as more analysis are added, it gets complicated and harder to understand. 
+Indeed, the intermediate calculation steps are not shown in the final version 
+which makes it difficult to visualise the operation instantaneously. 
+
+# Plotting
+Since Pandas' plotting functionality is built on top of Matplotlib, we use it easily to
+plot our data.
+
+```{python}
+(pharma_df
+ .iloc[:,1::2] # retrieves only PFE stock data
+ .pipe(fix_cols) # Removes the ticker and just shows 
+ .Close # fetches only the Close column. Dataframe is now a series
+ .plot() # date is used at x-axis and the Close column values at y-axis.
+)
+```
+
+We can also adjust plot window size using Matplotlib's `figsize` function.
+
+```{python}
+pfe_vol = (pharma_df
+ .iloc[:,1::2] # retrieves only PFE stock data
+ .pipe(fix_cols) # Removes the ticker and just shows 
+ .Volume # fetches only the volume column. Dataframe is now a series
+ .plot(figsize=(10,2)) # date is used at x-axis and the volume column values at y-axis.
+)
+```
+
+# Resampling
+
+Since we have date as our row index, we can leverage `.resample()` feature of Pandas to
+convert our `PFE` raw data into time periods we want to visualise. The `.resample()` takes
+in an argument which is appropriate for the index. In our case it is date. So, it can take
+monthly(`M`), weekly(`W`), daily(`Y`), quarterly(`Q`) etc. Bi monthly is possible with
+`2M`. 
+
+```{python}
+(pfe_df
+ .Close
+ .resample('M') # returns resampler object. Looks for an aggregate function.
+ .mean() # monthly average
+ .plot()
+)
+```
+
+If we want to aggregate two columns, then we can use `.agg()` function.
+
+```{python}
+(pfe_df
+ .resample('M')
+ .agg({'Close': 'max', 'Open': 'first'})
+ .loc['jan 2020': 'apr 2023']
+ .plot()
+)
+```
+
+# Candle Stick chart
+
+With stock data, it is easier to visualise its pattern using a candle stick chart. 
+Candle stick plot is not in Pandas. We can write our own plot function using matplotlib.
+
+```{python}
+from matplotlib import dates
+fig, ax = plt.subplots(figsize=(10,5))
+def plot_candle(df, ax):
+    #wick
+    ax.vlines(x=df.index, ymin=df.Low, ymax=df.High, colors='k', linewidth=1)
+    #red - decrease
+    red = df.query('Close < Open')
+    ax.vlines(x=red.index, ymin=red.Close, ymax=red.Open, colors='r', linewidth=3)
+    #green - increase
+    green = df.query('Close >= Open')
+    ax.vlines(x=green.index, ymin=green.Close, ymax=green.Open, colors='g',linewidth=3) #check this
+    ax.xaxis.set_major_locator(dates.MonthLocator())
+    ax.xaxis.set_major_formatter(dates.DateFormatter('%b-%y'))
+    ax.xaxis.set_minor_locator(dates.DayLocator())
+    ax.grid(color='grey')
+    return df
+
+
+(pfe_df
+ .resample('d')
+ .agg({'Close': 'last', 'Open': 'first', 'Low':'min', 'High':'max'})
+ .loc['jan 2023': 'apr 2023']
+ .pipe(plot_candle,ax)
+)
+```
+With the chart, we can determine the patterns such as bearish, bullish etc. We can change
+`.loc`for the period we want to see the pattern.
+
+
+# Calculations
+In this section we learn certain metrics used on financial data.
+
+## Returns
+How much percentage of return can be expected? 
+With pandas, we can simply use `.pct_change()` function and get the values. Plotting them
+is as simple as shown previously.
+
+```{python}
+#| eval: false
+(pfe_df
+ .pct_change()
+ .Close
+ .plot()
+)
+```
+![](./images/returns_plot.png)
+
+Histogram can be an option but it doesn't show negative swing. Somewhat appropriate would
+be to use bar plot.
+
+```{python}
+#| eval: false
+(pfe_df
+ .pct_change()
+ .Close
+ .iloc[-100:] #last 100 rows
+ .plot.bar()
+)
+```
+![](./images/returns_barplot.png)
+
+This plot shows the negative trends but the X-axis is illegible. We don't know on which
+date the closing stock prices changed. This is because Pandas converts/groups whatever on the
+x-axis into categorical variables. For example, for categorical variable such as elephants, 
+dogs and cats this works but for dates that isn't correct. 
+
+
+What if we explicitly say the x-axis as `dates`.
+```{python}
+#| eval: false
+fig, ax = plt.subplots(figsize=(10,4))
+(pfe_df
+ .pct_change()
+ .Close
+ .iloc[-100:]
+ .plot.bar(ax=ax)
+)
+ax.xaxis.set_major_locator(dates.MonthLocator())
+ax.xaxis.set_major_formatter(dates.DateFormatter('%b-%y'))
+ax.xaxis.set_minor_locator(dates.DayLocator())
+```
+![](./images/returns_barplot_1970.png)
+
+1970?!? Still Pandas converts dates to categorical variables. 
+
+The solution Matt suggests is to use matplotlib. 
+
+```{python}
+#| eval: false
+def my_bar(series, ax):
+    ax.bar(series.index, series)
+    ax.xaxis.set_major_locator(dates.MonthLocator())
+    ax.xaxis.set_major_formatter(dates.DateFormatter('%b-%y'))
+    ax.xaxis.set_minor_locator(dates.DayLocator())
+    return series
+
+fig, ax = plt.subplots(figsize=(10,4))
+_ = ( pfe_df
+ .pct_change()
+ .Close
+ .iloc[-100:]
+ .pipe(my_bar, ax)
+)
+
+```
+![](./images/returns_barplot_plt.png)
+
+Looks good now.
+
+## Cumulative returns
+
+Cumulative returns shows the investment amount gained or lost over time.
+The formula is given by
+$$
+cumulative\_return = \frac{(current\_price - original\_price)}{(curent\_price)}
+$$
+
+```{python}
+(pfe_df
+ .Close
+ .sub(pfe_df.Close[0])
+ .div(pfe_df.Close[0])
+ .plot()
+)
+```
+Another alternate way is to numpy's `cumprod` function. 
+
+```{python}
+(pfe_df
+ .Close
+ .add(1)
+ .cumprod()
+ .sub(1)
+ .plot()
+)
+```
+As you can see both plots give the same result.
+
+If we're to use `.pipe` here, we can do like so:
+
+```{python}
+def calc_cumrets(df, col):
+     ser = df[col]
+     return (ser
+             .sub(ser[0])
+             .div(ser[0])
+            )
+(pfe_df
+ .pipe(calc_cumrets,'Close')
+ .plot()
+)
+```
+### Lambda functions or anonymous functions
+Using lambda functions we can make impropmtu functions and use it with our chaining.
+
+We would traditionally call a function like so:
+```{python}
+def get_returns(df):
+    return calc_cumrets(df, 'Close')
+
+get_returns(pfe_df)
+```
+However, if we are to use `lambda`, then the above code can be written as:
+```{python}
+(lambda df: get_returns(df))(pfe_df)
+```
+Now, with cumulative returns calculation, it would be useful if those values can be assigned to
+a new column in the dataframe. It is here that a Pandas feature in `.assign` function is
+helpful. It helps create new columns. We can couple `.assign` and `lambda` together.
+
+```{python}
+pfe_df = (pfe_df
+ .assign(cum_rets=lambda df:calc_cumrets(df, 'Close'))
+)
+```
+
+## Volatility
+Volatility is a statistical measure of the dispertion of the returns for a given market
+index in this case stocks. In most cases, higher the volatility, the riskier the stock. It
+is often measured from either standard deviation or variance between returns from that
+stock. Remember `standard deviation` is the measure of deviation of the data relative to
+its mean.
+
+Just like `mean()`, we can calculate `std()`.
+```{python}
+(pfe_df
+ .Close
+ #.mean()
+ .std()
+)
+```
+The `.assign()` allows consective chaining methods to use
+these newly created columns. In the below code block, we can use the `pct_change_close`
+created in the first line in to the second line. Then, we can calculate 30 day `rolling`
+volatility. Rolling is nothing but a time frame in which the volatility is calculated. We
+can see that for the first 15 days the volatility is `NaN`(not a number) and on the 30th
+day, there is an entry.
+
+
+```{python}
+(pfe_df
+ .assign(pct_change_close=pfe_df.Close.pct_change())
+ .pct_change_close
+ .rolling(30)
+ .std()
+)
+```
+
+```{python}
+#rolling volatility
+(pfe_df
+ .assign(close_volatility=pfe_df.rolling(30).Close.std(),
+         percent_volatility=pfe_df.Close.pct_change().rolling(30).std())
+ .iloc[:,-2:] # fetch only the last two columns
+ .plot(subplots=True)
+
+)
+```
+
+We can also use `.resample` to calculate 15 day volatility as we have `date` as index.
+```{python}
+# 15 day volatility
+(pfe_df
+ .assign(pct_change_close=pfe_df.Close.pct_change())
+ .resample('15D')
+ .std()
+)
+```
+
+```{python}
+# 15 day rolling volatility
+(pfe_df
+ .assign(pct_change_close=pfe_df.Close.pct_change())
+ .rolling(window=15, min_periods=15)
+ .std()
+)
+```
+
+What happens if the assinged new column name is same as the pandas function name and we
+have to use further for our analysis? We can include that 'assigned' column within
+`[]`(square) braces and use it. In the below example, we can see how `pct_change`
+conflicts with pandas and is therefore must be put inside `[]` to access it.
+```{python}
+# 15 day rolling volatility
+(pfe_df
+ .assign(pct_change=pfe_df.Close.pct_change())
+ .rolling(window=15, min_periods=15)
+ .std()
+ #.pct_change
+ ["pct_change"]
+ .plot()
+)
+```
+
+## Moving averages or rolling windows
+Moving average(MA) of a stock is calculated to help smooth out the price data by creating a
+constantly updated average price. It helps to mitigate the impacts of random, short-term
+fluctuations on the prices of the stock over a time period. There are two types of moving
+averages - `simple` which is just the arithmetic mean of the given prices over a specified
+number of days and `exponential` which is the weighted average that gives significance to
+the recent prices than old ones, making it an indicator that is more responsive to new
+infotmation.
+
+MA is used to identify the tread direction of a stock or to determine its support and
+resistance level as it depends on the past prices. The longer the period for the MA, the
+greater the lag. A 200-day MA has much greater lag than 20-day MA. The gold standard used
+by investers are 50-day and 200-day MAs. 
+
+Shorter MA for short-term investment and longer MA for long-term. A rising MA means upward
+trend and declining means downward trend.
+
+### What is a Golden Cross?
+A golden cross is a chart pattern in which a short-term moving average crosses above a long-term moving average. 
+The golden cross is a bullish breakout pattern formed from a crossover involving a security's short-term moving 
+average such as the 15-day moving average, breaking above its long-term moving average, such as the 50-day moving 
+average. As long-term indicators carry more weight, the golden cross indicates a bull market on the horizon 
+and is reinforced by high trading volumes.
+
+### Lag
+These lags can be calculated in Pandas using `shift` function. `shift(1)` means shift
+index one place down. `shift(2)` means two places down. For example, 
+
+```{python}
+(pfe_df
+ .assign(s1=pfe_df.Close.shift(1),
+         s2=pfe_df.Close.shift(2))
+ [["s1","s2"]]
+)
+```
+the `Close` value in the first row will be on the second row for `shift(1)` and two rows
+down for `shift(2)`.
+
+
+Now for simple 3-day moving average, we need to average `Close`, `s1`, and `s2`. We can do
+it manually using a `lambda` and use the `rolling` pandas with `window=3` specified.
+
+```{python}
+(pfe_df
+ .assign(s1=pfe_df.Close.shift(1),
+         s2=pfe_df.Close.shift(2),
+         ma3=lambda df_:df_.loc[:,["Close", "s1", "s2"]].mean(axis='columns'),
+         ma3_builtin=pfe_df.Close.rolling(3).mean()
+        )
+[["s1","s2","ma3","ma3_builtin"]]
+)
+```
+
+## Plotting MAs
+
+We are getting comfortable with plotting. We select the columns needed to plotted -
+['Close', 'ma3\_builtin'] for last 200 rows.
+
+```{python}
+(pfe_df
+ .assign(s1=pfe_df.Close.shift(1),
+         s2=pfe_df.Close.shift(2),
+         ma3=lambda df_:df_.loc[:,["Close", "s1", "s2"]].mean(axis='columns'),
+         ma3_builtin=pfe_df.Close.rolling(3).mean()
+        )
+ [['Close', 'ma3_builtin']]
+ .iloc[-200:]
+ .plot()
+)
+```
+As we can see the MA smoothes out the little peaks and troughs.
+
+### Golden Cross
+
+Some experts say if there is a crossover between MA-50 and MA-200, it is an indicator to
+buy or sell.
+
+```{python}
+(pfe_df
+ .assign(ma50=pfe_df.Close.rolling(50).mean(),
+         ma200=pfe_df.Close.rolling(200).mean()
+        )
+ [["Close","ma50","ma200"]]
+ .iloc[-650:]
+ .plot()
+)
+```
+
+# Technical analysis
+Technical analysis studies the price and volumes of the investments. Studying the trends
+on prices and volumes give analyst to evaluate and identify trading opportunities.
+
+Technical analysis tools are used to scrutinize the ways supply and demand for a security 
+will affect changes in price, volume, and implied volatility. Past prices are used to
+determine future prices.
+
+## OBV- On-balance Volume
+OBV is one such used for technical analysis. It is a momentum indicator that uses volume
+to predict changes in stock price.
+
+### What Does On-Balance Volume Tell You?
+The actual value of the OBV is unimportant; concentrate on its direction. (source:
+[fidelity](https://www.fidelity.com/learning-center/trading-investing/technical-analysis/technical-indicator-guide/obv))
+
+- When both price and OBV are making higher peaks and higher troughs, the upward trend is likely to continue.
+
+- When both price and OBV are making lower peaks and lower troughs, the downward trend is likely to continue.
+
+- During a trading range, if the OBV is rising, accumulation may be taking place—a warning of an upward breakout.
+
+- During a trading range, if the OBV is falling, distribution may be taking place—a warning of a downward breakout.
+
+- When price continues to make higher peaks and OBV fails to make higher peaks, the upward trend is 
+likely to stall or fail. This is called a negative divergence.
+
+- When price continues to make lower troughs and OBV fails to make lower troughs, the downward trend 
+is likely to stall or fail. This is called a positive divergence.
+
+### OBV calculation
+If today's close is greater than yesterday's close then: 
+OBV = Yesterday’s OBV + Today’s Volume
+
+If today’s close is less than yesterday’s close then: 
+OBV = Yesterday’s OBV – Today’s Volume
+
+If today’s close is equal to yesterday’s close then: 
+OBV = Yesterday’s OBV
+
+$$
+OBV = OBV_{prev} + \begin{cases}
+volume, \text{ if close > close}_{prev} \\
+0, \text{ if close = close}_{prev}\\
+-volume, \text{ if close < close}_{prev}
+\end{cases}
+$$
+
+where
+
+OBV = current on-balance volume level
+
+OBV~prev~ = previous on-balance volume level
+
+volume = Latest trading volume amount
+
+## Accumulation distribution indicator
+
+## RSI - Relative strength index
+
+
+
+
+

@@ -1,9 +1,11 @@
 /_site/
 /.quarto/
-Ramani_Deepak.png
 .ipynb_checkpoints
-to_dubai
-2023-03-29-quarto-blog/
-notes/
+resume/
+# notes/
 hobbies/
-projects/
+# projects/
+profile1.jpg
+2023-03-29-Terraform-setup/
+*/py_for_finance_files/
+data-engg.qmd

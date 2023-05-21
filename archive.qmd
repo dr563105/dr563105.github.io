@@ -2,7 +2,7 @@
 title: "Archive"
 page-layout: full
 listing:
-  contents: [posts/**/*.qmd]
+  contents: [posts/**/*.qmd, notes/**/*.qmd]
   #, notes/**/*.qmd, projects/**/*.qmd]
   type: table
   table-striped: true

@@ -1,0 +1,398 @@
+---
+date: "2022-09-07"
+date-modified: "2023-04-05"
+toc: true
+title: Notes - Python concepts
+description: Notes on some of Python concepts
+---
+These are some of my notes on python concepts I gathered from various sources. 
+
+## Super()
+`super()` allows to call the base class implicitly without the need to use the base class
+name explicitly. The main advantage is seen during multiple inheritance. The child classes
+that may be using cooperative multiple inheritance will call the correct next parent class
+function in the *Method Resolution Order*(MRO).
+
+**Syntax**
+*Python3* `super().__init__()`
+*Python2 and still valid in python3* `super(childclassname,self).__init__()`
+
+**Avoid** using like this -- `super(self.__class__,self).__init__()`. This leads to
+recursion but fortunately python3 syntax standard side steps this problem.
+
+More info in [stackoverflow](https://stackoverflow.com/questions/576169/understanding-python-super-with-init-methods)
+
+## \_\_Pycache\_\_
+`__pycache__` is a directory containing python3 bytecode compiled and ready to be
+executed. This is done to speed up loading of the modules. Python caches the compiled
+version of each module in this directory. 
+More info in the python official [docs](https://docs.python.org/3/tutorial/modules.html#compiled-python-files)
+
+## Zip function
+This function enables combination of elements in 2 or more lists. If the lists are of
+unequal lengths then the minimum length is taken. 
+
+For example - 
+`zip([1,2,3],["one", "two"])` returns a tuple `(1, "one"), (2, "two")`. Notice how *3* is
+not part of the zip operation. 
+
+<!-- ### Rotate a matrix/image by ![formula](https://render.githubusercontent.com/render/math?math=\large%20\bf%2090^\circ) -->
+
+
+
+## Lambda function
+Also knows as anonymous functions helps reduce the need to define unnecessary custom
+functions. For example, a function that returns a simple arithmetic operation can be made
+as a lambda function. 
+
+Example -
+`lambda x,y,...: x+y+...` - lambda takes several arguments but returns only one expression.
+
+## Map function
+Map is a function that allows some kind of function upon a sequence. This sequence can be
+list, tuple, string etc.
+
+_Syntax_: map(function, seq)
+
+lambda functions are commonly used with map functions.
+
+Example - 
+```{python}
+x = [1,2,3,4]
+def square(x):
+    return x*x
+map(square,x) #-->returns an iterator in python3.
+#To return in the desired sequence, use that as prefix in map. 
+list(map(square,x)) #--> returns as a list.
+```
+With lambda function:
+```{python}
+a = [1,2,3,4]
+list(map(lambda x:x*x,a))
+```
+With map more than one sequence can be used -
+```{python}
+b = [1, 1, 1, 1]
+list(map(lambda x,y:x+y, a,b))    
+```
+
+## Filter function
+This function is used to filter the outputs if the sequence satisfies some condition. This
+can be easily written as a list comprehension or a generator. 
+`list(filter(lambda x:x%2==0, range(1,11))`
+
+## Reduce function
+This was removed from the inbuilt functions in python3 and added to functools.
+It is similar to map function but unlike map it takes only one iterable. 
+`list(reduce(lambda x,y:x+y, a))`. Internally assigns x and y and calculates the desired
+function.
+
+**Each of the above function can be substituted with list comprehension.**
+
+### namespace and variable scope
+
+Namespace is the space occupied by an entity in the program. When two or more programs
+contain the same name, a method to invoke a unique program is done using its module name.
+
+### LEGB Rule
+
+Variable scope has three visibilty levels -- builtin, global, enclosed, and local.
+
+*Local scope* - variables defined inside a local function. Their lifecycle ends with the
+local function.
+*Global scope* - variable defined at the top of the module and is available for all the
+functions underneath it.
+*Enclosed scope* - seen in nested function. 
+*built-in scope* - names within python built-in functionality like print().
+
+Change a global variable inside a local function? use `global` keyword.
+Change a enclosed variable inside an enclosed(nested)-local function? use `nonlocal` keyword.
+**The order of execution follows local, enclosed, global, and built-in.**
+
+### Closures
+
+Closure is a concept to invoke an enclosed(nested)-local function outside of its scope. 
+This uses a python's property -- functions are first class object. 
+Example -
+```{python}
+def f():
+    return 2
+g = f
+```
+`g` here gets the function f's location(*reference*) or the path of the function till the end of it. 
+This functionality is helpful in accessing an enclosed(nested)-local function beyond its scope. 
+
+example - 
+```{python}
+def f():
+    x = 4
+    def g():
+        y = 3
+        return x+y
+    return g
+
+a = f()
+print(a) #--> returns path till function 'g'
+print(a()) #--> returns 7
+print(a.__name__) #--> return function 'g' name.
+```
+Why closures?
+* Avoid global values
+* Data hiding
+* Implement decorators
+
+### Decorators
+Any callable object that is used to modify a function or class. Adds additional
+functionality to existing function or class. Basically a wrapper around the existing
+function where the existing function code couldn't be changed but additional
+features/checks are necessary. It is much easier to use the decorator than
+writing one. The wrapper becomes complex as the functions it wraps get longer. 
+
+A decorator should:
+* take a function as parameter
+* add functionality to the function
+* function needs to return another function
+
+Two types:
+- Function decorator
+- Class decorator
+
+### function call as parameter
+```{python}
+def f1():
+    print("hello from f1")
+def f2(function):
+    print("hello from f2")
+    function()
+f2(f1)
+```
+### Multiple decorators
+
+```{python}
+def f1(func):
+    def inner():
+        return "first " + func() +" first"
+    return inner
+
+def f2(func):
+    def wrapper():
+        return "second " + func()+" second"
+    return wrapper
+
+@f1
+@f2
+def ordinary():
+    return "good morning"
+
+print(ordinary())
+```
+`>>>> first second good morning second first`
+
+At first, the f2 decorator is called and prints `second good morning second`, then f1
+decorator takes that output and prefixes and suffixes with `first`.
+
+### Decorators with parameters
+
+To pass parameters to a decorator, the nested function in the previous case must be
+defined inside a function. 
+
+```{python}
+def outer(x):
+    def f1(func):
+        def inner():
+            return func() + x
+        return inner
+    return f1
+
+
+@outer(" everyone")
+def greet():
+    return "good morning"
+
+print(greet)
+```
+
+```{python}
+#| error: true
+def div1(a,b):
+    return a/b
+
+def div2(a,b,c):
+    return a/b/c
+
+print(div1(5,0))
+print(div2(3,4,5))
+```
+To protect against division-by-zero error, a decorator is written.
+```{python}
+def div_by_zero_dec(func):
+    def inner(*args):
+        for i in args[1:]:
+            if i == 0:
+               return "Enter valid non-zero input for denominator"
+        #gives the general error and not decorator output for div2 function if the input is zero
+        #answer =  ["Enter valid non-zero input for denominator" if i == 0 else func(*args) for i in args[1:]]
+        return func(*args)
+        #return answer  
+    return inner
+
+@div_by_zero_dec
+def div1(a,b):
+    return a/b
+
+@div_by_zero_dec
+def div2(a,b,c):
+    return a/b/c
+
+print(div1(5,0))
+print(div2(3,1,0))
+```
+### Data hiding
+Decorators inherently hides the original function. To avoid that we can use `wraps()`
+method from `functools`.
+
+```{python}
+from functools import wraps
+def outer(x):
+    def f1(func):
+        @wraps(func)
+        def inner():
+            return func() + x
+        return inner
+    return f1
+
+
+@outer(" everyone")
+def greet():
+    return "good morning"
+
+print(greet.__name__)
+```
+
+### Class decorators
+
+Decorator function can be applied to class methods also.
+
+```{python}
+#check for name equal to Justin is done with a decorator
+def check_name(func):
+    def inner(name_ref):
+        if name_ref.name == "Justin":
+            return "There is another Justin"
+        return func(name_ref)
+    return inner
+
+class Printing():
+    def __init__(self, name):
+        self.name = name
+    
+    @check_name
+    def print_name(self):
+        print(f"username is {self.name}")
+
+p = Printing("Justin")
+p.print_name()
+#username is Justin
+#There is another Justin
+```
+
+To make a class decorator, we need to know about a special method called `__call__`. If a
+`__call__` method is defined, the object of a class can be used as function call.
+
+```{python}
+class Printing():
+    def __init__(self, name):
+        self.name = name
+    
+    def __call__(self):
+        print(f"username is {self.name}")
+
+p = Printing("Lindon")
+p()
+# username is Lindon
+```
+
+### Class decorator on a function
+
+```{python}
+class Decorator_greet:
+    def __init__(self, func):
+        self.func = func
+    def __call__(self):
+        return self.func().upper()
+
+@Decorator_greet
+def greet():
+    return "good morning"
+
+print(greet())
+#GOOD MORNING
+```
+
+### Built-in decorators
+* @property
+* @classmethod
+* @staticmethod
+
+### @property
+* Class methods as attributes
+The idea of a wrapper is to  make changes to code base without hindering its use for the
+end user.
+Using `@property` decorator, a class variable which is now a class method will give the
+result if used just like accessing the variable.
+For example - `objectname.function()` or `objectname.function` will give the same result without
+errors. So the user can access just like they did previously. 
+
+Borrowing idea from other programming languages, the private variables are defined with
+`__` prefix. So to access those variables, *getter, setter, and deleter* methods are
+necessary. 
+Accessing is done with getter method. So it gets `@property` decorator. Both setters and
+deleters get `@functionname.setter` or `@functionname.deleter`. (*verify this. could be wrong*)
+
+
+* @classmethod
+Insted of `self`, the classmethod decorator takes `cls` as first argument for its
+function. These methods can access and modify class states.
+
+* @staticmethod
+This is similar to classmethod but takes no predefined argument like instance method(self)
+or classmethod(cls). These methods can't access class state. So ideally they are used for
+checking conditions.
+
+**Decorator Template**
+```{python}
+import functools
+
+def my_decorator(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        # Do something before
+        result = func(*args, **kwargs)
+        # Do something after
+        return result
+    return wrapper
+```
+
+## Context Managers
+
+Usually `with` is used w.r.t to file operations, database connections. In addition to
+using `with` and `as` keywords, we can make custom context managers using
+`@contextlib.contextmanger` which is a generator decorator. 
+```{python}
+from contextlib import contextmanager
+
+@contextmanager
+def opening(filename, method):
+    print("Enter")
+    f = open(filename, method) 
+    try:
+        yield f
+    finally:
+        f.close()
+        print("Exit")
+
+with opening("hello.txt", "w") as f:
+    print("inside")
+    f.write("hello there")
+```
+

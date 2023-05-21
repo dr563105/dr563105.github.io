@@ -1,0 +1,5 @@
+- project: Grocery Unit Sale Predictor - a MLOPS project
+  path: https://github.com/dr563105/mlops-project-grocery-sales
+  role: Creator
+  description: |
+       An end-to-end ML project that designs and manages a ML model production workflow.

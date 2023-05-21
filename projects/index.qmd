@@ -1,0 +1,10 @@
+---
+title: Projects
+description: Here are the list of personal projects I worked during my free time.
+search: false
+sidebar_position: 1
+metadata-files: ["_listing_meta.yml"]
+listing:
+  contents: 
+   - "/*.qmd"
+---

@@ -12,13 +12,32 @@ listing:
     fields: [image, date, title, reading-time]
     feed: true
     image-align: left
-    page-size: 8
+    page-size: 4
+  - id: project-listing
+    contents: projects/data/mlops.yml
+    type: table
+    table-hover: true
+    sort-ui: false
+    filter-ui: false
+    categories: false
+    fields: [project, description, role]
+    field-links: 
+      - project
+    field-display-names:
+      project: Project
+      description: Description
+      role: Role
+    page-size: 4
   
 page-layout: article
 title-block-banner: true
 ---
 
 ## Blog Posts
-:::{.posts-listing}
+::: {#posts-listing}
 :::
 
+
+## Projects
+::: {#project-listing}
+:::
