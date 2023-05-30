@@ -441,13 +441,6 @@
     "text": "API usage\nIt is time to use the Kaggle API. For example, to see what dataset command offers, in the CLI enter\n\n\nTerminal\n\nkaggle dataset --help\n\n\n\n\n\n\n\nTip\n\n\n\nTip: Remember to comply with competition’s terms and conditions before downloading the dataset. You will get an error forbidden if you try to download before agreeing.\n\n\nFor more info on the API, Kaggle’s github page is an excellent resource."
   },
   {
-    "objectID": "projects/index.html",
-    "href": "projects/index.html",
-    "title": "Projects",
-    "section": "",
-    "text": "Title\n\n\nDescription\n\n\n\n\n\n\nmlops\n\n\nAn end-to-end mlops project that uses ML…\n\n\n\n\n\n\nNo matching items"
-  },
-  {
     "objectID": "projects/mlops.html",
     "href": "projects/mlops.html",
     "title": "mlops",

@@ -9,7 +9,7 @@
 <link>https://dr563105.github.io/index.html</link>
 <atom:link href="https://dr563105.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>This is Deepak Ramani&#39;s personal blog.</description>
-<generator>quarto-1.3.353</generator>
+<generator>quarto-1.3.361</generator>
 <lastBuildDate>Thu, 27 Apr 2023 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Getting started with S3 using boto3</title>
@@ -859,15 +859,15 @@ font-style: inherit;">1</span></span><div class="code-annotation-gutter-bg"></di
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-3" data-code-lines="2">Choose which program to use to view PDF file.</span>
+<span data-code-lines="2" data-code-cell="annotated-cell-3" data-code-annotation="1">Choose which program to use to view PDF file.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-3" data-code-lines="5">Value 1 allows forward search after every successful compilation.</span>
+<span data-code-lines="5" data-code-cell="annotated-cell-3" data-code-annotation="2">Value 1 allows forward search after every successful compilation.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-3" data-code-lines="6">Value 1 allows change focus to skim after command <code>:VimtexView</code> is given.</span>
+<span data-code-lines="6" data-code-cell="annotated-cell-3" data-code-annotation="3">Value 1 allows change focus to skim after command <code>:VimtexView</code> is given.</span>
 </dd>
 </dl>
 <p>The forward search allows any change made in the TeX file automatically refreshes Skim to reflect those changes in PDF. One of the other common uses is cursor sync between the TeX file and PDF. Setting <code>let g:vimtex_view_skim_sync</code> allows placing the cursor in some position in the Tex file sync with the same position in the PDF after every successful compilation(<code>:VimtexCompile</code>). Setting <code>let g:vimtex_view_skim_activate</code> allows to shift focus of control from neovim to Skim and bring it to foreground.</p>
@@ -3448,11 +3448,11 @@ font-style: inherit;">brew</span> install stow</span><div class="code-annotation
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="1" data-code-annotation="1">Ubuntu</span>
+<span data-code-annotation="1" data-code-cell="annotated-cell-1" data-code-lines="1">Ubuntu</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="3" data-code-annotation="2">Homebrew Mac</span>
+<span data-code-annotation="2" data-code-cell="annotated-cell-1" data-code-lines="3">Homebrew Mac</span>
 </dd>
 </dl>
 </section>
@@ -3506,19 +3506,19 @@ font-style: inherit;">&gt;</span></span><div class="code-annotation-gutter-bg"><
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="1" data-code-annotation="1">activates symlink</span>
+<span data-code-annotation="1" data-code-cell="annotated-cell-2" data-code-lines="1">activates symlink</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="2" data-code-annotation="2">trial runs or simulates symlink generation. Effective for checking for errors</span>
+<span data-code-annotation="2" data-code-cell="annotated-cell-2" data-code-lines="2">trial runs or simulates symlink generation. Effective for checking for errors</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="3" data-code-annotation="3">delete stowed package</span>
+<span data-code-annotation="3" data-code-cell="annotated-cell-2" data-code-lines="3">delete stowed package</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="4" data-code-annotation="4">restows package</span>
+<span data-code-annotation="4" data-code-cell="annotated-cell-2" data-code-lines="4">restows package</span>
 </dd>
 </dl>
 </section>
