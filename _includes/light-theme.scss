@@ -102,3 +102,25 @@ a.nav-link:hover::after {
   opacity: 1;
   transition: all 0.4s ease;
 }
+
+
+.nav-tabs .nav-link.active,.nav-tabs .nav-item.show .nav-link {
+    color: #495057;
+    background-color: #d1d9ce;
+    border-color: #aa0f42 #aa0f42 $bg-navbar;
+}
+
+
+.tab-content {
+    margin-top: 0px;
+    border-left: #aa0f42 1px solid;
+    border-right: #aa0f42 1px solid;
+    border-bottom: #aa0f42 1px solid;
+    margin-left: 0;
+    padding: 1em;
+    margin-bottom: 1em
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #aa0f42;
+}

@@ -79,6 +79,7 @@ format:
       _includes/google-ads.html
     code-link: true
     smooth-scroll: true
+    code-copy: hover
 
 execute: 
   freeze: auto

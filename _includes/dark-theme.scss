@@ -38,6 +38,12 @@ p {
 .header-section-number {
     color: #e08362dd
 }
+
+//dark-theme title colour
+#title-block-header.quarto-title-block.default .quarto-title .title {
+    color: brown;
+}
+
 //toc sidebar link colour when active
 .sidebar nav[role=doc-toc] ul>li>a.active,.sidebar nav[role=doc-toc] ul>li>ul>li>a.active {
     border-left: 1.5px solid #0d6efd;
@@ -73,9 +79,7 @@ background-color: #0b0a02;
 }
 
 a.nav-link {
-  display: inline-block;
-  position: relative;
-  color: #091d27;
+    color: #959347;
 }
 
 a.nav-link::before{
@@ -99,3 +103,9 @@ a.nav-link:hover::after {
   opacity: 1;
   transition: all 0.4s;
 }
+
+.nav-tabs .nav-link.active,.nav-tabs .nav-item.show .nav-link {
+    color: $cream;
+}
+
+
