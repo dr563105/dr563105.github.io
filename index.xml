@@ -10,7 +10,573 @@
 <atom:link href="https://dr563105.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>This is Deepak Ramani&#39;s personal blog.</description>
 <generator>quarto-1.3.361</generator>
-<lastBuildDate>Thu, 27 Apr 2023 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 02 Jun 2023 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Setup Terraform</title>
+  <dc:creator>Deepak Ramani</dc:creator>
+  <link>https://dr563105.github.io/posts/2023-06-02-Terraform-setup/index.html</link>
+  <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
+
+
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p><a href="https://developer.hashicorp.com/terraform">Terraform</a> from Hasicorp is Infrastructure as Code(<strong>IaC</strong>) tool that is gaining popularity among the data engineers. It lets us build, change and version infrastructure safely and efficiently. As to why one needs Terraform, I shall direct you to <a href="https://blog.gruntwork.io/why-we-use-terraform-and-not-chef-puppet-ansible-saltstack-or-cloudformation-7989dad2865c">this comprehensive article</a>.</p>
+<p>In this post, I will write a small guide to get us started with Terraform. This post then can be used as a starting guide for my future posts involving Terraform.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that this installation guide is only for Mac(M1 silicon) and Ubuntu(GCP E2-medium instance). Also this guide will look similar to the example provided in Hashicorp’s website. The intention is to have a guide for my benefit in one place.</p>
+</div>
+</div>
+<section id="prerequisites" class="level3">
+<h3 class="anchored" data-anchor-id="prerequisites">Prerequisites</h3>
+<p>A fully functional Macbook or an Ubuntu GCP/AWS instance with <code>sudo</code> privileges.</p>
+</section>
+</section>
+<section id="terraform-install" class="level1">
+<h1>Terraform Install</h1>
+<p>I follow the Hashicorp <a href="https://developer.hashicorp.com/terraform/tutorials/docker-get-started/install-cli#install-terraform">guide</a> and give commentary when needed. We will use <a href="https://brew.sh">Homebrew</a> tool in Mac to install. Install it if you haven’t already.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs"><li class="nav-item"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" aria-controls="tabset-1-1" aria-selected="true">Mac</a></li><li class="nav-item"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" aria-controls="tabset-1-2" aria-selected="false">Ubuntu(20.04LTS)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" aria-labelledby="tabset-1-1-tab">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Terminal for Mac</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-1" style="background: #f1f3f5;"><pre class="sourceCode bash code-annotation-code code-with-copy code-annotated"><code class="sourceCode bash"><span id="annotated-cell-1-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">/bin/bash</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-2" class="code-annotation-target">-c <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">$(</span><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">curl</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">)</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span></span>
+<span id="annotated-cell-1-3"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">brew</span> tap hashicorp/tap</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-4" class="code-annotation-target"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">brew</span> install hashicorp/tap/terraform</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-5" class="code-annotation-target"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">which</span> terraform</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-6" class="code-annotation-target"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">terraform</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--version</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="2,3" data-code-cell="annotated-cell-1" data-code-annotation="1">Install homebrew and add hashicorp’s repo</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="4" data-code-cell="annotated-cell-1" data-code-annotation="2">Install latest Terraform</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-lines="5" data-code-cell="annotated-cell-1" data-code-annotation="3">To check if terraform is correctly installed. It should display <code>/opt/homebrew/bin/terraform</code>. Otherwise check <code>PATH</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-lines="6" data-code-cell="annotated-cell-1" data-code-annotation="4">Verify installation</span>
+</dd>
+</dl>
+</div>
+<div id="tabset-1-2" class="tab-pane" aria-labelledby="tabset-1-2-tab">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Terminal for Ubuntu</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-1" style="background: #f1f3f5;"><pre class="sourceCode bash code-annotation-code code-with-copy code-annotated"><code class="sourceCode bash"><span id="annotated-cell-1-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#Commands install Hashicorp's GPG key, its repo, </span></span>
+<span id="annotated-cell-1-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#verifies key's fingerprint. </span></span>
+<span id="annotated-cell-1-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#Don't worry if you see gibberish after executing the second command. </span></span>
+<span id="annotated-cell-1-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#Carry on with next commands.</span></span>
+<span id="annotated-cell-1-5"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sudo</span> apt update <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sudo</span> apt install <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-y</span> gnupg software-properties-common curl </span>
+<span id="annotated-cell-1-6"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">curl</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-fsSL</span> https://apt.releases.hashicorp.com/gpg <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">|</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sudo</span> apt-key add <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-</span></span>
+<span id="annotated-cell-1-7"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sudo</span> apt-add-repository <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"deb [arch=amd64] https://apt.releases.hashicorp.com </span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">$(</span><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">lsb_release</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-cs</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">)</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;"> main"</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-8" class="code-annotation-target"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sudo</span> apt update <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sudo</span> apt-get install terraform</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-9" class="code-annotation-target"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">terraform</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--version</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<dl>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="8" data-code-cell="annotated-cell-1" data-code-annotation="1">Update system and install terraform</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="9" data-code-cell="annotated-cell-1" data-code-annotation="2">Verify installation</span>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<p>Additionally, operating from terminal can be strengthened using <code>tab completion</code>. Refer <a href="https://developer.hashicorp.com/terraform/tutorials/docker-get-started/install-cli#enable-tab-completion">this</a>.</p>
+</section>
+<section id="docker-installation---optional-but-recommended" class="level1">
+<h1>Docker Installation - Optional but recommended</h1>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs"><li class="nav-item"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" aria-controls="tabset-2-1" aria-selected="true">Mac</a></li><li class="nav-item"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" aria-controls="tabset-2-2" aria-selected="false">Ubuntu Compute instance</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" aria-labelledby="tabset-2-1-tab">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Terminal</strong></pre>
+</div>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">cd</span> ~</span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">wget</span> https://desktop.docker.com/mac/main/arm64/Docker.dmg</span></code></pre></div>
+</div>
+<p>Double click on the <code>.dmg</code> file to install. Refer this <a href="https://docs.docker.com/desktop/install/mac-install/#install-and-run-docker-desktop-on-mac">section</a> for more.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that both docker engine and docker-compose are bundled with desktop in Mac</p>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" aria-labelledby="tabset-2-2-tab">
+<p>Since we’re using a cloud instance we don’t need to install docker desktop. We can go ahead install just <code>docker</code> engine and <code>docker-compose</code>.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Terminal</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-1" style="background: #f1f3f5;"><pre class="sourceCode bash code-annotation-code code-with-copy"><code class="sourceCode bash"><span id="annotated-cell-1-1"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">cd</span> ~</span>
+<span id="annotated-cell-1-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sudo</span> apt update <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sudo</span> apt install docker.io <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-y</span></span>
+<span id="annotated-cell-1-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mkdir</span> soft <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">cd</span> soft </span>
+<span id="annotated-cell-1-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">wget</span> https://github.com/docker/compose/releases/download/v2.17.2/docker-compose-linux-x86_64 <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-O</span> docker-compose </span>
+<span id="annotated-cell-1-5"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">chmod</span> +x docker-compose</span>
+<span id="annotated-cell-1-6"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">echo</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'export PATH="/home/'</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">$USER</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'/soft:$PATH"'</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;&gt;</span> ~/.bashrc</span>
+<span id="annotated-cell-1-7"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sudo</span> groupadd docker </span>
+<span id="annotated-cell-1-8"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sudo</span> usermod <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-aG</span> docker <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">$USER</span></span></code></pre></div>
+</div>
+<dl>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="2" data-code-cell="annotated-cell-1" data-code-annotation="1">Update system and install docker-enginer</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="5" data-code-cell="annotated-cell-1" data-code-annotation="2">Create a new directory, download docker-compose and make it executable</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-lines="6" data-code-cell="annotated-cell-1" data-code-annotation="3">Export the path of the docker-compose exe to system’s PATH.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-lines="8" data-code-cell="annotated-cell-1" data-code-annotation="4">Add docker to the group and user management.</span>
+</dd>
+</dl>
+<p>Now logout and log back into the instance. To test if docker is installed correctly run,</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Terminal</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-2" style="background: #f1f3f5;"><pre class="sourceCode bash code-annotation-code code-with-copy code-annotated"><code class="sourceCode bash"><button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-1" class="code-annotation-target"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">docker</span> run <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--rm</span> hello-world</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="1" data-code-cell="annotated-cell-2" data-code-annotation="1"><code>hello-world</code> docker image will be downloaded and run. A message <code>Hello from Docker!</code> will be displayed.</span>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</section>
+<section id="getting-started-with-terraform" class="level1">
+<h1>Getting started with Terraform</h1>
+<ol type="1">
+<li>In Mac start <code>docker-desktop</code> either clicking the app or using <code>open -a Docker</code> in terminal. In <code>Ubuntu</code> the <code>docker-engine</code> is running in the background so this step is not needed.</li>
+<li>Make a new directory for this tutorial using <code>mkdir tf-1</code> and go inside it.</li>
+<li>Create a <code>main.tf</code> and copy the following contents into it.</li>
+</ol>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>main.tf</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-1" style="background: #f1f3f5;"><pre class="sourceCode yaml code-annotation-code code-with-copy code-annotated"><code class="sourceCode yaml"><span id="annotated-cell-1-1"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">terraform {</span></span>
+<span id="annotated-cell-1-2"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  required_providers {</span></span>
+<span id="annotated-cell-1-3"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    docker = {</span></span>
+<span id="annotated-cell-1-4"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      source  = "kreuzwerker/docker"</span></span>
+<span id="annotated-cell-1-5"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      version = "~&gt; 3.0.1"</span></span>
+<span id="annotated-cell-1-6"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    }</span></span>
+<span id="annotated-cell-1-7"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  }</span></span>
+<span id="annotated-cell-1-8"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span id="annotated-cell-1-9"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">provider "docker" {} </span></span>
+<span id="annotated-cell-1-10"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">resource "docker_image" "nginx" {</span></span>
+<span id="annotated-cell-1-11"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  name         = "nginx"</span></span>
+<span id="annotated-cell-1-12"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  keep_locally = false</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-13" class="code-annotation-target"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span id="annotated-cell-1-14"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">resource "docker_container" "nginx" {</span></span>
+<span id="annotated-cell-1-15"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  image = docker_image.nginx.image_id</span></span>
+<span id="annotated-cell-1-16"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  name  = "tutorial"</span></span>
+<span id="annotated-cell-1-17"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  ports {</span></span>
+<span id="annotated-cell-1-18"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    internal = 80</span></span>
+<span id="annotated-cell-1-19"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    external = 8000</span></span>
+<span id="annotated-cell-1-20"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  }</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-21" class="code-annotation-target"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">}</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<dl>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="8" data-code-cell="annotated-cell-1" data-code-annotation="1">Check terraform version and downloads a docker plugin</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="13" data-code-cell="annotated-cell-1" data-code-annotation="2">Downloads the nginx docker image</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-lines="21" data-code-cell="annotated-cell-1" data-code-annotation="3">Create a nginx docker container and maps the port 80 to 8000</span>
+</dd>
+</dl>
+<section id="what-is-main.tf" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-main.tf">What is main.tf?</h2>
+<p>It is a terraform configuration file that describes infrastructure in Terraform. Each terraform config needs a separate directory with a single <code>main.tf</code>.</p>
+<p>This file contains:</p>
+<ul>
+<li>Terraform block</li>
+<li>Providers</li>
+<li>Resources</li>
+</ul>
+<section id="terraform-block" class="level3">
+<h3 class="anchored" data-anchor-id="terraform-block">Terraform block</h3>
+<p>This block contains Terraform settings for require providers that Terraform will use to provision infrastructure. In our case it is <code>kreuzwerker/docker</code> as <code>source</code>. <code>kreuzwereker</code> is the provider/developer/host and <code>docker</code> is the product we are interested in using. We can specify the minimum version to install. If not mentioned, Terraform will install the lastest version available. Terraform registry is default place to look for popular providers such as AWS, GCP, Azure.</p>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">terraform {</span></span>
+<span id="cb2-2"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  required_providers {</span></span>
+<span id="cb2-3"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    docker = {</span></span>
+<span id="cb2-4"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      source  = "kreuzwerker/docker"</span></span>
+<span id="cb2-5"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      version = "~&gt; 3.0.1"</span></span>
+<span id="cb2-6"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    }</span></span>
+<span id="cb2-7"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  }</span></span>
+<span id="cb2-8"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">}</span></span></code></pre></div>
+</section>
+<section id="providers" class="level3">
+<h3 class="anchored" data-anchor-id="providers">Providers</h3>
+<p>Now that Terraform knows the “source”, we need to provide a “provider”. Docker is our choice. In this block we can configure <code>docker</code> provider.</p>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">provider "docker" {}</span></span></code></pre></div>
+</section>
+<section id="resources" class="level3">
+<h3 class="anchored" data-anchor-id="resources">Resources</h3>
+<p>A resource block is used to define components of the provider previously mentioned. So we have a docker provider. We need a docker image and build a container for that image.</p>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb4-1"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">resource "docker_image" "nginx" {</span></span>
+<span id="cb4-2"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  name         = "nginx"</span></span>
+<span id="cb4-3"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  keep_locally = false</span></span>
+<span id="cb4-4"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span id="cb4-5"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">resource "docker_container" "nginx" {</span></span>
+<span id="cb4-6"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  image = docker_image.nginx.image_id</span></span>
+<span id="cb4-7"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  name  = "tutorial"</span></span>
+<span id="cb4-8"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  ports {</span></span>
+<span id="cb4-9"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    internal = 80</span></span>
+<span id="cb4-10"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    external = 8000</span></span>
+<span id="cb4-11"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  }</span></span>
+<span id="cb4-12"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">}</span></span></code></pre></div>
+<p>The resource block takes two strings - <code>resource type</code> and <code>resource name</code>. <code>docker_image</code> is the type and <code>nginx</code> is the name. These two together <code>docker_image.nginx</code> form a unique ID for the resource. For <code>docker_container</code> resource, we use the image from the previous block as reference. So a container is created with that image and ports are also mapped.</p>
+</section>
+</section>
+<section id="validate-and-initialise-the-configuration" class="level2">
+<h2 class="anchored" data-anchor-id="validate-and-initialise-the-configuration">Validate and initialise the configuration</h2>
+<p>Terraform has a bunch of CLI commands to make things easier and faster. One needs to remember only 5-6 commands. Rest can be looked up later.</p>
+<p>To validate the configuration we use</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Terminal</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-5" style="background: #f1f3f5;"><pre class="sourceCode bash code-annotation-code code-with-copy code-annotated"><code class="sourceCode bash"><button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-1" class="code-annotation-target"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">terrform</span> validate</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="1" data-code-cell="annotated-cell-5" data-code-annotation="1">Returns “Success! The configuration is valid.” if syntactically valid.</span>
+</dd>
+</dl>
+<p>Then we need to initialise our configuration. This process will download and install the providers mentioned. This command will create a hidden directory <code>.terraform</code> and install <code>docker</code> provider. Terraform also creates a lock file named .terraform.lock.hcl which specifies the exact provider versions used, so that you can control when you want to update the providers used for your project.</p>
+</section>
+<section id="plan-and-create-infrastructure" class="level2">
+<h2 class="anchored" data-anchor-id="plan-and-create-infrastructure">Plan and create infrastructure</h2>
+<p>Terraform allows us to see what will be created through <code>terraform plan</code> commands. This command is used to give an overview of the things that will be created. An extra, precautionary step. It looks trivial for our use case but imagine a big organisation with several team members managing infrastructure. Even deleting a resource accidently will create chaos. It is always advised to run <code>terraform plan</code>, overview and then go ahead with creating resources.</p>
+<p><code>terraform apply</code> is then given to apply the configuration. This is then <code>approved</code> to actually create resources. In our case a <code>nginx</code> docker image is downloaded and container using that image is created with port forwarding.</p>
+</section>
+<section id="result" class="level2">
+<h2 class="anchored" data-anchor-id="result">Result</h2>
+<p>A nginx server has been started and we can access it through <code>http:127.0.0.1:8000</code>. We will be greeted with a message “Welcome to nginx!”.</p>
+<p><img src="https://dr563105.github.io/posts/2023-06-02-Terraform-setup/nginx_success.png" class="img-fluid"></p>
+</section>
+<section id="terraform-state" class="level2">
+<h2 class="anchored" data-anchor-id="terraform-state">Terraform state</h2>
+<p>Terraform has a state(status) file which stores the current state(metadata) of the infrastructure. Any changes to the resource configuration will be reflected into this file. If working in a team, it is advised to store this state file remotely such as <code>s3</code>, <code>gcs</code> etc with versioning and state locking.</p>
+<section id="tweaking-the-infrastructure" class="level3">
+<h3 class="anchored" data-anchor-id="tweaking-the-infrastructure">Tweaking the infrastructure</h3>
+<p>To understand state file better, we shall change the port from <code>8000</code> to <code>8010</code> in the <code>docker_container</code> resource block.</p>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb5-1"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">resource "docker_container" "nginx" {</span></span>
+<span id="cb5-2"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  image = docker_image.nginx.image_id</span></span>
+<span id="cb5-3"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  name  = "tutorial"</span></span>
+<span id="cb5-4"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  ports {</span></span>
+<span id="cb5-5"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    internal = 80</span></span>
+<span id="cb5-6"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    external = 8010</span></span>
+<span id="cb5-7"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  }</span></span>
+<span id="cb5-8"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">}</span></span></code></pre></div>
+<p>You will see that there will be two state files - <code>terraform.tfstate</code> and <code>terraform.tfstate.backup</code>. On the first run both file’s contents will be same. However, now that we changed the port to <code>8010</code>, <code>terraform.tfstate</code> will change <code>8010</code> but the <code>backup</code> file will retain <code>8000</code>. This is Terraform’s <code>rollback</code> feature.</p>
+<p>Apply the changes using <code>terraform apply</code>.</p>
+<p><img src="https://dr563105.github.io/posts/2023-06-02-Terraform-setup/change-tf.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="destroy-infrastructure" class="level2">
+<h2 class="anchored" data-anchor-id="destroy-infrastructure">Destroy infrastructure</h2>
+<p>To destroy resources after use, we can use <code>terraform destroy</code> command. Review the plan and approve it. Be cautious using this command in an organisation.</p>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>We setup Terraform in our machine, created an infrastructure and managed it. To know more about docker with terraform, refer <a href="https://developer.hashicorp.com/terraform/tutorials/docker-get-started">this</a> guide.</p>
+
+
+</section>
+
+ ]]></description>
+  <guid>https://dr563105.github.io/posts/2023-06-02-Terraform-setup/index.html</guid>
+  <pubDate>Fri, 02 Jun 2023 00:00:00 GMT</pubDate>
+  <media:content url="https://dr563105.github.io/posts/2023-06-02-Terraform-setup/tf.png" medium="image" type="image/png" height="50" width="144"/>
+</item>
 <item>
   <title>Getting started with S3 using boto3</title>
   <link>https://dr563105.github.io/posts/2023-04-27-getting-started-with-s3/index.html</link>
@@ -859,15 +1425,15 @@ font-style: inherit;">1</span></span><div class="code-annotation-gutter-bg"></di
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="2" data-code-cell="annotated-cell-3" data-code-annotation="1">Choose which program to use to view PDF file.</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="2" data-code-annotation="1">Choose which program to use to view PDF file.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="5" data-code-cell="annotated-cell-3" data-code-annotation="2">Value 1 allows forward search after every successful compilation.</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="5" data-code-annotation="2">Value 1 allows forward search after every successful compilation.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-lines="6" data-code-cell="annotated-cell-3" data-code-annotation="3">Value 1 allows change focus to skim after command <code>:VimtexView</code> is given.</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="6" data-code-annotation="3">Value 1 allows change focus to skim after command <code>:VimtexView</code> is given.</span>
 </dd>
 </dl>
 <p>The forward search allows any change made in the TeX file automatically refreshes Skim to reflect those changes in PDF. One of the other common uses is cursor sync between the TeX file and PDF. Setting <code>let g:vimtex_view_skim_sync</code> allows placing the cursor in some position in the Tex file sync with the same position in the PDF after every successful compilation(<code>:VimtexCompile</code>). Setting <code>let g:vimtex_view_skim_activate</code> allows to shift focus of control from neovim to Skim and bring it to foreground.</p>
@@ -3448,11 +4014,11 @@ font-style: inherit;">brew</span> install stow</span><div class="code-annotation
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-1" data-code-lines="1">Ubuntu</span>
+<span data-code-lines="1" data-code-annotation="1" data-code-cell="annotated-cell-1">Ubuntu</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-1" data-code-lines="3">Homebrew Mac</span>
+<span data-code-lines="3" data-code-annotation="2" data-code-cell="annotated-cell-1">Homebrew Mac</span>
 </dd>
 </dl>
 </section>
@@ -3506,19 +4072,19 @@ font-style: inherit;">&gt;</span></span><div class="code-annotation-gutter-bg"><
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-2" data-code-lines="1">activates symlink</span>
+<span data-code-lines="1" data-code-annotation="1" data-code-cell="annotated-cell-2">activates symlink</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-2" data-code-lines="2">trial runs or simulates symlink generation. Effective for checking for errors</span>
+<span data-code-lines="2" data-code-annotation="2" data-code-cell="annotated-cell-2">trial runs or simulates symlink generation. Effective for checking for errors</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-2" data-code-lines="3">delete stowed package</span>
+<span data-code-lines="3" data-code-annotation="3" data-code-cell="annotated-cell-2">delete stowed package</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-annotation="4" data-code-cell="annotated-cell-2" data-code-lines="4">restows package</span>
+<span data-code-lines="4" data-code-annotation="4" data-code-cell="annotated-cell-2">restows package</span>
 </dd>
 </dl>
 </section>
