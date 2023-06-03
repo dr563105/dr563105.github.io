@@ -49,6 +49,8 @@ Below is the code for the flask application.
 ```{.python filename="flask-app.py"}
 import pandas as pd
 from flask import Flask, jsonify, request
+from zipfile import ZipFile as zf
+import os
 
 def read_parquet_files(filename: str) -> pd.DataFrame:
     """
@@ -58,7 +60,12 @@ def read_parquet_files(filename: str) -> pd.DataFrame:
     return df
 
 
-df_test_preds = read_parquet_files("lgb_preds.parquet") # <1>
+if os.path.exists("lgb_preds.parquet"):
+    df_test_preds = read_parquet_files("lgb_preds.parquet")
+else:   
+    with zf("lgb_preds.parquet.zip") as zipfile:
+        zipfile.extract("lgb_preds.parquet")
+    df_test_preds = read_parquet_files("lgb_preds.parquet") # <1>
 
 df_items = read_parquet_files("items.parquet")
 
@@ -169,7 +176,7 @@ COPY [ "Pipfile", "Pipfile.lock", "./" ]
 
 RUN pipenv install --system --deploy
 
-COPY [ "lgb_preds.parquet" , "lgb_preds.parquet" ]
+COPY [ "lgb_preds.parquet.zip" , "lgb_preds.parquet.zip" ]
 COPY [ "items.parquet" , "items.parquet" ]
 
 COPY ["flask_app.py", "flask_app.py"]
