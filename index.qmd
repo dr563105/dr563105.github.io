@@ -3,7 +3,9 @@ sidebar: false
 listing:
   - id: posts-listing
     contents: posts/**/*.qmd
-    sort: "date desc"
+    sort: 
+      - "date desc"
+      - "title asc"
     type: table
     table-hover: true
     categories: true
