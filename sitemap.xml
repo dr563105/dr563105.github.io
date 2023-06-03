@@ -2,66 +2,70 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://dr563105.github.io/notes/py_for_finance.html</loc>
-    <lastmod>2023-06-03T12:10:04.653Z</lastmod>
+    <lastmod>2023-06-03T16:24:20.858Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/notes/python_concepts.html</loc>
-    <lastmod>2023-06-03T12:10:04.653Z</lastmod>
+    <lastmod>2023-06-03T16:24:20.858Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/resume.html</loc>
-    <lastmod>2023-06-03T12:10:04.873Z</lastmod>
+    <lastmod>2023-06-03T16:24:20.994Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/index.html</loc>
-    <lastmod>2023-06-03T12:10:04.641Z</lastmod>
+    <lastmod>2023-06-03T16:24:20.846Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/index.html</loc>
-    <lastmod>2023-06-03T12:10:04.677Z</lastmod>
+    <lastmod>2023-06-03T16:24:20.882Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/posts/2023-04-27-getting-started-with-s3/index.html</loc>
-    <lastmod>2023-06-03T12:10:04.657Z</lastmod>
+    <lastmod>2023-06-03T16:24:20.862Z</lastmod>
   </url>
   <url>
-    <loc>https://dr563105.github.io/posts/2022-09-24-using-json-normalize/index.html</loc>
-    <lastmod>2023-06-03T12:10:04.653Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2022-01-09-dotfiles/index.html</loc>
-    <lastmod>2023-06-03T12:10:04.653Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/projects/mlops.html</loc>
-    <lastmod>2023-06-03T12:10:04.873Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/projects/index.html</loc>
-    <lastmod>2023-06-03T12:10:04.873Z</lastmod>
+    <loc>https://dr563105.github.io/posts/2023-06-03-lambda-docker/index.html</loc>
+    <lastmod>2023-06-03T16:24:20.946Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/posts/2023-06-02-Terraform-setup/index.html</loc>
-    <lastmod>2023-06-03T12:10:04.661Z</lastmod>
+    <lastmod>2023-06-03T16:24:20.866Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/projects/index.html</loc>
+    <lastmod>2023-06-03T16:24:20.994Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/projects/mlops.html</loc>
+    <lastmod>2023-06-03T16:24:20.994Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2022-01-09-dotfiles/index.html</loc>
+    <lastmod>2023-06-03T16:24:20.858Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2022-09-24-using-json-normalize/index.html</loc>
+    <lastmod>2023-06-03T16:24:20.858Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/posts/2021-09-18-kaggle-setup/index.html</loc>
-    <lastmod>2023-06-03T12:10:04.653Z</lastmod>
+    <lastmod>2023-06-03T16:24:20.858Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/posts/2023-04-27-getting-started-with-s3/data/30-days-create-folds.html</loc>
-    <lastmod>2023-06-03T12:10:04.653Z</lastmod>
+    <lastmod>2023-06-03T16:24:20.858Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/posts/2023-02-06-skim-vimtex/index.html</loc>
-    <lastmod>2023-06-03T12:10:04.653Z</lastmod>
+    <lastmod>2023-06-03T16:24:20.858Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/archive.html</loc>
-    <lastmod>2023-06-03T12:10:04.641Z</lastmod>
+    <lastmod>2023-06-03T16:24:20.846Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/about.html</loc>
-    <lastmod>2023-06-03T12:10:04.641Z</lastmod>
+    <lastmod>2023-06-03T16:24:20.846Z</lastmod>
   </url>
 </urlset>

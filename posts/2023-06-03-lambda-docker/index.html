@@ -8,9 +8,9 @@
 
 <meta name="author" content="Deepak Ramani">
 <meta name="dcterms.date" content="2023-06-03">
-<meta name="description" content="A short guide to deploy flask application using docker">
+<meta name="description" content="A short post on using docker to deploy lambda function locally">
 
-<title>Deepak Ramani’s blog - Deploy with Docker</title>
+<title>Deepak Ramani’s blog - Deploy Lambda function using Docker - Part 1</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -135,18 +135,18 @@ cookieconsent.run({
 <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9028821857593432" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Deepak Ramani’s blog - Deploy with Docker">
-<meta property="og:description" content="A short guide to deploy flask application using docker">
-<meta property="og:image" content="https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/docker-logo.png">
+<meta property="og:title" content="Deepak Ramani’s blog - Deploy Lambda function using Docker - Part 1">
+<meta property="og:description" content="A short post on using docker to deploy lambda function locally">
+<meta property="og:image" content="https://dr563105.github.io/posts/2023-06-03-lambda-docker/docker-lambda.png">
 <meta property="og:site-name" content="Deepak Ramani's blog">
-<meta property="og:image:height" content="2160">
-<meta property="og:image:width" content="3840">
-<meta name="twitter:title" content="Deepak Ramani’s blog - Deploy with Docker">
-<meta name="twitter:description" content="A short guide to deploy flask application using docker">
-<meta name="twitter:image" content="https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/docker-logo.png">
+<meta property="og:image:height" content="324">
+<meta property="og:image:width" content="880">
+<meta name="twitter:title" content="Deepak Ramani’s blog - Deploy Lambda function using Docker - Part 1">
+<meta name="twitter:description" content="A short post on using docker to deploy lambda function locally">
+<meta name="twitter:image" content="https://dr563105.github.io/posts/2023-06-03-lambda-docker/docker-lambda.png">
 <meta name="twitter:creator" content="@thosegradients">
-<meta name="twitter:image-height" content="2160">
-<meta name="twitter:image-width" content="3840">
+<meta name="twitter:image-height" content="324">
+<meta name="twitter:image-width" content="880">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -192,17 +192,17 @@ cookieconsent.run({
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Deploy with Docker</h1>
+      <h1 class="title">Deploy Lambda function using Docker - Part 1</h1>
                   <div>
         <div class="description">
-          A short guide to deploy flask application using docker
+          A short post on using docker to deploy lambda function locally
         </div>
       </div>
                           <div class="quarto-categories">
                 <div class="quarto-category">docker</div>
-                <div class="quarto-category">flask</div>
-                <div class="quarto-category">deployment</div>
                 <div class="quarto-category">pipenv</div>
+                <div class="quarto-category">lambda_function</div>
+                <div class="quarto-category">AWS Lambda</div>
               </div>
                   </div>
   </div>
@@ -237,21 +237,15 @@ cookieconsent.run({
   <ul class="collapse">
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
   <ul class="collapse">
-  <li><a href="#possible-approaches" id="toc-possible-approaches" class="nav-link" data-scroll-target="#possible-approaches">Possible approaches</a></li>
+  <li><a href="#why-lambda_function" id="toc-why-lambda_function" class="nav-link" data-scroll-target="#why-lambda_function">Why Lambda_function?</a></li>
+  <li><a href="#aws-lambda-handler" id="toc-aws-lambda-handler" class="nav-link" data-scroll-target="#aws-lambda-handler">AWS Lambda Handler</a></li>
+  <li><a href="#dockerfile" id="toc-dockerfile" class="nav-link" data-scroll-target="#dockerfile">Dockerfile</a></li>
+  <li><a href="#docker-image-build-and-running-the-container" id="toc-docker-image-build-and-running-the-container" class="nav-link" data-scroll-target="#docker-image-build-and-running-the-container">Docker image build and running the container</a></li>
   </ul></li>
-  <li><a href="#docker" id="toc-docker" class="nav-link" data-scroll-target="#docker">Docker</a>
-  <ul class="collapse">
-  <li><a href="#why-flask" id="toc-why-flask" class="nav-link" data-scroll-target="#why-flask">Why Flask?</a></li>
-  <li><a href="#flask-application" id="toc-flask-application" class="nav-link" data-scroll-target="#flask-application">Flask application</a></li>
-  <li><a href="#dependencies-install" id="toc-dependencies-install" class="nav-link" data-scroll-target="#dependencies-install">Dependencies install</a></li>
-  <li><a href="#pipenv-pipfile-and-pipfile.lock" id="toc-pipenv-pipfile-and-pipfile.lock" class="nav-link" data-scroll-target="#pipenv-pipfile-and-pipfile.lock">Pipenv, Pipfile and Pipfile.lock</a></li>
-  <li><a href="#dockerfile-and-building-docker-image" id="toc-dockerfile-and-building-docker-image" class="nav-link" data-scroll-target="#dockerfile-and-building-docker-image">Dockerfile and building docker image</a></li>
-  <li><a href="#running-the-docker-container" id="toc-running-the-docker-container" class="nav-link" data-scroll-target="#running-the-docker-container">Running the docker container</a></li>
-  <li><a href="#testing-the-application" id="toc-testing-the-application" class="nav-link" data-scroll-target="#testing-the-application">Testing the application</a></li>
-  </ul></li>
+  <li><a href="#test-lambda-function-locally" id="toc-test-lambda-function-locally" class="nav-link" data-scroll-target="#test-lambda-function-locally">Test Lambda function locally</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/dr563105/dr563105.github.io/blob/master/posts/2023-06-03-deploy-with-docker/index.qmd" class="toc-action">View source</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/dr563105/dr563105.github.io/blob/master/posts/2023-06-03-lambda-docker/index.qmd" class="toc-action">View source</a></p></div></div></nav>
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
@@ -274,235 +268,177 @@ cookieconsent.run({
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>A customer wants to build a web application on machine learning trained model. They approach us to find a simple solution. They give us a trained model file in <code>parquet</code> format. We need to look up for a potential sale price of a product within the given time period and store number. How can it be achieved?</p>
-<section id="possible-approaches" class="level2">
-<h2 class="anchored" data-anchor-id="possible-approaches">Possible approaches</h2>
-<p>There are three possibilities to solve this problem:</p>
-<ol type="1">
-<li><p>Use python testing functionality, give the inputs and generate outputs.</p></li>
-<li><p>Spin up a Flask application with an endpoint, pass arguments into it and generate outputs.</p></li>
-<li><p>Build a docker image with Flask and its dependencies, run it and pass arguments.</p></li>
-</ol>
-<p>All the three approaches are technical. In other words, there are chances of failures that may be replicable. To allow for minimal error, we will choose the docker option which packages the second, Flask application.</p>
+<p>This post is a follow up to my previous <a href="https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/">post</a> on deploying with docker. This will be part 1 of the deploy using Docker series. In this part, I will introduce the concept of <code>lambda_function</code> and how it can tested locally.</p>
+<section id="why-lambda_function" class="level2">
+<h2 class="anchored" data-anchor-id="why-lambda_function">Why Lambda_function?</h2>
+<p>The customer from my previous post doesn’t want to keep things in their local machine and wish for a cloud option. Also don’t want to reserve resources as they expect only intermittent requests. What could be a viable solution? Enter <strong>Lambda_function</strong>. Each cloud provider has other own name for lambda function. We will use AWS and it is called <code>Lambda</code>.</p>
+<p>AWS Lambda is a serverless compute service that run code in reponse to an event and automatically manages the underlying compute resources for us. Moreover we pay only for what we use.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>Before transitioning into AWS Lambda cloud solution, we can modify our program to AWS Lambda coding standards and test it locally.</p>
 </section>
-</section>
-<section id="docker" class="level1">
-<h1>Docker</h1>
-<p>Docker is a service that allows to package the software as containers. This container contains all the necessary packages to successfully run the software. A customer’s machine might be different from the software developer’s. Using Docker we can eliminate that bottleneck. The customer just needs to use the container for their purpose. Any failure they encounter can be easily duplicated in developer’s environment.</p>
-<p>In my previous <a href="https://dr563105.github.io/posts/2023-06-02-Terraform-setup/#docker-installation---optional-but-recommended">post</a> I show how to install docker in Apple Silicon and Ubuntu cloud instance. When I develop in my Apple Silicon Macbook, I get small, frustrating, unexpected errors only to know that it is due to Apple Silicon(ARM64) architecture. So for this purpose I recommend using an Ubuntu machine.</p>
-<section id="why-flask" class="level2">
-<h2 class="anchored" data-anchor-id="why-flask">Why Flask?</h2>
-<p>Flask is a popular Python microframework for developing web applications. It is also known for its simplicity, flexibility and scalability. Since we want to use Python and make it simple for us to maintain, we will choose Flask.</p>
-</section>
-<section id="flask-application" class="level2">
-<h2 class="anchored" data-anchor-id="flask-application">Flask application</h2>
-<p>A web application is similar to visiting a website through an address. Such as visiting your gmail account using <code>mail.google.com</code>. The gmail website is hosted in many servers across the world. A server closest to your location will serve you when you open up the website. Similarly in our case we need to host our application somewhere. We will, for now, choose the local option; meaning in our local machine.</p>
-<p>Using Flask we host our application in a particular location(endpoint) and through a port locally. I choose this location to be <code>http://localhost:9696/predict-sales</code>.</p>
-<p>Below is the code for the flask application.</p>
+<section id="aws-lambda-handler" class="level2">
+<h2 class="anchored" data-anchor-id="aws-lambda-handler">AWS Lambda Handler</h2>
+<p>Lambda function handler has certain coding standards. <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> For example, the name of the python file must be <code>lambda_function.py</code> and the handler function <code>lambda_handler</code>.</p>
+<p>Going by that standard, we can modify our <code>flask-app.py</code> from previous post to <code>lambda_function.py</code>.</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
-<pre><strong>flask-app.py</strong></pre>
+<pre><strong>lambda_function.py</strong></pre>
 </div>
-<div class="sourceCode" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> flask <span class="im">import</span> Flask, jsonify, request</span>
-<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> zipfile <span class="im">import</span> ZipFile <span class="im">as</span> zf</span>
-<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> read_parquet_files(filename: <span class="bu">str</span>) <span class="op">-&gt;</span> pd.DataFrame:</span>
-<span id="annotated-cell-1-7"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Read parquet file format for given filename and returns the contents</span></span>
-<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="annotated-cell-1-10"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.read_parquet(filename, engine<span class="op">=</span><span class="st">"pyarrow"</span>)</span>
-<span id="annotated-cell-1-11"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span>
-<span id="annotated-cell-1-12"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a></span>
+<div class="sourceCode" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> read_parquet_files(filename: <span class="bu">str</span>):</span>
+<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Read parquet file format for given filename and returns the contents</span></span>
+<span id="annotated-cell-1-7"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.read_parquet(filename, engine<span class="op">=</span><span class="st">"pyarrow"</span>)</span>
+<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span>
+<span id="annotated-cell-1-10"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-11"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a>df_test_preds <span class="op">=</span> read_parquet_files(<span class="st">"lgb_preds.parquet"</span>)</span>
+<span id="annotated-cell-1-12"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a>df_items <span class="op">=</span> read_parquet_files(<span class="st">"items.parquet"</span>)</span>
 <span id="annotated-cell-1-13"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-1-14"><a href="#annotated-cell-1-14" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> os.path.exists(<span class="st">"lgb_preds.parquet"</span>):</span>
-<span id="annotated-cell-1-15"><a href="#annotated-cell-1-15" aria-hidden="true" tabindex="-1"></a>    df_test_preds <span class="op">=</span> read_parquet_files(<span class="st">"lgb_preds.parquet"</span>)</span>
-<span id="annotated-cell-1-16"><a href="#annotated-cell-1-16" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:   </span>
-<span id="annotated-cell-1-17"><a href="#annotated-cell-1-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> zf(<span class="st">"lgb_preds.parquet.zip"</span>) <span class="im">as</span> zipfile:</span>
-<span id="annotated-cell-1-18"><a href="#annotated-cell-1-18" aria-hidden="true" tabindex="-1"></a>        zipfile.extract(<span class="st">"lgb_preds.parquet"</span>)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-19" class="code-annotation-target"><a href="#annotated-cell-1-19" aria-hidden="true" tabindex="-1"></a>    df_test_preds <span class="op">=</span> read_parquet_files(<span class="st">"lgb_preds.parquet"</span>)</span>
-<span id="annotated-cell-1-20"><a href="#annotated-cell-1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-1-21"><a href="#annotated-cell-1-21" aria-hidden="true" tabindex="-1"></a>df_items <span class="op">=</span> read_parquet_files(<span class="st">"items.parquet"</span>)</span>
-<span id="annotated-cell-1-22"><a href="#annotated-cell-1-22" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-23" class="code-annotation-target"><a href="#annotated-cell-1-23" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> Flask(<span class="st">"flask-unit-sales-prediction"</span>)</span>
-<span id="annotated-cell-1-24"><a href="#annotated-cell-1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-1-25"><a href="#annotated-cell-1-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-1-26"><a href="#annotated-cell-1-26" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict(find: request, item_idx: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
-<span id="annotated-cell-1-27"><a href="#annotated-cell-1-27" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="annotated-cell-1-28"><a href="#annotated-cell-1-28" aria-hidden="true" tabindex="-1"></a><span class="co">    Takes the json inputs, processes it and outputs the unit sales</span></span>
-<span id="annotated-cell-1-29"><a href="#annotated-cell-1-29" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="annotated-cell-1-30"><a href="#annotated-cell-1-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="annotated-cell-1-31"><a href="#annotated-cell-1-31" aria-hidden="true" tabindex="-1"></a>        idx <span class="op">=</span> pd.IndexSlice</span>
-<span id="annotated-cell-1-32"><a href="#annotated-cell-1-32" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> df_test_preds.loc[idx[find[<span class="st">"store_nbr"</span>], item_idx, find[<span class="st">"date1"</span>]]][</span>
-<span id="annotated-cell-1-33"><a href="#annotated-cell-1-33" aria-hidden="true" tabindex="-1"></a>            <span class="st">"unit_sales"</span></span>
-<span id="annotated-cell-1-34"><a href="#annotated-cell-1-34" aria-hidden="true" tabindex="-1"></a>        ]</span>
-<span id="annotated-cell-1-35"><a href="#annotated-cell-1-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
-<span id="annotated-cell-1-36"><a href="#annotated-cell-1-36" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"This item is not present this store. Try some other item"</span>)</span>
-<span id="annotated-cell-1-37"><a href="#annotated-cell-1-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">-</span><span class="fl">0.0</span></span>
-<span id="annotated-cell-1-38"><a href="#annotated-cell-1-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="annotated-cell-1-39"><a href="#annotated-cell-1-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">float</span>(<span class="bu">round</span>(x, <span class="dv">2</span>))</span>
-<span id="annotated-cell-1-40"><a href="#annotated-cell-1-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-1-41"><a href="#annotated-cell-1-41" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-42" class="code-annotation-target"><a href="#annotated-cell-1-42" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">"/predict-sales"</span>, methods<span class="op">=</span>[<span class="st">"POST"</span>])</span>
-<span id="annotated-cell-1-43"><a href="#annotated-cell-1-43" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_endpoint():</span>
-<span id="annotated-cell-1-44"><a href="#annotated-cell-1-44" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="annotated-cell-1-45"><a href="#annotated-cell-1-45" aria-hidden="true" tabindex="-1"></a><span class="co">    flask predict endpoint</span></span>
-<span id="annotated-cell-1-46"><a href="#annotated-cell-1-46" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="annotated-cell-1-47"><a href="#annotated-cell-1-47" aria-hidden="true" tabindex="-1"></a>    find <span class="op">=</span> request.get_json()</span>
-<span id="annotated-cell-1-48"><a href="#annotated-cell-1-48" aria-hidden="true" tabindex="-1"></a>    item <span class="op">=</span> df_items.sample(<span class="dv">1</span>)</span>
-<span id="annotated-cell-1-49"><a href="#annotated-cell-1-49" aria-hidden="true" tabindex="-1"></a>    item_idx, item_family <span class="op">=</span> item.index[<span class="dv">0</span>], item[<span class="st">"family"</span>].values[<span class="dv">0</span>]</span>
-<span id="annotated-cell-1-50"><a href="#annotated-cell-1-50" aria-hidden="true" tabindex="-1"></a>    pred_unit_sales <span class="op">=</span> predict(find, item_idx)</span>
-<span id="annotated-cell-1-51"><a href="#annotated-cell-1-51" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> {</span>
-<span id="annotated-cell-1-52"><a href="#annotated-cell-1-52" aria-hidden="true" tabindex="-1"></a>        <span class="st">" Store"</span>: find[<span class="st">"store_nbr"</span>],</span>
-<span id="annotated-cell-1-53"><a href="#annotated-cell-1-53" aria-hidden="true" tabindex="-1"></a>        <span class="st">" item"</span>: <span class="bu">int</span>(item_idx),</span>
-<span id="annotated-cell-1-54"><a href="#annotated-cell-1-54" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Family"</span>: item_family,</span>
-<span id="annotated-cell-1-55"><a href="#annotated-cell-1-55" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Prediction date"</span>: find[<span class="st">"date1"</span>],</span>
-<span id="annotated-cell-1-56"><a href="#annotated-cell-1-56" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Unit_sales"</span>: pred_unit_sales,</span>
-<span id="annotated-cell-1-57"><a href="#annotated-cell-1-57" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="annotated-cell-1-58"><a href="#annotated-cell-1-58" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><span id="annotated-cell-1-59" class="code-annotation-target"><a href="#annotated-cell-1-59" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> jsonify(result)</span>
-<span id="annotated-cell-1-60"><a href="#annotated-cell-1-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-1-61"><a href="#annotated-cell-1-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-1-62"><a href="#annotated-cell-1-62" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="5">5</button><span id="annotated-cell-1-63" class="code-annotation-target"><a href="#annotated-cell-1-63" aria-hidden="true" tabindex="-1"></a>    app.run(debug<span class="op">=</span><span class="va">True</span>, host<span class="op">=</span><span class="st">"0.0.0.0"</span>, port<span class="op">=</span><span class="dv">9696</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="annotated-cell-1-14"><a href="#annotated-cell-1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict(find, item_idx: <span class="bu">int</span>):</span>
+<span id="annotated-cell-1-15"><a href="#annotated-cell-1-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="annotated-cell-1-16"><a href="#annotated-cell-1-16" aria-hidden="true" tabindex="-1"></a><span class="co">    Takes the json inputs, processes it and outputs the unit sales</span></span>
+<span id="annotated-cell-1-17"><a href="#annotated-cell-1-17" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="annotated-cell-1-18"><a href="#annotated-cell-1-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="annotated-cell-1-19"><a href="#annotated-cell-1-19" aria-hidden="true" tabindex="-1"></a>        idx <span class="op">=</span> pd.IndexSlice</span>
+<span id="annotated-cell-1-20"><a href="#annotated-cell-1-20" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> df_test_preds.loc[idx[find[<span class="st">"store_nbr"</span>], item_idx, find[<span class="st">"date1"</span>]]][</span>
+<span id="annotated-cell-1-21"><a href="#annotated-cell-1-21" aria-hidden="true" tabindex="-1"></a>            <span class="st">"unit_sales"</span></span>
+<span id="annotated-cell-1-22"><a href="#annotated-cell-1-22" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="annotated-cell-1-23"><a href="#annotated-cell-1-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">KeyError</span>:</span>
+<span id="annotated-cell-1-24"><a href="#annotated-cell-1-24" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"This item is not present this store. Try some other item"</span>)</span>
+<span id="annotated-cell-1-25"><a href="#annotated-cell-1-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">-</span><span class="fl">0.0</span></span>
+<span id="annotated-cell-1-26"><a href="#annotated-cell-1-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="annotated-cell-1-27"><a href="#annotated-cell-1-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">float</span>(<span class="bu">round</span>(x, <span class="dv">2</span>))</span>
+<span id="annotated-cell-1-28"><a href="#annotated-cell-1-28" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-29" class="code-annotation-target"><a href="#annotated-cell-1-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lambda_handler(event, context<span class="op">=</span><span class="va">None</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
+<span id="annotated-cell-1-30"><a href="#annotated-cell-1-30" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="annotated-cell-1-31"><a href="#annotated-cell-1-31" aria-hidden="true" tabindex="-1"></a><span class="co">    lambda handler for predict method</span></span>
+<span id="annotated-cell-1-32"><a href="#annotated-cell-1-32" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="annotated-cell-1-33"><a href="#annotated-cell-1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-34"><a href="#annotated-cell-1-34" aria-hidden="true" tabindex="-1"></a>    find <span class="op">=</span> event[<span class="st">"find"</span>]</span>
+<span id="annotated-cell-1-35"><a href="#annotated-cell-1-35" aria-hidden="true" tabindex="-1"></a>    item <span class="op">=</span> df_items.sample(<span class="dv">1</span>)</span>
+<span id="annotated-cell-1-36"><a href="#annotated-cell-1-36" aria-hidden="true" tabindex="-1"></a>    item_idx, item_family <span class="op">=</span> item.index[<span class="dv">0</span>], item[<span class="st">"family"</span>].values[<span class="dv">0</span>]</span>
+<span id="annotated-cell-1-37"><a href="#annotated-cell-1-37" aria-hidden="true" tabindex="-1"></a>    pred_unit_sales <span class="op">=</span> predict(find, item_idx)</span>
+<span id="annotated-cell-1-38"><a href="#annotated-cell-1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-39"><a href="#annotated-cell-1-39" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> {</span>
+<span id="annotated-cell-1-40"><a href="#annotated-cell-1-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">" Store"</span>: find[<span class="st">"store_nbr"</span>],</span>
+<span id="annotated-cell-1-41"><a href="#annotated-cell-1-41" aria-hidden="true" tabindex="-1"></a>        <span class="st">" item"</span>: <span class="bu">int</span>(item_idx),</span>
+<span id="annotated-cell-1-42"><a href="#annotated-cell-1-42" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Family"</span>: item_family,</span>
+<span id="annotated-cell-1-43"><a href="#annotated-cell-1-43" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Prediction date"</span>: find[<span class="st">"date1"</span>],</span>
+<span id="annotated-cell-1-44"><a href="#annotated-cell-1-44" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Unit_sales"</span>: pred_unit_sales,</span>
+<span id="annotated-cell-1-45"><a href="#annotated-cell-1-45" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="annotated-cell-1-46"><a href="#annotated-cell-1-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="19" data-code-annotation="1">Getting the trained model table</span>
-</dd>
-<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
-<dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="23" data-code-annotation="2">Initialising the Flask app</span>
-</dd>
-<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
-<dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="42" data-code-annotation="3">Declaring the endpoint with “POST” as method</span>
-</dd>
-<dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
-<dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="59" data-code-annotation="4">Predicted result that converted to JSON format</span>
-</dd>
-<dt data-target-cell="annotated-cell-1" data-target-annotation="5">5</dt>
-<dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="63" data-code-annotation="5">Spin up flask app</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="29" data-code-annotation="1">Default handler function name</span>
 </dd>
 </dl>
-<p>Flask uses a library called <code>gunicorn</code> to spin up a HTML server. In the code we have dependencies for <code>pandas</code>, <code>pyarrow</code>, <code>numpy</code>. We can’t ask the customer to install these themselves. We intend to use Docker to prevent that criteria. But how to install these dependencies in a docker container?</p>
+<p>Like last time we will use <code>Pipenv</code> to install dependencies. If you’re new, kindly visit <a href="https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/">deploy with docker</a> post to know why we use <code>Pipenv</code>.</p>
 </section>
-<section id="dependencies-install" class="level2">
-<h2 class="anchored" data-anchor-id="dependencies-install">Dependencies install</h2>
-<p>There are number of options available for us:</p>
-<ol type="1">
-<li><p>Use <code>pip</code> and <code>requirements.txt</code>. But tracking package versions might get tedious.</p></li>
-<li><p>Use <code>Anaconda/Miniconda</code>. For local machine they’re fine but for docker container?they install so many unnecessary libraries making container huge in size.</p></li>
-<li><p>Use <code>Poetry</code>. This one is developed to deliver packages. But still it includes libraries unnecessary to us.</p></li>
-<li><p>Use <code>Pipenv</code>. It is much smaller, easy to write and use. Hence I will choose this.</p></li>
-</ol>
-</section>
-<section id="pipenv-pipfile-and-pipfile.lock" class="level2">
-<h2 class="anchored" data-anchor-id="pipenv-pipfile-and-pipfile.lock">Pipenv, Pipfile and Pipfile.lock</h2>
-<p>Pipenv is an advanced version of <code>requirements.txt</code>. It uses inline tables and <a href="https://github.com/toml-lang/toml">TOML spec</a>. We can easily give the package versions we want to install and pipenv internally creates a <code>Pipfile.lock</code> file that contains hashes to each package installed. A convenient solution for our purpose.</p>
-<p>Our <code>Pipfile</code> looks like this:</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Pipfile</strong></pre>
-</div>
-<div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span><span class="at">source</span><span class="kw">]]</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="at">url = "https://pypi.org/simple"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="at">verify_ssl = true</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="at">name = "pypi"</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">[</span><span class="at">packages</span><span class="kw">]</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="at">pandas = "*"</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="at">flask = "*"</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="at">pyarrow = "*"</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="at">gunicorn = "*"</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="at">numpy = "*"</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">[</span><span class="at">dev-packages</span><span class="kw">]</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="at">requests = "*"</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="kw">[</span><span class="at">requires</span><span class="kw">]</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="at">python_version = "3.9"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>On the first run we need to install these packages locally and also to create <code>Pipfile.lock</code>. We can accomplish that using the command <code>pipenv install --dev</code>. I recommend running this inside conda’s <code>base</code> environment. Please don’t use system’s python to manage projects.</p>
-<p><img src="pipenv-install.png" class="img-fluid"></p>
-</section>
-<section id="dockerfile-and-building-docker-image" class="level2">
-<h2 class="anchored" data-anchor-id="dockerfile-and-building-docker-image">Dockerfile and building docker image</h2>
-<p>Dockerfile is a text file that give instructions to docker engine to build an docker image. We choose <code>python 3.9-slim</code> version, install <code>pip</code> and <code>pipenv</code>, copy all the necessary files, importantly expose the port <code>9696</code> and set <code>gunicorn</code> http server as the entrypoint to the image whenever the container is run.</p>
+<section id="dockerfile" class="level2">
+<h2 class="anchored" data-anchor-id="dockerfile">Dockerfile</h2>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Dockerfile</strong></pre>
 </div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">FROM</span> python:3.9.14-slim</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">RUN</span> pip install <span class="at">-U</span> pip</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">RUN</span> pip install pipenv</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">WORKDIR</span> /app</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="ex">COPY</span> [ <span class="st">"Pipfile"</span>, <span class="st">"Pipfile.lock"</span>, <span class="st">"./"</span> ]</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="ex">RUN</span> pipenv install <span class="at">--system</span> <span class="at">--deploy</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="ex">COPY</span> [ <span class="st">"lgb_preds.parquet.zip"</span> , <span class="st">"lgb_preds.parquet.zip"</span> ]</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="ex">COPY</span> [ <span class="st">"items.parquet"</span> , <span class="st">"items.parquet"</span> ]</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="ex">COPY</span> [<span class="st">"flask_app.py"</span>, <span class="st">"flask_app.py"</span>]</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="ex">EXPOSE</span> 9696</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="ex">ENTRYPOINT</span> [ <span class="st">"gunicorn"</span>, <span class="st">"--bind=0.0.0.0:9696"</span>, <span class="st">"flask_sales_predictor:app"</span> ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="annotated-cell-2"><pre class="sourceCode bash code-annotation-code code-with-copy code-annotated"><code class="sourceCode bash"><button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-1" class="code-annotation-target"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">FROM</span> public.ecr.aws/lambda/python:3.9</span>
+<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">RUN</span> pip install <span class="at">-U</span> pip</span>
+<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">RUN</span> pip install pipenv</span>
+<span id="annotated-cell-2-5"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-6"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">COPY</span> [ <span class="st">"Pipfile"</span>, <span class="st">"Pipfile.lock"</span>, <span class="st">"./"</span> ]</span>
+<span id="annotated-cell-2-7"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a><span class="ex">RUN</span> pipenv install <span class="at">--system</span> <span class="at">--deploy</span></span>
+<span id="annotated-cell-2-9"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-2-10"><a href="#annotated-cell-2-10" aria-hidden="true" tabindex="-1"></a><span class="ex">COPY</span> [ <span class="st">"lgb_preds.parquet"</span> , <span class="st">"lgb_preds.parquet"</span> ]</span>
+<span id="annotated-cell-2-11"><a href="#annotated-cell-2-11" aria-hidden="true" tabindex="-1"></a><span class="ex">COPY</span> [ <span class="st">"items.parquet"</span> , <span class="st">"lambda_function.py"</span>, <span class="st">"./"</span> ]</span>
+<span id="annotated-cell-2-12"><a href="#annotated-cell-2-12" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2">2</button><span id="annotated-cell-2-13" class="code-annotation-target"><a href="#annotated-cell-2-13" aria-hidden="true" tabindex="-1"></a><span class="ex">CMD</span> [ <span class="st">"lambda_function.lambda_handler"</span> ]</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>To build a docker image, we use the command <code>docker build -t flask_app:v1 .</code> .</p>
-<p>To verify it is created we can run <code>docker images</code> and look for the name.</p>
-<p><img src="docker-build.png" class="img-fluid"></p>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="1" data-code-annotation="1">Using AWS ECR hosted <code>python-3.9</code> docker image. As to why I will explain in the next part.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="13" data-code-annotation="2">Pay close attention as to how the handler function is invoked. It is not <code>entrypoint</code> like last time.</span>
+</dd>
+</dl>
 </section>
-<section id="running-the-docker-container" class="level2">
-<h2 class="anchored" data-anchor-id="running-the-docker-container">Running the docker container</h2>
-<p>Our software is now packaged as an image. We need to somehow run it to use our application. We can run it through this command</p>
+<section id="docker-image-build-and-running-the-container" class="level2">
+<h2 class="anchored" data-anchor-id="docker-image-build-and-running-the-container">Docker image build and running the container</h2>
+<p>We use the same build command as last time.</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Terminal 1</strong></pre>
 </div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="dt">\</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">-it</span> <span class="dt">\</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">--rm</span> <span class="dt">\</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">-p</span> 9696:9696 <span class="dt">\</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    flask_app:v1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-t</span> lambda-app:v1 .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><img src="docker-run.png" class="img-fluid"></p>
-</section>
-<section id="testing-the-application" class="level2">
-<h2 class="anchored" data-anchor-id="testing-the-application">Testing the application</h2>
-<p>The docker container should be up and running in <code>terminal 1</code>. Now all that is left is test it. For that we need one more file.</p>
+<p>The result if successful would look like this:</p>
+<p><img src="docker-build.png" class="img-fluid"></p>
+<p>Running the container is different this time as the port exposed is different. AWS allows local testing of Lambda function code through a localhost endpoint. This endpoint is at <code>9000</code> port(it can be customised). Inside docker container we make it listen to <code>8080</code> port. So we forward <code>9000</code> to <code>8080</code>.</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
-<pre><strong>test_requests.py in terminal 2</strong></pre>
+<pre><strong>Terminal 1</strong></pre>
 </div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>find <span class="op">=</span> {<span class="st">"date1"</span>: <span class="st">"2017-08-21"</span>, <span class="st">"store_nbr"</span>: <span class="dv">19</span>}</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"http://localhost:9696/predict-sales"</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.post(url, json<span class="op">=</span>find, timeout<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response.json())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="annotated-cell-4"><pre class="sourceCode bash code-annotation-code code-with-copy code-annotated"><code class="sourceCode bash"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="dt">\</span></span>
+<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">-it</span> <span class="dt">\</span></span>
+<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">--rm</span> <span class="dt">\</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">-p</span> 9000:8080 <span class="dt">\</span></span>
+<span id="annotated-cell-4-5"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>    lambda-app:v1</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The <code>test_requests.py</code> file has the input in <code>JSON</code> format and the endpoint url <code>http://localhost:9696/predict-sales</code>. We leverage the requests library to make our requests.</p>
-<p>Open up another <code>terminal</code> or another tab, activate virtual environment and run <code>python test_requests.py</code>. Just python needs to be present inside this environment as everything else is inside the docker container.</p>
-<p>If everything goes well, we should the predicted product price printed.</p>
-<p><img src="docker-testing.png" class="img-fluid"></p>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="4" data-code-annotation="1">port forwarding <code>9000</code> to <code>8080</code></span>
+</dd>
+</dl>
+<p>Result looks like so:</p>
+<p><img src="docker-run.png" class="img-fluid"></p>
 </section>
+</section>
+<section id="test-lambda-function-locally" class="level1">
+<h1>Test Lambda function locally</h1>
+<p>Now to test the function locally we need to create <code>test_docker_fn.py</code> file. Inside this file we can set the <code>url</code> as <code>http://localhost:9000/2015-03-31/functions/function/invocations</code> which is AWS’ local lambda function testing platform.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>test_docker_fn.py</strong></pre>
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>event <span class="op">=</span> {<span class="st">"find"</span>: {<span class="st">"date1"</span>: <span class="st">"2017-08-28"</span>, <span class="st">"store_nbr"</span>: <span class="dv">19</span>}}</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># To test lambda function locally</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"http://localhost:9000/2015-03-31/functions/function/invocations"</span>  </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.post(url, json<span class="op">=</span>event, timeout<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response.json())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We open another terminal and run the file we created.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Terminal 2</strong></pre>
+</div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> test_docker_fn.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If there are no errors, we should see some predictions. <img src="lambda-test.png" class="img-fluid"></p>
 </section>
 <section id="conclusion" class="level1">
 <h1>Conclusion</h1>
-<p>We see how easy it is to build a docker image, deploy it. It requires a bit of steep learning curve but once learnt, it is easier to deploy anything using docker.</p>
+<p>So transitioning to lambda function locally is a success. In the next part, we can migrate completely to AWS cloud.</p>
 
 
 </section>
+<aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>https://aws.amazon.com/lambda/features/<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>https://docs.aws.amazon.com/lambda/latest/dg/python-handler.html<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</aside>
 
 </main> <!-- /main -->
 <!-- <div>
