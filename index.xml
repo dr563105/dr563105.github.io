@@ -10,7 +10,559 @@
 <atom:link href="https://dr563105.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>This is Deepak Ramani&#39;s personal blog.</description>
 <generator>quarto-1.4.119</generator>
-<lastBuildDate>Fri, 02 Jun 2023 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 03 Jun 2023 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Deploy with Docker</title>
+  <dc:creator>Deepak Ramani</dc:creator>
+  <link>https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/index.html</link>
+  <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
+
+
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>A customer wants to build a web application on machine learning trained model. They approach us to find a simple solution. They give us a trained model file in <code>parquet</code> format. We need to look up for a potential sale price of a product within the given time period and store number. How can it be achieved?</p>
+<section id="possible-approaches" class="level2">
+<h2 class="anchored" data-anchor-id="possible-approaches">Possible approaches</h2>
+<p>There are three possibilities to solve this problem:</p>
+<ol type="1">
+<li><p>Use python testing functionality, give the inputs and generate outputs.</p></li>
+<li><p>Spin up a Flask application with an endpoint, pass arguments into it and generate outputs.</p></li>
+<li><p>Build a docker image with Flask and its dependencies, run it and pass arguments.</p></li>
+</ol>
+<p>All the three approaches are technical. In other words, there are chances of failures that may be replicable. To allow for minimal error, we will choose the docker option which packages the second, Flask application.</p>
+</section>
+</section>
+<section id="docker" class="level1">
+<h1>Docker</h1>
+<p>Docker is a service that allows to package the software as containers. This container contains all the necessary packages to successfully run the software. A customer’s machine might be different from the software developer’s. Using Docker we can eliminate that bottleneck. The customer just needs to use the container for their purpose. Any failure they encounter can be easily duplicated in developer’s environment.</p>
+<p>In my previous <a href="https://dr563105.github.io/posts/2023-06-02-Terraform-setup/#docker-installation---optional-but-recommended">post</a> I show how to install docker in Apple Silicon and Ubuntu cloud instance. When I develop in my Apple Silicon Macbook, I get small, frustrating, unexpected errors only to know that it is due to Apple Silicon(ARM64) architecture. So for this purpose I recommend using an Ubuntu machine.</p>
+<section id="why-flask" class="level2">
+<h2 class="anchored" data-anchor-id="why-flask">Why Flask?</h2>
+<p>Flask is a popular Python microframework for developing web applications. It is also known for its simplicity, flexibility and scalability. Since we want to use Python and make it simple for us to maintain, we will choose Flask.</p>
+</section>
+<section id="flask-application" class="level2">
+<h2 class="anchored" data-anchor-id="flask-application">Flask application</h2>
+<p>A web application is similar to visiting a website through an address. Such as visiting your gmail account using <code>mail.google.com</code>. The gmail website is hosted in many servers across the world. A server closest to your location will serve you when you open up the website. Similarly in our case we need to host our application somewhere. We will, for now, choose the local option; meaning in our local machine.</p>
+<p>Using Flask we host our application in a particular location(endpoint) and through a port locally. I choose this location to be <code>http://localhost:9696/predict-sales</code>.</p>
+<p>Below is the code for the flask application.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>flask-app.py</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-1" style="background: #f1f3f5;"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> pandas <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> pd</span>
+<span id="annotated-cell-1-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> flask <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> Flask, jsonify, request</span>
+<span id="annotated-cell-1-3"></span>
+<span id="annotated-cell-1-4"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> read_parquet_files(filename: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> pd.DataFrame:</span>
+<span id="annotated-cell-1-5">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""</span></span>
+<span id="annotated-cell-1-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    Read parquet file format for given filename and returns the contents</span></span>
+<span id="annotated-cell-1-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    """</span></span>
+<span id="annotated-cell-1-8">    df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pd.read_parquet(filename, engine<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pyarrow"</span>)</span>
+<span id="annotated-cell-1-9">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">return</span> df</span>
+<span id="annotated-cell-1-10"></span>
+<span id="annotated-cell-1-11"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-12" class="code-annotation-target">df_test_preds <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> read_parquet_files(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"lgb_preds.parquet"</span>)</span>
+<span id="annotated-cell-1-13"></span>
+<span id="annotated-cell-1-14">df_items <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> read_parquet_files(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"items.parquet"</span>)</span>
+<span id="annotated-cell-1-15"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-16" class="code-annotation-target">app <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Flask(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"flask-unit-sales-prediction"</span>)</span>
+<span id="annotated-cell-1-17"></span>
+<span id="annotated-cell-1-18"></span>
+<span id="annotated-cell-1-19"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> predict(find: request, item_idx: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">int</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">float</span>:</span>
+<span id="annotated-cell-1-20">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""</span></span>
+<span id="annotated-cell-1-21"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    Takes the json inputs, processes it and outputs the unit sales</span></span>
+<span id="annotated-cell-1-22"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    """</span></span>
+<span id="annotated-cell-1-23">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">try</span>:</span>
+<span id="annotated-cell-1-24">        idx <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pd.IndexSlice</span>
+<span id="annotated-cell-1-25">        x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df_test_preds.loc[idx[find[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"store_nbr"</span>], item_idx, find[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"date1"</span>]]][</span>
+<span id="annotated-cell-1-26">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"unit_sales"</span></span>
+<span id="annotated-cell-1-27">        ]</span>
+<span id="annotated-cell-1-28">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">except</span> <span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">KeyError</span>:</span>
+<span id="annotated-cell-1-29">        <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"This item is not present this store. Try some other item"</span>)</span>
+<span id="annotated-cell-1-30">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">return</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.0</span></span>
+<span id="annotated-cell-1-31">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">else</span>:</span>
+<span id="annotated-cell-1-32">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">return</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">float</span>(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">round</span>(x, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>))</span>
+<span id="annotated-cell-1-33"></span>
+<span id="annotated-cell-1-34"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-35" class="code-annotation-target"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">@app.route</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/predict-sales"</span>, methods<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"POST"</span>])</span>
+<span id="annotated-cell-1-36"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> predict_endpoint():</span>
+<span id="annotated-cell-1-37">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""</span></span>
+<span id="annotated-cell-1-38"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    flask predict endpoint</span></span>
+<span id="annotated-cell-1-39"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    """</span></span>
+<span id="annotated-cell-1-40">    find <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> request.get_json()</span>
+<span id="annotated-cell-1-41">    item <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df_items.sample(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="annotated-cell-1-42">    item_idx, item_family <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> item.index[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>], item[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"family"</span>].values[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]</span>
+<span id="annotated-cell-1-43">    pred_unit_sales <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> predict(find, item_idx)</span>
+<span id="annotated-cell-1-44">    result <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="annotated-cell-1-45">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">" Store"</span>: find[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"store_nbr"</span>],</span>
+<span id="annotated-cell-1-46">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">" item"</span>: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">int</span>(item_idx),</span>
+<span id="annotated-cell-1-47">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Family"</span>: item_family,</span>
+<span id="annotated-cell-1-48">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Prediction date"</span>: find[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"date1"</span>],</span>
+<span id="annotated-cell-1-49">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Unit_sales"</span>: pred_unit_sales,</span>
+<span id="annotated-cell-1-50">    }</span>
+<span id="annotated-cell-1-51"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><span id="annotated-cell-1-52" class="code-annotation-target">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">return</span> jsonify(result)</span>
+<span id="annotated-cell-1-53"></span>
+<span id="annotated-cell-1-54"></span>
+<span id="annotated-cell-1-55"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">if</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">__name__</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"__main__"</span>:</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="5">5</button><span id="annotated-cell-1-56" class="code-annotation-target">    app.run(debug<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>, host<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"0.0.0.0"</span>, port<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">9696</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="12" data-code-annotation="1">Getting the trained model table</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="16" data-code-annotation="2">Initialising the Flask app</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="35" data-code-annotation="3">Declaring the endpoint with “POST” as method</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="52" data-code-annotation="4">Predicted result that converted to JSON format</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="56" data-code-annotation="5">Spin up flask app</span>
+</dd>
+</dl>
+<p>Flask uses a library called <code>gunicorn</code> to spin up a HTML server. In the code we have dependencies for <code>pandas</code>, <code>pyarrow</code>, <code>numpy</code>. We can’t ask the customer to install these themselves. We intend to use Docker to prevent that criteria. But how to install these dependencies in a docker container?</p>
+</section>
+<section id="dependencies-install" class="level2">
+<h2 class="anchored" data-anchor-id="dependencies-install">Dependencies install</h2>
+<p>There are number of options available for us:</p>
+<ol type="1">
+<li><p>Use <code>pip</code> and <code>requirements.txt</code>. But tracking package versions might get tedious.</p></li>
+<li><p>Use <code>Anaconda/Miniconda</code>. For local machine they’re fine but for docker container?they install so many unnecessary libraries making container huge in size.</p></li>
+<li><p>Use <code>Poetry</code>. This one is developed to deliver packages. But still it includes libraries unnecessary to us.</p></li>
+<li><p>Use <code>Pipenv</code>. It is much smaller, easy to write and use. Hence I will choose this.</p></li>
+</ol>
+</section>
+<section id="pipenv-pipfile-and-pipfile.lock" class="level2">
+<h2 class="anchored" data-anchor-id="pipenv-pipfile-and-pipfile.lock">Pipenv, Pipfile and Pipfile.lock</h2>
+<p>Pipenv is an advanced version of <code>requirements.txt</code>. It uses inline tables and <a href="https://github.com/toml-lang/toml">TOML spec</a>. We can easily give the package versions we want to install and pipenv internally creates a <code>Pipfile.lock</code> file that contains hashes to each package installed. A convenient solution for our purpose.</p>
+<p>Our <code>Pipfile</code> looks like this:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Pipfile</strong></pre>
+</div>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">[[</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">source</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">]]</span></span>
+<span id="cb1-2"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">url = "https://pypi.org/simple"</span></span>
+<span id="cb1-3"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">verify_ssl = true</span></span>
+<span id="cb1-4"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">name = "pypi"</span></span>
+<span id="cb1-5"></span>
+<span id="cb1-6"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">[</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">packages</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">]</span></span>
+<span id="cb1-7"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">pandas = "*"</span></span>
+<span id="cb1-8"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">flask = "*"</span></span>
+<span id="cb1-9"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">pyarrow = "*"</span></span>
+<span id="cb1-10"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">gunicorn = "*"</span></span>
+<span id="cb1-11"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">numpy = "*"</span></span>
+<span id="cb1-12"></span>
+<span id="cb1-13"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">[</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">dev-packages</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">]</span></span>
+<span id="cb1-14"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">requests = "*"</span></span>
+<span id="cb1-15"></span>
+<span id="cb1-16"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">[</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">requires</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">]</span></span>
+<span id="cb1-17"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">python_version = "3.9"</span></span></code></pre></div>
+</div>
+<p>On the first run we need to install these packages locally and also to create <code>Pipfile.lock</code>. We can accomplish that using the command <code>pipenv install --dev</code>. I recommend running this inside conda’s <code>base</code> environment. Please don’t use system’s python to manage projects.</p>
+<p><img src="https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/pipenv-install.png" class="img-fluid"></p>
+</section>
+<section id="dockerfile-and-building-docker-image" class="level2">
+<h2 class="anchored" data-anchor-id="dockerfile-and-building-docker-image">Dockerfile and building docker image</h2>
+<p>Dockerfile is a text file that give instructions to docker engine to build an docker image. We choose <code>python 3.9-slim</code> version, install <code>pip</code> and <code>pipenv</code>, copy all the necessary files, importantly expose the port <code>9696</code> and set <code>gunicorn</code> http server as the entrypoint to the image whenever the container is run.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Dockerfile</strong></pre>
+</div>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">FROM</span> python:3.9.14-slim</span>
+<span id="cb2-2"></span>
+<span id="cb2-3"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">RUN</span> pip install <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-U</span> pip</span>
+<span id="cb2-4"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">RUN</span> pip install pipenv</span>
+<span id="cb2-5"></span>
+<span id="cb2-6"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">WORKDIR</span> /app</span>
+<span id="cb2-7"></span>
+<span id="cb2-8"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">COPY</span> [ <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Pipfile"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Pipfile.lock"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"./"</span> ]</span>
+<span id="cb2-9"></span>
+<span id="cb2-10"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">RUN</span> pipenv install <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--system</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--deploy</span></span>
+<span id="cb2-11"></span>
+<span id="cb2-12"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">COPY</span> [ <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"lgb_preds.parquet"</span> , <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"lgb_preds.parquet"</span> ]</span>
+<span id="cb2-13"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">COPY</span> [ <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"items.parquet"</span> , <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"items.parquet"</span> ]</span>
+<span id="cb2-14"></span>
+<span id="cb2-15"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">COPY</span> [<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"flask_app.py"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"flask_app.py"</span>]</span>
+<span id="cb2-16"></span>
+<span id="cb2-17"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">EXPOSE</span> 9696</span>
+<span id="cb2-18"></span>
+<span id="cb2-19"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">ENTRYPOINT</span> [ <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gunicorn"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"--bind=0.0.0.0:9696"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"flask_sales_predictor:app"</span> ]</span></code></pre></div>
+</div>
+<p>To build a docker image, we use the command <code>docker build -t flask_app:v1 .</code> .</p>
+<p>To verify it is created we can run <code>docker images</code> and look for the name.</p>
+<p><img src="https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/docker-build.png" class="img-fluid"></p>
+</section>
+<section id="running-the-docker-container" class="level2">
+<h2 class="anchored" data-anchor-id="running-the-docker-container">Running the docker container</h2>
+<p>Our software is now packaged as an image. We need to somehow run it to use our application. We can run it through this command</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Terminal 1</strong></pre>
+</div>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">docker</span> run <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb3-2">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-it</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb3-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--rm</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb3-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-p</span> 9696:9696 <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb3-5">    flask_app:v1</span></code></pre></div>
+</div>
+<p><img src="https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/docker-run.png" class="img-fluid"></p>
+</section>
+<section id="testing-the-application" class="level2">
+<h2 class="anchored" data-anchor-id="testing-the-application">Testing the application</h2>
+<p>The docker container should be up and running in <code>terminal 1</code>. Now all that is left is test it. For that we need one more file.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>test_requests.py in terminal 2</strong></pre>
+</div>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> requests</span>
+<span id="cb4-2"></span>
+<span id="cb4-3">find <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"date1"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"2017-08-21"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"store_nbr"</span>: <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">19</span>}</span>
+<span id="cb4-4"></span>
+<span id="cb4-5">url <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"http://localhost:9696/predict-sales"</span></span>
+<span id="cb4-6">response <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> requests.post(url, json<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>find, timeout<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>)</span>
+<span id="cb4-7"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(response.json())</span></code></pre></div>
+</div>
+<p>The <code>test_requests.py</code> file has the input in <code>JSON</code> format and the endpoint url <code>http://localhost:9696/predict-sales</code>. We leverage the requests library to make our requests.</p>
+<p>Open up another <code>terminal</code> or another tab, activate virtual environment and run <code>python test_requests.py</code>. Just python needs to be present inside this environment as everything else is inside the docker container.</p>
+<p>If everything goes well, we should the predicted product price printed.</p>
+<p><img src="https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/docker-testing.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>We see how easy it is to build a docker image, deploy it. It requires a bit of steep learning curve but once learnt, it is easier to deploy anything using docker.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>docker</category>
+  <category>flask</category>
+  <category>deployment</category>
+  <category>pipenv</category>
+  <guid>https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/index.html</guid>
+  <pubDate>Sat, 03 Jun 2023 00:00:00 GMT</pubDate>
+  <media:content url="https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/docker-logo.png" medium="image" type="image/png" height="81" width="144"/>
+</item>
 <item>
   <title>Setup Terraform</title>
   <dc:creator>Deepak Ramani</dc:creator>
