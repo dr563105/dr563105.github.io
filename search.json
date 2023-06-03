@@ -1,87 +1,94 @@
 [
   {
+    "objectID": "notes/python_concepts.html",
+    "href": "notes/python_concepts.html",
+    "title": "Python concepts notes",
+    "section": "",
+    "text": "These are some of my notes on python concepts I gathered from various sources."
+  },
+  {
+    "objectID": "notes/python_concepts.html#super",
+    "href": "notes/python_concepts.html#super",
+    "title": "Python concepts notes",
+    "section": "Super()",
+    "text": "Super()\nsuper() allows to call the base class implicitly without the need to use the base class name explicitly. The main advantage is seen during multiple inheritance. The child classes that may be using cooperative multiple inheritance will call the correct next parent class function in the Method Resolution Order(MRO).\nSyntax Python3 super().__init__() Python2 and still valid in python3 super(childclassname,self).__init__()\nAvoid using like this – super(self.__class__,self).__init__(). This leads to recursion but fortunately python3 syntax standard side steps this problem.\nMore info in stackoverflow"
+  },
+  {
+    "objectID": "notes/python_concepts.html#pycache__",
+    "href": "notes/python_concepts.html#pycache__",
+    "title": "Python concepts notes",
+    "section": "__Pycache__",
+    "text": "__Pycache__\n__pycache__ is a directory containing python3 bytecode compiled and ready to be executed. This is done to speed up loading of the modules. Python caches the compiled version of each module in this directory. More info in the python official docs"
+  },
+  {
+    "objectID": "notes/python_concepts.html#zip-function",
+    "href": "notes/python_concepts.html#zip-function",
+    "title": "Python concepts notes",
+    "section": "Zip function",
+    "text": "Zip function\nThis function enables combination of elements in 2 or more lists. If the lists are of unequal lengths then the minimum length is taken.\nFor example - zip([1,2,3],[\"one\", \"two\"]) returns a tuple (1, \"one\"), (2, \"two\"). Notice how 3 is not part of the zip operation."
+  },
+  {
+    "objectID": "notes/python_concepts.html#lambda-function",
+    "href": "notes/python_concepts.html#lambda-function",
+    "title": "Python concepts notes",
+    "section": "Lambda function",
+    "text": "Lambda function\nAlso knows as anonymous functions helps reduce the need to define unnecessary custom functions. For example, a function that returns a simple arithmetic operation can be made as a lambda function.\nExample - lambda x,y,...: x+y+... - lambda takes several arguments but returns only one expression."
+  },
+  {
+    "objectID": "notes/python_concepts.html#map-function",
+    "href": "notes/python_concepts.html#map-function",
+    "title": "Python concepts notes",
+    "section": "Map function",
+    "text": "Map function\nMap is a function that allows some kind of function upon a sequence. This sequence can be list, tuple, string etc.\nSyntax: map(function, seq)\nlambda functions are commonly used with map functions.\nExample -\n\nx = [1,2,3,4]\ndef square(x):\n    return x*x\nmap(square,x) #--&gt;returns an iterator in python3.\n#To return in the desired sequence, use that as prefix in map. \nlist(map(square,x)) #--&gt; returns as a list.\n\n[1, 4, 9, 16]\n\n\nWith lambda function:\n\na = [1,2,3,4]\nlist(map(lambda x:x*x,a))\n\n[1, 4, 9, 16]\n\n\nWith map more than one sequence can be used -\n\nb = [1, 1, 1, 1]\nlist(map(lambda x,y:x+y, a,b))    \n\n[2, 3, 4, 5]"
+  },
+  {
+    "objectID": "notes/python_concepts.html#filter-function",
+    "href": "notes/python_concepts.html#filter-function",
+    "title": "Python concepts notes",
+    "section": "Filter function",
+    "text": "Filter function\nThis function is used to filter the outputs if the sequence satisfies some condition. This can be easily written as a list comprehension or a generator. list(filter(lambda x:x%2==0, range(1,11))"
+  },
+  {
+    "objectID": "notes/python_concepts.html#reduce-function",
+    "href": "notes/python_concepts.html#reduce-function",
+    "title": "Python concepts notes",
+    "section": "Reduce function",
+    "text": "Reduce function\nThis was removed from the inbuilt functions in python3 and added to functools. It is similar to map function but unlike map it takes only one iterable. list(reduce(lambda x,y:x+y, a)). Internally assigns x and y and calculates the desired function.\nEach of the above function can be substituted with list comprehension.\n\nnamespace and variable scope\nNamespace is the space occupied by an entity in the program. When two or more programs contain the same name, a method to invoke a unique program is done using its module name.\n\n\nLEGB Rule\nVariable scope has three visibilty levels – builtin, global, enclosed, and local.\nLocal scope - variables defined inside a local function. Their lifecycle ends with the local function. Global scope - variable defined at the top of the module and is available for all the functions underneath it. Enclosed scope - seen in nested function. built-in scope - names within python built-in functionality like print().\nChange a global variable inside a local function? use global keyword. Change a enclosed variable inside an enclosed(nested)-local function? use nonlocal keyword. The order of execution follows local, enclosed, global, and built-in.\n\n\nClosures\nClosure is a concept to invoke an enclosed(nested)-local function outside of its scope. This uses a python’s property – functions are first class object. Example -\n\ndef f():\n    return 2\ng = f\n\ng here gets the function f’s location(reference) or the path of the function till the end of it. This functionality is helpful in accessing an enclosed(nested)-local function beyond its scope.\nexample -\n\ndef f():\n    x = 4\n    def g():\n        y = 3\n        return x+y\n    return g\n\na = f()\nprint(a) #--&gt; returns path till function 'g'\nprint(a()) #--&gt; returns 7\nprint(a.__name__) #--&gt; return function 'g' name.\n\n&lt;function f.&lt;locals&gt;.g at 0x1037b8dc0&gt;\n7\ng\n\n\nWhy closures? * Avoid global values * Data hiding * Implement decorators\n\n\nDecorators\nAny callable object that is used to modify a function or class. Adds additional functionality to existing function or class. Basically a wrapper around the existing function where the existing function code couldn’t be changed but additional features/checks are necessary. It is much easier to use the decorator than writing one. The wrapper becomes complex as the functions it wraps get longer.\nA decorator should: * take a function as parameter * add functionality to the function * function needs to return another function\nTwo types: - Function decorator - Class decorator\n\n\nfunction call as parameter\n\ndef f1():\n    print(\"hello from f1\")\ndef f2(function):\n    print(\"hello from f2\")\n    function()\nf2(f1)\n\nhello from f2\nhello from f1\n\n\n\n\nMultiple decorators\n\ndef f1(func):\n    def inner():\n        return \"first \" + func() +\" first\"\n    return inner\n\ndef f2(func):\n    def wrapper():\n        return \"second \" + func()+\" second\"\n    return wrapper\n\n@f1\n@f2\ndef ordinary():\n    return \"good morning\"\n\nprint(ordinary())\n\nfirst second good morning second first\n\n\n&gt;&gt;&gt;&gt; first second good morning second first\nAt first, the f2 decorator is called and prints second good morning second, then f1 decorator takes that output and prefixes and suffixes with first.\n\n\nDecorators with parameters\nTo pass parameters to a decorator, the nested function in the previous case must be defined inside a function.\n\ndef outer(x):\n    def f1(func):\n        def inner():\n            return func() + x\n        return inner\n    return f1\n\n\n@outer(\" everyone\")\ndef greet():\n    return \"good morning\"\n\nprint(greet)\n\n&lt;function outer.&lt;locals&gt;.f1.&lt;locals&gt;.inner at 0x13f874310&gt;\n\n\n\ndef div1(a,b):\n    return a/b\n\ndef div2(a,b,c):\n    return a/b/c\n\nprint(div1(5,0))\nprint(div2(3,4,5))\n\nZeroDivisionError: division by zero\n\n\nTo protect against division-by-zero error, a decorator is written.\n\ndef div_by_zero_dec(func):\n    def inner(*args):\n        for i in args[1:]:\n            if i == 0:\n               return \"Enter valid non-zero input for denominator\"\n        #gives the general error and not decorator output for div2 function if the input is zero\n        #answer =  [\"Enter valid non-zero input for denominator\" if i == 0 else func(*args) for i in args[1:]]\n        return func(*args)\n        #return answer  \n    return inner\n\n@div_by_zero_dec\ndef div1(a,b):\n    return a/b\n\n@div_by_zero_dec\ndef div2(a,b,c):\n    return a/b/c\n\nprint(div1(5,0))\nprint(div2(3,1,0))\n\nEnter valid non-zero input for denominator\nEnter valid non-zero input for denominator\n\n\n\n\nData hiding\nDecorators inherently hides the original function. To avoid that we can use wraps() method from functools.\n\nfrom functools import wraps\ndef outer(x):\n    def f1(func):\n        @wraps(func)\n        def inner():\n            return func() + x\n        return inner\n    return f1\n\n\n@outer(\" everyone\")\ndef greet():\n    return \"good morning\"\n\nprint(greet.__name__)\n\ngreet\n\n\n\n\nClass decorators\nDecorator function can be applied to class methods also.\n\n#check for name equal to Justin is done with a decorator\ndef check_name(func):\n    def inner(name_ref):\n        if name_ref.name == \"Justin\":\n            return \"There is another Justin\"\n        return func(name_ref)\n    return inner\n\nclass Printing():\n    def __init__(self, name):\n        self.name = name\n    \n    @check_name\n    def print_name(self):\n        print(f\"username is {self.name}\")\n\np = Printing(\"Justin\")\np.print_name()\n#username is Justin\n#There is another Justin\n\n'There is another Justin'\n\n\nTo make a class decorator, we need to know about a special method called __call__. If a __call__ method is defined, the object of a class can be used as function call.\n\nclass Printing():\n    def __init__(self, name):\n        self.name = name\n    \n    def __call__(self):\n        print(f\"username is {self.name}\")\n\np = Printing(\"Lindon\")\np()\n# username is Lindon\n\nusername is Lindon\n\n\n\n\nClass decorator on a function\n\nclass Decorator_greet:\n    def __init__(self, func):\n        self.func = func\n    def __call__(self):\n        return self.func().upper()\n\n@Decorator_greet\ndef greet():\n    return \"good morning\"\n\nprint(greet())\n#GOOD MORNING\n\nGOOD MORNING\n\n\n\n\nBuilt-in decorators\n\n@property\n@classmethod\n@staticmethod\n\n\n\n@property\n\nClass methods as attributes The idea of a wrapper is to make changes to code base without hindering its use for the end user. Using @property decorator, a class variable which is now a class method will give the result if used just like accessing the variable. For example - objectname.function() or objectname.function will give the same result without errors. So the user can access just like they did previously.\n\nBorrowing idea from other programming languages, the private variables are defined with __ prefix. So to access those variables, getter, setter, and deleter methods are necessary. Accessing is done with getter method. So it gets @property decorator. Both setters and deleters get @functionname.setter or @functionname.deleter. (verify this. could be wrong)\n\n@classmethod Insted of self, the classmethod decorator takes cls as first argument for its function. These methods can access and modify class states.\n@staticmethod This is similar to classmethod but takes no predefined argument like instance method(self) or classmethod(cls). These methods can’t access class state. So ideally they are used for checking conditions.\n\nDecorator Template\n\nimport functools\n\ndef my_decorator(func):\n    @functools.wraps(func)\n    def wrapper(*args, **kwargs):\n        # Do something before\n        result = func(*args, **kwargs)\n        # Do something after\n        return result\n    return wrapper"
+  },
+  {
+    "objectID": "notes/python_concepts.html#context-managers",
+    "href": "notes/python_concepts.html#context-managers",
+    "title": "Python concepts notes",
+    "section": "Context Managers",
+    "text": "Context Managers\nUsually with is used w.r.t to file operations, database connections. In addition to using with and as keywords, we can make custom context managers using @contextlib.contextmanger which is a generator decorator.\n\nfrom contextlib import contextmanager\n\n@contextmanager\ndef opening(filename, method):\n    print(\"Enter\")\n    f = open(filename, method) \n    try:\n        yield f\n    finally:\n        f.close()\n        print(\"Exit\")\n\nwith opening(\"hello.txt\", \"w\") as f:\n    print(\"inside\")\n    f.write(\"hello there\")\n\nEnter\ninside\nExit"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Deepak Ramani's blog",
+    "section": "",
+    "text": "Date\n\n\nTitle\n\n\nReading Time\n\n\n\n\n\n\n\n\n\nundefined\n\n\nundefined\n\n\n0\n\n\n\n\n\n\n\nJun 2, 2023\n\n\nSetup Terraform\n\n\n7 min\n\n\n\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n6 min\n\n\n\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n4 min\n\n\n\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n15 min\n\n\n\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n4 min\n\n\n\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n3 min\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html#blog-posts",
+    "href": "index.html#blog-posts",
+    "title": "Deepak Ramani's blog",
+    "section": "",
+    "text": "Date\n\n\nTitle\n\n\nReading Time\n\n\n\n\n\n\n\n\n\nundefined\n\n\nundefined\n\n\n0\n\n\n\n\n\n\n\nJun 2, 2023\n\n\nSetup Terraform\n\n\n7 min\n\n\n\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n6 min\n\n\n\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n4 min\n\n\n\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n15 min\n\n\n\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n4 min\n\n\n\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n3 min\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html#projects",
+    "href": "index.html#projects",
+    "title": "Deepak Ramani's blog",
+    "section": "Projects",
+    "text": "Projects\n\n\n\n\n\nProject\n\n\nDescription\n\n\nRole\n\n\n\n\n\n\nGrocery Unit Sale Predictor - a MLOPS project\n\n\nAn end-to-end ML project that designs and manages a ML model production workflow. \n\n\nCreator\n\n\n\n\nAutonomous driving framework - a DL project\n\n\nAn end-to-end autonomous driving neural network ML model using simpler CNN architecture. \n\n\nCreator\n\n\n\n\n\nNo matching items"
+  },
+  {
     "objectID": "projects/mlops.html",
     "href": "projects/mlops.html",
     "title": "mlops",
     "section": "",
     "text": "You can read about it in github."
-  },
-  {
-    "objectID": "posts/2022-01-09-dotfiles/index.html",
-    "href": "posts/2022-01-09-dotfiles/index.html",
-    "title": "Manage dotfiles with GNU Stow",
-    "section": "",
-    "text": "In this post, I will try to guide in organise your dotfiles in the cloud and manage them using GNU Stow."
-  },
-  {
-    "objectID": "posts/2022-01-09-dotfiles/index.html#what-are-dotfiles",
-    "href": "posts/2022-01-09-dotfiles/index.html#what-are-dotfiles",
-    "title": "Manage dotfiles with GNU Stow",
-    "section": "What are dotfiles?",
-    "text": "What are dotfiles?\nFor a casual user, the term dotfiles may sound strange and confusing but it is nothing but application(app) configuration files in developer talk. The apps generally refer to certain files to configure itself.\nPeople usually store these files in a remote location such as a Github repository and retrieve them when needed.\nDotfiles allow personalisation. They can be restored in a new machine saving time. Preparing and organising the dotfiles with some initial effort, help developers save a lot of time later.\nA few examples of dotfiles are .bashrc, .vimrc, .gitignore.\n\n\n\n\n\n\nImportant\n\n\n\nPay attention to personal information inside these files. Never store secure keys, passwords in public domains.\n\n\n\n\nThings to know\n\nWhich app’s config files need to stored.\nWhere do those config files are located.\n\n\n\nCommon config files that need storing\n\n.bashrc or .zshrc\n.vimrc or init.vim(in the case of neovim)\n.gitignore_global and .gitconfig\nTerminal emulator config files\nIDE of choice config files\nAnyother config you want to save\n\nIn fact, if there is an app that you have configured heavily and frequently use, its config files must be stored. In the case the said app doesn’t allow exporting of configurations, it is highly recommended to move onto one that allows it.\n\n\nWhere are most required dotfiles located?\nMost files are present in $HOME or $XDG_CONFIG_HOME directories. $XDG_CONFIG_HOME defines the base directory relative to which user-specific configuration files should be stored. If $XDG_CONFIG_HOME is either not set or empty, a default equal to $HOME/.config should be used."
-  },
-  {
-    "objectID": "posts/2022-01-09-dotfiles/index.html#gnu-stow",
-    "href": "posts/2022-01-09-dotfiles/index.html#gnu-stow",
-    "title": "Manage dotfiles with GNU Stow",
-    "section": "GNU Stow",
-    "text": "GNU Stow\nSome prominent results when googled for storing dotfiles are this Atlassian tutorial and using yadm. However, I found those harder to get started.\nGNU Stow on the other hand is an easy-to-use symlink farm manager. As described in their website, it takes distinct packages of software and/or data located in separate directories on the filesystem, and makes them appear to be installed in the same place.\nThis strategy works brilliantly for dotfiles. Borrowing explanation from Brandon Invergo’s article:\n\nThe procedure is simple. I created the ${HOME}/dotfiles directory and then inside it I made subdirectories for all the programs whose configurations I wanted to manage. Inside each of those directories, I moved in all the appropriate files, maintaining the directory structure of my home directory. So, if a file normally resides at the top level of your home directory, it would go into the top level of the program’s subdirectory. If a file normally goes in the default ${XDG_CONFIG_HOME}/${PKGNAME} location (${HOME}/.config/${PKGNAME}), then it would instead go in ${HOME}/dotfiles/${PKGNAME}/.config/${PKGNAME} and so on.\n\n\nInstall Stow\n\n\nTerminal\n\n1sudo apt stow\n\n2brew install stow\n\n\n1\n\nUbuntu\n\n2\n\nHomebrew Mac\n\n\n\n\nPlacing the files\nNow, it might look complex at first. Let me explain with some examples. - .bashrc or .zshrc are present/needed in $HOME directory, so inside $HOME/dotfiles create a subdirectory with bashrc or zshrc and place the original .bashrc or .zshrc file appropriately inside their folder. GNU Stow understands that the dotfile, when symlinked, will create a symlink-copy in the $HOME directory. For future modifications, file in either locations can be edited. But for simplicity, use $HOME/dotfiles directory. - A complicated example would be a config file located deep inside subfolders: nvim’s or neovim’s init.vim or init.lua file. It is present in $HOME/.config/nvim/init.vim. For Stow to understand, it must be placed like this – $HOME/dotfiles/nvim/.config/nvim/init.vim\nFor further reading, I recommend brilliantly written Jake Weisler’s post on GNU Stow.\n\n\nUseful Stow commands\nIf correctly installed, then running the command stow --help should list options to use Stow. Most used commands are\n\n\nTerminal\n\n1stow &lt;packagename&gt;\n2stow -n &lt;packagename&gt;\n3stow -D &lt;packagename&gt;\n4stow -R &lt;packagename&gt;\n\n\n1\n\nactivates symlink\n\n2\n\ntrial runs or simulates symlink generation. Effective for checking for errors\n\n3\n\ndelete stowed package\n\n4\n\nrestows package\n\n\n\n\nActivating Stow\nSo if we have created three subdirectories inside dotfiles say zsh, git, nvim, then\n\n\nTerminal\n\nstow bash git nvim\n\nwill activate their symlinks.\nIf returned to $HOME and $XDG_CONFIG_HOME and verified, then we will see,\n\n\nTerminal\n\n.gitconfig -&gt; .dotfiles/git/.gitconfig\n.zshrc -&gt; .dotfiles/zsh/.zshrc\nnvim -&gt; ../.dotfiles/nvim/.config/nvim\n\nThe most awesome thing in all this is, the directory structure needs to be created only once. For future requirement, one simply clones the dotfiles directory and activates symlinks."
-  },
-  {
-    "objectID": "posts/2022-01-09-dotfiles/index.html#storing-files-in-git",
-    "href": "posts/2022-01-09-dotfiles/index.html#storing-files-in-git",
-    "title": "Manage dotfiles with GNU Stow",
-    "section": "Storing files in Git",
-    "text": "Storing files in Git\nThe dotfiles directory now becomes important to store in a remote location for safe keeping. Usually a git repository is the preferred method. For instructions on how to use git, look up various tutorials on Git in the internet.\nIn summary, I have written a short, albeit technical write up on GNU Stow, and its uses for storing dotfiles. Feel free to ask questions in the comments or via various means linked in the blog."
-  },
-  {
-    "objectID": "posts/2023-06-02-Terraform-setup/index.html",
-    "href": "posts/2023-06-02-Terraform-setup/index.html",
-    "title": "Setup Terraform",
-    "section": "",
-    "text": "Terraform from Hasicorp is Infrastructure as Code(IaC) tool that is gaining popularity among the data engineers. It lets us build, change and version infrastructure safely and efficiently. As to why one needs Terraform, I shall direct you to this comprehensive article.\nIn this post, I will write a small guide to get us started with Terraform. This post then can be used as a starting guide for my future posts involving Terraform.\n\n\n\n\n\n\nNote\n\n\n\nNote that this installation guide is only for Mac(M1 silicon) and Ubuntu(GCP E2-medium instance). Also this guide will look similar to the example provided in Hashicorp’s website. The intention is to have a guide for my benefit in one place.\n\n\n\n\nA fully functional Macbook or an Ubuntu GCP/AWS instance with sudo privileges."
-  },
-  {
-    "objectID": "posts/2023-06-02-Terraform-setup/index.html#what-is-main.tf",
-    "href": "posts/2023-06-02-Terraform-setup/index.html#what-is-main.tf",
-    "title": "Setup Terraform",
-    "section": "What is main.tf?",
-    "text": "What is main.tf?\nIt is a terraform configuration file that describes infrastructure in Terraform. Each terraform config needs a separate directory with a single main.tf.\nThis file contains:\n\nTerraform block\nProviders\nResources\n\n\nTerraform block\nThis block contains Terraform settings for require providers that Terraform will use to provision infrastructure. In our case it is kreuzwerker/docker as source. kreuzwereker is the provider/developer/host and docker is the product we are interested in using. We can specify the minimum version to install. If not mentioned, Terraform will install the lastest version available. Terraform registry is default place to look for popular providers such as AWS, GCP, Azure.\nterraform {\n  required_providers {\n    docker = {\n      source  = \"kreuzwerker/docker\"\n      version = \"~&gt; 3.0.1\"\n    }\n  }\n}\n\n\nProviders\nNow that Terraform knows the “source”, we need to provide a “provider”. Docker is our choice. In this block we can configure docker provider.\nprovider \"docker\" {}\n\n\nResources\nA resource block is used to define components of the provider previously mentioned. So we have a docker provider. We need a docker image and build a container for that image.\nresource \"docker_image\" \"nginx\" {\n  name         = \"nginx\"\n  keep_locally = false\n}\nresource \"docker_container\" \"nginx\" {\n  image = docker_image.nginx.image_id\n  name  = \"tutorial\"\n  ports {\n    internal = 80\n    external = 8000\n  }\n}\nThe resource block takes two strings - resource type and resource name. docker_image is the type and nginx is the name. These two together docker_image.nginx form a unique ID for the resource. For docker_container resource, we use the image from the previous block as reference. So a container is created with that image and ports are also mapped."
-  },
-  {
-    "objectID": "posts/2023-06-02-Terraform-setup/index.html#validate-and-initialise-the-configuration",
-    "href": "posts/2023-06-02-Terraform-setup/index.html#validate-and-initialise-the-configuration",
-    "title": "Setup Terraform",
-    "section": "Validate and initialise the configuration",
-    "text": "Validate and initialise the configuration\nTerraform has a bunch of CLI commands to make things easier and faster. One needs to remember only 5-6 commands. Rest can be looked up later.\nTo validate the configuration we use\n\n\nTerminal\n\n1terrform validate\n\n\n1\n\nReturns “Success! The configuration is valid.” if syntactically valid.\n\n\nThen we need to initialise our configuration. This process will download and install the providers mentioned. This command will create a hidden directory .terraform and install docker provider. Terraform also creates a lock file named .terraform.lock.hcl which specifies the exact provider versions used, so that you can control when you want to update the providers used for your project."
-  },
-  {
-    "objectID": "posts/2023-06-02-Terraform-setup/index.html#plan-and-create-infrastructure",
-    "href": "posts/2023-06-02-Terraform-setup/index.html#plan-and-create-infrastructure",
-    "title": "Setup Terraform",
-    "section": "Plan and create infrastructure",
-    "text": "Plan and create infrastructure\nTerraform allows us to see what will be created through terraform plan commands. This command is used to give an overview of the things that will be created. An extra, precautionary step. It looks trivial for our use case but imagine a big organisation with several team members managing infrastructure. Even deleting a resource accidently will create chaos. It is always advised to run terraform plan, overview and then go ahead with creating resources.\nterraform apply is then given to apply the configuration. This is then approved to actually create resources. In our case a nginx docker image is downloaded and container using that image is created with port forwarding."
-  },
-  {
-    "objectID": "posts/2023-06-02-Terraform-setup/index.html#result",
-    "href": "posts/2023-06-02-Terraform-setup/index.html#result",
-    "title": "Setup Terraform",
-    "section": "Result",
-    "text": "Result\nA nginx server has been started and we can access it through http:127.0.0.1:8000. We will be greeted with a message “Welcome to nginx!”."
-  },
-  {
-    "objectID": "posts/2023-06-02-Terraform-setup/index.html#terraform-state",
-    "href": "posts/2023-06-02-Terraform-setup/index.html#terraform-state",
-    "title": "Setup Terraform",
-    "section": "Terraform state",
-    "text": "Terraform state\nTerraform has a state(status) file which stores the current state(metadata) of the infrastructure. Any changes to the resource configuration will be reflected into this file. If working in a team, it is advised to store this state file remotely such as s3, gcs etc with versioning and state locking.\n\nTweaking the infrastructure\nTo understand state file better, we shall change the port from 8000 to 8010 in the docker_container resource block.\nresource \"docker_container\" \"nginx\" {\n  image = docker_image.nginx.image_id\n  name  = \"tutorial\"\n  ports {\n    internal = 80\n    external = 8010\n  }\n}\nYou will see that there will be two state files - terraform.tfstate and terraform.tfstate.backup. On the first run both file’s contents will be same. However, now that we changed the port to 8010, terraform.tfstate will change 8010 but the backup file will retain 8000. This is Terraform’s rollback feature.\nApply the changes using terraform apply."
-  },
-  {
-    "objectID": "posts/2023-06-02-Terraform-setup/index.html#destroy-infrastructure",
-    "href": "posts/2023-06-02-Terraform-setup/index.html#destroy-infrastructure",
-    "title": "Setup Terraform",
-    "section": "Destroy infrastructure",
-    "text": "Destroy infrastructure\nTo destroy resources after use, we can use terraform destroy command. Review the plan and approve it. Be cautious using this command in an organisation."
   },
   {
     "objectID": "posts/2022-09-24-using-json-normalize/index.html",
@@ -154,53 +161,32 @@
     "text": "9 Conclusion\nWe saw the use of json_normalize function in pandas library. It helps take a JSON data, flatten it, and make it as a dataframe for easier analysis."
   },
   {
-    "objectID": "posts/2022-09-24-using-json-normalize/index.html#footnotes",
-    "href": "posts/2022-09-24-using-json-normalize/index.html#footnotes",
-    "title": "Using json_normalize Pandas function",
-    "section": "Footnotes",
-    "text": "Footnotes\n\n\nB. Chen, https://towardsdatascience.com/all-pandas-json-normalize-you-should-know-for-flattening-json-13eae1dfb7dd↩︎\nPandas documentation, https://pandas.pydata.org/pandas-docs/version/1.2.0/reference/api/pandas.json_normalize.html↩︎"
-  },
-  {
-    "objectID": "posts/2021-09-18-kaggle-setup/index.html",
-    "href": "posts/2021-09-18-kaggle-setup/index.html",
-    "title": "Setting up Kaggle on Linux/Mac",
+    "objectID": "posts/2022-01-09-dotfiles/index.html",
+    "href": "posts/2022-01-09-dotfiles/index.html",
+    "title": "Manage dotfiles with GNU Stow",
     "section": "",
-    "text": "Most of latest data science innovations happen at Kaggle. Kaggle hosts, in addtion to competitions, a large collection of datasets from various fields. The easiest way to interact with Kaggle is through its public API via command-line tool(CLI). Setting it up outside of Kaggle kernels is one of first tasks. In this post, I will guide you through that process."
+    "text": "In this post, I will try to guide in organise your dotfiles in the cloud and manage them using GNU Stow."
   },
   {
-    "objectID": "posts/2021-09-18-kaggle-setup/index.html#installation",
-    "href": "posts/2021-09-18-kaggle-setup/index.html#installation",
-    "title": "Setting up Kaggle on Linux/Mac",
-    "section": "Installation",
-    "text": "Installation\n\n\nTerminal\n\npip install --user kaggle\n\n\n\n\n\n\n\nTip\n\n\n\nTip: Install kaggle package inside your conda ML development environment rather than outside of it or in base env.\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nDon’t do sudo pip install kaggle as it would require admin privileges for every run."
+    "objectID": "posts/2022-01-09-dotfiles/index.html#what-are-dotfiles",
+    "href": "posts/2022-01-09-dotfiles/index.html#what-are-dotfiles",
+    "title": "Manage dotfiles with GNU Stow",
+    "section": "What are dotfiles?",
+    "text": "What are dotfiles?\nFor a casual user, the term dotfiles may sound strange and confusing but it is nothing but application(app) configuration files in developer talk. The apps generally refer to certain files to configure itself.\nPeople usually store these files in a remote location such as a Github repository and retrieve them when needed.\nDotfiles allow personalisation. They can be restored in a new machine saving time. Preparing and organising the dotfiles with some initial effort, help developers save a lot of time later.\nA few examples of dotfiles are .bashrc, .vimrc, .gitignore.\n\n\n\n\n\n\nImportant\n\n\n\nPay attention to personal information inside these files. Never store secure keys, passwords in public domains.\n\n\n\n\nThings to know\n\nWhich app’s config files need to stored.\nWhere do those config files are located.\n\n\n\nCommon config files that need storing\n\n.bashrc or .zshrc\n.vimrc or init.vim(in the case of neovim)\n.gitignore_global and .gitconfig\nTerminal emulator config files\nIDE of choice config files\nAnyother config you want to save\n\nIn fact, if there is an app that you have configured heavily and frequently use, its config files must be stored. In the case the said app doesn’t allow exporting of configurations, it is highly recommended to move onto one that allows it.\n\n\nWhere are most required dotfiles located?\nMost files are present in $HOME or $XDG_CONFIG_HOME directories. $XDG_CONFIG_HOME defines the base directory relative to which user-specific configuration files should be stored. If $XDG_CONFIG_HOME is either not set or empty, a default equal to $HOME/.config should be used."
   },
   {
-    "objectID": "posts/2021-09-18-kaggle-setup/index.html#download-api-token",
-    "href": "posts/2021-09-18-kaggle-setup/index.html#download-api-token",
-    "title": "Setting up Kaggle on Linux/Mac",
-    "section": "Download API token",
-    "text": "Download API token\n\nCreate/login into your kaggle account.\nFrom the site header, click on your user profile picture and select Account. You will be land on your profile with account tab active.\nScroll down to API section. Click Create New API Token. A json file will be downloaded your default download directory."
+    "objectID": "posts/2022-01-09-dotfiles/index.html#gnu-stow",
+    "href": "posts/2022-01-09-dotfiles/index.html#gnu-stow",
+    "title": "Manage dotfiles with GNU Stow",
+    "section": "GNU Stow",
+    "text": "GNU Stow\nSome prominent results when googled for storing dotfiles are this Atlassian tutorial and using yadm. However, I found those harder to get started.\nGNU Stow on the other hand is an easy-to-use symlink farm manager. As described in their website, it takes distinct packages of software and/or data located in separate directories on the filesystem, and makes them appear to be installed in the same place.\nThis strategy works brilliantly for dotfiles. Borrowing explanation from Brandon Invergo’s article:\n\nThe procedure is simple. I created the ${HOME}/dotfiles directory and then inside it I made subdirectories for all the programs whose configurations I wanted to manage. Inside each of those directories, I moved in all the appropriate files, maintaining the directory structure of my home directory. So, if a file normally resides at the top level of your home directory, it would go into the top level of the program’s subdirectory. If a file normally goes in the default ${XDG_CONFIG_HOME}/${PKGNAME} location (${HOME}/.config/${PKGNAME}), then it would instead go in ${HOME}/dotfiles/${PKGNAME}/.config/${PKGNAME} and so on.\n\n\nInstall Stow\n\n\nTerminal\n\n1sudo apt stow\n\n2brew install stow\n\n\n1\n\nUbuntu\n\n2\n\nHomebrew Mac\n\n\n\n\nPlacing the files\nNow, it might look complex at first. Let me explain with some examples. - .bashrc or .zshrc are present/needed in $HOME directory, so inside $HOME/dotfiles create a subdirectory with bashrc or zshrc and place the original .bashrc or .zshrc file appropriately inside their folder. GNU Stow understands that the dotfile, when symlinked, will create a symlink-copy in the $HOME directory. For future modifications, file in either locations can be edited. But for simplicity, use $HOME/dotfiles directory. - A complicated example would be a config file located deep inside subfolders: nvim’s or neovim’s init.vim or init.lua file. It is present in $HOME/.config/nvim/init.vim. For Stow to understand, it must be placed like this – $HOME/dotfiles/nvim/.config/nvim/init.vim\nFor further reading, I recommend brilliantly written Jake Weisler’s post on GNU Stow.\n\n\nUseful Stow commands\nIf correctly installed, then running the command stow --help should list options to use Stow. Most used commands are\n\n\nTerminal\n\n1stow &lt;packagename&gt;\n2stow -n &lt;packagename&gt;\n3stow -D &lt;packagename&gt;\n4stow -R &lt;packagename&gt;\n\n\n1\n\nactivates symlink\n\n2\n\ntrial runs or simulates symlink generation. Effective for checking for errors\n\n3\n\ndelete stowed package\n\n4\n\nrestows package\n\n\n\n\nActivating Stow\nSo if we have created three subdirectories inside dotfiles say zsh, git, nvim, then\n\n\nTerminal\n\nstow bash git nvim\n\nwill activate their symlinks.\nIf returned to $HOME and $XDG_CONFIG_HOME and verified, then we will see,\n\n\nTerminal\n\n.gitconfig -&gt; .dotfiles/git/.gitconfig\n.zshrc -&gt; .dotfiles/zsh/.zshrc\nnvim -&gt; ../.dotfiles/nvim/.config/nvim\n\nThe most awesome thing in all this is, the directory structure needs to be created only once. For future requirement, one simply clones the dotfiles directory and activates symlinks."
   },
   {
-    "objectID": "posts/2021-09-18-kaggle-setup/index.html#move-.json-file-to-the-correct-location",
-    "href": "posts/2021-09-18-kaggle-setup/index.html#move-.json-file-to-the-correct-location",
-    "title": "Setting up Kaggle on Linux/Mac",
-    "section": "Move .json file to the correct location",
-    "text": "Move .json file to the correct location\n\nMove it to .kaggle in the home directory. Create if absent.\n\n\n\nTerminal\n\ncd\nmkdir ~/.kaggle\nmv &lt;location&gt;/kaggle.json ~/.kaggle/kaggle.json\n\n\nFor your security, ensure that other users of your computer do not have read access to your credentials. On Unix-based systems you can do this with the following command:\n\n\n\nTerminal\n\nchmod 600 ~/.kaggle/kaggle.json\n\n\nRestart the terminal and navigate to the env where kaggle package is installed if necessary."
-  },
-  {
-    "objectID": "posts/2021-09-18-kaggle-setup/index.html#check-if-it-is-properly-installed",
-    "href": "posts/2021-09-18-kaggle-setup/index.html#check-if-it-is-properly-installed",
-    "title": "Setting up Kaggle on Linux/Mac",
-    "section": "Check if it is properly installed",
-    "text": "Check if it is properly installed\n\nRun:\n\n\n\nTerminal\n\n$python\n&gt;&gt;&gt;import kaggle\n\nImporting kaggle shouldn’t return an error. If there is error, check whether you’re in the right env where kaggle is installed.\nIf no error, exit the shell and type the following command in the terminal.\n\n\nTerminal\n\nkaggle competitions list\n\nIf installed properly, the command will list all the entered competitions. 1. If not, the binary path may be incorrect. Usually it is installed in ~/.local/bin Try using\n\n\nTerminal\n\n~/.local/bin/kaggle competitions list\n\n\nIf the above command works, export that binary path to the shell environment(bashrc) so that you might use just kaggle next time."
-  },
-  {
-    "objectID": "posts/2021-09-18-kaggle-setup/index.html#api-usage",
-    "href": "posts/2021-09-18-kaggle-setup/index.html#api-usage",
-    "title": "Setting up Kaggle on Linux/Mac",
-    "section": "API usage",
-    "text": "API usage\nIt is time to use the Kaggle API. For example, to see what dataset command offers, in the CLI enter\n\n\nTerminal\n\nkaggle dataset --help\n\n\n\n\n\n\n\nTip\n\n\n\nTip: Remember to comply with competition’s terms and conditions before downloading the dataset. You will get an error forbidden if you try to download before agreeing.\n\n\nFor more info on the API, Kaggle’s github page is an excellent resource."
+    "objectID": "posts/2022-01-09-dotfiles/index.html#storing-files-in-git",
+    "href": "posts/2022-01-09-dotfiles/index.html#storing-files-in-git",
+    "title": "Manage dotfiles with GNU Stow",
+    "section": "Storing files in Git",
+    "text": "Storing files in Git\nThe dotfiles directory now becomes important to store in a remote location for safe keeping. Usually a git repository is the preferred method. For instructions on how to use git, look up various tutorials on Git in the internet.\nIn summary, I have written a short, albeit technical write up on GNU Stow, and its uses for storing dotfiles. Feel free to ask questions in the comments or via various means linked in the blog."
   },
   {
     "objectID": "posts/2023-04-27-getting-started-with-s3/index.html",
@@ -291,7 +277,98 @@
     "href": "posts/2023-04-27-getting-started-with-s3/data/30-days-create-folds.html",
     "title": "Deepak Ramani's blog",
     "section": "",
-    "text": "::: {.cell _cell_guid=‘b1076dfc-b9ad-4769-8c92-a6c4dae69d19’ _uuid=‘8f2839f25d086af736a60e9eeb907d3b93b6e0e5’ execution=‘{“iopub.execute_input”:“2021-08-16T20:16:18.360034Z”,“iopub.status.busy”:“2021-08-16T20:16:18.358906Z”,“iopub.status.idle”:“2021-08-16T20:16:19.347479Z”,“shell.execute_reply”:“2021-08-16T20:16:19.348020Z”,“shell.execute_reply.started”:“2021-08-16T20:05:04.468564Z”}’ papermill=‘{“duration”:0.999913,“end_time”:“2021-08-16T20:16:19.348363”,“exception”:false,“start_time”:“2021-08-16T20:16:18.348450”,“status”:“completed”}’ tags=‘[]’ execution_count=1}\nimport numpy as np\nimport pandas as pd\nfrom sklearn import model_selection\n:::\n\ndf_train = pd.read_csv(\"../input/30-days-of-ml/train.csv\")\n\n\ndf_train[\"kfold\"] = -1\n\n\nkf = model_selection.KFold(n_splits=5, shuffle=True, random_state=42)\nfor fold, (train_indicies, valid_indicies) in enumerate(kf.split(X=df_train)):\n    df_train.loc[valid_indicies, \"kfold\"] = fold\n\n\ndf_train.to_csv(\"train_folds.csv\", index=False)"
+    "text": "::: {#4e7e904b .cell _cell_guid=‘b1076dfc-b9ad-4769-8c92-a6c4dae69d19’ _uuid=‘8f2839f25d086af736a60e9eeb907d3b93b6e0e5’ execution=‘{“iopub.execute_input”:“2021-08-16T20:16:18.360034Z”,“iopub.status.busy”:“2021-08-16T20:16:18.358906Z”,“iopub.status.idle”:“2021-08-16T20:16:19.347479Z”,“shell.execute_reply”:“2021-08-16T20:16:19.348020Z”,“shell.execute_reply.started”:“2021-08-16T20:05:04.468564Z”}’ papermill=‘{“duration”:0.999913,“end_time”:“2021-08-16T20:16:19.348363”,“exception”:false,“start_time”:“2021-08-16T20:16:18.348450”,“status”:“completed”}’ tags=‘[]’ execution_count=1}\nimport numpy as np\nimport pandas as pd\nfrom sklearn import model_selection\n:::\n\ndf_train = pd.read_csv(\"../input/30-days-of-ml/train.csv\")\n\n\ndf_train[\"kfold\"] = -1\n\n\nkf = model_selection.KFold(n_splits=5, shuffle=True, random_state=42)\nfor fold, (train_indicies, valid_indicies) in enumerate(kf.split(X=df_train)):\n    df_train.loc[valid_indicies, \"kfold\"] = fold\n\n\ndf_train.to_csv(\"train_folds.csv\", index=False)"
+  },
+  {
+    "objectID": "posts/2021-09-18-kaggle-setup/index.html",
+    "href": "posts/2021-09-18-kaggle-setup/index.html",
+    "title": "Setting up Kaggle on Linux/Mac",
+    "section": "",
+    "text": "Most of latest data science innovations happen at Kaggle. Kaggle hosts, in addtion to competitions, a large collection of datasets from various fields. The easiest way to interact with Kaggle is through its public API via command-line tool(CLI). Setting it up outside of Kaggle kernels is one of first tasks. In this post, I will guide you through that process."
+  },
+  {
+    "objectID": "posts/2021-09-18-kaggle-setup/index.html#installation",
+    "href": "posts/2021-09-18-kaggle-setup/index.html#installation",
+    "title": "Setting up Kaggle on Linux/Mac",
+    "section": "Installation",
+    "text": "Installation\n\n\nTerminal\n\npip install --user kaggle\n\n\n\n\n\n\n\nTip\n\n\n\nTip: Install kaggle package inside your conda ML development environment rather than outside of it or in base env.\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nDon’t do sudo pip install kaggle as it would require admin privileges for every run."
+  },
+  {
+    "objectID": "posts/2021-09-18-kaggle-setup/index.html#download-api-token",
+    "href": "posts/2021-09-18-kaggle-setup/index.html#download-api-token",
+    "title": "Setting up Kaggle on Linux/Mac",
+    "section": "Download API token",
+    "text": "Download API token\n\nCreate/login into your kaggle account.\nFrom the site header, click on your user profile picture and select Account. You will be land on your profile with account tab active.\nScroll down to API section. Click Create New API Token. A json file will be downloaded your default download directory."
+  },
+  {
+    "objectID": "posts/2021-09-18-kaggle-setup/index.html#move-.json-file-to-the-correct-location",
+    "href": "posts/2021-09-18-kaggle-setup/index.html#move-.json-file-to-the-correct-location",
+    "title": "Setting up Kaggle on Linux/Mac",
+    "section": "Move .json file to the correct location",
+    "text": "Move .json file to the correct location\n\nMove it to .kaggle in the home directory. Create if absent.\n\n\n\nTerminal\n\ncd\nmkdir ~/.kaggle\nmv &lt;location&gt;/kaggle.json ~/.kaggle/kaggle.json\n\n\nFor your security, ensure that other users of your computer do not have read access to your credentials. On Unix-based systems you can do this with the following command:\n\n\n\nTerminal\n\nchmod 600 ~/.kaggle/kaggle.json\n\n\nRestart the terminal and navigate to the env where kaggle package is installed if necessary."
+  },
+  {
+    "objectID": "posts/2021-09-18-kaggle-setup/index.html#check-if-it-is-properly-installed",
+    "href": "posts/2021-09-18-kaggle-setup/index.html#check-if-it-is-properly-installed",
+    "title": "Setting up Kaggle on Linux/Mac",
+    "section": "Check if it is properly installed",
+    "text": "Check if it is properly installed\n\nRun:\n\n\n\nTerminal\n\n$python\n&gt;&gt;&gt;import kaggle\n\nImporting kaggle shouldn’t return an error. If there is error, check whether you’re in the right env where kaggle is installed.\nIf no error, exit the shell and type the following command in the terminal.\n\n\nTerminal\n\nkaggle competitions list\n\nIf installed properly, the command will list all the entered competitions. 1. If not, the binary path may be incorrect. Usually it is installed in ~/.local/bin Try using\n\n\nTerminal\n\n~/.local/bin/kaggle competitions list\n\n\nIf the above command works, export that binary path to the shell environment(bashrc) so that you might use just kaggle next time."
+  },
+  {
+    "objectID": "posts/2021-09-18-kaggle-setup/index.html#api-usage",
+    "href": "posts/2021-09-18-kaggle-setup/index.html#api-usage",
+    "title": "Setting up Kaggle on Linux/Mac",
+    "section": "API usage",
+    "text": "API usage\nIt is time to use the Kaggle API. For example, to see what dataset command offers, in the CLI enter\n\n\nTerminal\n\nkaggle dataset --help\n\n\n\n\n\n\n\nTip\n\n\n\nTip: Remember to comply with competition’s terms and conditions before downloading the dataset. You will get an error forbidden if you try to download before agreeing.\n\n\nFor more info on the API, Kaggle’s github page is an excellent resource."
+  },
+  {
+    "objectID": "posts/2023-06-02-Terraform-setup/index.html",
+    "href": "posts/2023-06-02-Terraform-setup/index.html",
+    "title": "Setup Terraform",
+    "section": "",
+    "text": "Terraform from Hasicorp is Infrastructure as Code(IaC) tool that is gaining popularity among the data engineers. It lets us build, change and version infrastructure safely and efficiently. As to why one needs Terraform, I shall direct you to this comprehensive article.\nIn this post, I will write a small guide to get us started with Terraform. This post then can be used as a starting guide for my future posts involving Terraform.\n\n\n\n\n\n\nNote\n\n\n\nNote that this installation guide is only for Mac(M1 silicon) and Ubuntu(GCP E2-medium instance). Also this guide will look similar to the example provided in Hashicorp’s website. The intention is to have a guide for my benefit in one place.\n\n\n\n\nA fully functional Macbook or an Ubuntu GCP/AWS instance with sudo privileges."
+  },
+  {
+    "objectID": "posts/2023-06-02-Terraform-setup/index.html#what-is-main.tf",
+    "href": "posts/2023-06-02-Terraform-setup/index.html#what-is-main.tf",
+    "title": "Setup Terraform",
+    "section": "What is main.tf?",
+    "text": "What is main.tf?\nIt is a terraform configuration file that describes infrastructure in Terraform. Each terraform config needs a separate directory with a single main.tf.\nThis file contains:\n\nTerraform block\nProviders\nResources\n\n\nTerraform block\nThis block contains Terraform settings for require providers that Terraform will use to provision infrastructure. In our case it is kreuzwerker/docker as source. kreuzwereker is the provider/developer/host and docker is the product we are interested in using. We can specify the minimum version to install. If not mentioned, Terraform will install the lastest version available. Terraform registry is default place to look for popular providers such as AWS, GCP, Azure.\nterraform {\n  required_providers {\n    docker = {\n      source  = \"kreuzwerker/docker\"\n      version = \"~&gt; 3.0.1\"\n    }\n  }\n}\n\n\nProviders\nNow that Terraform knows the “source”, we need to provide a “provider”. Docker is our choice. In this block we can configure docker provider.\nprovider \"docker\" {}\n\n\nResources\nA resource block is used to define components of the provider previously mentioned. So we have a docker provider. We need a docker image and build a container for that image.\nresource \"docker_image\" \"nginx\" {\n  name         = \"nginx\"\n  keep_locally = false\n}\nresource \"docker_container\" \"nginx\" {\n  image = docker_image.nginx.image_id\n  name  = \"tutorial\"\n  ports {\n    internal = 80\n    external = 8000\n  }\n}\nThe resource block takes two strings - resource type and resource name. docker_image is the type and nginx is the name. These two together docker_image.nginx form a unique ID for the resource. For docker_container resource, we use the image from the previous block as reference. So a container is created with that image and ports are also mapped."
+  },
+  {
+    "objectID": "posts/2023-06-02-Terraform-setup/index.html#validate-and-initialise-the-configuration",
+    "href": "posts/2023-06-02-Terraform-setup/index.html#validate-and-initialise-the-configuration",
+    "title": "Setup Terraform",
+    "section": "Validate and initialise the configuration",
+    "text": "Validate and initialise the configuration\nTerraform has a bunch of CLI commands to make things easier and faster. One needs to remember only 5-6 commands. Rest can be looked up later.\nTo validate the configuration we use\n\n\nTerminal\n\n1terrform validate\n\n\n1\n\nReturns “Success! The configuration is valid.” if syntactically valid.\n\n\nThen we need to initialise our configuration. This process will download and install the providers mentioned. This command will create a hidden directory .terraform and install docker provider. Terraform also creates a lock file named .terraform.lock.hcl which specifies the exact provider versions used, so that you can control when you want to update the providers used for your project."
+  },
+  {
+    "objectID": "posts/2023-06-02-Terraform-setup/index.html#plan-and-create-infrastructure",
+    "href": "posts/2023-06-02-Terraform-setup/index.html#plan-and-create-infrastructure",
+    "title": "Setup Terraform",
+    "section": "Plan and create infrastructure",
+    "text": "Plan and create infrastructure\nTerraform allows us to see what will be created through terraform plan commands. This command is used to give an overview of the things that will be created. An extra, precautionary step. It looks trivial for our use case but imagine a big organisation with several team members managing infrastructure. Even deleting a resource accidently will create chaos. It is always advised to run terraform plan, overview and then go ahead with creating resources.\nterraform apply is then given to apply the configuration. This is then approved to actually create resources. In our case a nginx docker image is downloaded and container using that image is created with port forwarding."
+  },
+  {
+    "objectID": "posts/2023-06-02-Terraform-setup/index.html#result",
+    "href": "posts/2023-06-02-Terraform-setup/index.html#result",
+    "title": "Setup Terraform",
+    "section": "Result",
+    "text": "Result\nA nginx server has been started and we can access it through http:127.0.0.1:8000. We will be greeted with a message “Welcome to nginx!”."
+  },
+  {
+    "objectID": "posts/2023-06-02-Terraform-setup/index.html#terraform-state",
+    "href": "posts/2023-06-02-Terraform-setup/index.html#terraform-state",
+    "title": "Setup Terraform",
+    "section": "Terraform state",
+    "text": "Terraform state\nTerraform has a state(status) file which stores the current state(metadata) of the infrastructure. Any changes to the resource configuration will be reflected into this file. If working in a team, it is advised to store this state file remotely such as s3, gcs etc with versioning and state locking.\n\nTweaking the infrastructure\nTo understand state file better, we shall change the port from 8000 to 8010 in the docker_container resource block.\nresource \"docker_container\" \"nginx\" {\n  image = docker_image.nginx.image_id\n  name  = \"tutorial\"\n  ports {\n    internal = 80\n    external = 8010\n  }\n}\nYou will see that there will be two state files - terraform.tfstate and terraform.tfstate.backup. On the first run both file’s contents will be same. However, now that we changed the port to 8010, terraform.tfstate will change 8010 but the backup file will retain 8000. This is Terraform’s rollback feature.\nApply the changes using terraform apply."
+  },
+  {
+    "objectID": "posts/2023-06-02-Terraform-setup/index.html#destroy-infrastructure",
+    "href": "posts/2023-06-02-Terraform-setup/index.html#destroy-infrastructure",
+    "title": "Setup Terraform",
+    "section": "Destroy infrastructure",
+    "text": "Destroy infrastructure\nTo destroy resources after use, we can use terraform destroy command. Review the plan and approve it. Be cautious using this command in an organisation."
   },
   {
     "objectID": "posts/2023-02-06-skim-vimtex/index.html",
@@ -336,39 +413,11 @@
     "text": "Conclusion\nWith just four lines of settings in the init.vim file and a line in Skim preferances, we can activate both forward and backward search features with VimTeX."
   },
   {
-    "objectID": "posts/2023-02-06-skim-vimtex/index.html#footnotes",
-    "href": "posts/2023-02-06-skim-vimtex/index.html#footnotes",
-    "title": "Setup Skim PDF reader with VimTeX in Mac OS",
-    "section": "Footnotes",
-    "text": "Footnotes\n\n\nIn the nvim command line, run :echo v:servername to know the name of the server↩︎"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Deepak Ramani's blog",
-    "section": "",
-    "text": "Date\n\n\nTitle\n\n\nReading Time\n\n\n\n\n\n\n\n\n\nJun 2, 2023\n\n\nSetup Terraform\n\n\n7 min\n\n\n\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n6 min\n\n\n\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n4 min\n\n\n\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n15 min\n\n\n\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n4 min\n\n\n\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n3 min\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html#blog-posts",
-    "href": "index.html#blog-posts",
-    "title": "Deepak Ramani's blog",
-    "section": "",
-    "text": "Date\n\n\nTitle\n\n\nReading Time\n\n\n\n\n\n\n\n\n\nJun 2, 2023\n\n\nSetup Terraform\n\n\n7 min\n\n\n\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n6 min\n\n\n\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n4 min\n\n\n\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n15 min\n\n\n\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n4 min\n\n\n\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n3 min\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html#projects",
-    "href": "index.html#projects",
-    "title": "Deepak Ramani's blog",
-    "section": "Projects",
-    "text": "Projects\n\n\n\n\n\n\nProject\n\n\nDescription\n\n\nRole\n\n\n\n\n\n\nGrocery Unit Sale Predictor - a MLOPS project\n\n\nAn end-to-end ML project that designs and manages a ML model production workflow. \n\n\nCreator\n\n\n\n\nAutonomous driving framework - a DL project\n\n\nAn end-to-end autonomous driving neural network ML model using simpler CNN architecture. \n\n\nCreator\n\n\n\n\n\n\nNo matching items"
-  },
-  {
     "objectID": "archive.html",
     "href": "archive.html",
     "title": "Archive",
     "section": "",
-    "text": "Date\n\n\nTitle\n\n\n\n\n\n\nJun 2, 2023\n\n\nSetup Terraform\n\n\n\n\nMay 10, 2023\n\n\nNotes - LinkedIn course - Financial data analysis\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n\n\nSep 7, 2022\n\n\nNotes - Python concepts\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n\n\n\n\nNo matching items"
+    "text": "Date\n\n\nTitle\n\n\n\n\n\n\nundefined\n\n\nundefined\n\n\n\n\nJun 2, 2023\n\n\nSetup Terraform\n\n\n\n\nMay 10, 2023\n\n\nNotes - LinkedIn course - Financial data analysis\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n\n\nSep 7, 2022\n\n\nNotes - Python concepts\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -376,69 +425,6 @@
     "title": "Deepak Ramani",
     "section": "",
     "text": "Hello, I’m Deepak! I am a passionate software engineer with a strong interest in data engineering, DevOps, and machine learning. I thrive on tackling complex problems and finding innovative solutions through collaborative teamwork. I spend my free time learning new tools and technologies. Currently learning “effective Pandas” and Kubeflow.\nWith a background in software engineering I am driven by a desire to leverage the power of data to drive impactful results. During my master’s thesis, I developed an end-to-end system with a focus on implementing simpler CNN model architectures to achieve comparable performance to the latest models. This experience allowed me to deepen my understanding of data collection, preprocessing, and the fusion techniques necessary for night-time driving and collision avoidance.\nI am an enthusiastic learner who stays up-to-date with the latest industry trends and technologies. My strong problem-solving skills, combined with my passion for teamwork, enable me to contribute to challenging projects and deliver high-quality results. I am now seeking new opportunities in Germany to apply my skills and knowledge in data engineering, DevOps, and machine learning, making a meaningful impact within a dynamic organization.\nFeel free to connect with me to explore collaboration opportunities, share insights, or discuss exciting projects in these fields. Let’s embark on this journey together to drive innovation and solve complex problems."
-  },
-  {
-    "objectID": "notes/python_concepts.html",
-    "href": "notes/python_concepts.html",
-    "title": "Python concepts notes",
-    "section": "",
-    "text": "These are some of my notes on python concepts I gathered from various sources."
-  },
-  {
-    "objectID": "notes/python_concepts.html#super",
-    "href": "notes/python_concepts.html#super",
-    "title": "Python concepts notes",
-    "section": "Super()",
-    "text": "Super()\nsuper() allows to call the base class implicitly without the need to use the base class name explicitly. The main advantage is seen during multiple inheritance. The child classes that may be using cooperative multiple inheritance will call the correct next parent class function in the Method Resolution Order(MRO).\nSyntax Python3 super().__init__() Python2 and still valid in python3 super(childclassname,self).__init__()\nAvoid using like this – super(self.__class__,self).__init__(). This leads to recursion but fortunately python3 syntax standard side steps this problem.\nMore info in stackoverflow"
-  },
-  {
-    "objectID": "notes/python_concepts.html#pycache__",
-    "href": "notes/python_concepts.html#pycache__",
-    "title": "Python concepts notes",
-    "section": "__Pycache__",
-    "text": "__Pycache__\n__pycache__ is a directory containing python3 bytecode compiled and ready to be executed. This is done to speed up loading of the modules. Python caches the compiled version of each module in this directory. More info in the python official docs"
-  },
-  {
-    "objectID": "notes/python_concepts.html#zip-function",
-    "href": "notes/python_concepts.html#zip-function",
-    "title": "Python concepts notes",
-    "section": "Zip function",
-    "text": "Zip function\nThis function enables combination of elements in 2 or more lists. If the lists are of unequal lengths then the minimum length is taken.\nFor example - zip([1,2,3],[\"one\", \"two\"]) returns a tuple (1, \"one\"), (2, \"two\"). Notice how 3 is not part of the zip operation."
-  },
-  {
-    "objectID": "notes/python_concepts.html#lambda-function",
-    "href": "notes/python_concepts.html#lambda-function",
-    "title": "Python concepts notes",
-    "section": "Lambda function",
-    "text": "Lambda function\nAlso knows as anonymous functions helps reduce the need to define unnecessary custom functions. For example, a function that returns a simple arithmetic operation can be made as a lambda function.\nExample - lambda x,y,...: x+y+... - lambda takes several arguments but returns only one expression."
-  },
-  {
-    "objectID": "notes/python_concepts.html#map-function",
-    "href": "notes/python_concepts.html#map-function",
-    "title": "Python concepts notes",
-    "section": "Map function",
-    "text": "Map function\nMap is a function that allows some kind of function upon a sequence. This sequence can be list, tuple, string etc.\nSyntax: map(function, seq)\nlambda functions are commonly used with map functions.\nExample -\n\nx = [1,2,3,4]\ndef square(x):\n    return x*x\nmap(square,x) #--&gt;returns an iterator in python3.\n#To return in the desired sequence, use that as prefix in map. \nlist(map(square,x)) #--&gt; returns as a list.\n\n[1, 4, 9, 16]\n\n\nWith lambda function:\n\na = [1,2,3,4]\nlist(map(lambda x:x*x,a))\n\n[1, 4, 9, 16]\n\n\nWith map more than one sequence can be used -\n\nb = [1, 1, 1, 1]\nlist(map(lambda x,y:x+y, a,b))    \n\n[2, 3, 4, 5]"
-  },
-  {
-    "objectID": "notes/python_concepts.html#filter-function",
-    "href": "notes/python_concepts.html#filter-function",
-    "title": "Python concepts notes",
-    "section": "Filter function",
-    "text": "Filter function\nThis function is used to filter the outputs if the sequence satisfies some condition. This can be easily written as a list comprehension or a generator. list(filter(lambda x:x%2==0, range(1,11))"
-  },
-  {
-    "objectID": "notes/python_concepts.html#reduce-function",
-    "href": "notes/python_concepts.html#reduce-function",
-    "title": "Python concepts notes",
-    "section": "Reduce function",
-    "text": "Reduce function\nThis was removed from the inbuilt functions in python3 and added to functools. It is similar to map function but unlike map it takes only one iterable. list(reduce(lambda x,y:x+y, a)). Internally assigns x and y and calculates the desired function.\nEach of the above function can be substituted with list comprehension.\n\nnamespace and variable scope\nNamespace is the space occupied by an entity in the program. When two or more programs contain the same name, a method to invoke a unique program is done using its module name.\n\n\nLEGB Rule\nVariable scope has three visibilty levels – builtin, global, enclosed, and local.\nLocal scope - variables defined inside a local function. Their lifecycle ends with the local function. Global scope - variable defined at the top of the module and is available for all the functions underneath it. Enclosed scope - seen in nested function. built-in scope - names within python built-in functionality like print().\nChange a global variable inside a local function? use global keyword. Change a enclosed variable inside an enclosed(nested)-local function? use nonlocal keyword. The order of execution follows local, enclosed, global, and built-in.\n\n\nClosures\nClosure is a concept to invoke an enclosed(nested)-local function outside of its scope. This uses a python’s property – functions are first class object. Example -\n\ndef f():\n    return 2\ng = f\n\ng here gets the function f’s location(reference) or the path of the function till the end of it. This functionality is helpful in accessing an enclosed(nested)-local function beyond its scope.\nexample -\n\ndef f():\n    x = 4\n    def g():\n        y = 3\n        return x+y\n    return g\n\na = f()\nprint(a) #--&gt; returns path till function 'g'\nprint(a()) #--&gt; returns 7\nprint(a.__name__) #--&gt; return function 'g' name.\n\n&lt;function f.&lt;locals&gt;.g at 0x1037b8dc0&gt;\n7\ng\n\n\nWhy closures? * Avoid global values * Data hiding * Implement decorators\n\n\nDecorators\nAny callable object that is used to modify a function or class. Adds additional functionality to existing function or class. Basically a wrapper around the existing function where the existing function code couldn’t be changed but additional features/checks are necessary. It is much easier to use the decorator than writing one. The wrapper becomes complex as the functions it wraps get longer.\nA decorator should: * take a function as parameter * add functionality to the function * function needs to return another function\nTwo types: - Function decorator - Class decorator\n\n\nfunction call as parameter\n\ndef f1():\n    print(\"hello from f1\")\ndef f2(function):\n    print(\"hello from f2\")\n    function()\nf2(f1)\n\nhello from f2\nhello from f1\n\n\n\n\nMultiple decorators\n\ndef f1(func):\n    def inner():\n        return \"first \" + func() +\" first\"\n    return inner\n\ndef f2(func):\n    def wrapper():\n        return \"second \" + func()+\" second\"\n    return wrapper\n\n@f1\n@f2\ndef ordinary():\n    return \"good morning\"\n\nprint(ordinary())\n\nfirst second good morning second first\n\n\n&gt;&gt;&gt;&gt; first second good morning second first\nAt first, the f2 decorator is called and prints second good morning second, then f1 decorator takes that output and prefixes and suffixes with first.\n\n\nDecorators with parameters\nTo pass parameters to a decorator, the nested function in the previous case must be defined inside a function.\n\ndef outer(x):\n    def f1(func):\n        def inner():\n            return func() + x\n        return inner\n    return f1\n\n\n@outer(\" everyone\")\ndef greet():\n    return \"good morning\"\n\nprint(greet)\n\n&lt;function outer.&lt;locals&gt;.f1.&lt;locals&gt;.inner at 0x13f874310&gt;\n\n\n\ndef div1(a,b):\n    return a/b\n\ndef div2(a,b,c):\n    return a/b/c\n\nprint(div1(5,0))\nprint(div2(3,4,5))\n\nZeroDivisionError: division by zero\n\n\nTo protect against division-by-zero error, a decorator is written.\n\ndef div_by_zero_dec(func):\n    def inner(*args):\n        for i in args[1:]:\n            if i == 0:\n               return \"Enter valid non-zero input for denominator\"\n        #gives the general error and not decorator output for div2 function if the input is zero\n        #answer =  [\"Enter valid non-zero input for denominator\" if i == 0 else func(*args) for i in args[1:]]\n        return func(*args)\n        #return answer  \n    return inner\n\n@div_by_zero_dec\ndef div1(a,b):\n    return a/b\n\n@div_by_zero_dec\ndef div2(a,b,c):\n    return a/b/c\n\nprint(div1(5,0))\nprint(div2(3,1,0))\n\nEnter valid non-zero input for denominator\nEnter valid non-zero input for denominator\n\n\n\n\nData hiding\nDecorators inherently hides the original function. To avoid that we can use wraps() method from functools.\n\nfrom functools import wraps\ndef outer(x):\n    def f1(func):\n        @wraps(func)\n        def inner():\n            return func() + x\n        return inner\n    return f1\n\n\n@outer(\" everyone\")\ndef greet():\n    return \"good morning\"\n\nprint(greet.__name__)\n\ngreet\n\n\n\n\nClass decorators\nDecorator function can be applied to class methods also.\n\n#check for name equal to Justin is done with a decorator\ndef check_name(func):\n    def inner(name_ref):\n        if name_ref.name == \"Justin\":\n            return \"There is another Justin\"\n        return func(name_ref)\n    return inner\n\nclass Printing():\n    def __init__(self, name):\n        self.name = name\n    \n    @check_name\n    def print_name(self):\n        print(f\"username is {self.name}\")\n\np = Printing(\"Justin\")\np.print_name()\n#username is Justin\n#There is another Justin\n\n'There is another Justin'\n\n\nTo make a class decorator, we need to know about a special method called __call__. If a __call__ method is defined, the object of a class can be used as function call.\n\nclass Printing():\n    def __init__(self, name):\n        self.name = name\n    \n    def __call__(self):\n        print(f\"username is {self.name}\")\n\np = Printing(\"Lindon\")\np()\n# username is Lindon\n\nusername is Lindon\n\n\n\n\nClass decorator on a function\n\nclass Decorator_greet:\n    def __init__(self, func):\n        self.func = func\n    def __call__(self):\n        return self.func().upper()\n\n@Decorator_greet\ndef greet():\n    return \"good morning\"\n\nprint(greet())\n#GOOD MORNING\n\nGOOD MORNING\n\n\n\n\nBuilt-in decorators\n\n@property\n@classmethod\n@staticmethod\n\n\n\n@property\n\nClass methods as attributes The idea of a wrapper is to make changes to code base without hindering its use for the end user. Using @property decorator, a class variable which is now a class method will give the result if used just like accessing the variable. For example - objectname.function() or objectname.function will give the same result without errors. So the user can access just like they did previously.\n\nBorrowing idea from other programming languages, the private variables are defined with __ prefix. So to access those variables, getter, setter, and deleter methods are necessary. Accessing is done with getter method. So it gets @property decorator. Both setters and deleters get @functionname.setter or @functionname.deleter. (verify this. could be wrong)\n\n@classmethod Insted of self, the classmethod decorator takes cls as first argument for its function. These methods can access and modify class states.\n@staticmethod This is similar to classmethod but takes no predefined argument like instance method(self) or classmethod(cls). These methods can’t access class state. So ideally they are used for checking conditions.\n\nDecorator Template\n\nimport functools\n\ndef my_decorator(func):\n    @functools.wraps(func)\n    def wrapper(*args, **kwargs):\n        # Do something before\n        result = func(*args, **kwargs)\n        # Do something after\n        return result\n    return wrapper"
-  },
-  {
-    "objectID": "notes/python_concepts.html#context-managers",
-    "href": "notes/python_concepts.html#context-managers",
-    "title": "Python concepts notes",
-    "section": "Context Managers",
-    "text": "Context Managers\nUsually with is used w.r.t to file operations, database connections. In addition to using with and as keywords, we can make custom context managers using @contextlib.contextmanger which is a generator decorator.\n\nfrom contextlib import contextmanager\n\n@contextmanager\ndef opening(filename, method):\n    print(\"Enter\")\n    f = open(filename, method) \n    try:\n        yield f\n    finally:\n        f.close()\n        print(\"Exit\")\n\nwith opening(\"hello.txt\", \"w\") as f:\n    print(\"inside\")\n    f.write(\"hello there\")\n\nEnter\ninside\nExit"
   },
   {
     "objectID": "notes/py_for_finance.html",

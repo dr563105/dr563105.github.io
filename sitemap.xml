@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://dr563105.github.io/projects/mlops.html</loc>
-    <lastmod>2023-06-03T07:00:16.354Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/projects/index.html</loc>
-    <lastmod>2023-06-03T07:00:18.462Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2022-01-09-dotfiles/index.html</loc>
-    <lastmod>2023-06-03T07:00:19.010Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2023-06-02-Terraform-setup/index.html</loc>
-    <lastmod>2023-06-03T07:00:20.398Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2022-09-24-using-json-normalize/index.html</loc>
-    <lastmod>2023-06-03T07:00:23.334Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2021-09-18-kaggle-setup/index.html</loc>
-    <lastmod>2023-06-03T07:00:23.810Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2023-04-27-getting-started-with-s3/index.html</loc>
-    <lastmod>2023-06-03T07:00:24.442Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2023-04-27-getting-started-with-s3/data/30-days-create-folds.html</loc>
-    <lastmod>2023-06-03T07:00:24.794Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2023-02-06-skim-vimtex/index.html</loc>
-    <lastmod>2023-06-03T07:00:25.330Z</lastmod>
+    <loc>https://dr563105.github.io/notes/python_concepts.html</loc>
+    <lastmod>2023-05-20T20:02:31.767Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/index.html</loc>
-    <lastmod>2023-06-03T07:00:25.870Z</lastmod>
+    <lastmod>2023-05-21T21:44:18.460Z</lastmod>
   </url>
   <url>
-    <loc>https://dr563105.github.io/archive.html</loc>
-    <lastmod>2023-06-03T07:00:26.438Z</lastmod>
+    <loc>https://dr563105.github.io/projects/mlops.html</loc>
+    <lastmod>2023-05-21T15:39:57.515Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2022-09-24-using-json-normalize/index.html</loc>
+    <lastmod>2023-05-20T19:15:27.275Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2022-01-09-dotfiles/index.html</loc>
+    <lastmod>2023-03-23T19:17:28.409Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2023-04-27-getting-started-with-s3/index.html</loc>
+    <lastmod>2023-05-20T19:14:10.022Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/resume.html</loc>
-    <lastmod>2023-06-03T07:00:26.750Z</lastmod>
+    <lastmod>2023-03-28T12:34:32.084Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2023-04-27-getting-started-with-s3/data/30-days-create-folds.html</loc>
+    <lastmod>2023-03-22T11:45:21.342Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2021-09-18-kaggle-setup/index.html</loc>
+    <lastmod>2023-05-20T19:15:25.046Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2023-06-02-Terraform-setup/index.html</loc>
+    <lastmod>2023-06-02T12:37:57.180Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2023-02-06-skim-vimtex/index.html</loc>
+    <lastmod>2023-05-20T19:14:33.219Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/projects/index.html</loc>
+    <lastmod>2023-05-20T20:00:25.526Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/archive.html</loc>
+    <lastmod>2023-05-20T19:19:24.960Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/about.html</loc>
-    <lastmod>2023-06-03T07:00:27.126Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/notes/python_concepts.html</loc>
-    <lastmod>2023-06-03T07:00:27.822Z</lastmod>
+    <lastmod>2023-05-21T21:25:14.973Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/notes/py_for_finance.html</loc>
-    <lastmod>2023-06-03T07:00:30.250Z</lastmod>
+    <lastmod>2023-05-20T20:02:21.431Z</lastmod>
   </url>
 </urlset>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Deepak Ramani’s blog</title>
+<title>Deepak Ramani's blog – data-engg</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,29 +23,27 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./logo.png" rel="icon" type="image/png">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/cookie-consent/cookie-consent.js"></script>
-<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../logo.png" rel="icon" type="image/png">
+<script src="../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": true,
@@ -69,64 +67,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-posts-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-image','listing-date','listing-title','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
-      page: 4,
-    pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
-      searchColumns: ["listing-date","listing-title","listing-author"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-posts-listing'] = new List('listing-posts-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-project-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-project','listing-description','listing-role',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-project-sort'] }],
-      
-      searchColumns: ["listing-project","listing-path","listing-role","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-project-listing'] = new List('listing-project-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
 
 <script type="text/plain" cookie-consent="tracking">
@@ -157,23 +97,10 @@ cookieconsent.run({
 <style>html{ scroll-behavior: smooth; }</style>
 <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9028821857593432" crossorigin="anonymous"></script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="alternate" type="application/rss+xml" title="Deepak Ramani's blog" href="index.xml" data-external="1"><meta property="og:title" content="">
-<meta property="og:image" content="https://dr563105.github.io/posts/2023-06-02-Terraform-setup/tf.png">
-<meta property="og:site-name" content="Deepak Ramani's blog">
-<meta property="og:image:height" content="295">
-<meta property="og:image:width" content="849">
-<meta name="twitter:title" content="">
-<meta name="twitter:image" content="https://dr563105.github.io/posts/2023-06-02-Terraform-setup/tf.png">
-<meta name="twitter:creator" content="@thosegradients">
-<meta name="twitter:image-height" content="295">
-<meta name="twitter:image-width" content="849">
-<meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed">
+<body class="floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -186,21 +113,21 @@ cookieconsent.run({
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" rel="" target="" aria-current="page">
+    <a class="nav-link" href="../index.html" rel="" target="">
  <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./notes/index.html" rel="" target="">
+    <a class="nav-link" href="../notes/index.html" rel="" target="">
  <span class="menu-text">Notes</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html" rel="" target="">
+    <a class="nav-link" href="../about.html" rel="" target="">
  <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./resume.pdf" rel="" target="">
+    <a class="nav-link" href="../resume.pdf" rel="" target="">
  <span class="menu-text">Resume</span></a>
   </li>  
 </ul>
@@ -214,10 +141,13 @@ cookieconsent.run({
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(9)</span></div><div class="category" data-category="GNU stow">GNU stow <span class="quarto-category-count">(1)</span></div><div class="category" data-category="aws">aws <span class="quarto-category-count">(1)</span></div><div class="category" data-category="backward search">backward search <span class="quarto-category-count">(1)</span></div><div class="category" data-category="boto3">boto3 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="dotfiles">dotfiles <span class="quarto-category-count">(1)</span></div><div class="category" data-category="inverse search">inverse search <span class="quarto-category-count">(1)</span></div><div class="category" data-category="json">json <span class="quarto-category-count">(1)</span></div><div class="category" data-category="jupyter">jupyter <span class="quarto-category-count">(1)</span></div><div class="category" data-category="kaggle">kaggle <span class="quarto-category-count">(1)</span></div><div class="category" data-category="mac">mac <span class="quarto-category-count">(1)</span></div><div class="category" data-category="markdown">markdown <span class="quarto-category-count">(1)</span></div><div class="category" data-category="neovim">neovim <span class="quarto-category-count">(1)</span></div><div class="category" data-category="pandas">pandas <span class="quarto-category-count">(1)</span></div><div class="category" data-category="s3">s3 <span class="quarto-category-count">(1)</span></div><div class="category" data-category="setup-dev-env">setup-dev-env <span class="quarto-category-count">(1)</span></div><div class="category" data-category="skim">skim <span class="quarto-category-count">(1)</span></div><div class="category" data-category="vim">vim <span class="quarto-category-count">(1)</span></div><div class="category" data-category="vimtex">vimtex <span class="quarto-category-count">(1)</span></div></div></div>
+    </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 <!-- Google tag (gtag.js) -->
@@ -232,195 +162,21 @@ cookieconsent.run({
 
 
 
-<section id="blog-posts" class="level2">
-<h2 class="anchored" data-anchor-id="blog-posts">Blog Posts</h2>
-<div id="listing-posts-listing" class="quarto-listing quarto-listing-container-table">
-<table class="quarto-listing-table table table-hover">
-<thead>
-<tr>
-<th>
-</th>
-<th>
-Date
-</th>
-<th>
-Title
-</th>
-<th>
-Reading Time
-</th>
-</tr>
-</thead>
-<tbody class="list">
-<tr data-index="0" data-listing-file-modified-sort="1685775507349" data-listing-reading-time-sort="0" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
- if (href) { window.location=href ; return false; }">
-<td>
-<span class="listing-image"><div class="listing-item-img-placeholder card-img-top" style="height: 40px;">&nbsp;</div></span>
-</td>
-<td>
-<span class="listing-date">undefined</span>
-</td>
-<td>
-<span class="listing-title">undefined</span>
-</td>
-<td>
-<span class="listing-reading-time">0</span>
-</td>
-</tr>
-<tr data-index="1" data-listing-date-sort="1685644200000" data-listing-file-modified-sort="1685709477180" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-title-sort="Setup Terraform" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
- if (href) { window.location=href ; return false; }">
-<td>
-<span class="listing-image"><img src="./posts/2023-06-02-Terraform-setup/tf.png" style="height: 40px;"></span>
-</td>
-<td>
-<span class="listing-date">Jun 2, 2023</span>
-</td>
-<td>
-<a href="./posts/2023-06-02-Terraform-setup/index.html" class="title listing-title">Setup Terraform</a>
-</td>
-<td>
-<span class="listing-reading-time">7 min</span>
-</td>
-</tr>
-<tr data-index="2" data-categories="boto3,s3,aws" data-listing-date-sort="1682533800000" data-listing-file-modified-sort="1684610050022" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-title-sort="Getting started with S3 using boto3" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
- if (href) { window.location=href ; return false; }">
-<td>
-<span class="listing-image"><img src="./posts/2023-04-27-getting-started-with-s3/logo_awss3.png" style="height: 40px;"></span>
-</td>
-<td>
-<span class="listing-date">Apr 27, 2023</span>
-</td>
-<td>
-<a href="./posts/2023-04-27-getting-started-with-s3/index.html" class="title listing-title">Getting started with S3 using boto3</a>
-</td>
-<td>
-<span class="listing-reading-time">6 min</span>
-</td>
-</tr>
-<tr data-index="3" data-categories="skim,vimtex,neovim,vim,mac,inverse search,backward search" data-listing-date-sort="1675621800000" data-listing-file-modified-sort="1684610073219" data-listing-date-modified-sort="1679596200000" data-listing-reading-time-sort="4" data-listing-title-sort="Setup Skim PDF reader with VimTeX in Mac OS" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
- if (href) { window.location=href ; return false; }">
-<td>
-<span class="listing-image"><img src="./posts/2023-02-06-skim-vimtex/neovim-logo1.png" style="height: 40px;"></span>
-</td>
-<td>
-<span class="listing-date">Feb 6, 2023</span>
-</td>
-<td>
-<a href="./posts/2023-02-06-skim-vimtex/index.html" class="title listing-title">Setup Skim PDF reader with VimTeX in Mac OS</a>
-</td>
-<td>
-<span class="listing-reading-time">4 min</span>
-</td>
-</tr>
-<tr data-index="4" data-categories="pandas,json,jupyter" data-listing-date-sort="1663957800000" data-listing-file-modified-sort="1684610127275" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-title-sort="Using json_normalize Pandas function" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
- if (href) { window.location=href ; return false; }">
-<td>
-<span class="listing-image"><img data-src="./posts/2022-09-24-using-json-normalize/pandas-logo.png" style="height: 40px;"></span>
-</td>
-<td>
-<span class="listing-date">Sep 24, 2022</span>
-</td>
-<td>
-<a href="./posts/2022-09-24-using-json-normalize/index.html" class="title listing-title">Using json_normalize Pandas function</a>
-</td>
-<td>
-<span class="listing-reading-time">15 min</span>
-</td>
-</tr>
-<tr data-index="5" data-categories="dotfiles,GNU stow,setup-dev-env" data-listing-date-sort="1641666600000" data-listing-file-modified-sort="1679599048409" data-listing-date-modified-sort="1679596200000" data-listing-reading-time-sort="4" data-listing-title-sort="Manage dotfiles with GNU Stow" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
- if (href) { window.location=href ; return false; }">
-<td>
-<span class="listing-image"><img data-src="./posts/2022-01-09-dotfiles/gnu-logo.png" style="height: 40px;"></span>
-</td>
-<td>
-<span class="listing-date">Jan 9, 2022</span>
-</td>
-<td>
-<a href="./posts/2022-01-09-dotfiles/index.html" class="title listing-title">Manage dotfiles with GNU Stow</a>
-</td>
-<td>
-<span class="listing-reading-time">4 min</span>
-</td>
-</tr>
-<tr data-index="6" data-categories="kaggle,markdown" data-listing-date-sort="1631903400000" data-listing-file-modified-sort="1684610125046" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-title-sort="Setting up Kaggle on Linux/Mac" data-listing-filename-sort="index.qmd" onclick="href = this.querySelector('a').getAttribute('href');
- if (href) { window.location=href ; return false; }">
-<td>
-<span class="listing-image"><img data-src="./posts/2021-09-18-kaggle-setup/kaggle.png" style="height: 40px;"></span>
-</td>
-<td>
-<span class="listing-date">Sep 18, 2021</span>
-</td>
-<td>
-<a href="./posts/2021-09-18-kaggle-setup/index.html" class="title listing-title">Setting up Kaggle on Linux/Mac</a>
-</td>
-<td>
-<span class="listing-reading-time">3 min</span>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-<nav id="posts-listing-pagination" class="listing-pagination" aria-label="Page Navigation">
-  <ul class="pagination"></ul>
-</nav>
-</div>
-</section>
-<section id="projects" class="level2">
-<h2 class="anchored" data-anchor-id="projects">Projects</h2>
-<div id="listing-project-listing" class="quarto-listing quarto-listing-container-table">
-<table class="quarto-listing-table table table-hover">
-<thead>
-<tr>
-<th>
-Project
-</th>
-<th>
-Description
-</th>
-<th>
-Role
-</th>
-</tr>
-</thead>
-<tbody class="list">
-<tr data-index="0" data-listing-project-sort="Grocery Unit Sale Predictor - a MLOPS project" onclick="href = this.querySelector('a').getAttribute('href');
- if (href) { window.location=href ; return false; }">
-<td>
-<a href="https://github.com/dr563105/mlops-project-grocery-sales" class="project listing-project">Grocery Unit Sale Predictor - a MLOPS project</a>
-</td>
-<td>
-<span class="listing-description">An end-to-end ML project that designs and manages a ML model production workflow. </span>
-</td>
-<td>
-<span class="listing-role">Creator</span>
-</td>
-</tr>
-<tr data-index="1" data-listing-project-sort="Autonomous driving framework - a DL project" onclick="href = this.querySelector('a').getAttribute('href');
- if (href) { window.location=href ; return false; }">
-<td>
-<a href="https://github.com/dr563105/basicad_framework" class="project listing-project">Autonomous driving framework - a DL project</a>
-</td>
-<td>
-<span class="listing-description">An end-to-end autonomous driving neural network ML model using simpler CNN architecture. </span>
-</td>
-<td>
-<span class="listing-role">Creator</span>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
 
 
-
-</section>
 
 </main> <!-- /main -->
+<!-- <div>
+<hr>
+<h3> Support my work with a coffee </h3>
+<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="dr563105" data-color="#56B4E9" data-emoji=""  data-font="Poppins" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#FFDD00" ></script>
+
+<hr>
+</div> -->
+<div>
+<h3 style="color: teal">Want to support my blog?</h3>
+<a href="https://www.buymeacoffee.com/dr563105" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-blue.png" alt="Buy Me A Coffee" height="30"></a>
+</div>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -862,6 +618,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<script src="https://utteranc.es/client.js" repo="dr563105/blog_comments" issue-term="pathname" theme="github-dark" crossorigin="anonymous" async="">
+</script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -870,16 +628,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
 
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/dr563105/dr563105.github.io/blob/master/index.qmd" class="toc-action">View source</a></p></div></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/dr563105/dr563105.github.io/blob/master/projects/data-engg.qmd" class="toc-action">View source</a></p></div></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
-    <a class="nav-link" href="./archive.html">
+    <a class="nav-link" href="../archive.html">
 <p>Archive</p>
 </a>
   </li>  
     <li class="nav-item compact">
-    <a class="nav-link" href="./index.xml">
+    <a class="nav-link" href="../index.xml">
       <i class="bi bi-rss" role="img">
 </i> 
     </a>
@@ -891,5 +649,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
