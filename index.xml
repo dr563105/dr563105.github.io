@@ -896,7 +896,7 @@ font-style: inherit;">'successfully created item!'</span>,</span>
   <category>DynamoDB</category>
   <guid>https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/index.html</guid>
   <pubDate>Sun, 04 Jun 2023 00:00:00 GMT</pubDate>
-  <media:content url="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/api-lambda-ecr-sns-db2-logo.png" medium="image" type="image/png"/>
+  <media:content url="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/aws-part2-logo.png" medium="image" type="image/png" height="70" width="144"/>
 </item>
 <item>
   <title>Deploy Lambda function using Docker - Part 1</title>
