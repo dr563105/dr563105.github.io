@@ -10,7 +10,894 @@
 <atom:link href="https://dr563105.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>This is Deepak Ramani&#39;s personal blog.</description>
 <generator>quarto-1.4.122</generator>
-<lastBuildDate>Sat, 03 Jun 2023 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 04 Jun 2023 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>AWS Lambda with API Gateway - Part 2</title>
+  <link>https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/index.html</link>
+  <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
+
+
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>In <a href="https://dr563105.github.io/posts/2023-06-03-lambda-docker/">part 1</a>, we saw how to make and test lambda function locally. In part 2, we will switch focus to AWS cloud provider. We will migrate our code to use AWS cloud platform.</p>
+<section id="services-used" class="level2">
+<h2 class="anchored" data-anchor-id="services-used">Services used</h2>
+<p>We will use these services to form our data pipeline:</p>
+<ol type="1">
+<li><p>S3 - to download our predicted sales price table.</p></li>
+<li><p>ECR - to upload our docker image with installed dependencies.</p></li>
+<li><p>AWS Lambda - to make the business logic of the web application. It will use ECR image as source. Sends predicted outputs to DynamoDB.</p></li>
+<li><p>API Gateway - Rest API to invoke AWS Lambda function.</p></li>
+<li><p>DynamoDB - to store the predicted sales prices. Invoked from Lambda.</p></li>
+</ol>
+</section>
+</section>
+<section id="data-pipeline" class="level1">
+<h1>Data Pipeline</h1>
+<div id="fig-data-pipeline" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/images/AWS-api-lambda-ecr-db-archi.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: Data Pipeline</figcaption>
+</figure>
+</div>
+<section id="lambda-function-to-predict-sales" class="level2">
+<h2 class="anchored" data-anchor-id="lambda-function-to-predict-sales">Lambda function to predict sales</h2>
+<p>To build this pipeline we will start with our <code>lambda_function</code> using <code>MLflow</code> to download ML trained artifact from <code>S3</code> bucket to predict sales prices. We will first check if it is possible to connect to S3 and then move forward to complete cloud solution.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>lambda_function.py</strong></pre>
+</div>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> os</span>
+<span id="cb1-2"></span>
+<span id="cb1-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> mlflow</span>
+<span id="cb1-4"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> pandas <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> pd</span>
+<span id="cb1-5"></span>
+<span id="cb1-6">RUN_ID <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> os.getenv(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"RUN_ID"</span>)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># "5651db4644334361b10296c51ba3af3e"</span></span>
+<span id="cb1-7">S3_BUCKET_NAME <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> os.getenv(</span>
+<span id="cb1-8">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"S3_BUCKET_NAME"</span></span>
+<span id="cb1-9">)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># "mlops-project-sales-forecast-bucket"</span></span>
+<span id="cb1-10">EXPERIMENT_ID <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="cb1-11">FILE_ADDRESS <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"artifacts/predictions/lgb_preds.parquet"</span></span>
+<span id="cb1-12">pred_s3_location <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (</span>
+<span id="cb1-13">    <span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"s3://</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>S3_BUCKET_NAME<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">/</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>EXPERIMENT_ID<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">/</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>RUN_ID<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">/</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>FILE_ADDRESS<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span></span>
+<span id="cb1-14">)</span>
+<span id="cb1-15"></span>
+<span id="cb1-16"></span>
+<span id="cb1-17"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> read_parquet_files(filename: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>):</span>
+<span id="cb1-18">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""</span></span>
+<span id="cb1-19"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    Read parquet file format for given filename and returns the contents</span></span>
+<span id="cb1-20"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    """</span></span>
+<span id="cb1-21">    df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pd.read_parquet(filename, engine<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pyarrow"</span>)</span>
+<span id="cb1-22">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">return</span> df</span>
+<span id="cb1-23"></span>
+<span id="cb1-24"></span>
+<span id="cb1-25"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">if</span> os.path.exists(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"lgb_preds.parquet"</span>):</span>
+<span id="cb1-26">    df_test_preds <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> read_parquet_files(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"lgb_preds.parquet"</span>)</span>
+<span id="cb1-27"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">else</span>:</span>
+<span id="cb1-28">    s3_file <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> mlflow.artifacts.download_artifacts(</span>
+<span id="cb1-29">        artifact_uri<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>pred_s3_location, dst_path<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/tmp"</span></span>
+<span id="cb1-30">    )  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># /tmp is added as lambda gives write access only to that folder. Otherwise use "./" .</span></span>
+<span id="cb1-31">    df_test_preds <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> read_parquet_files(s3_file)</span>
+<span id="cb1-32"></span>
+<span id="cb1-33"></span>
+<span id="cb1-34">df_items <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> read_parquet_files(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"items.parquet"</span>)</span>
+<span id="cb1-35"></span>
+<span id="cb1-36"></span>
+<span id="cb1-37"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> predict(find, item_idx: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">int</span>):</span>
+<span id="cb1-38">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""</span></span>
+<span id="cb1-39"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    Takes the json inputs, processes it and outputs the unit sales</span></span>
+<span id="cb1-40"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    """</span></span>
+<span id="cb1-41">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">try</span>:</span>
+<span id="cb1-42">        idx <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pd.IndexSlice</span>
+<span id="cb1-43">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># df_items.sample(1).index[0]</span></span>
+<span id="cb1-44">        x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df_test_preds.loc[idx[find[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"store_nbr"</span>], item_idx, find[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"date1"</span>]]][</span>
+<span id="cb1-45">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"unit_sales"</span></span>
+<span id="cb1-46">        ]</span>
+<span id="cb1-47">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">except</span> <span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">KeyError</span>:</span>
+<span id="cb1-48">        <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"This item is not present this store. Try some other item"</span>)</span>
+<span id="cb1-49">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">return</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.0</span></span>
+<span id="cb1-50">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">else</span>:</span>
+<span id="cb1-51">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">return</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">float</span>(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">round</span>(x, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>))</span>
+<span id="cb1-52"></span>
+<span id="cb1-53"></span>
+<span id="cb1-54"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> lambda_handler(event, context<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">dict</span>:</span>
+<span id="cb1-55">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""</span></span>
+<span id="cb1-56"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    lambda handler for predict method</span></span>
+<span id="cb1-57"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    """</span></span>
+<span id="cb1-58"></span>
+<span id="cb1-59">    find <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> event[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"find"</span>]</span>
+<span id="cb1-60">    item <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df_items.sample(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb1-61">    item_idx, item_family <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> item.index[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>], item[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"family"</span>].values[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]</span>
+<span id="cb1-62">    pred_unit_sales <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> predict(find, item_idx)</span>
+<span id="cb1-63"></span>
+<span id="cb1-64">    result <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb1-65">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">" Store"</span>: find[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"store_nbr"</span>],</span>
+<span id="cb1-66">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">" item"</span>: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">int</span>(item_idx),</span>
+<span id="cb1-67">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Family"</span>: item_family,</span>
+<span id="cb1-68">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Prediction date"</span>: find[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"date1"</span>],</span>
+<span id="cb1-69">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Unit_sales"</span>: pred_unit_sales,</span>
+<span id="cb1-70">    }</span>
+<span id="cb1-71">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">return</span> result</span></code></pre></div>
+</div>
+</section>
+<section id="building-container-image" class="level2">
+<h2 class="anchored" data-anchor-id="building-container-image">Building container image</h2>
+<p>Building the docker image is same as previous post.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Terminal 1</strong></pre>
+</div>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">docker</span> build <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-t</span> lambda-app:v1 .</span></code></pre></div>
+</div>
+<section id="using-sensitivesecret-access-keys." class="level3">
+<h3 class="anchored" data-anchor-id="using-sensitivesecret-access-keys.">Using sensitive/secret access keys.</h3>
+<p>Since we are using MLflow’s download artifact functionality directly from the <code>S3</code>, we need to supply our AWS access key to the docker as environment variables. Care needs to be taken when supplying sensitive information. Most hard code these secrets in their code. This is a bad practice as it will make its way to the code repository eventually. Next possible option is to supply as environment variable in the terminal. However, a simple <code>history</code> command will reveal the secrets. So, to avoid that we can set <code>HIST_IGNORE_SPACE</code> and also add keywords to <code>HISTIGNORE</code> ensuring any command with a leading space in front of it will not be stored in history cache.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Terminal 1</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-3" style="background: #f1f3f5;"><pre class="sourceCode bash code-annotation-code code-with-copy code-annotated"><code class="sourceCode bash"><span id="annotated-cell-3-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">setopt</span> HIST_IGNORE_SPACE</span>
+<span id="annotated-cell-3-2"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">HISTIGNORE</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-3" class="code-annotation-target">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ls*:cat*:*AWS*:*SECRET*:*KEY*:*PASS*:*TOKEN*"</span></span>
+<span id="annotated-cell-3-4"> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">AWS_ACCESS_KEY_ID</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>xxxx</span>
+<span id="annotated-cell-3-5"> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">AWS_SECRET_ACCESS_KEY</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>xxxtt</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="3" data-code-annotation="1">History doesn’t store any command that has leading space. Highly useful for sensitive environment variables.</span>
+</dd>
+</dl>
+</section>
+<section id="running-the-container-and-testing-locally" class="level3">
+<h3 class="anchored" data-anchor-id="running-the-container-and-testing-locally">Running the container and testing locally</h3>
+<p>Unlike last time to run the docker image as container requires a few arguments. We give them to docker as <code>-e</code> environment variables. Setting environment variables in the terminal is not going to pass over to the docker container. So we need to explicitly supply <code>AWS_ACCESS_KEY_ID</code>, <code>AWS_SECRET_ACCESS_KEY</code>, <code>RUN_ID</code> and <code>S3_BUCKET_NAME</code> while executing <code>docker run</code> command in addition to the regular arguments.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Terminal 1</strong></pre>
+</div>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">docker</span> run <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb3-2">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-it</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--rm</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb3-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-p</span> 9000:8080 <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb3-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-e</span> AWS_ACCESS_KEY_ID=<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${AWS_ACCESS_KEY_ID}</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb3-5">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-e</span> AWS_SECRET_ACCESS_KEY=<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${AWS_SECRET_ACCESS_KEY}</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb3-6">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-e</span> RUN_ID=5651db4644334361b10296c51ba3af3e <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb3-7">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-e</span> S3_BUCKET_NAME=mlops-project-sales-forecast-bucket <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb3-8">    lambda-app:v1</span></code></pre></div>
+</div>
+<p>To test run the command in terminal 2,</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>test_docker_fn_docker.py in Terminal 2</strong></pre>
+</div>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">python</span> test_docker_fn_docker.py</span></code></pre></div>
+</div>
+<p>We will get a prediction as we have done in the previous post. <img src="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/images/aws-local-test.png" class="img-fluid"></p>
+</section>
+</section>
+</section>
+<section id="aws-cloud" class="level1">
+<h1>AWS Cloud</h1>
+<p>Next step would be to migrate our lambda function to AWS cloud as per Figure&nbsp;1. However, our lambda function has library dependencies. It is possible to install all the dependencies, zip with the function and upload to AWS Lambda. But that might led to errors. To avoid that, AWS Lambda provides an option to use container image as source. All we need to do is upload our container image to a container registry. This registry is called <code>ECR</code>(elastic container registry).</p>
+<section id="uploading-container-image-to-ecr" class="level2">
+<h2 class="anchored" data-anchor-id="uploading-container-image-to-ecr">Uploading container image to ECR</h2>
+<p>For this section we need <code>awscli</code> package. If don’t have I recommend installing it. <code>sudo apt install awscli</code>. AWS-CLI allows for swifter creation of resources without overly relying on the console.</p>
+<p>We need our <code>ACCOUNT_ID</code>. It can be found in the AWS console.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Terminal</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-6" style="background: #f1f3f5;"><pre class="sourceCode bash code-annotation-code code-with-copy code-annotated"><code class="sourceCode bash"><button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-1" class="code-annotation-target"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">docker</span> build <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-t</span> lambda-app:v1 .</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-2" class="code-annotation-target"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">ACCOUNT_ID</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>xxxx</span>
+<span id="annotated-cell-6-3"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">aws</span> ecr create-repository <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--repository-name</span> lambda-images</span>
+<span id="annotated-cell-6-4"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">docker</span> tag lambda-app:v1 <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${ACCOUNT_ID}</span>.dkr.ecr.us-east-1.amazonaws.com/lambda-images:app</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3">3</button><span id="annotated-cell-6-5" class="code-annotation-target"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">$(</span><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">aws</span> ecr get-login <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--no-include-email</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span id="annotated-cell-6-6"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">docker</span> push <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${ACCOUNT_ID}</span>.dkr.ecr.us-east-1.amazonaws.com/lambda-images:app</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="1" data-code-annotation="1">Optional as we already built the image.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="2" data-code-annotation="2">Replace with your account ID.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="5" data-code-annotation="3">Remember we supplied aws access key and secret before. The session borrows them for ECR login. If it is a new session, those variables have to be given again.</span>
+</dd>
+</dl>
+<p><img src="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/images/ecr-upload.png" class="img-fluid"> <img src="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/images/ecr-upload-ui.png" class="img-fluid"> In the screenshots we can see that our container image is uploaded to the registry.</p>
+</section>
+<section id="setup-aws-lambda-function" class="level2">
+<h2 class="anchored" data-anchor-id="setup-aws-lambda-function">Setup AWS Lambda function</h2>
+<p>This part is a bit tedious as it is not as straight forward as running commands. I’d like to point out to a detailed <a href="../../posts/2023-06-04-api-lambda-ecr/aws-ecr-api.html#aws-lambda-function">guide</a> which has all the steps to create a AWS Lambda function, attach policies, configure and supply environment variable. I urge you to visit that link. Including them here will make it too long, full of screenshots and frankly boring.</p>
+<section id="testing-the-lambda-function" class="level3">
+<h3 class="anchored" data-anchor-id="testing-the-lambda-function">Testing the Lambda function</h3>
+<p>In the <code>Test</code> tab, create a test event with our good old sample JSON object. <code>{"find":{"date1":"2017-08-26","store_nbr":20}}</code>. <img src="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/images/aws-lambda-test-event.png" class="img-fluid"> <img src="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/images/aws-lambda-test-result.png" class="img-fluid" alt="testresult"> Hitting the Test button should give us a prediction. as seen in the second image.</p>
+<p>So our function is able to access S3 artifact bucket to download and give out predictions. Meaning our attached policies are correct. Testing once in the console is fine but the customer wouldn’t want to do that. We need something that triggers the lambda function - we need an API Gateway.</p>
+</section>
+</section>
+<section id="aws-api-gateway" class="level2">
+<h2 class="anchored" data-anchor-id="aws-api-gateway">AWS API Gateway</h2>
+<p>A front-end developer, for example, can create a button that calls on the Lambda function. From customer’s viewpoint it is as simple as a click of a button. For us though, it is much more than that.</p>
+<section id="create-rest-api-test-and-deploy-it" class="level3">
+<h3 class="anchored" data-anchor-id="create-rest-api-test-and-deploy-it">Create Rest API, test and deploy it</h3>
+<p>Again I advise you to refer my other <a href="../../posts/2023-06-04-api-lambda-ecr/aws-ecr-api.html#rest-api-with-an-endpoint">guide</a> to create an endpoint. This endpoint is same as the Flask one we encountered in the last posts.</p>
+<p>Upon deploying we get an <code>invoke</code> url. This url is without an endpoint. <img src="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/images/aws-api-deploy-3.png" class="img-fluid"></p>
+<p>We need to append <code>predict-sales</code>, our resource endpoint, to the url. The final url would look like <code>https://eecweeeeeg.execute-api.us-east-1.amazonaws.com/stg-lambda-app-for-blog/predict-sales</code></p>
+<p>Use the following JSON object to test it out in an API platform client such as Thunder Client in VSCode, Postman etc.</p>
+<p><code>{"find": {"date1": "2017-08-26", "store_nbr": 20}}</code></p>
+</section>
+</section>
+<section id="aws-dynamodb" class="level2">
+<h2 class="anchored" data-anchor-id="aws-dynamodb">AWS DynamoDB</h2>
+<p>We want to store these predicted outputs to a DB. With the help of console, create a table <code>sales_predictions</code>. Give <code>store_id</code> as <strong>partition_key</strong> and <code>item_id</code> as <strong>sort_key</strong>. Rest of the setting can be default.</p>
+<p>Then add policy that give Lambda permission to write objects into DB. Refer my <a href="../../posts/2023-06-04-api-lambda-ecr/aws-ecr-api.html#dynamodb-add-policy">other notes</a></p>
+</section>
+<section id="modify-aws-lambda" class="level2">
+<h2 class="anchored" data-anchor-id="modify-aws-lambda">Modify AWS Lambda</h2>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>lambda_function.py</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-7" style="background: #f1f3f5;"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-7-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> os</span>
+<span id="annotated-cell-7-2"></span>
+<span id="annotated-cell-7-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> mlflow</span>
+<span id="annotated-cell-7-4"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> pandas <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> pd</span>
+<span id="annotated-cell-7-5"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> boto3</span>
+<span id="annotated-cell-7-6"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> json</span>
+<span id="annotated-cell-7-7"></span>
+<span id="annotated-cell-7-8">RUN_ID <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> os.getenv(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"RUN_ID"</span>)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># "5651db4644334361b10296c51ba3af3e"</span></span>
+<span id="annotated-cell-7-9">S3_BUCKET_NAME <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> os.getenv(</span>
+<span id="annotated-cell-7-10">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"S3_BUCKET_NAME"</span></span>
+<span id="annotated-cell-7-11">)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># "mlops-project-sales-forecast-bucket"</span></span>
+<span id="annotated-cell-7-12">EXPERIMENT_ID <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="annotated-cell-7-13">FILE_ADDRESS <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"artifacts/predictions/lgb_preds.parquet"</span></span>
+<span id="annotated-cell-7-14">pred_s3_location <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (</span>
+<span id="annotated-cell-7-15">    <span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"s3://</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>S3_BUCKET_NAME<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">/</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>EXPERIMENT_ID<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">/</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>RUN_ID<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">/</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>FILE_ADDRESS<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span></span>
+<span id="annotated-cell-7-16">)</span>
+<span id="annotated-cell-7-17"></span>
+<span id="annotated-cell-7-18"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Initialize the SNS client object outside of the handler</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1">1</button><span id="annotated-cell-7-19" class="code-annotation-target">dynamodb <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> boto3.resource(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'dynamodb'</span>)</span>
+<span id="annotated-cell-7-20"></span>
+<span id="annotated-cell-7-21"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> read_parquet_files(filename: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>):</span>
+<span id="annotated-cell-7-22">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""</span></span>
+<span id="annotated-cell-7-23"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    Read parquet file format for given filename and returns the contents</span></span>
+<span id="annotated-cell-7-24"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    """</span></span>
+<span id="annotated-cell-7-25">    df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pd.read_parquet(filename, engine<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pyarrow"</span>)</span>
+<span id="annotated-cell-7-26">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">return</span> df</span>
+<span id="annotated-cell-7-27"></span>
+<span id="annotated-cell-7-28"></span>
+<span id="annotated-cell-7-29"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">if</span> os.path.exists(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"lgb_preds.parquet"</span>):</span>
+<span id="annotated-cell-7-30">    df_test_preds <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> read_parquet_files(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"lgb_preds.parquet"</span>)</span>
+<span id="annotated-cell-7-31"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">else</span>:</span>
+<span id="annotated-cell-7-32">    s3_file <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> mlflow.artifacts.download_artifacts(</span>
+<span id="annotated-cell-7-33">        artifact_uri<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>pred_s3_location, dst_path<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/tmp"</span></span>
+<span id="annotated-cell-7-34">    )  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># /tmp is added as lambda gives write access only to that folder. Otherwise use "./" .</span></span>
+<span id="annotated-cell-7-35">    df_test_preds <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> read_parquet_files(s3_file)</span>
+<span id="annotated-cell-7-36"></span>
+<span id="annotated-cell-7-37"></span>
+<span id="annotated-cell-7-38">df_items <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> read_parquet_files(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"items.parquet"</span>)</span>
+<span id="annotated-cell-7-39"></span>
+<span id="annotated-cell-7-40"></span>
+<span id="annotated-cell-7-41"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> predict(find, item_idx: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">int</span>):</span>
+<span id="annotated-cell-7-42">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""</span></span>
+<span id="annotated-cell-7-43"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    Takes the json inputs, processes it and outputs the unit sales</span></span>
+<span id="annotated-cell-7-44"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    """</span></span>
+<span id="annotated-cell-7-45">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">try</span>:</span>
+<span id="annotated-cell-7-46">        idx <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pd.IndexSlice</span>
+<span id="annotated-cell-7-47">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># df_items.sample(1).index[0]</span></span>
+<span id="annotated-cell-7-48">        x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df_test_preds.loc[idx[find[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"store_nbr"</span>], item_idx, find[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"date1"</span>]]][</span>
+<span id="annotated-cell-7-49">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"unit_sales"</span></span>
+<span id="annotated-cell-7-50">        ]</span>
+<span id="annotated-cell-7-51">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">except</span> <span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">KeyError</span>:</span>
+<span id="annotated-cell-7-52">        <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"This item is not present this store. Try some other item"</span>)</span>
+<span id="annotated-cell-7-53">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">return</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.0</span></span>
+<span id="annotated-cell-7-54">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">else</span>:</span>
+<span id="annotated-cell-7-55">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">return</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">float</span>(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">round</span>(x, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>))</span>
+<span id="annotated-cell-7-56"></span>
+<span id="annotated-cell-7-57"></span>
+<span id="annotated-cell-7-58"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> lambda_handler(event, context<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">dict</span>:</span>
+<span id="annotated-cell-7-59">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""</span></span>
+<span id="annotated-cell-7-60"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    lambda handler for predict method</span></span>
+<span id="annotated-cell-7-61"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    """</span></span>
+<span id="annotated-cell-7-62"></span>
+<span id="annotated-cell-7-63">    find <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> event[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"find"</span>]</span>
+<span id="annotated-cell-7-64">    item <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df_items.sample(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="annotated-cell-7-65">    item_idx, item_family <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> item.index[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>], item[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"family"</span>].values[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]</span>
+<span id="annotated-cell-7-66">    pred_unit_sales <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> predict(find, item_idx)</span>
+<span id="annotated-cell-7-67"></span>
+<span id="annotated-cell-7-68">    result <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="annotated-cell-7-69">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"store_id"</span>: find[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"store_nbr"</span>],</span>
+<span id="annotated-cell-7-70">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"item_id"</span>: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">int</span>(item_idx),</span>
+<span id="annotated-cell-7-71">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"family"</span>: item_family,</span>
+<span id="annotated-cell-7-72">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"prediction_date"</span>: find[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"date1"</span>],</span>
+<span id="annotated-cell-7-73">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"unit_sales"</span>: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>(pred_unit_sales),</span>
+<span id="annotated-cell-7-74">    }</span>
+<span id="annotated-cell-7-75"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2">2</button><span id="annotated-cell-7-76" class="code-annotation-target">    table <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> dynamodb.Table(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sales_preds_for_blog"</span>)</span>
+<span id="annotated-cell-7-77">    table.put_item(</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3">3</button><span id="annotated-cell-7-78" class="code-annotation-target">        Item <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> result</span>
+<span id="annotated-cell-7-79">    )</span>
+<span id="annotated-cell-7-80">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">return</span> {</span>
+<span id="annotated-cell-7-81">      <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'statusCode'</span>: <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">200</span>,</span>
+<span id="annotated-cell-7-82">      <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'body'</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'successfully created item!'</span>,</span>
+<span id="annotated-cell-7-83">      }</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="19" data-code-annotation="1">Create <code>dynamodb</code> resource</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="76" data-code-annotation="2">Access already created table <code>sales_preds_for_blog</code></span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="78" data-code-annotation="3">Insert item into the table</span>
+</dd>
+</dl>
+<p>Rebuild the docker image, retag it, publish it to the ECR repo. Then in AWS Lambda, use <code>deploy new image</code> to select the latest build. Test with sample input. <img src="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/images/aws-db-items.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>Thus we have successfully migrated our local codebase into AWS Cloud. AWS Free tier allows more than enough free requests for our task. We learned how to add resources, policies and manage albeit a tedious to do individually. In the next part, we will see how to manage these infrastructures through Terraform.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>AWS</category>
+  <category>Lambda</category>
+  <category>API Gateway</category>
+  <category>ECR</category>
+  <category>Docker</category>
+  <category>MLflow</category>
+  <category>S3</category>
+  <category>DynamoDB</category>
+  <guid>https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/index.html</guid>
+  <pubDate>Sun, 04 Jun 2023 00:00:00 GMT</pubDate>
+  <media:content url="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/api-lambda-ecr-sns-db2-logo.png" medium="image" type="image/png"/>
+</item>
 <item>
   <title>Deploy Lambda function using Docker - Part 1</title>
   <dc:creator>Deepak Ramani</dc:creator>

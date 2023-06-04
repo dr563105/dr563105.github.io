@@ -137,14 +137,14 @@
     "href": "index.html",
     "title": "Deepak Ramani's blog",
     "section": "",
-    "text": "Date\n\n\nTitle\n\n\nReading Time\n\n\n\n\n\n\n\n\n\nJun 3, 2023\n\n\nDeploy Lambda function using Docker - Part 1\n\n\n4 min\n\n\n\n\n\n\n\nJun 3, 2023\n\n\nDeploy with Docker\n\n\n7 min\n\n\n\n\n\n\n\nJun 2, 2023\n\n\nSetup Terraform\n\n\n7 min\n\n\n\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n6 min\n\n\n\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n4 min\n\n\n\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n15 min\n\n\n\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n4 min\n\n\n\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n3 min\n\n\n\n\n\nNo matching items"
+    "text": "Date\n\n\nTitle\n\n\nReading Time\n\n\n\n\n\n\n\n\n\nJun 4, 2023\n\n\nAWS Lambda with API Gateway - Part 2\n\n\n10 min\n\n\n\n\n\n\n\nJun 3, 2023\n\n\nDeploy Lambda function using Docker - Part 1\n\n\n4 min\n\n\n\n\n\n\n\nJun 3, 2023\n\n\nDeploy with Docker\n\n\n7 min\n\n\n\n\n\n\n\nJun 2, 2023\n\n\nSetup Terraform\n\n\n7 min\n\n\n\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n6 min\n\n\n\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n4 min\n\n\n\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n15 min\n\n\n\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n4 min\n\n\n\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n3 min\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#blog-posts",
     "href": "index.html#blog-posts",
     "title": "Deepak Ramani's blog",
     "section": "",
-    "text": "Date\n\n\nTitle\n\n\nReading Time\n\n\n\n\n\n\n\n\n\nJun 3, 2023\n\n\nDeploy Lambda function using Docker - Part 1\n\n\n4 min\n\n\n\n\n\n\n\nJun 3, 2023\n\n\nDeploy with Docker\n\n\n7 min\n\n\n\n\n\n\n\nJun 2, 2023\n\n\nSetup Terraform\n\n\n7 min\n\n\n\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n6 min\n\n\n\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n4 min\n\n\n\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n15 min\n\n\n\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n4 min\n\n\n\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n3 min\n\n\n\n\n\nNo matching items"
+    "text": "Date\n\n\nTitle\n\n\nReading Time\n\n\n\n\n\n\n\n\n\nJun 4, 2023\n\n\nAWS Lambda with API Gateway - Part 2\n\n\n10 min\n\n\n\n\n\n\n\nJun 3, 2023\n\n\nDeploy Lambda function using Docker - Part 1\n\n\n4 min\n\n\n\n\n\n\n\nJun 3, 2023\n\n\nDeploy with Docker\n\n\n7 min\n\n\n\n\n\n\n\nJun 2, 2023\n\n\nSetup Terraform\n\n\n7 min\n\n\n\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n6 min\n\n\n\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n4 min\n\n\n\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n15 min\n\n\n\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n4 min\n\n\n\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n3 min\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#projects",
@@ -299,6 +299,41 @@
     "title": "Getting started with S3 using boto3",
     "section": "Conclusion",
     "text": "Conclusion\nThis blog post shows how to use the boto3 python SDK to manage S3 aws service. With the help of documentation, we can implement require functionalities."
+  },
+  {
+    "objectID": "posts/2023-06-04-api-lambda-ecr/aws-ecr-api.html",
+    "href": "posts/2023-06-04-api-lambda-ecr/aws-ecr-api.html",
+    "title": "Deepak Ramani's blog",
+    "section": "",
+    "text": "In this document I’m going to include a guide to integrate/setup AWS API Gateway, AWS Lambda using ECR image as source image.\nIt is long and technical with lots of screenshots and explanations."
+  },
+  {
+    "objectID": "posts/2023-06-04-api-lambda-ecr/aws-ecr-api.html#create-docker-container-image-and-upload-to-ecr",
+    "href": "posts/2023-06-04-api-lambda-ecr/aws-ecr-api.html#create-docker-container-image-and-upload-to-ecr",
+    "title": "Deepak Ramani's blog",
+    "section": "Create docker container image and upload to ECR",
+    "text": "Create docker container image and upload to ECR\nWe have the dockerfile, lambda_function, Pipfile, Pipfile.lock and items.parquet. If none of these make any sense, I urge you to go through my posts on lambda and docker on my blog.\n\n\nTerminal\n\ndocker build -t lambda-app:v1 . # build docker image\nexport ACCOUNT_ID=xxxx\naws ecr create-repository --repository-name lambda-images\ndocker tag lambda-app:v1 ${ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/lambda-images:app\n$(aws ecr get-login --no-include-email)\ndocker push ${ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/lambda-images:app\n\nNote: Remember we supplied aws access key and secret before and the session borrows them for login. If it is a new session, those variables have to be given again.\n \nIn the screenshots we can see that our container image is uploaded to the registry."
+  },
+  {
+    "objectID": "posts/2023-06-04-api-lambda-ecr/aws-ecr-api.html#aws-lambda-function",
+    "href": "posts/2023-06-04-api-lambda-ecr/aws-ecr-api.html#aws-lambda-function",
+    "title": "Deepak Ramani's blog",
+    "section": "AWS Lambda function",
+    "text": "AWS Lambda function\nAWS Lambda allows us to use our container image from ECR to use as source. We need to give the image URI(can be found in ECR console). Below screenshot shows the step to point at the container image and create a function. \nIn cloud environment, security is a massive risk. So AWS insists on policies everywhere. Policy allows only revelant people access. Below policy screenshot shows us giving permission to Cloudwatch to create log groups, put log events whenever the Lambda function is invoked. You can goto “Monitor” tab and browse through the logs.\n\n\nPolicy for S3 access\nSince our artifact after ML training is stored in S3 bucket, we need to give the Lambda function permission to access it. For that click on the role lambda-sales-app-role-qu7xpax1 under Execution role. It will direct to the IAM console. Here click “Add Permission” - “Create Inline Policy” - “JSON” tab and paste the following JSON data:\n{\n    \"Statement\": [\n        {\n            \"Action\": [\n                \"s3:Get*\",\n                \"s3:List*\"\n            ],\n            \"Effect\": \"Allow\",\n            \"Resource\": [\n                \"arn:aws:s3:::mlops-project-sales-forecast-bucket\",\n                \"arn:aws:s3:::mlops-project-sales-forecast-bucket/*\"\n            ]\n        }\n    ],\n    \"Version\": \"2012-10-17\"\n}\n mlops-project-sales-forecast-bucket is the name of the S3 bucket where the artifacts are stored. I give restricted permission to the Lambda function. Quite often we see resource will be given * which can led to problems and security threats in the future. Review it. \nNext, create a unique name for it and click create policy. \nIn the overview policy console page, we can see that there are two policies attached. That means the lambda function has permission to download from that specified S3 bucket. \n\n\nEnvironment Variables and Configuration\nIn the configuration tab, environment variable section add in RUN_ID and S3_BUCKET_NAME.  Next change the Max Memory and Timeout values in the General Configuration section. \n\n\nTesting it at Lambda console\nIn the Test tab, we create a test event and give our sample JSON input.  \n{\"find\": {\"date1\": \"2017-08-26\", \"store_nbr\": 20}}\nIf you get a successful execution as in the screenshot, it means the pipeline works and the attached policies are correct. Most time it is the policies that cause annoying issues."
+  },
+  {
+    "objectID": "posts/2023-06-04-api-lambda-ecr/aws-ecr-api.html#api-gateway",
+    "href": "posts/2023-06-04-api-lambda-ecr/aws-ecr-api.html#api-gateway",
+    "title": "Deepak Ramani's blog",
+    "section": "API Gateway",
+    "text": "API Gateway\n\nRest API with an endpoint\nWe will create a REST API with an endpoint of predict-sales using POST method. Goto API Gateway console -&gt; Create API -&gt; Rest API -&gt; Click Build. Here give an appropriate name and description. \nThen we create our endpoint predict-sales as a resource and POST method under it. While creating the POST method, we point it to our previously created Lambda function lambda-sales-app.   There will be a pop up window with ARN address. This address will be same as Lambda function. You can verify it by going to the Lambda console.\n\n\nTesting\nBefore deploying the API we can test. Press the Test button, give the sample JSON input in the body section and expect an output similar to Lambda test.  \nNow our API is ready for deployment. ### Deployment From the actions menu choose “Deploy API”. Choose “New Stage”, give a name and then deploy.   We will get an invoke url. However, we need to append our endpoint predict-sales to complete it. So it will look something like https://xxxxxxxx.execute-api.us-east-1.amazonaws.com/stg-lambda-app-for-blog/predict-sales"
+  },
+  {
+    "objectID": "posts/2023-06-04-api-lambda-ecr/aws-ecr-api.html#dynamodb-add-policy",
+    "href": "posts/2023-06-04-api-lambda-ecr/aws-ecr-api.html#dynamodb-add-policy",
+    "title": "Deepak Ramani's blog",
+    "section": "DynamoDB add policy",
+    "text": "DynamoDB add policy\nAdd this policy to the previously created role to give lambda access to write to DynamoDB.\n{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"dynamodb:BatchGetItem\",\n                \"dynamodb:GetItem\",\n                \"dynamodb:Query\",\n                \"dynamodb:Scan\",\n                \"dynamodb:BatchWriteItem\",\n                \"dynamodb:PutItem\",\n                \"dynamodb:UpdateItem\"\n            ],\n            \"Resource\": \"arn:aws:dynamodb:us-east-1:4xxxxxxxx:table/sales_preds_for_blog\"\n        },\n        {\n            \"Effect\": \"Allow\",\n            \"Action\": [\n                \"logs:CreateLogStream\",\n                \"logs:PutLogEvents\"\n            ],\n            \"Resource\": \"arn:aws:dynamodb:us-east-1:4xxxxxxxx:table/sales_preds_for_blog\"\n        },\n        {\n            \"Effect\": \"Allow\",\n            \"Action\": \"logs:CreateLogGroup\",\n            \"Resource\": \"arn:aws:dynamodb:us-east-1:4xxxxxxxx:table/sales_preds_for_blog\"\n        }\n    ]\n}"
   },
   {
     "objectID": "posts/2023-06-03-lambda-docker/index.html",
@@ -490,6 +525,69 @@
     "text": "9 Conclusion\nWe saw the use of json_normalize function in pandas library. It helps take a JSON data, flatten it, and make it as a dataframe for easier analysis."
   },
   {
+    "objectID": "posts/2023-06-04-api-lambda-ecr/index.html",
+    "href": "posts/2023-06-04-api-lambda-ecr/index.html",
+    "title": "AWS Lambda with API Gateway - Part 2",
+    "section": "",
+    "text": "In part 1, we saw how to make and test lambda function locally. In part 2, we will switch focus to AWS cloud provider. We will migrate our code to use AWS cloud platform.\n\n\nWe will use these services to form our data pipeline:\n\nS3 - to download our predicted sales price table.\nECR - to upload our docker image with installed dependencies.\nAWS Lambda - to make the business logic of the web application. It will use ECR image as source. Sends predicted outputs to DynamoDB.\nAPI Gateway - Rest API to invoke AWS Lambda function.\nDynamoDB - to store the predicted sales prices. Invoked from Lambda."
+  },
+  {
+    "objectID": "posts/2023-06-04-api-lambda-ecr/index.html#services-used",
+    "href": "posts/2023-06-04-api-lambda-ecr/index.html#services-used",
+    "title": "AWS Lambda with API Gateway - Part 2",
+    "section": "",
+    "text": "We will use these services to form our data pipeline:\n\nS3 - to download our predicted sales price table.\nECR - to upload our docker image with installed dependencies.\nAWS Lambda - to make the business logic of the web application. It will use ECR image as source. Sends predicted outputs to DynamoDB.\nAPI Gateway - Rest API to invoke AWS Lambda function.\nDynamoDB - to store the predicted sales prices. Invoked from Lambda."
+  },
+  {
+    "objectID": "posts/2023-06-04-api-lambda-ecr/index.html#lambda-function-to-predict-sales",
+    "href": "posts/2023-06-04-api-lambda-ecr/index.html#lambda-function-to-predict-sales",
+    "title": "AWS Lambda with API Gateway - Part 2",
+    "section": "Lambda function to predict sales",
+    "text": "Lambda function to predict sales\nTo build this pipeline we will start with our lambda_function using MLflow to download ML trained artifact from S3 bucket to predict sales prices. We will first check if it is possible to connect to S3 and then move forward to complete cloud solution.\n\n\nlambda_function.py\n\nimport os\n\nimport mlflow\nimport pandas as pd\n\nRUN_ID = os.getenv(\"RUN_ID\")  # \"5651db4644334361b10296c51ba3af3e\"\nS3_BUCKET_NAME = os.getenv(\n    \"S3_BUCKET_NAME\"\n)  # \"mlops-project-sales-forecast-bucket\"\nEXPERIMENT_ID = 1\nFILE_ADDRESS = \"artifacts/predictions/lgb_preds.parquet\"\npred_s3_location = (\n    f\"s3://{S3_BUCKET_NAME}/{EXPERIMENT_ID}/{RUN_ID}/{FILE_ADDRESS}\"\n)\n\n\ndef read_parquet_files(filename: str):\n    \"\"\"\n    Read parquet file format for given filename and returns the contents\n    \"\"\"\n    df = pd.read_parquet(filename, engine=\"pyarrow\")\n    return df\n\n\nif os.path.exists(\"lgb_preds.parquet\"):\n    df_test_preds = read_parquet_files(\"lgb_preds.parquet\")\nelse:\n    s3_file = mlflow.artifacts.download_artifacts(\n        artifact_uri=pred_s3_location, dst_path=\"/tmp\"\n    )  # /tmp is added as lambda gives write access only to that folder. Otherwise use \"./\" .\n    df_test_preds = read_parquet_files(s3_file)\n\n\ndf_items = read_parquet_files(\"items.parquet\")\n\n\ndef predict(find, item_idx: int):\n    \"\"\"\n    Takes the json inputs, processes it and outputs the unit sales\n    \"\"\"\n    try:\n        idx = pd.IndexSlice\n        # df_items.sample(1).index[0]\n        x = df_test_preds.loc[idx[find[\"store_nbr\"], item_idx, find[\"date1\"]]][\n            \"unit_sales\"\n        ]\n    except KeyError:\n        print(\"This item is not present this store. Try some other item\")\n        return -0.0\n    else:\n        return float(round(x, 2))\n\n\ndef lambda_handler(event, context=None) -&gt; dict:\n    \"\"\"\n    lambda handler for predict method\n    \"\"\"\n\n    find = event[\"find\"]\n    item = df_items.sample(1)\n    item_idx, item_family = item.index[0], item[\"family\"].values[0]\n    pred_unit_sales = predict(find, item_idx)\n\n    result = {\n        \" Store\": find[\"store_nbr\"],\n        \" item\": int(item_idx),\n        \"Family\": item_family,\n        \"Prediction date\": find[\"date1\"],\n        \"Unit_sales\": pred_unit_sales,\n    }\n    return result"
+  },
+  {
+    "objectID": "posts/2023-06-04-api-lambda-ecr/index.html#building-container-image",
+    "href": "posts/2023-06-04-api-lambda-ecr/index.html#building-container-image",
+    "title": "AWS Lambda with API Gateway - Part 2",
+    "section": "Building container image",
+    "text": "Building container image\nBuilding the docker image is same as previous post.\n\n\nTerminal 1\n\ndocker build -t lambda-app:v1 .\n\n\nUsing sensitive/secret access keys.\nSince we are using MLflow’s download artifact functionality directly from the S3, we need to supply our AWS access key to the docker as environment variables. Care needs to be taken when supplying sensitive information. Most hard code these secrets in their code. This is a bad practice as it will make its way to the code repository eventually. Next possible option is to supply as environment variable in the terminal. However, a simple history command will reveal the secrets. So, to avoid that we can set HIST_IGNORE_SPACE and also add keywords to HISTIGNORE ensuring any command with a leading space in front of it will not be stored in history cache.\n\n\nTerminal 1\n\nsetopt HIST_IGNORE_SPACE\nexport HISTIGNORE= \\\n1        \"ls*:cat*:*AWS*:*SECRET*:*KEY*:*PASS*:*TOKEN*\"\n export AWS_ACCESS_KEY_ID=xxxx\n export AWS_SECRET_ACCESS_KEY=xxxtt\n\n\n1\n\nHistory doesn’t store any command that has leading space. Highly useful for sensitive environment variables.\n\n\n\n\nRunning the container and testing locally\nUnlike last time to run the docker image as container requires a few arguments. We give them to docker as -e environment variables. Setting environment variables in the terminal is not going to pass over to the docker container. So we need to explicitly supply AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, RUN_ID and S3_BUCKET_NAME while executing docker run command in addition to the regular arguments.\n\n\nTerminal 1\n\ndocker run \\\n    -it --rm \\\n    -p 9000:8080 \\\n    -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\\n    -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\\n    -e RUN_ID=5651db4644334361b10296c51ba3af3e \\\n    -e S3_BUCKET_NAME=mlops-project-sales-forecast-bucket \\\n    lambda-app:v1\n\nTo test run the command in terminal 2,\n\n\ntest_docker_fn_docker.py in Terminal 2\n\npython test_docker_fn_docker.py\n\nWe will get a prediction as we have done in the previous post."
+  },
+  {
+    "objectID": "posts/2023-06-04-api-lambda-ecr/index.html#uploading-container-image-to-ecr",
+    "href": "posts/2023-06-04-api-lambda-ecr/index.html#uploading-container-image-to-ecr",
+    "title": "AWS Lambda with API Gateway - Part 2",
+    "section": "Uploading container image to ECR",
+    "text": "Uploading container image to ECR\nFor this section we need awscli package. If don’t have I recommend installing it. sudo apt install awscli. AWS-CLI allows for swifter creation of resources without overly relying on the console.\nWe need our ACCOUNT_ID. It can be found in the AWS console.\n\n\nTerminal\n\n1docker build -t lambda-app:v1 .\n2export ACCOUNT_ID=xxxx\naws ecr create-repository --repository-name lambda-images\ndocker tag lambda-app:v1 ${ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/lambda-images:app\n3$(aws ecr get-login --no-include-email)\ndocker push ${ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/lambda-images:app\n\n\n1\n\nOptional as we already built the image.\n\n2\n\nReplace with your account ID.\n\n3\n\nRemember we supplied aws access key and secret before. The session borrows them for ECR login. If it is a new session, those variables have to be given again.\n\n\n  In the screenshots we can see that our container image is uploaded to the registry."
+  },
+  {
+    "objectID": "posts/2023-06-04-api-lambda-ecr/index.html#setup-aws-lambda-function",
+    "href": "posts/2023-06-04-api-lambda-ecr/index.html#setup-aws-lambda-function",
+    "title": "AWS Lambda with API Gateway - Part 2",
+    "section": "Setup AWS Lambda function",
+    "text": "Setup AWS Lambda function\nThis part is a bit tedious as it is not as straight forward as running commands. I’d like to point out to a detailed guide which has all the steps to create a AWS Lambda function, attach policies, configure and supply environment variable. I urge you to visit that link. Including them here will make it too long, full of screenshots and frankly boring.\n\nTesting the Lambda function\nIn the Test tab, create a test event with our good old sample JSON object. {\"find\":{\"date1\":\"2017-08-26\",\"store_nbr\":20}}.   Hitting the Test button should give us a prediction. as seen in the second image.\nSo our function is able to access S3 artifact bucket to download and give out predictions. Meaning our attached policies are correct. Testing once in the console is fine but the customer wouldn’t want to do that. We need something that triggers the lambda function - we need an API Gateway."
+  },
+  {
+    "objectID": "posts/2023-06-04-api-lambda-ecr/index.html#aws-api-gateway",
+    "href": "posts/2023-06-04-api-lambda-ecr/index.html#aws-api-gateway",
+    "title": "AWS Lambda with API Gateway - Part 2",
+    "section": "AWS API Gateway",
+    "text": "AWS API Gateway\nA front-end developer, for example, can create a button that calls on the Lambda function. From customer’s viewpoint it is as simple as a click of a button. For us though, it is much more than that.\n\nCreate Rest API, test and deploy it\nAgain I advise you to refer my other guide to create an endpoint. This endpoint is same as the Flask one we encountered in the last posts.\nUpon deploying we get an invoke url. This url is without an endpoint. \nWe need to append predict-sales, our resource endpoint, to the url. The final url would look like https://eecweeeeeg.execute-api.us-east-1.amazonaws.com/stg-lambda-app-for-blog/predict-sales\nUse the following JSON object to test it out in an API platform client such as Thunder Client in VSCode, Postman etc.\n{\"find\": {\"date1\": \"2017-08-26\", \"store_nbr\": 20}}"
+  },
+  {
+    "objectID": "posts/2023-06-04-api-lambda-ecr/index.html#aws-dynamodb",
+    "href": "posts/2023-06-04-api-lambda-ecr/index.html#aws-dynamodb",
+    "title": "AWS Lambda with API Gateway - Part 2",
+    "section": "AWS DynamoDB",
+    "text": "AWS DynamoDB\nWe want to store these predicted outputs to a DB. With the help of console, create a table sales_predictions. Give store_id as partition_key and item_id as sort_key. Rest of the setting can be default.\nThen add policy that give Lambda permission to write objects into DB. Refer my other notes"
+  },
+  {
+    "objectID": "posts/2023-06-04-api-lambda-ecr/index.html#modify-aws-lambda",
+    "href": "posts/2023-06-04-api-lambda-ecr/index.html#modify-aws-lambda",
+    "title": "AWS Lambda with API Gateway - Part 2",
+    "section": "Modify AWS Lambda",
+    "text": "Modify AWS Lambda\n\n\nlambda_function.py\n\nimport os\n\nimport mlflow\nimport pandas as pd\nimport boto3\nimport json\n\nRUN_ID = os.getenv(\"RUN_ID\")  # \"5651db4644334361b10296c51ba3af3e\"\nS3_BUCKET_NAME = os.getenv(\n    \"S3_BUCKET_NAME\"\n)  # \"mlops-project-sales-forecast-bucket\"\nEXPERIMENT_ID = 1\nFILE_ADDRESS = \"artifacts/predictions/lgb_preds.parquet\"\npred_s3_location = (\n    f\"s3://{S3_BUCKET_NAME}/{EXPERIMENT_ID}/{RUN_ID}/{FILE_ADDRESS}\"\n)\n\n# Initialize the SNS client object outside of the handler\n1dynamodb = boto3.resource('dynamodb')\n\ndef read_parquet_files(filename: str):\n    \"\"\"\n    Read parquet file format for given filename and returns the contents\n    \"\"\"\n    df = pd.read_parquet(filename, engine=\"pyarrow\")\n    return df\n\n\nif os.path.exists(\"lgb_preds.parquet\"):\n    df_test_preds = read_parquet_files(\"lgb_preds.parquet\")\nelse:\n    s3_file = mlflow.artifacts.download_artifacts(\n        artifact_uri=pred_s3_location, dst_path=\"/tmp\"\n    )  # /tmp is added as lambda gives write access only to that folder. Otherwise use \"./\" .\n    df_test_preds = read_parquet_files(s3_file)\n\n\ndf_items = read_parquet_files(\"items.parquet\")\n\n\ndef predict(find, item_idx: int):\n    \"\"\"\n    Takes the json inputs, processes it and outputs the unit sales\n    \"\"\"\n    try:\n        idx = pd.IndexSlice\n        # df_items.sample(1).index[0]\n        x = df_test_preds.loc[idx[find[\"store_nbr\"], item_idx, find[\"date1\"]]][\n            \"unit_sales\"\n        ]\n    except KeyError:\n        print(\"This item is not present this store. Try some other item\")\n        return -0.0\n    else:\n        return float(round(x, 2))\n\n\ndef lambda_handler(event, context=None) -&gt; dict:\n    \"\"\"\n    lambda handler for predict method\n    \"\"\"\n\n    find = event[\"find\"]\n    item = df_items.sample(1)\n    item_idx, item_family = item.index[0], item[\"family\"].values[0]\n    pred_unit_sales = predict(find, item_idx)\n\n    result = {\n        \"store_id\": find[\"store_nbr\"],\n        \"item_id\": int(item_idx),\n        \"family\": item_family,\n        \"prediction_date\": find[\"date1\"],\n        \"unit_sales\": str(pred_unit_sales),\n    }\n\n2    table = dynamodb.Table(\"sales_preds_for_blog\")\n    table.put_item(\n3        Item = result\n    )\n    return {\n      'statusCode': 200,\n      'body': 'successfully created item!',\n      }\n\n\n1\n\nCreate dynamodb resource\n\n2\n\nAccess already created table sales_preds_for_blog\n\n3\n\nInsert item into the table\n\n\nRebuild the docker image, retag it, publish it to the ECR repo. Then in AWS Lambda, use deploy new image to select the latest build. Test with sample input."
+  },
+  {
     "objectID": "posts/2021-09-18-kaggle-setup/index.html",
     "href": "posts/2021-09-18-kaggle-setup/index.html",
     "title": "Setting up Kaggle on Linux/Mac",
@@ -585,7 +683,7 @@
     "href": "archive.html",
     "title": "Archive",
     "section": "",
-    "text": "Date\n\n\nTitle\n\n\n\n\n\n\nJun 3, 2023\n\n\nDeploy with Docker\n\n\n\n\nJun 3, 2023\n\n\nDeploy Lambda function using Docker - Part 1\n\n\n\n\nJun 2, 2023\n\n\nSetup Terraform\n\n\n\n\nMay 10, 2023\n\n\nNotes - LinkedIn course - Financial data analysis\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n\n\nSep 7, 2022\n\n\nNotes - Python concepts\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n\n\n\nNo matching items"
+    "text": "Date\n\n\nTitle\n\n\n\n\n\n\nJun 4, 2023\n\n\nAWS Lambda with API Gateway - Part 2\n\n\n\n\nJun 3, 2023\n\n\nDeploy with Docker\n\n\n\n\nJun 3, 2023\n\n\nDeploy Lambda function using Docker - Part 1\n\n\n\n\nJun 2, 2023\n\n\nSetup Terraform\n\n\n\n\nMay 10, 2023\n\n\nNotes - LinkedIn course - Financial data analysis\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n\n\nSep 7, 2022\n\n\nNotes - Python concepts\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",

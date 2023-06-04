@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/2023-06-04-api-lambda-ecr/index.html",
       "/posts/2023-06-03-lambda-docker/index.html",
       "/posts/2023-06-03-deploy-with-docker/index.html",
       "/posts/2023-06-02-Terraform-setup/index.html",
@@ -21,6 +22,7 @@
   {
     "listing": "/archive.html",
     "items": [
+      "/posts/2023-06-04-api-lambda-ecr/index.html",
       "/posts/2023-06-03-deploy-with-docker/index.html",
       "/posts/2023-06-03-lambda-docker/index.html",
       "/posts/2023-06-02-Terraform-setup/index.html",
