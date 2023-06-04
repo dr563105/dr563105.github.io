@@ -9,7 +9,7 @@ format:
   html: 
     code-annotations: hover
     code-overflow: wrap
-image: api-lambda-ecr-sns-db2-logo.png
+image: aws-part2-logo.png
 ---
 
 # Introduction
