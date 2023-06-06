@@ -122,13 +122,14 @@ docker build -t lambda-app:v1 .
 Since we are using MLflow's download artifact functionality directly from the `S3`, we need to supply our AWS access key to the docker as environment variables. Care needs to be taken when supplying sensitive information. Most hard code these secrets in their code. This is a bad practice as it will make its way to the code repository eventually. Next possible option is to supply as environment variable in the terminal. However, a simple `history` command will reveal the secrets. So, to avoid that we can set `HIST_IGNORE_SPACE` and also add keywords to `HISTIGNORE` ensuring any command with a leading space in front of it will not be stored in history cache.
 
 ```{.bash filename="Terminal 1"}
-setopt HIST_IGNORE_SPACE
+set +o history # <1>
 export HISTIGNORE= \
-        "ls*:cat*:*AWS*:*SECRET*:*KEY*:*PASS*:*TOKEN*" # <1>
+        "ls*:cat*:*AWS*:*SECRET*:*KEY*:*PASS*:*TOKEN*" # <2>
  export AWS_ACCESS_KEY_ID=xxxx
  export AWS_SECRET_ACCESS_KEY=xxxtt
 ```
-1. History doesn't store any command that has leading space. Highly useful for sensitive environment variables.
+1. Disables history for the current terminal session.
+2. History doesn't store any command that has leading space. Highly useful for sensitive environment variables.
 
 ### Running the container and testing locally
 Unlike last time to run the docker image as container requires a few arguments.
