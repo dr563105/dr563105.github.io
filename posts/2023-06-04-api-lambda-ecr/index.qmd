@@ -1,7 +1,8 @@
 ---
-title: "AWS Lambda with API Gateway - Part 2"
-description: "A post on using API Gateway with AWS Lambda with ECR image as source."
+title: Building Data Pipelines - Part 2
+description: "A post on migrating the web app to AWS cloud"
 date: "2023-06-04"
+author: Deepak Ramani
 categories: ["AWS", "Lambda", "API Gateway", "ECR", "Docker", "MLflow", "S3", "DynamoDB"]
 execute: 
   eval: false

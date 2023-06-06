@@ -1,6 +1,6 @@
 ---
-title: Deploy with Docker
-description: "A short guide to deploy flask application using docker"
+title: Deploy Web Application with Docker
+description: "A short guide on how to deploy a flask application using docker"
 date: "2023-06-03"
 author: Deepak Ramani
 format: 

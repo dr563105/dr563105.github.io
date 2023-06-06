@@ -1,5 +1,5 @@
 ---
-title: Deploy Lambda function using Docker - Part 1
+title: Building Data Pipelines - Part 1
 description: "A short post on using docker to deploy lambda function locally"
 categories: [docker, pipenv, lambda_function, AWS Lambda]
 author: Deepak Ramani

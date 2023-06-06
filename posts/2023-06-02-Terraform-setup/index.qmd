@@ -1,7 +1,7 @@
 ---
 image: tf.png
-title: Setup Terraform 
-description: "Install Terraform in Mac and Ubuntu and spin up a docker nginx container"
+title: Getting started with Terraform 
+description: "An introductory post on getting started with Terraform in Mac and Ubuntu and spin up a docker nginx container"
 date: "2023-06-02"
 author: Deepak Ramani
 format: 
