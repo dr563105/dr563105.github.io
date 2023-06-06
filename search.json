@@ -137,14 +137,14 @@
     "href": "index.html",
     "title": "Deepak Ramani's blog",
     "section": "",
-    "text": "Date\n\n\nTitle\n\n\nReading Time\n\n\n\n\n\n\n\n\n\nJun 4, 2023\n\n\nAWS Lambda with API Gateway - Part 2\n\n\n10 min\n\n\n\n\n\n\n\nJun 3, 2023\n\n\nDeploy Lambda function using Docker - Part 1\n\n\n4 min\n\n\n\n\n\n\n\nJun 3, 2023\n\n\nDeploy with Docker\n\n\n7 min\n\n\n\n\n\n\n\nJun 2, 2023\n\n\nSetup Terraform\n\n\n7 min\n\n\n\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n6 min\n\n\n\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n4 min\n\n\n\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n15 min\n\n\n\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n4 min\n\n\n\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n3 min\n\n\n\n\n\nNo matching items"
+    "text": "Date\n\n\nTitle\n\n\nReading Time\n\n\n\n\n\n\n\n\n\nJun 4, 2023\n\n\nBuilding Data Pipelines - Part 2\n\n\n10 min\n\n\n\n\n\n\n\nJun 3, 2023\n\n\nBuilding Data Pipelines - Part 1\n\n\n4 min\n\n\n\n\n\n\n\nJun 3, 2023\n\n\nDeploy Web Application with Docker\n\n\n7 min\n\n\n\n\n\n\n\nJun 2, 2023\n\n\nGetting started with Terraform\n\n\n7 min\n\n\n\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n6 min\n\n\n\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n4 min\n\n\n\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n15 min\n\n\n\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n4 min\n\n\n\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n3 min\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#blog-posts",
     "href": "index.html#blog-posts",
     "title": "Deepak Ramani's blog",
     "section": "",
-    "text": "Date\n\n\nTitle\n\n\nReading Time\n\n\n\n\n\n\n\n\n\nJun 4, 2023\n\n\nAWS Lambda with API Gateway - Part 2\n\n\n10 min\n\n\n\n\n\n\n\nJun 3, 2023\n\n\nDeploy Lambda function using Docker - Part 1\n\n\n4 min\n\n\n\n\n\n\n\nJun 3, 2023\n\n\nDeploy with Docker\n\n\n7 min\n\n\n\n\n\n\n\nJun 2, 2023\n\n\nSetup Terraform\n\n\n7 min\n\n\n\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n6 min\n\n\n\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n4 min\n\n\n\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n15 min\n\n\n\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n4 min\n\n\n\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n3 min\n\n\n\n\n\nNo matching items"
+    "text": "Date\n\n\nTitle\n\n\nReading Time\n\n\n\n\n\n\n\n\n\nJun 4, 2023\n\n\nBuilding Data Pipelines - Part 2\n\n\n10 min\n\n\n\n\n\n\n\nJun 3, 2023\n\n\nBuilding Data Pipelines - Part 1\n\n\n4 min\n\n\n\n\n\n\n\nJun 3, 2023\n\n\nDeploy Web Application with Docker\n\n\n7 min\n\n\n\n\n\n\n\nJun 2, 2023\n\n\nGetting started with Terraform\n\n\n7 min\n\n\n\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n6 min\n\n\n\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n4 min\n\n\n\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n15 min\n\n\n\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n4 min\n\n\n\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n3 min\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#projects",
@@ -156,63 +156,63 @@
   {
     "objectID": "posts/2023-06-03-deploy-with-docker/index.html",
     "href": "posts/2023-06-03-deploy-with-docker/index.html",
-    "title": "Deploy with Docker",
+    "title": "Deploy Web Application with Docker",
     "section": "",
     "text": "A customer wants to build a web application on machine learning trained model. They approach us to find a simple solution. They give us a trained model file in parquet format. We need to look up for a potential sale price of a product within the given time period and store number. How can it be achieved?\n\n\nThere are three possibilities to solve this problem:\n\nUse python testing functionality, give the inputs and generate outputs.\nSpin up a Flask application with an endpoint, pass arguments into it and generate outputs.\nBuild a docker image with Flask and its dependencies, run it and pass arguments.\n\nAll the three approaches are technical. In other words, there are chances of failures that may be replicable. To allow for minimal error, we will choose the docker option which packages the second, Flask application."
   },
   {
     "objectID": "posts/2023-06-03-deploy-with-docker/index.html#possible-approaches",
     "href": "posts/2023-06-03-deploy-with-docker/index.html#possible-approaches",
-    "title": "Deploy with Docker",
+    "title": "Deploy Web Application with Docker",
     "section": "",
     "text": "There are three possibilities to solve this problem:\n\nUse python testing functionality, give the inputs and generate outputs.\nSpin up a Flask application with an endpoint, pass arguments into it and generate outputs.\nBuild a docker image with Flask and its dependencies, run it and pass arguments.\n\nAll the three approaches are technical. In other words, there are chances of failures that may be replicable. To allow for minimal error, we will choose the docker option which packages the second, Flask application."
   },
   {
     "objectID": "posts/2023-06-03-deploy-with-docker/index.html#why-flask",
     "href": "posts/2023-06-03-deploy-with-docker/index.html#why-flask",
-    "title": "Deploy with Docker",
+    "title": "Deploy Web Application with Docker",
     "section": "Why Flask?",
     "text": "Why Flask?\nFlask is a popular Python microframework for developing web applications. It is also known for its simplicity, flexibility and scalability. Since we want to use Python and make it simple for us to maintain, we will choose Flask."
   },
   {
     "objectID": "posts/2023-06-03-deploy-with-docker/index.html#flask-application",
     "href": "posts/2023-06-03-deploy-with-docker/index.html#flask-application",
-    "title": "Deploy with Docker",
+    "title": "Deploy Web Application with Docker",
     "section": "Flask application",
     "text": "Flask application\nA web application is similar to visiting a website through an address. Such as visiting your gmail account using mail.google.com. The gmail website is hosted in many servers across the world. A server closest to your location will serve you when you open up the website. Similarly in our case we need to host our application somewhere. We will, for now, choose the local option; meaning in our local machine.\nUsing Flask we host our application in a particular location(endpoint) and through a port locally. I choose this location to be http://localhost:9696/predict-sales.\nBelow is the code for the flask application.\n\n\nflask-app.py\n\nimport pandas as pd\nfrom flask import Flask, jsonify, request\nfrom zipfile import ZipFile as zf\nimport os\n\ndef read_parquet_files(filename: str) -&gt; pd.DataFrame:\n    \"\"\"\n    Read parquet file format for given filename and returns the contents\n    \"\"\"\n    df = pd.read_parquet(filename, engine=\"pyarrow\")\n    return df\n\n\nif os.path.exists(\"lgb_preds.parquet\"):\n    df_test_preds = read_parquet_files(\"lgb_preds.parquet\")\nelse:   \n    with zf(\"lgb_preds.parquet.zip\") as zipfile:\n        zipfile.extract(\"lgb_preds.parquet\")\n1    df_test_preds = read_parquet_files(\"lgb_preds.parquet\")\n\ndf_items = read_parquet_files(\"items.parquet\")\n\n2app = Flask(\"flask-unit-sales-prediction\")\n\n\ndef predict(find: request, item_idx: int) -&gt; float:\n    \"\"\"\n    Takes the json inputs, processes it and outputs the unit sales\n    \"\"\"\n    try:\n        idx = pd.IndexSlice\n        x = df_test_preds.loc[idx[find[\"store_nbr\"], item_idx, find[\"date1\"]]][\n            \"unit_sales\"\n        ]\n    except KeyError:\n        print(\"This item is not present this store. Try some other item\")\n        return -0.0\n    else:\n        return float(round(x, 2))\n\n\n3@app.route(\"/predict-sales\", methods=[\"POST\"])\ndef predict_endpoint():\n    \"\"\"\n    flask predict endpoint\n    \"\"\"\n    find = request.get_json()\n    item = df_items.sample(1)\n    item_idx, item_family = item.index[0], item[\"family\"].values[0]\n    pred_unit_sales = predict(find, item_idx)\n    result = {\n        \" Store\": find[\"store_nbr\"],\n        \" item\": int(item_idx),\n        \"Family\": item_family,\n        \"Prediction date\": find[\"date1\"],\n        \"Unit_sales\": pred_unit_sales,\n    }\n\n4    return jsonify(result)\n\n\nif __name__ == \"__main__\":\n5    app.run(debug=True, host=\"0.0.0.0\", port=9696)\n\n\n1\n\nGetting the trained model table\n\n2\n\nInitialising the Flask app\n\n3\n\nDeclaring the endpoint with “POST” as method\n\n4\n\nPredicted result that converted to JSON format\n\n5\n\nSpin up flask app\n\n\nFlask uses a library called gunicorn to spin up a HTML server. In the code we have dependencies for pandas, pyarrow, numpy. We can’t ask the customer to install these themselves. We intend to use Docker to prevent that criteria. But how to install these dependencies in a docker container?"
   },
   {
     "objectID": "posts/2023-06-03-deploy-with-docker/index.html#dependencies-install",
     "href": "posts/2023-06-03-deploy-with-docker/index.html#dependencies-install",
-    "title": "Deploy with Docker",
+    "title": "Deploy Web Application with Docker",
     "section": "Dependencies install",
     "text": "Dependencies install\nThere are number of options available for us:\n\nUse pip and requirements.txt. But tracking package versions might get tedious.\nUse Anaconda/Miniconda. For local machine they’re fine but for docker container?they install so many unnecessary libraries making container huge in size.\nUse Poetry. This one is developed to deliver packages. But still it includes libraries unnecessary to us.\nUse Pipenv. It is much smaller, easy to write and use. Hence I will choose this."
   },
   {
     "objectID": "posts/2023-06-03-deploy-with-docker/index.html#pipenv-pipfile-and-pipfile.lock",
     "href": "posts/2023-06-03-deploy-with-docker/index.html#pipenv-pipfile-and-pipfile.lock",
-    "title": "Deploy with Docker",
+    "title": "Deploy Web Application with Docker",
     "section": "Pipenv, Pipfile and Pipfile.lock",
     "text": "Pipenv, Pipfile and Pipfile.lock\nPipenv is an advanced version of requirements.txt. It uses inline tables and TOML spec. We can easily give the package versions we want to install and pipenv internally creates a Pipfile.lock file that contains hashes to each package installed. A convenient solution for our purpose.\nOur Pipfile looks like this:\n\n\nPipfile\n\n[[source]]\nurl = \"https://pypi.org/simple\"\nverify_ssl = true\nname = \"pypi\"\n\n[packages]\npandas = \"*\"\nflask = \"*\"\npyarrow = \"*\"\ngunicorn = \"*\"\nnumpy = \"*\"\n\n[dev-packages]\nrequests = \"*\"\n\n[requires]\npython_version = \"3.9\"\n\nOn the first run we need to install these packages locally and also to create Pipfile.lock. We can accomplish that using the command pipenv install --dev. I recommend running this inside conda’s base environment. Please don’t use system’s python to manage projects."
   },
   {
     "objectID": "posts/2023-06-03-deploy-with-docker/index.html#dockerfile-and-building-docker-image",
     "href": "posts/2023-06-03-deploy-with-docker/index.html#dockerfile-and-building-docker-image",
-    "title": "Deploy with Docker",
+    "title": "Deploy Web Application with Docker",
     "section": "Dockerfile and building docker image",
     "text": "Dockerfile and building docker image\nDockerfile is a text file that give instructions to docker engine to build an docker image. We choose python 3.9-slim version, install pip and pipenv, copy all the necessary files, importantly expose the port 9696 and set gunicorn http server as the entrypoint to the image whenever the container is run.\n\n\nDockerfile\n\nFROM python:3.9.14-slim\n\nRUN pip install -U pip\nRUN pip install pipenv\n\nWORKDIR /app\n\nCOPY [ \"Pipfile\", \"Pipfile.lock\", \"./\" ]\n\nRUN pipenv install --system --deploy\n\nCOPY [ \"lgb_preds.parquet.zip\" , \"lgb_preds.parquet.zip\" ]\nCOPY [ \"items.parquet\" , \"items.parquet\" ]\n\nCOPY [\"flask_app.py\", \"flask_app.py\"]\n\nEXPOSE 9696\n\nENTRYPOINT [ \"gunicorn\", \"--bind=0.0.0.0:9696\", \"flask_sales_predictor:app\" ]\n\nTo build a docker image, we use the command docker build -t flask_app:v1 . .\nTo verify it is created we can run docker images and look for the name."
   },
   {
     "objectID": "posts/2023-06-03-deploy-with-docker/index.html#running-the-docker-container",
     "href": "posts/2023-06-03-deploy-with-docker/index.html#running-the-docker-container",
-    "title": "Deploy with Docker",
+    "title": "Deploy Web Application with Docker",
     "section": "Running the docker container",
     "text": "Running the docker container\nOur software is now packaged as an image. We need to somehow run it to use our application. We can run it through this command\n\n\nTerminal 1\n\ndocker run \\\n    -it \\\n    --rm \\\n    -p 9696:9696 \\\n    flask_app:v1"
   },
   {
     "objectID": "posts/2023-06-03-deploy-with-docker/index.html#testing-the-application",
     "href": "posts/2023-06-03-deploy-with-docker/index.html#testing-the-application",
-    "title": "Deploy with Docker",
+    "title": "Deploy Web Application with Docker",
     "section": "Testing the application",
     "text": "Testing the application\nThe docker container should be up and running in terminal 1. Now all that is left is test it. For that we need one more file.\n\n\ntest_requests.py in terminal 2\n\nimport requests\n\nfind = {\"date1\": \"2017-08-21\", \"store_nbr\": 19}\n\nurl = \"http://localhost:9696/predict-sales\"\nresponse = requests.post(url, json=find, timeout=10)\nprint(response.json())\n\nThe test_requests.py file has the input in JSON format and the endpoint url http://localhost:9696/predict-sales. We leverage the requests library to make our requests.\nOpen up another terminal or another tab, activate virtual environment and run python test_requests.py. Just python needs to be present inside this environment as everything else is inside the docker container.\nIf everything goes well, we should the predicted product price printed."
   },
@@ -338,84 +338,84 @@
   {
     "objectID": "posts/2023-06-03-lambda-docker/index.html",
     "href": "posts/2023-06-03-lambda-docker/index.html",
-    "title": "Deploy Lambda function using Docker - Part 1",
+    "title": "Building Data Pipelines - Part 1",
     "section": "",
     "text": "This post is a follow up to my previous post on deploying with docker. This will be part 1 of the deploy using Docker series. In this part, I will introduce the concept of lambda_function and how it can tested locally.\n\n\nThe customer from my previous post doesn’t want to keep things in their local machine and wish for a cloud option. Also don’t want to reserve resources as they expect only intermittent requests. What could be a viable solution? Enter Lambda_function. Each cloud provider has other own name for lambda function. We will use AWS and it is called Lambda.\nAWS Lambda is a serverless compute service that run code in reponse to an event and automatically manages the underlying compute resources for us. Moreover we pay only for what we use.1\nBefore transitioning into AWS Lambda cloud solution, we can modify our program to AWS Lambda coding standards and test it locally.\n\n\n\nLambda function handler has certain coding standards. 2 For example, the name of the python file must be lambda_function.py and the handler function lambda_handler.\nGoing by that standard, we can modify our flask-app.py from previous post to lambda_function.py.\n\n\nlambda_function.py\n\nimport os\nimport pandas as pd\n\ndef read_parquet_files(filename: str):\n    \"\"\"\n    Read parquet file format for given filename and returns the contents\n    \"\"\"\n    df = pd.read_parquet(filename, engine=\"pyarrow\")\n    return df\n\ndf_test_preds = read_parquet_files(\"lgb_preds.parquet\")\ndf_items = read_parquet_files(\"items.parquet\")\n\ndef predict(find, item_idx: int):\n    \"\"\"\n    Takes the json inputs, processes it and outputs the unit sales\n    \"\"\"\n    try:\n        idx = pd.IndexSlice\n        x = df_test_preds.loc[idx[find[\"store_nbr\"], item_idx, find[\"date1\"]]][\n            \"unit_sales\"\n        ]\n    except KeyError:\n        print(\"This item is not present this store. Try some other item\")\n        return -0.0\n    else:\n        return float(round(x, 2))\n\n1def lambda_handler(event, context=None) -&gt; dict:\n    \"\"\"\n    lambda handler for predict method\n    \"\"\"\n\n    find = event[\"find\"]\n    item = df_items.sample(1)\n    item_idx, item_family = item.index[0], item[\"family\"].values[0]\n    pred_unit_sales = predict(find, item_idx)\n\n    result = {\n        \" Store\": find[\"store_nbr\"],\n        \" item\": int(item_idx),\n        \"Family\": item_family,\n        \"Prediction date\": find[\"date1\"],\n        \"Unit_sales\": pred_unit_sales,\n    }\n    return result\n\n\n1\n\nDefault handler function name\n\n\nLike last time we will use Pipenv to install dependencies. If you’re new, kindly visit deploy with docker post to know why we use Pipenv.\n\n\n\n\n\nDockerfile\n\n1FROM public.ecr.aws/lambda/python:3.9\n\nRUN pip install -U pip\nRUN pip install pipenv\n\nCOPY [ \"Pipfile\", \"Pipfile.lock\", \"./\" ]\n\nRUN pipenv install --system --deploy\n\nCOPY [ \"lgb_preds.parquet\" , \"lgb_preds.parquet\" ]\nCOPY [ \"items.parquet\" , \"lambda_function.py\", \"./\" ]\n\n2CMD [ \"lambda_function.lambda_handler\" ]\n\n\n1\n\nUsing AWS ECR hosted python-3.9 docker image. As to why I will explain in the next part.\n\n2\n\nPay close attention as to how the handler function is invoked. It is not entrypoint like last time.\n\n\n\n\n\nWe use the same build command as last time.\n\n\nTerminal 1\n\ndocker build -t lambda-app:v1 .\n\nThe result if successful would look like this:\n\nRunning the container is different this time as the port exposed is different. AWS allows local testing of Lambda function code through a localhost endpoint. This endpoint is at 9000 port(it can be customised). Inside docker container we make it listen to 8080 port. So we forward 9000 to 8080.\n\n\nTerminal 1\n\ndocker run \\\n    -it \\\n    --rm \\\n1    -p 9000:8080 \\\n    lambda-app:v1\n\n\n1\n\nport forwarding 9000 to 8080\n\n\nResult looks like so:"
   },
   {
     "objectID": "posts/2023-06-03-lambda-docker/index.html#why-lambda_function",
     "href": "posts/2023-06-03-lambda-docker/index.html#why-lambda_function",
-    "title": "Deploy Lambda function using Docker - Part 1",
+    "title": "Building Data Pipelines - Part 1",
     "section": "",
     "text": "The customer from my previous post doesn’t want to keep things in their local machine and wish for a cloud option. Also don’t want to reserve resources as they expect only intermittent requests. What could be a viable solution? Enter Lambda_function. Each cloud provider has other own name for lambda function. We will use AWS and it is called Lambda.\nAWS Lambda is a serverless compute service that run code in reponse to an event and automatically manages the underlying compute resources for us. Moreover we pay only for what we use.1\nBefore transitioning into AWS Lambda cloud solution, we can modify our program to AWS Lambda coding standards and test it locally."
   },
   {
     "objectID": "posts/2023-06-03-lambda-docker/index.html#aws-lambda-handler",
     "href": "posts/2023-06-03-lambda-docker/index.html#aws-lambda-handler",
-    "title": "Deploy Lambda function using Docker - Part 1",
+    "title": "Building Data Pipelines - Part 1",
     "section": "",
     "text": "Lambda function handler has certain coding standards. 2 For example, the name of the python file must be lambda_function.py and the handler function lambda_handler.\nGoing by that standard, we can modify our flask-app.py from previous post to lambda_function.py.\n\n\nlambda_function.py\n\nimport os\nimport pandas as pd\n\ndef read_parquet_files(filename: str):\n    \"\"\"\n    Read parquet file format for given filename and returns the contents\n    \"\"\"\n    df = pd.read_parquet(filename, engine=\"pyarrow\")\n    return df\n\ndf_test_preds = read_parquet_files(\"lgb_preds.parquet\")\ndf_items = read_parquet_files(\"items.parquet\")\n\ndef predict(find, item_idx: int):\n    \"\"\"\n    Takes the json inputs, processes it and outputs the unit sales\n    \"\"\"\n    try:\n        idx = pd.IndexSlice\n        x = df_test_preds.loc[idx[find[\"store_nbr\"], item_idx, find[\"date1\"]]][\n            \"unit_sales\"\n        ]\n    except KeyError:\n        print(\"This item is not present this store. Try some other item\")\n        return -0.0\n    else:\n        return float(round(x, 2))\n\n1def lambda_handler(event, context=None) -&gt; dict:\n    \"\"\"\n    lambda handler for predict method\n    \"\"\"\n\n    find = event[\"find\"]\n    item = df_items.sample(1)\n    item_idx, item_family = item.index[0], item[\"family\"].values[0]\n    pred_unit_sales = predict(find, item_idx)\n\n    result = {\n        \" Store\": find[\"store_nbr\"],\n        \" item\": int(item_idx),\n        \"Family\": item_family,\n        \"Prediction date\": find[\"date1\"],\n        \"Unit_sales\": pred_unit_sales,\n    }\n    return result\n\n\n1\n\nDefault handler function name\n\n\nLike last time we will use Pipenv to install dependencies. If you’re new, kindly visit deploy with docker post to know why we use Pipenv."
   },
   {
     "objectID": "posts/2023-06-03-lambda-docker/index.html#dockerfile",
     "href": "posts/2023-06-03-lambda-docker/index.html#dockerfile",
-    "title": "Deploy Lambda function using Docker - Part 1",
+    "title": "Building Data Pipelines - Part 1",
     "section": "",
     "text": "Dockerfile\n\n1FROM public.ecr.aws/lambda/python:3.9\n\nRUN pip install -U pip\nRUN pip install pipenv\n\nCOPY [ \"Pipfile\", \"Pipfile.lock\", \"./\" ]\n\nRUN pipenv install --system --deploy\n\nCOPY [ \"lgb_preds.parquet\" , \"lgb_preds.parquet\" ]\nCOPY [ \"items.parquet\" , \"lambda_function.py\", \"./\" ]\n\n2CMD [ \"lambda_function.lambda_handler\" ]\n\n\n1\n\nUsing AWS ECR hosted python-3.9 docker image. As to why I will explain in the next part.\n\n2\n\nPay close attention as to how the handler function is invoked. It is not entrypoint like last time."
   },
   {
     "objectID": "posts/2023-06-03-lambda-docker/index.html#docker-image-build-and-running-the-container",
     "href": "posts/2023-06-03-lambda-docker/index.html#docker-image-build-and-running-the-container",
-    "title": "Deploy Lambda function using Docker - Part 1",
+    "title": "Building Data Pipelines - Part 1",
     "section": "",
     "text": "We use the same build command as last time.\n\n\nTerminal 1\n\ndocker build -t lambda-app:v1 .\n\nThe result if successful would look like this:\n\nRunning the container is different this time as the port exposed is different. AWS allows local testing of Lambda function code through a localhost endpoint. This endpoint is at 9000 port(it can be customised). Inside docker container we make it listen to 8080 port. So we forward 9000 to 8080.\n\n\nTerminal 1\n\ndocker run \\\n    -it \\\n    --rm \\\n1    -p 9000:8080 \\\n    lambda-app:v1\n\n\n1\n\nport forwarding 9000 to 8080\n\n\nResult looks like so:"
   },
   {
     "objectID": "posts/2023-06-02-Terraform-setup/index.html",
     "href": "posts/2023-06-02-Terraform-setup/index.html",
-    "title": "Setup Terraform",
+    "title": "Getting started with Terraform",
     "section": "",
     "text": "Terraform from Hasicorp is Infrastructure as Code(IaC) tool that is gaining popularity among the data engineers. It lets us build, change and version infrastructure safely and efficiently. As to why one needs Terraform, I shall direct you to this comprehensive article.\nIn this post, I will write a small guide to get us started with Terraform. This post then can be used as a starting guide for my future posts involving Terraform.\n\n\n\n\n\n\nNote\n\n\n\nNote that this installation guide is only for Mac(M1 silicon) and Ubuntu(GCP E2-medium instance). Also this guide will look similar to the example provided in Hashicorp’s website. The intention is to have a guide for my benefit in one place.\n\n\n\n\nA fully functional Macbook or an Ubuntu GCP/AWS instance with sudo privileges."
   },
   {
     "objectID": "posts/2023-06-02-Terraform-setup/index.html#what-is-main.tf",
     "href": "posts/2023-06-02-Terraform-setup/index.html#what-is-main.tf",
-    "title": "Setup Terraform",
+    "title": "Getting started with Terraform",
     "section": "What is main.tf?",
     "text": "What is main.tf?\nIt is a terraform configuration file that describes infrastructure in Terraform. Each terraform config needs a separate directory with a single main.tf.\nThis file contains:\n\nTerraform block\nProviders\nResources\n\n\nTerraform block\nThis block contains Terraform settings for require providers that Terraform will use to provision infrastructure. In our case it is kreuzwerker/docker as source. kreuzwereker is the provider/developer/host and docker is the product we are interested in using. We can specify the minimum version to install. If not mentioned, Terraform will install the lastest version available. Terraform registry is default place to look for popular providers such as AWS, GCP, Azure.\nterraform {\n  required_providers {\n    docker = {\n      source  = \"kreuzwerker/docker\"\n      version = \"~&gt; 3.0.1\"\n    }\n  }\n}\n\n\nProviders\nNow that Terraform knows the “source”, we need to provide a “provider”. Docker is our choice. In this block we can configure docker provider.\nprovider \"docker\" {}\n\n\nResources\nA resource block is used to define components of the provider previously mentioned. So we have a docker provider. We need a docker image and build a container for that image.\nresource \"docker_image\" \"nginx\" {\n  name         = \"nginx\"\n  keep_locally = false\n}\nresource \"docker_container\" \"nginx\" {\n  image = docker_image.nginx.image_id\n  name  = \"tutorial\"\n  ports {\n    internal = 80\n    external = 8000\n  }\n}\nThe resource block takes two strings - resource type and resource name. docker_image is the type and nginx is the name. These two together docker_image.nginx form a unique ID for the resource. For docker_container resource, we use the image from the previous block as reference. So a container is created with that image and ports are also mapped."
   },
   {
     "objectID": "posts/2023-06-02-Terraform-setup/index.html#validate-and-initialise-the-configuration",
     "href": "posts/2023-06-02-Terraform-setup/index.html#validate-and-initialise-the-configuration",
-    "title": "Setup Terraform",
+    "title": "Getting started with Terraform",
     "section": "Validate and initialise the configuration",
     "text": "Validate and initialise the configuration\nTerraform has a bunch of CLI commands to make things easier and faster. One needs to remember only 5-6 commands. Rest can be looked up later.\nTo validate the configuration we use\n\n\nTerminal\n\n1terrform validate\n\n\n1\n\nReturns “Success! The configuration is valid.” if syntactically valid.\n\n\nThen we need to initialise our configuration. This process will download and install the providers mentioned. This command will create a hidden directory .terraform and install docker provider. Terraform also creates a lock file named .terraform.lock.hcl which specifies the exact provider versions used, so that you can control when you want to update the providers used for your project."
   },
   {
     "objectID": "posts/2023-06-02-Terraform-setup/index.html#plan-and-create-infrastructure",
     "href": "posts/2023-06-02-Terraform-setup/index.html#plan-and-create-infrastructure",
-    "title": "Setup Terraform",
+    "title": "Getting started with Terraform",
     "section": "Plan and create infrastructure",
     "text": "Plan and create infrastructure\nTerraform allows us to see what will be created through terraform plan commands. This command is used to give an overview of the things that will be created. An extra, precautionary step. It looks trivial for our use case but imagine a big organisation with several team members managing infrastructure. Even deleting a resource accidently will create chaos. It is always advised to run terraform plan, overview and then go ahead with creating resources.\nterraform apply is then given to apply the configuration. This is then approved to actually create resources. In our case a nginx docker image is downloaded and container using that image is created with port forwarding."
   },
   {
     "objectID": "posts/2023-06-02-Terraform-setup/index.html#result",
     "href": "posts/2023-06-02-Terraform-setup/index.html#result",
-    "title": "Setup Terraform",
+    "title": "Getting started with Terraform",
     "section": "Result",
     "text": "Result\nA nginx server has been started and we can access it through http:127.0.0.1:8000. We will be greeted with a message “Welcome to nginx!”."
   },
   {
     "objectID": "posts/2023-06-02-Terraform-setup/index.html#terraform-state",
     "href": "posts/2023-06-02-Terraform-setup/index.html#terraform-state",
-    "title": "Setup Terraform",
+    "title": "Getting started with Terraform",
     "section": "Terraform state",
     "text": "Terraform state\nTerraform has a state(status) file which stores the current state(metadata) of the infrastructure. Any changes to the resource configuration will be reflected into this file. If working in a team, it is advised to store this state file remotely such as s3, gcs etc with versioning and state locking.\n\nTweaking the infrastructure\nTo understand state file better, we shall change the port from 8000 to 8010 in the docker_container resource block.\nresource \"docker_container\" \"nginx\" {\n  image = docker_image.nginx.image_id\n  name  = \"tutorial\"\n  ports {\n    internal = 80\n    external = 8010\n  }\n}\nYou will see that there will be two state files - terraform.tfstate and terraform.tfstate.backup. On the first run both file’s contents will be same. However, now that we changed the port to 8010, terraform.tfstate will change 8010 but the backup file will retain 8000. This is Terraform’s rollback feature.\nApply the changes using terraform apply."
   },
   {
     "objectID": "posts/2023-06-02-Terraform-setup/index.html#destroy-infrastructure",
     "href": "posts/2023-06-02-Terraform-setup/index.html#destroy-infrastructure",
-    "title": "Setup Terraform",
+    "title": "Getting started with Terraform",
     "section": "Destroy infrastructure",
     "text": "Destroy infrastructure\nTo destroy resources after use, we can use terraform destroy command. Review the plan and approve it. Be cautious using this command in an organisation."
   },
@@ -527,63 +527,63 @@
   {
     "objectID": "posts/2023-06-04-api-lambda-ecr/index.html",
     "href": "posts/2023-06-04-api-lambda-ecr/index.html",
-    "title": "AWS Lambda with API Gateway - Part 2",
+    "title": "Building Data Pipelines - Part 2",
     "section": "",
     "text": "In part 1, we saw how to make and test lambda function locally. In part 2, we will switch focus to AWS cloud provider. We will migrate our code to use AWS cloud platform.\n\n\nWe will use these services to form our data pipeline:\n\nS3 - to download our predicted sales price table.\nECR - to upload our docker image with installed dependencies.\nAWS Lambda - to make the business logic of the web application. It will use ECR image as source. Sends predicted outputs to DynamoDB.\nAPI Gateway - Rest API to invoke AWS Lambda function.\nDynamoDB - to store the predicted sales prices. Invoked from Lambda."
   },
   {
     "objectID": "posts/2023-06-04-api-lambda-ecr/index.html#services-used",
     "href": "posts/2023-06-04-api-lambda-ecr/index.html#services-used",
-    "title": "AWS Lambda with API Gateway - Part 2",
+    "title": "Building Data Pipelines - Part 2",
     "section": "",
     "text": "We will use these services to form our data pipeline:\n\nS3 - to download our predicted sales price table.\nECR - to upload our docker image with installed dependencies.\nAWS Lambda - to make the business logic of the web application. It will use ECR image as source. Sends predicted outputs to DynamoDB.\nAPI Gateway - Rest API to invoke AWS Lambda function.\nDynamoDB - to store the predicted sales prices. Invoked from Lambda."
   },
   {
     "objectID": "posts/2023-06-04-api-lambda-ecr/index.html#lambda-function-to-predict-sales",
     "href": "posts/2023-06-04-api-lambda-ecr/index.html#lambda-function-to-predict-sales",
-    "title": "AWS Lambda with API Gateway - Part 2",
+    "title": "Building Data Pipelines - Part 2",
     "section": "Lambda function to predict sales",
     "text": "Lambda function to predict sales\nTo build this pipeline we will start with our lambda_function using MLflow to download ML trained artifact from S3 bucket to predict sales prices. We will first check if it is possible to connect to S3 and then move forward to complete cloud solution.\n\n\nlambda_function.py\n\nimport os\n\nimport mlflow\nimport pandas as pd\n\nRUN_ID = os.getenv(\"RUN_ID\")  # \"5651db4644334361b10296c51ba3af3e\"\nS3_BUCKET_NAME = os.getenv(\n    \"S3_BUCKET_NAME\"\n)  # \"mlops-project-sales-forecast-bucket\"\nEXPERIMENT_ID = 1\nFILE_ADDRESS = \"artifacts/predictions/lgb_preds.parquet\"\npred_s3_location = (\n    f\"s3://{S3_BUCKET_NAME}/{EXPERIMENT_ID}/{RUN_ID}/{FILE_ADDRESS}\"\n)\n\n\ndef read_parquet_files(filename: str):\n    \"\"\"\n    Read parquet file format for given filename and returns the contents\n    \"\"\"\n    df = pd.read_parquet(filename, engine=\"pyarrow\")\n    return df\n\n\nif os.path.exists(\"lgb_preds.parquet\"):\n    df_test_preds = read_parquet_files(\"lgb_preds.parquet\")\nelse:\n    s3_file = mlflow.artifacts.download_artifacts(\n        artifact_uri=pred_s3_location, dst_path=\"/tmp\"\n    )  # /tmp is added as lambda gives write access only to that folder. Otherwise use \"./\" .\n    df_test_preds = read_parquet_files(s3_file)\n\n\ndf_items = read_parquet_files(\"items.parquet\")\n\n\ndef predict(find, item_idx: int):\n    \"\"\"\n    Takes the json inputs, processes it and outputs the unit sales\n    \"\"\"\n    try:\n        idx = pd.IndexSlice\n        # df_items.sample(1).index[0]\n        x = df_test_preds.loc[idx[find[\"store_nbr\"], item_idx, find[\"date1\"]]][\n            \"unit_sales\"\n        ]\n    except KeyError:\n        print(\"This item is not present this store. Try some other item\")\n        return -0.0\n    else:\n        return float(round(x, 2))\n\n\ndef lambda_handler(event, context=None) -&gt; dict:\n    \"\"\"\n    lambda handler for predict method\n    \"\"\"\n\n    find = event[\"find\"]\n    item = df_items.sample(1)\n    item_idx, item_family = item.index[0], item[\"family\"].values[0]\n    pred_unit_sales = predict(find, item_idx)\n\n    result = {\n        \" Store\": find[\"store_nbr\"],\n        \" item\": int(item_idx),\n        \"Family\": item_family,\n        \"Prediction date\": find[\"date1\"],\n        \"Unit_sales\": pred_unit_sales,\n    }\n    return result"
   },
   {
     "objectID": "posts/2023-06-04-api-lambda-ecr/index.html#building-container-image",
     "href": "posts/2023-06-04-api-lambda-ecr/index.html#building-container-image",
-    "title": "AWS Lambda with API Gateway - Part 2",
+    "title": "Building Data Pipelines - Part 2",
     "section": "Building container image",
     "text": "Building container image\nBuilding the docker image is same as previous post.\n\n\nTerminal 1\n\ndocker build -t lambda-app:v1 .\n\n\nUsing sensitive/secret access keys.\nSince we are using MLflow’s download artifact functionality directly from the S3, we need to supply our AWS access key to the docker as environment variables. Care needs to be taken when supplying sensitive information. Most hard code these secrets in their code. This is a bad practice as it will make its way to the code repository eventually. Next possible option is to supply as environment variable in the terminal. However, a simple history command will reveal the secrets. So, to avoid that we can set HIST_IGNORE_SPACE and also add keywords to HISTIGNORE ensuring any command with a leading space in front of it will not be stored in history cache.\n\n\nTerminal 1\n\nsetopt HIST_IGNORE_SPACE\nexport HISTIGNORE= \\\n1        \"ls*:cat*:*AWS*:*SECRET*:*KEY*:*PASS*:*TOKEN*\"\n export AWS_ACCESS_KEY_ID=xxxx\n export AWS_SECRET_ACCESS_KEY=xxxtt\n\n\n1\n\nHistory doesn’t store any command that has leading space. Highly useful for sensitive environment variables.\n\n\n\n\nRunning the container and testing locally\nUnlike last time to run the docker image as container requires a few arguments. We give them to docker as -e environment variables. Setting environment variables in the terminal is not going to pass over to the docker container. So we need to explicitly supply AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, RUN_ID and S3_BUCKET_NAME while executing docker run command in addition to the regular arguments.\n\n\nTerminal 1\n\ndocker run \\\n    -it --rm \\\n    -p 9000:8080 \\\n    -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \\\n    -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \\\n    -e RUN_ID=5651db4644334361b10296c51ba3af3e \\\n    -e S3_BUCKET_NAME=mlops-project-sales-forecast-bucket \\\n    lambda-app:v1\n\nTo test run the command in terminal 2,\n\n\ntest_docker_fn_docker.py in Terminal 2\n\npython test_docker_fn_docker.py\n\nWe will get a prediction as we have done in the previous post."
   },
   {
     "objectID": "posts/2023-06-04-api-lambda-ecr/index.html#uploading-container-image-to-ecr",
     "href": "posts/2023-06-04-api-lambda-ecr/index.html#uploading-container-image-to-ecr",
-    "title": "AWS Lambda with API Gateway - Part 2",
+    "title": "Building Data Pipelines - Part 2",
     "section": "Uploading container image to ECR",
     "text": "Uploading container image to ECR\nFor this section we need awscli package. If don’t have I recommend installing it. sudo apt install awscli. AWS-CLI allows for swifter creation of resources without overly relying on the console.\nWe need our ACCOUNT_ID. It can be found in the AWS console.\n\n\nTerminal\n\n1docker build -t lambda-app:v1 .\n2export ACCOUNT_ID=xxxx\naws ecr create-repository --repository-name lambda-images\ndocker tag lambda-app:v1 ${ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/lambda-images:app\n3$(aws ecr get-login --no-include-email)\ndocker push ${ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/lambda-images:app\n\n\n1\n\nOptional as we already built the image.\n\n2\n\nReplace with your account ID.\n\n3\n\nRemember we supplied aws access key and secret before. The session borrows them for ECR login. If it is a new session, those variables have to be given again.\n\n\n  In the screenshots we can see that our container image is uploaded to the registry."
   },
   {
     "objectID": "posts/2023-06-04-api-lambda-ecr/index.html#setup-aws-lambda-function",
     "href": "posts/2023-06-04-api-lambda-ecr/index.html#setup-aws-lambda-function",
-    "title": "AWS Lambda with API Gateway - Part 2",
+    "title": "Building Data Pipelines - Part 2",
     "section": "Setup AWS Lambda function",
     "text": "Setup AWS Lambda function\nThis part is a bit tedious as it is not as straight forward as running commands. I’d like to point out to a detailed guide which has all the steps to create a AWS Lambda function, attach policies, configure and supply environment variable. I urge you to visit that link. Including them here will make it too long, full of screenshots and frankly boring.\n\nTesting the Lambda function\nIn the Test tab, create a test event with our good old sample JSON object. {\"find\":{\"date1\":\"2017-08-26\",\"store_nbr\":20}}.   Hitting the Test button should give us a prediction. as seen in the second image.\nSo our function is able to access S3 artifact bucket to download and give out predictions. Meaning our attached policies are correct. Testing once in the console is fine but the customer wouldn’t want to do that. We need something that triggers the lambda function - we need an API Gateway."
   },
   {
     "objectID": "posts/2023-06-04-api-lambda-ecr/index.html#aws-api-gateway",
     "href": "posts/2023-06-04-api-lambda-ecr/index.html#aws-api-gateway",
-    "title": "AWS Lambda with API Gateway - Part 2",
+    "title": "Building Data Pipelines - Part 2",
     "section": "AWS API Gateway",
     "text": "AWS API Gateway\nA front-end developer, for example, can create a button that calls on the Lambda function. From customer’s viewpoint it is as simple as a click of a button. For us though, it is much more than that.\n\nCreate Rest API, test and deploy it\nAgain I advise you to refer my other guide to create an endpoint. This endpoint is same as the Flask one we encountered in the last posts.\nUpon deploying we get an invoke url. This url is without an endpoint. \nWe need to append predict-sales, our resource endpoint, to the url. The final url would look like https://eecweeeeeg.execute-api.us-east-1.amazonaws.com/stg-lambda-app-for-blog/predict-sales\nUse the following JSON object to test it out in an API platform client such as Thunder Client in VSCode, Postman etc.\n{\"find\": {\"date1\": \"2017-08-26\", \"store_nbr\": 20}}"
   },
   {
     "objectID": "posts/2023-06-04-api-lambda-ecr/index.html#aws-dynamodb",
     "href": "posts/2023-06-04-api-lambda-ecr/index.html#aws-dynamodb",
-    "title": "AWS Lambda with API Gateway - Part 2",
+    "title": "Building Data Pipelines - Part 2",
     "section": "AWS DynamoDB",
     "text": "AWS DynamoDB\nWe want to store these predicted outputs to a DB. With the help of console, create a table sales_predictions. Give store_id as partition_key and item_id as sort_key. Rest of the setting can be default.\nThen add policy that give Lambda permission to write objects into DB. Refer my other notes"
   },
   {
     "objectID": "posts/2023-06-04-api-lambda-ecr/index.html#modify-aws-lambda",
     "href": "posts/2023-06-04-api-lambda-ecr/index.html#modify-aws-lambda",
-    "title": "AWS Lambda with API Gateway - Part 2",
+    "title": "Building Data Pipelines - Part 2",
     "section": "Modify AWS Lambda",
     "text": "Modify AWS Lambda\n\n\nlambda_function.py\n\nimport os\n\nimport mlflow\nimport pandas as pd\nimport boto3\nimport json\n\nRUN_ID = os.getenv(\"RUN_ID\")  # \"5651db4644334361b10296c51ba3af3e\"\nS3_BUCKET_NAME = os.getenv(\n    \"S3_BUCKET_NAME\"\n)  # \"mlops-project-sales-forecast-bucket\"\nEXPERIMENT_ID = 1\nFILE_ADDRESS = \"artifacts/predictions/lgb_preds.parquet\"\npred_s3_location = (\n    f\"s3://{S3_BUCKET_NAME}/{EXPERIMENT_ID}/{RUN_ID}/{FILE_ADDRESS}\"\n)\n\n# Initialize the SNS client object outside of the handler\n1dynamodb = boto3.resource('dynamodb')\n\ndef read_parquet_files(filename: str):\n    \"\"\"\n    Read parquet file format for given filename and returns the contents\n    \"\"\"\n    df = pd.read_parquet(filename, engine=\"pyarrow\")\n    return df\n\n\nif os.path.exists(\"lgb_preds.parquet\"):\n    df_test_preds = read_parquet_files(\"lgb_preds.parquet\")\nelse:\n    s3_file = mlflow.artifacts.download_artifacts(\n        artifact_uri=pred_s3_location, dst_path=\"/tmp\"\n    )  # /tmp is added as lambda gives write access only to that folder. Otherwise use \"./\" .\n    df_test_preds = read_parquet_files(s3_file)\n\n\ndf_items = read_parquet_files(\"items.parquet\")\n\n\ndef predict(find, item_idx: int):\n    \"\"\"\n    Takes the json inputs, processes it and outputs the unit sales\n    \"\"\"\n    try:\n        idx = pd.IndexSlice\n        # df_items.sample(1).index[0]\n        x = df_test_preds.loc[idx[find[\"store_nbr\"], item_idx, find[\"date1\"]]][\n            \"unit_sales\"\n        ]\n    except KeyError:\n        print(\"This item is not present this store. Try some other item\")\n        return -0.0\n    else:\n        return float(round(x, 2))\n\n\ndef lambda_handler(event, context=None) -&gt; dict:\n    \"\"\"\n    lambda handler for predict method\n    \"\"\"\n\n    find = event[\"find\"]\n    item = df_items.sample(1)\n    item_idx, item_family = item.index[0], item[\"family\"].values[0]\n    pred_unit_sales = predict(find, item_idx)\n\n    result = {\n        \"store_id\": find[\"store_nbr\"],\n        \"item_id\": int(item_idx),\n        \"family\": item_family,\n        \"prediction_date\": find[\"date1\"],\n        \"unit_sales\": str(pred_unit_sales),\n    }\n\n2    table = dynamodb.Table(\"sales_preds_for_blog\")\n    table.put_item(\n3        Item = result\n    )\n    return {\n      'statusCode': 200,\n      'body': 'successfully created item!',\n      }\n\n\n1\n\nCreate dynamodb resource\n\n2\n\nAccess already created table sales_preds_for_blog\n\n3\n\nInsert item into the table\n\n\nRebuild the docker image, retag it, publish it to the ECR repo. Then in AWS Lambda, use deploy new image to select the latest build. Test with sample input."
   },
@@ -683,7 +683,7 @@
     "href": "archive.html",
     "title": "Archive",
     "section": "",
-    "text": "Date\n\n\nTitle\n\n\n\n\n\n\nJun 4, 2023\n\n\nAWS Lambda with API Gateway - Part 2\n\n\n\n\nJun 3, 2023\n\n\nDeploy with Docker\n\n\n\n\nJun 3, 2023\n\n\nDeploy Lambda function using Docker - Part 1\n\n\n\n\nJun 2, 2023\n\n\nSetup Terraform\n\n\n\n\nMay 10, 2023\n\n\nNotes - LinkedIn course - Financial data analysis\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n\n\nSep 7, 2022\n\n\nNotes - Python concepts\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n\n\n\nNo matching items"
+    "text": "Date\n\n\nTitle\n\n\n\n\n\n\nJun 4, 2023\n\n\nBuilding Data Pipelines - Part 2\n\n\n\n\nJun 3, 2023\n\n\nDeploy Web Application with Docker\n\n\n\n\nJun 3, 2023\n\n\nBuilding Data Pipelines - Part 1\n\n\n\n\nJun 2, 2023\n\n\nGetting started with Terraform\n\n\n\n\nMay 10, 2023\n\n\nNotes - LinkedIn course - Financial data analysis\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n\n\nSep 7, 2022\n\n\nNotes - Python concepts\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",

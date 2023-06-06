@@ -9,10 +9,11 @@
 <link>https://dr563105.github.io/index.html</link>
 <atom:link href="https://dr563105.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>This is Deepak Ramani&#39;s personal blog.</description>
-<generator>quarto-1.4.122</generator>
+<generator>quarto-1.4.126</generator>
 <lastBuildDate>Sun, 04 Jun 2023 00:00:00 GMT</lastBuildDate>
 <item>
-  <title>AWS Lambda with API Gateway - Part 2</title>
+  <title>Building Data Pipelines - Part 2</title>
+  <dc:creator>Deepak Ramani</dc:creator>
   <link>https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/index.html</link>
   <description><![CDATA[ 
 <!-- Google tag (gtag.js) -->
@@ -899,7 +900,7 @@ font-style: inherit;">'successfully created item!'</span>,</span>
   <media:content url="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/aws-part2-logo.png" medium="image" type="image/png" height="70" width="144"/>
 </item>
 <item>
-  <title>Deploy Lambda function using Docker - Part 1</title>
+  <title>Building Data Pipelines - Part 1</title>
   <dc:creator>Deepak Ramani</dc:creator>
   <link>https://dr563105.github.io/posts/2023-06-03-lambda-docker/index.html</link>
   <description><![CDATA[ 
@@ -1324,7 +1325,7 @@ font-style: inherit;">python</span> test_docker_fn.py</span></code></pre></div>
   <media:content url="https://dr563105.github.io/posts/2023-06-03-lambda-docker/docker-lambda.png" medium="image" type="image/png" height="53" width="144"/>
 </item>
 <item>
-  <title>Deploy with Docker</title>
+  <title>Deploy Web Application with Docker</title>
   <dc:creator>Deepak Ramani</dc:creator>
   <link>https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/index.html</link>
   <description><![CDATA[ 
@@ -1909,7 +1910,7 @@ font-style: inherit;">print</span>(response.json())</span></code></pre></div>
   <media:content url="https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/docker-logo.png" medium="image" type="image/png" height="81" width="144"/>
 </item>
 <item>
-  <title>Setup Terraform</title>
+  <title>Getting started with Terraform</title>
   <dc:creator>Deepak Ramani</dc:creator>
   <link>https://dr563105.github.io/posts/2023-06-02-Terraform-setup/index.html</link>
   <description><![CDATA[ 
