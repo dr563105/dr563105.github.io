@@ -2,6 +2,8 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/2023-06-12-Attach-iam-policy-to-roles/index.html",
+      "/posts/2023-06-11-terraform-aws/index.html",
       "/posts/2023-06-04-api-lambda-ecr/index.html",
       "/posts/2023-06-03-lambda-docker/index.html",
       "/posts/2023-06-03-deploy-with-docker/index.html",
@@ -22,6 +24,8 @@
   {
     "listing": "/archive.html",
     "items": [
+      "/posts/2023-06-12-Attach-iam-policy-to-roles/index.html",
+      "/posts/2023-06-11-terraform-aws/index.html",
       "/posts/2023-06-04-api-lambda-ecr/index.html",
       "/posts/2023-06-03-deploy-with-docker/index.html",
       "/posts/2023-06-03-lambda-docker/index.html",

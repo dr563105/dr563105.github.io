@@ -2,78 +2,86 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://dr563105.github.io/notes/py_for_finance.html</loc>
-    <lastmod>2023-06-06T17:01:17.913Z</lastmod>
+    <lastmod>2023-06-11T19:02:42.599Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/notes/python_concepts.html</loc>
-    <lastmod>2023-06-06T17:01:17.913Z</lastmod>
+    <lastmod>2023-06-11T19:02:42.599Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/resume.html</loc>
-    <lastmod>2023-06-06T17:01:18.061Z</lastmod>
+    <lastmod>2023-06-11T19:02:42.743Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/index.html</loc>
-    <lastmod>2023-06-06T17:01:17.901Z</lastmod>
+    <lastmod>2023-06-11T19:02:42.591Z</lastmod>
   </url>
   <url>
-    <loc>https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/index.html</loc>
-    <lastmod>2023-06-06T17:01:17.937Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2023-04-27-getting-started-with-s3/index.html</loc>
-    <lastmod>2023-06-06T17:01:17.917Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/aws-ecr-api.html</loc>
-    <lastmod>2023-06-06T17:01:18.001Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2023-06-03-lambda-docker/index.html</loc>
-    <lastmod>2023-06-06T17:01:17.997Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2023-06-02-Terraform-setup/index.html</loc>
-    <lastmod>2023-06-06T17:01:17.925Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/projects/index.html</loc>
-    <lastmod>2023-06-06T17:01:18.061Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/projects/mlops.html</loc>
-    <lastmod>2023-06-06T17:01:18.061Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2022-01-09-dotfiles/index.html</loc>
-    <lastmod>2023-06-06T17:01:17.913Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2022-09-24-using-json-normalize/index.html</loc>
-    <lastmod>2023-06-06T17:01:17.913Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/index.html</loc>
-    <lastmod>2023-06-06T17:01:18.057Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2021-09-18-kaggle-setup/index.html</loc>
-    <lastmod>2023-06-06T17:01:17.913Z</lastmod>
+    <loc>https://dr563105.github.io/posts/2023-06-12-Attach-iam-policy-to-roles/index.html</loc>
+    <lastmod>2023-06-11T19:02:42.743Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/posts/2023-04-27-getting-started-with-s3/data/30-days-create-folds.html</loc>
-    <lastmod>2023-06-06T17:01:17.917Z</lastmod>
+    <lastmod>2023-06-11T19:02:42.603Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2021-09-18-kaggle-setup/index.html</loc>
+    <lastmod>2023-06-11T19:02:42.599Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/index.html</loc>
+    <lastmod>2023-06-11T19:02:42.735Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2022-09-24-using-json-normalize/index.html</loc>
+    <lastmod>2023-06-11T19:02:42.603Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2023-06-02-Terraform-setup/index.html</loc>
+    <lastmod>2023-06-11T19:02:42.611Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/projects/index.html</loc>
+    <lastmod>2023-06-11T19:02:42.743Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/projects/mlops.html</loc>
+    <lastmod>2023-06-11T19:02:42.743Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2022-01-09-dotfiles/index.html</loc>
+    <lastmod>2023-06-11T19:02:42.603Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2023-06-11-terraform-aws/index.html</loc>
+    <lastmod>2023-06-11T19:02:42.739Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2023-06-03-lambda-docker/index.html</loc>
+    <lastmod>2023-06-11T19:02:42.683Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/aws-ecr-api.html</loc>
+    <lastmod>2023-06-11T19:02:42.687Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2023-04-27-getting-started-with-s3/index.html</loc>
+    <lastmod>2023-06-11T19:02:42.607Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/index.html</loc>
+    <lastmod>2023-06-11T19:02:42.623Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/posts/2023-02-06-skim-vimtex/index.html</loc>
-    <lastmod>2023-06-06T17:01:17.913Z</lastmod>
+    <lastmod>2023-06-11T19:02:42.603Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/archive.html</loc>
-    <lastmod>2023-06-06T17:01:17.901Z</lastmod>
+    <lastmod>2023-06-11T19:02:42.591Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/about.html</loc>
-    <lastmod>2023-06-06T17:01:17.901Z</lastmod>
+    <lastmod>2023-06-11T19:02:42.591Z</lastmod>
   </url>
 </urlset>
