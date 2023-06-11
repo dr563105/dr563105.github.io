@@ -11,9 +11,9 @@ listing:
     categories: true
     sort-ui: false
     filter-ui: false
-    fields: [image, date, title, reading-time]
+    fields: [title, date, description, reading-time]
     feed: true
-    image-align: left
+    # image-align: left
     page-size: 4
   - id: project-listing
     contents: projects/data/mlops.yml
