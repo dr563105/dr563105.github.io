@@ -1,0 +1,132 @@
+---
+title: "Terraform - Attach IAM policies to a role"
+description: "A short post on how to attach policies to an IAM role within Terraform"
+date: "2023-06-12"
+author: "Deepak Ramani"
+execute: 
+  eval: false
+format: 
+  html:
+    code-annotations: hover
+    code-overflow: wrap
+---
+# Introduction
+To access services in AWS, permissions must be given to the services. 
+
+To control access, AWS has Identity and Access Management (IAM). Each user can take multiple roles. Each role can be restricted to only certain services. This restriction is given in the form of policies.
+
+Policies are basically protocols defined in JSON format that allow smooth, secure communication between services. 
+
+Terraform allows for infrastructure management. In this post we will see how to define policies and attach them to a role for our task.
+
+# Create an IAM Role
+
+In Terraform a role can be created using `aws_iam_role` block and policy if custom made is defined as `inline-policy`. 
+Inline policies hinder reusuability and cumbersome to read. This can be slightly mitigated by encapsulating our custom inline policy inside `jsonencode()`. 
+
+```{.yaml}
+resource "aws_iam_role" "lambda_exec" { #<1>
+  name = "iam_${var.lambda_function_name}"
+  assume_role_policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [{
+        "Action": "sts:AssumeRole",
+        "Principal": {
+            "Service": "lambda.amazonaws.com" #<2>
+    },
+    "Effect": "Allow",
+    "Sid": ""
+    }]
+  })
+}
+```
+1. Creates an IAM role `lambda_exec`.
+2. Allows only lambda to be accessed.
+
+# Creating custom policies
+
+## AWS Lambda -> S3 bucket
+For our task we have a lambda function. It has to retrieve a file from a S3 bucket. Therefore, we need to give lambda function to access this S3 bucket.
+
+```{.yaml}
+resource "aws_iam_policy" "lambda_s3artifact_role_policy" {
+  name = "policy-s3-artifact-access-to-lambda" #<1>
+  description = "IAM Policy for s3-artifact-access-to-lambda"
+  policy = jsonencode({
+"Version": "2012-10-17",
+"Statement": [{
+    "Sid": "VisualEditor0",
+    "Effect": "Allow",
+    "Action": [
+        "s3:Get*",
+        "s3:List*" #<2>
+    ],
+    "Resource": [
+        "arn:aws:s3:::${var.artifact_bucket}",
+        "arn:aws:s3:::${var.artifact_bucket}/*" #<3>
+    ]}]
+ })
+}
+```
+1. IAM policy name.
+2. What can this lambda function to do with the S3 bucket.
+3. Which S3 bucket to access.
+
+## AWS Lambda -> DynamoDB
+
+After the file retrieval, the lambda function performs some function and outputs some result. We would like this result to stored inside a DynamoDB table. That means permission to DynamoDB table.
+
+That is given by -
+
+```{.yaml}
+resource "aws_iam_policy" "lambda_dynamodb" {
+  name = "policy_lambda_access_to_dynamodb"
+  description = ""
+  policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [{
+        "Effect": "Allow",
+        "Action": [
+            "dynamodb:BatchGetItem",
+            "dynamodb:GetItem",
+            "dynamodb:Query",
+            "dynamodb:Scan",
+            "dynamodb:BatchWriteItem",
+            "dynamodb:PutItem",
+            "dynamodb:UpdateItem", #<1>
+            "logs:CreateLogStream",
+            "logs:PutLogEvents",
+            "logs:CreateLogGroup" #<2> 
+        ],
+        "Resource": "arn:aws:dynamodb:${var.dynamodb_region}:${var.dynamodb_accountid}:table/${var.dbtable_name}" #<3>
+    }]
+  })
+}
+```
+1. What dynamodb functions can the lambda function do?
+2. Enabling logging functionality with Cloudwatch.
+3. Which DynamoDB table to access?
+
+# Attaching policies to IAM role
+
+Attaching policies to a role can be done with `aws_iam_role_policy_attachment` for each policy. Since we have two policies, we can call the `aws_iam_role_policy_attachment` block twice and attach the `policy_arn` to the role.
+
+```{.yaml}
+resource "aws_iam_role_policy_attachment" "iam-s3-policy-attach" {
+  role = aws_iam_role.lambda_exec.name #<1>
+  policy_arn = aws_iam_policy.lambda_s3artifact_role_policy.arn #<2>
+}
+
+resource "aws_iam_role_policy_attachment" "iam-dynamodb-policy-attach" {
+  role = aws_iam_role.lambda_exec.name
+  policy_arn = aws_iam_policy.lambda_dynamodb.arn
+}
+```
+1. IAM role name
+2. Policy's Amazon Resource Name(ARN)
+
+There is a possibility to use `for_each` meta-argument but referencing the ARN doesn't work as easily. When I figure out how to do it, I shall update this post. 
+
+# Conclusion
+
+There you have it. We saw how to define an IAM role, policies and attach it successfully.
