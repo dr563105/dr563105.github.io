@@ -1,5 +1,5 @@
 ---
-title: Building Data Pipelines - Part 3
+title: Building Data Pipelines - Part 3 - Terraform
 description: "Manage AWS hosted web app with Terraform"
 date: "2023-06-11"
 author: Deepak Ramani
@@ -9,6 +9,7 @@ format:
     code-overflow: wrap
 execute: 
   eval: false
+categories: ["Terraform", "AWS", "Docker", "ECR", "Lambda", "API Gateway", "IAM", "S3 Bucket", "Rest API", "DynamoDB"]
 ---
 
 # Introduction
