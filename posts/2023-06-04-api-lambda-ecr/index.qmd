@@ -1,5 +1,5 @@
 ---
-title: Building Data Pipelines - Part 2
+title: Building Data Pipelines - Part 2 - AWS Cloud
 description: "A post on migrating the web app to AWS cloud"
 date: "2023-06-04"
 author: Deepak Ramani
