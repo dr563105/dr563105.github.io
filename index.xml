@@ -1997,7 +1997,7 @@ font-style: inherit;">'successfully created item!'</span>,</span>
   <media:content url="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/aws-part2-logo.png" medium="image" type="image/png" height="70" width="144"/>
 </item>
 <item>
-  <title>Building Data Pipelines - Part 1</title>
+  <title>Building Data Pipelines - Part 1 - Docker</title>
   <dc:creator>Deepak Ramani</dc:creator>
   <link>https://dr563105.github.io/posts/2023-06-03-lambda-docker/index.html</link>
   <description><![CDATA[ 
