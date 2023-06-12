@@ -549,7 +549,7 @@ font-style: inherit;">}</span></span><div class="code-annotation-gutter-bg"></di
   <pubDate>Mon, 12 Jun 2023 00:00:00 GMT</pubDate>
 </item>
 <item>
-  <title>Building Data Pipelines - Part 3</title>
+  <title>Building Data Pipelines - Part 3 - Terraform</title>
   <dc:creator>Deepak Ramani</dc:creator>
   <link>https://dr563105.github.io/posts/2023-06-11-terraform-aws/index.html</link>
   <description><![CDATA[ 
@@ -1091,11 +1091,21 @@ font-style: inherit;">}</span></span></code></pre></div>
 </section>
 
  ]]></description>
+  <category>Terraform</category>
+  <category>AWS</category>
+  <category>Docker</category>
+  <category>ECR</category>
+  <category>Lambda</category>
+  <category>API Gateway</category>
+  <category>IAM</category>
+  <category>S3 Bucket</category>
+  <category>Rest API</category>
+  <category>DynamoDB</category>
   <guid>https://dr563105.github.io/posts/2023-06-11-terraform-aws/index.html</guid>
   <pubDate>Sun, 11 Jun 2023 00:00:00 GMT</pubDate>
 </item>
 <item>
-  <title>Building Data Pipelines - Part 2</title>
+  <title>Building Data Pipelines - Part 2 - AWS Cloud</title>
   <dc:creator>Deepak Ramani</dc:creator>
   <link>https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/index.html</link>
   <description><![CDATA[ 
