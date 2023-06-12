@@ -9,6 +9,7 @@ format:
   html:
     code-annotations: hover
     code-overflow: wrap
+categories: ["Terraform", "AWS", "IAM", "JSON"]
 ---
 # Introduction
 To access services in AWS, permissions must be given to the services. 
@@ -24,7 +25,7 @@ Terraform allows for infrastructure management. In this post we will see how to 
 In Terraform a role can be created using `aws_iam_role` block and policy if custom made is defined as `inline-policy`. 
 Inline policies hinder reusuability and cumbersome to read. This can be slightly mitigated by encapsulating our custom inline policy inside `jsonencode()`. 
 
-```{.yaml}
+```{.yaml filename="Lambda IAM role"}
 resource "aws_iam_role" "lambda_exec" { #<1>
   name = "iam_${var.lambda_function_name}"
   assume_role_policy = jsonencode({
@@ -48,7 +49,7 @@ resource "aws_iam_role" "lambda_exec" { #<1>
 ## AWS Lambda -> S3 bucket
 For our task we have a lambda function. It has to retrieve a file from a S3 bucket. Therefore, we need to give lambda function to access this S3 bucket.
 
-```{.yaml}
+```{.yaml filename="Lambda-S3 policy"}
 resource "aws_iam_policy" "lambda_s3artifact_role_policy" {
   name = "policy-s3-artifact-access-to-lambda" #<1>
   description = "IAM Policy for s3-artifact-access-to-lambda"
@@ -78,7 +79,7 @@ After the file retrieval, the lambda function performs some function and outputs
 
 That is given by -
 
-```{.yaml}
+```{.yaml filename="Lambda-DynamoDB policy"}
 resource "aws_iam_policy" "lambda_dynamodb" {
   name = "policy_lambda_access_to_dynamodb"
   description = ""
@@ -111,7 +112,7 @@ resource "aws_iam_policy" "lambda_dynamodb" {
 
 Attaching policies to a role can be done with `aws_iam_role_policy_attachment` for each policy. Since we have two policies, we can call the `aws_iam_role_policy_attachment` block twice and attach the `policy_arn` to the role.
 
-```{.yaml}
+```{.yaml filename="Attaching policies to role"}
 resource "aws_iam_role_policy_attachment" "iam-s3-policy-attach" {
   role = aws_iam_role.lambda_exec.name #<1>
   policy_arn = aws_iam_policy.lambda_s3artifact_role_policy.arn #<2>
