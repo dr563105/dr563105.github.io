@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.134">
+<meta name="generator" content="quarto-1.4.145">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -192,7 +192,13 @@ cookieconsent.run({
           A short post on how to attach policies to an IAM role within Terraform
         </div>
       </div>
-                </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Terraform</div>
+                <div class="quarto-category">AWS</div>
+                <div class="quarto-category">IAM</div>
+                <div class="quarto-category">JSON</div>
+              </div>
+                  </div>
   </div>
     
   
@@ -264,6 +270,10 @@ cookieconsent.run({
 <section id="create-an-iam-role" class="level1">
 <h1>Create an IAM Role</h1>
 <p>In Terraform a role can be created using <code>aws_iam_role</code> block and policy if custom made is defined as <code>inline-policy</code>. Inline policies hinder reusuability and cumbersome to read. This can be slightly mitigated by encapsulating our custom inline policy inside <code>jsonencode()</code>.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Lambda IAM role</strong></pre>
+</div>
 <div class="sourceCode" id="annotated-cell-1"><pre class="sourceCode yaml code-annotation-code code-with-copy code-annotated"><code class="sourceCode yaml"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="at">resource "aws_iam_role" "lambda_exec" {</span></span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="at">  name = "iam_${var.lambda_function_name}"</span></span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="at">  assume_role_policy = jsonencode({</span></span>
@@ -278,6 +288,7 @@ cookieconsent.run({
 <span id="annotated-cell-1-12"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">}]</span></span>
 <span id="annotated-cell-1-13"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a><span class="at">  })</span></span>
 <span id="annotated-cell-1-14"><a href="#annotated-cell-1-14" aria-hidden="true" tabindex="-1"></a><span class="at">}</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
@@ -294,6 +305,10 @@ cookieconsent.run({
 <section id="aws-lambda---s3-bucket" class="level2">
 <h2 class="anchored" data-anchor-id="aws-lambda---s3-bucket">AWS Lambda -&gt; S3 bucket</h2>
 <p>For our task we have a lambda function. It has to retrieve a file from a S3 bucket. Therefore, we need to give lambda function to access this S3 bucket.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Lambda-S3 policy</strong></pre>
+</div>
 <div class="sourceCode" id="annotated-cell-2"><pre class="sourceCode yaml code-annotation-code code-with-copy code-annotated"><code class="sourceCode yaml"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="at">resource "aws_iam_policy" "lambda_s3artifact_role_policy" {</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-2" class="code-annotation-target"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a><span class="at">  name = "policy-s3-artifact-access-to-lambda"</span></span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a><span class="at">  description = "IAM Policy for s3-artifact-access-to-lambda"</span></span>
@@ -312,6 +327,7 @@ cookieconsent.run({
 <span id="annotated-cell-2-16"><a href="#annotated-cell-2-16" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">]}]</span></span>
 <span id="annotated-cell-2-17"><a href="#annotated-cell-2-17" aria-hidden="true" tabindex="-1"></a><span class="at"> })</span></span>
 <span id="annotated-cell-2-18"><a href="#annotated-cell-2-18" aria-hidden="true" tabindex="-1"></a><span class="at">}</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
 <dd>
@@ -331,6 +347,10 @@ cookieconsent.run({
 <h2 class="anchored" data-anchor-id="aws-lambda---dynamodb">AWS Lambda -&gt; DynamoDB</h2>
 <p>After the file retrieval, the lambda function performs some function and outputs some result. We would like this result to stored inside a DynamoDB table. That means permission to DynamoDB table.</p>
 <p>That is given by -</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Lambda-DynamoDB policy</strong></pre>
+</div>
 <div class="sourceCode" id="annotated-cell-3"><pre class="sourceCode yaml code-annotation-code code-with-copy code-annotated"><code class="sourceCode yaml"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="at">resource "aws_iam_policy" "lambda_dynamodb" {</span></span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a><span class="at">  name = "policy_lambda_access_to_dynamodb"</span></span>
 <span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a><span class="at">  description = ""</span></span>
@@ -354,6 +374,7 @@ cookieconsent.run({
 <span id="annotated-cell-3-21"><a href="#annotated-cell-3-21" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">}]</span></span>
 <span id="annotated-cell-3-22"><a href="#annotated-cell-3-22" aria-hidden="true" tabindex="-1"></a><span class="at">  })</span></span>
 <span id="annotated-cell-3-23"><a href="#annotated-cell-3-23" aria-hidden="true" tabindex="-1"></a><span class="at">}</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
 <dd>
@@ -373,6 +394,10 @@ cookieconsent.run({
 <section id="attaching-policies-to-iam-role" class="level1">
 <h1>Attaching policies to IAM role</h1>
 <p>Attaching policies to a role can be done with <code>aws_iam_role_policy_attachment</code> for each policy. Since we have two policies, we can call the <code>aws_iam_role_policy_attachment</code> block twice and attach the <code>policy_arn</code> to the role.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Attaching policies to role</strong></pre>
+</div>
 <div class="sourceCode" id="annotated-cell-4"><pre class="sourceCode yaml code-annotation-code code-with-copy code-annotated"><code class="sourceCode yaml"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="at">resource "aws_iam_role_policy_attachment" "iam-s3-policy-attach" {</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a><span class="at">  role = aws_iam_role.lambda_exec.name</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-3" class="code-annotation-target"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a><span class="at">  policy_arn = aws_iam_policy.lambda_s3artifact_role_policy.arn</span></span>
@@ -382,6 +407,7 @@ cookieconsent.run({
 <span id="annotated-cell-4-7"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a><span class="at">  role = aws_iam_role.lambda_exec.name</span></span>
 <span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a><span class="at">  policy_arn = aws_iam_policy.lambda_dynamodb.arn</span></span>
 <span id="annotated-cell-4-9"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a><span class="at">}</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>

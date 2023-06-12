@@ -9,7 +9,7 @@
 <link>https://dr563105.github.io/index.html</link>
 <atom:link href="https://dr563105.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>This is Deepak Ramani&#39;s personal blog.</description>
-<generator>quarto-1.4.134</generator>
+<generator>quarto-1.4.145</generator>
 <lastBuildDate>Mon, 12 Jun 2023 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Terraform - Attach IAM policies to a role</title>
@@ -39,6 +39,10 @@
 <section id="create-an-iam-role" class="level1">
 <h1>Create an IAM Role</h1>
 <p>In Terraform a role can be created using <code>aws_iam_role</code> block and policy if custom made is defined as <code>inline-policy</code>. Inline policies hinder reusuability and cumbersome to read. This can be slightly mitigated by encapsulating our custom inline policy inside <code>jsonencode()</code>.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Lambda IAM role</strong></pre>
+</div>
 <div class="sourceCode" id="annotated-cell-1" style="background: #f1f3f5;"><pre class="sourceCode yaml code-annotation-code code-with-copy code-annotated"><code class="sourceCode yaml"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">resource "aws_iam_role" "lambda_exec" {</span></span>
@@ -147,6 +151,7 @@ font-style: inherit;">  })</span></span>
 <span id="annotated-cell-1-14"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">}</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
@@ -163,6 +168,10 @@ font-style: inherit;">}</span></span><div class="code-annotation-gutter-bg"></di
 <section id="aws-lambda---s3-bucket" class="level2">
 <h2 class="anchored" data-anchor-id="aws-lambda---s3-bucket">AWS Lambda -&gt; S3 bucket</h2>
 <p>For our task we have a lambda function. It has to retrieve a file from a S3 bucket. Therefore, we need to give lambda function to access this S3 bucket.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Lambda-S3 policy</strong></pre>
+</div>
 <div class="sourceCode" id="annotated-cell-2" style="background: #f1f3f5;"><pre class="sourceCode yaml code-annotation-code code-with-copy code-annotated"><code class="sourceCode yaml"><span id="annotated-cell-2-1"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">resource "aws_iam_policy" "lambda_s3artifact_role_policy" {</span></span>
@@ -283,6 +292,7 @@ font-style: inherit;"> })</span></span>
 <span id="annotated-cell-2-18"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">}</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
 <dd>
@@ -302,6 +312,10 @@ font-style: inherit;">}</span></span><div class="code-annotation-gutter-bg"></di
 <h2 class="anchored" data-anchor-id="aws-lambda---dynamodb">AWS Lambda -&gt; DynamoDB</h2>
 <p>After the file retrieval, the lambda function performs some function and outputs some result. We would like this result to stored inside a DynamoDB table. That means permission to DynamoDB table.</p>
 <p>That is given by -</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Lambda-DynamoDB policy</strong></pre>
+</div>
 <div class="sourceCode" id="annotated-cell-3" style="background: #f1f3f5;"><pre class="sourceCode yaml code-annotation-code code-with-copy code-annotated"><code class="sourceCode yaml"><span id="annotated-cell-3-1"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">resource "aws_iam_policy" "lambda_dynamodb" {</span></span>
@@ -457,6 +471,7 @@ font-style: inherit;">  })</span></span>
 <span id="annotated-cell-3-23"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">}</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
 <dd>
@@ -476,6 +491,10 @@ font-style: inherit;">}</span></span><div class="code-annotation-gutter-bg"></di
 <section id="attaching-policies-to-iam-role" class="level1">
 <h1>Attaching policies to IAM role</h1>
 <p>Attaching policies to a role can be done with <code>aws_iam_role_policy_attachment</code> for each policy. Since we have two policies, we can call the <code>aws_iam_role_policy_attachment</code> block twice and attach the <code>policy_arn</code> to the role.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Attaching policies to role</strong></pre>
+</div>
 <div class="sourceCode" id="annotated-cell-4" style="background: #f1f3f5;"><pre class="sourceCode yaml code-annotation-code code-with-copy code-annotated"><code class="sourceCode yaml"><span id="annotated-cell-4-1"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">resource "aws_iam_role_policy_attachment" "iam-s3-policy-attach" {</span></span>
@@ -501,6 +520,7 @@ font-style: inherit;">  policy_arn = aws_iam_policy.lambda_dynamodb.arn</span></
 <span id="annotated-cell-4-9"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">}</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>
@@ -521,6 +541,10 @@ font-style: inherit;">}</span></span><div class="code-annotation-gutter-bg"></di
 </section>
 
  ]]></description>
+  <category>Terraform</category>
+  <category>AWS</category>
+  <category>IAM</category>
+  <category>JSON</category>
   <guid>https://dr563105.github.io/posts/2023-06-12-Attach-iam-policy-to-roles/index.html</guid>
   <pubDate>Mon, 12 Jun 2023 00:00:00 GMT</pubDate>
 </item>
