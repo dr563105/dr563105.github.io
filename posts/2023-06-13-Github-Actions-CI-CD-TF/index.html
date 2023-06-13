@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Deepak Ramani">
-<meta name="dcterms.date" content="2021-09-18">
-<meta name="description" content="A guide to setup Kaggle API on Linux/Mac.">
+<meta name="dcterms.date" content="2023-06-13">
+<meta name="description" content="Build CI/CD pipeline with Github actions">
 
-<title>Deepak Ramani’s blog - Setting up Kaggle on Linux/Mac</title>
+<title>Deepak Ramani’s blog - Building Data Pipeline - Part 4 - CI/CD</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -135,19 +135,13 @@ cookieconsent.run({
 <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9028821857593432" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Deepak Ramani’s blog - Setting up Kaggle on Linux/Mac">
-<meta property="og:description" content="A guide to setup Kaggle API on Linux/Mac.">
-<meta property="og:image" content="https://dr563105.github.io/posts/2021-09-18-kaggle-setup/kaggle.png">
+<meta property="og:title" content="Deepak Ramani’s blog - Building Data Pipeline - Part 4 - CI/CD">
+<meta property="og:description" content="Build CI/CD pipeline with Github actions">
 <meta property="og:site-name" content="Deepak Ramani's blog">
-<meta property="og:image:height" content="316">
-<meta property="og:image:width" content="718">
-<meta name="twitter:title" content="Deepak Ramani’s blog - Setting up Kaggle on Linux/Mac">
-<meta name="twitter:description" content="A guide to setup Kaggle API on Linux/Mac.">
-<meta name="twitter:image" content="https://dr563105.github.io/posts/2021-09-18-kaggle-setup/kaggle.png">
+<meta name="twitter:title" content="Deepak Ramani’s blog - Building Data Pipeline - Part 4 - CI/CD">
+<meta name="twitter:description" content="Build CI/CD pipeline with Github actions">
 <meta name="twitter:creator" content="@thosegradients">
-<meta name="twitter:image-height" content="316">
-<meta name="twitter:image-width" content="718">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="floating nav-fixed">
@@ -192,15 +186,18 @@ cookieconsent.run({
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Setting up Kaggle on Linux/Mac</h1>
+      <h1 class="title">Building Data Pipeline - Part 4 - CI/CD</h1>
                   <div>
         <div class="description">
-          A guide to setup Kaggle API on Linux/Mac.
+          Build CI/CD pipeline with Github actions
         </div>
       </div>
                           <div class="quarto-categories">
-                <div class="quarto-category">kaggle</div>
-                <div class="quarto-category">markdown</div>
+                <div class="quarto-category">CI/CD</div>
+                <div class="quarto-category">Github Actions</div>
+                <div class="quarto-category">Terraform</div>
+                <div class="quarto-category">AWS</div>
+                <div class="quarto-category">Docker</div>
               </div>
                   </div>
   </div>
@@ -218,7 +215,7 @@ cookieconsent.run({
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">September 18, 2021</p>
+        <p class="date">June 13, 2023</p>
       </div>
     </div>
     
@@ -233,13 +230,16 @@ cookieconsent.run({
     <h2 id="toc-title">Table of contents</h2>
    
   <ul class="collapse">
-  <li><a href="#installation" id="toc-installation" class="nav-link active" data-scroll-target="#installation">Installation</a></li>
-  <li><a href="#download-api-token" id="toc-download-api-token" class="nav-link" data-scroll-target="#download-api-token">Download API token</a></li>
-  <li><a href="#move-.json-file-to-the-correct-location" id="toc-move-.json-file-to-the-correct-location" class="nav-link" data-scroll-target="#move-.json-file-to-the-correct-location">Move .json file to the correct location</a></li>
-  <li><a href="#check-if-it-is-properly-installed" id="toc-check-if-it-is-properly-installed" class="nav-link" data-scroll-target="#check-if-it-is-properly-installed">Check if it is properly installed</a></li>
-  <li><a href="#api-usage" id="toc-api-usage" class="nav-link" data-scroll-target="#api-usage">API usage</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#workflow" id="toc-workflow" class="nav-link" data-scroll-target="#workflow">Workflow</a>
+  <ul class="collapse">
+  <li><a href="#triggers" id="toc-triggers" class="nav-link" data-scroll-target="#triggers">Triggers</a></li>
+  <li><a href="#jobs" id="toc-jobs" class="nav-link" data-scroll-target="#jobs">Jobs</a></li>
+  <li><a href="#deleting-the-infrastructure" id="toc-deleting-the-infrastructure" class="nav-link" data-scroll-target="#deleting-the-infrastructure">Deleting the infrastructure</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/dr563105/dr563105.github.io/blob/master/posts/2021-09-18-kaggle-setup/index.qmd" class="toc-action">View source</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/dr563105/dr563105.github.io/blob/master/posts/2023-06-13-Github-Actions-CI-CD-TF/index.qmd" class="toc-action">View source</a></p></div></div></nav>
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
@@ -260,149 +260,143 @@ cookieconsent.run({
 
 
 
-<p>Most of latest data science innovations happen at <a href="https://www.kaggle.com">Kaggle</a>. Kaggle hosts, in addtion to competitions, a large collection of datasets from various fields. The easiest way to interact with Kaggle is through its public API via command-line tool(CLI). Setting it up outside of Kaggle kernels is one of first tasks. In this post, I will guide you through that process.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Pre-requisite</strong>: Python3(&gt;3.6) and latest pip installed.</p>
-</div>
-</div>
-<!-- > **Pre-requisite**: Python3(>3.6) and latest pip installed. -->
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Terminal</strong></pre>
-</div>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">--user</span> kaggle</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Tip</strong>: Install <code>kaggle</code> package inside your conda ML development environment rather than outside of it or in base env.</p>
-</div>
-</div>
-<!-- > **Tip**: Install `kaggle` package inside your conda ML development environment rather than outside of it or in base env. -->
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Warning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Don’t do <code>sudo pip install kaggle</code> as it would require admin privileges for every run.</p>
-</div>
-</div>
-<!-- > **Warning**: Don't do `sudo pip install kaggle` as it would require admin privileges for every run. -->
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>The Continuous Integration and Continuous Delivery abbreviated as CI/CD is an important part of software development cycle. This part provides the essential step in checking everything before the final product is ready to delivered to the customer. In our case, this step should create infrastructure to deploy the web application into the cloud. In other words, automate the tasks we did in part 3.</p>
+<p>There are many tools for CI/CD. We will be using Github Actions as our code is in Github and make sense to automate the build, test and deploy pipeline with it. Our workflow will consist of running CI upon a pull request and CD when this pull request is merged to a particular branch.</p>
 </section>
-<section id="download-api-token" class="level2">
-<h2 class="anchored" data-anchor-id="download-api-token">Download API token</h2>
-<ol type="1">
-<li>Create/login into your kaggle account.</li>
-<li>From the site header, click on your user profile picture and select Account. You will be land on your profile with account tab active.</li>
-<li>Scroll down to API section. Click <code>Create New API Token</code>. A <code>json</code> file will be downloaded your default download directory.</li>
-</ol>
+<section id="workflow" class="level1">
+<h1>Workflow</h1>
+<p>Github actions uses <code>yaml</code> syntax to define the workflow. Each workflow is stored as a separate YAML file in the code repository, in a directory named <code>.github/workflows</code>. <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>Since we’re doing both two workflows - pull and push, we will have two <code>yaml</code> files - <code>ci-test.yml</code> and <code>cd-deploy.yml</code>. This post will not explain syntax used in these files. It will explain how the tasks are accomplished through these syntaxes. For thorough understanding of syntax, read <a href="https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions#understanding-the-workflow-file">this document</a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="AWS-ci-cd.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">CI/CD Pipeline</figcaption>
+</figure>
+</div>
+<p>The source code is present at <a href="https://github.com/dr563105/CI-CD-Terraform-Github-actions">my github repo</a>.</p>
+<section id="triggers" class="level2">
+<h2 class="anchored" data-anchor-id="triggers">Triggers</h2>
+<p>We want to setup event based triggers to activate our workflows. Since we don’t to distrub <code>main</code> branch code base, we create two branches - <code>develop</code> and <code>feature/ci-cd</code>. We switch to the <code>feature/ci-cd</code> branch and define our workflows.</p>
+<p>In <code>ci-test.yml</code> the trigger is set on <code>pull_request</code> on the branch <code>develop</code>. Meaning we commit our changes to the <code>feature/ci-cd</code> branch and then do a pull_request for develop branch. A pull in Github speak means “pulling/updating” new contents from another remote branch. Pull requests are usually done in UI as it is easy to review, clarify, approve changes and merge request.</p>
+<p>However, in <code>cd-deploy.yml</code> we need our infrastructure setup deployed. So it makes sense to put a trigger upon commits being <em>pushed</em> into the <code>develop</code> branch. SO the trigger is <code>push</code>. This action is activated when the pull_request is merged into the develop branch.</p>
 </section>
-<section id="move-.json-file-to-the-correct-location" class="level2">
-<h2 class="anchored" data-anchor-id="move-.json-file-to-the-correct-location">Move .json file to the correct location</h2>
-<ol type="1">
-<li>Move it to <code>.kaggle</code> in the home directory. Create if absent.</li>
-</ol>
+<section id="jobs" class="level2">
+<h2 class="anchored" data-anchor-id="jobs">Jobs</h2>
+<section id="ci-test.yml" class="level3">
+<h3 class="anchored" data-anchor-id="ci-test.yml">ci-test.yml</h3>
+<p>In CI, it is critical to check if all the parts are integrated together correctly. In our case, we need to confirm whether <code>tf-plan</code> works with our Terraform configuration.</p>
+<p>In Github Actions, jobs are can be run on several hosted systems through <em>actions</em>. We will use <code>ubuntu-latest</code> with action version 3. That will in run calls <code>aws-actions</code> for credentials. We provide our AWS secrets to our Github secrets page. Github says the secrets are encrypted before reaching them. They also take measures to prevents secrets appearing in logs. <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>The actions access the AWS secrets to setup our final task to run our infrastructure plan.</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
-<pre><strong>Terminal</strong></pre>
+<pre><strong>Github Secrets</strong></pre>
 </div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ~/.kaggle</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> <span class="op">&lt;</span>location<span class="op">&gt;</span>/kaggle.json ~/.kaggle/kaggle.json</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="annotated-cell-1"><pre class="sourceCode yaml code-annotation-code code-with-copy code-annotated"><code class="sourceCode yaml"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">env</span><span class="kw">:</span></span>
+<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">AWS_DEFAULT_REGION</span><span class="kw">:</span><span class="at"> </span><span class="st">"us-east-1"</span></span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">AWS_ACCESS_KEY_ID</span><span class="kw">:</span><span class="at"> ${{ secrets.AWS_ACCESS_KEY_ID }}</span></span>
+<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">AWS_SECRET_ACCESS_KEY</span><span class="kw">:</span><span class="at"> ${{ secrets.AWS_SECRET_ACCESS_KEY }}</span></span>
+<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="annotated-cell-1-7"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">tf-plan</span><span class="kw">:</span></span>
+<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
+<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
+<span id="annotated-cell-1-10"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v3</span></span>
+<span id="annotated-cell-1-11"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Configure AWS Credentials</span></span>
+<span id="annotated-cell-1-12"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> aws-actions/configure-aws-credentials@v2</span></span>
+<span id="annotated-cell-1-13"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-14" class="code-annotation-target"><a href="#annotated-cell-1-14" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">aws-access-key-id</span><span class="kw">:</span><span class="at"> ${{ env.AWS_ACCESS_KEY_ID }}</span></span>
+<span id="annotated-cell-1-15"><a href="#annotated-cell-1-15" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">aws-secret-access-key</span><span class="kw">:</span><span class="at"> ${{ env.AWS_SECRET_ACCESS_KEY }}</span></span>
+<span id="annotated-cell-1-16"><a href="#annotated-cell-1-16" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">aws-region</span><span class="kw">:</span><span class="at"> ${{ env.AWS_DEFAULT_REGION }} </span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<ol type="1">
-<li>For your security, ensure that other users of your computer do not have read access to your credentials. On Unix-based systems you can do this with the following command:</li>
-</ol>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="14" data-code-annotation="1">`${{ secrets.AWS_ACCESS_KEY_ID }} can also be directly used</span>
+</dd>
+</dl>
+<p>Since the pipeline is used in production environment, we configure our terraform backend with our new production <code>tfstate</code> and use the plan command to check if our plan is valid, error-free and suitable to our needs.</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
-<pre><strong>Terminal</strong></pre>
+<pre><strong>TF Plan</strong></pre>
 </div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> 600 ~/.kaggle/kaggle.json</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="annotated-cell-2"><pre class="sourceCode yaml code-annotation-code code-with-copy code-annotated"><code class="sourceCode yaml"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> TF plan</span></span>
+<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a><span class="at">   </span><span class="fu">id</span><span class="kw">:</span><span class="at"> plan</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-3" class="code-annotation-target"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">working-directory</span><span class="kw">:</span><span class="at"> </span><span class="st">"infrastructure"</span></span>
+<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">     run</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="annotated-cell-2-5"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a>      terraform init -backend-config="key=mlops-grocery-sales-prod.tfstate" --reconfigure &amp;&amp; terraform plan --var-file vars/prod.tfvars</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<ol type="1">
-<li>Restart the terminal and navigate to the env where kaggle package is installed if necessary.</li>
-</ol>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="3" data-code-annotation="1">Change to <code>infrastructure</code> directory to execute the terraform command</span>
+</dd>
+</dl>
 </section>
-<section id="check-if-it-is-properly-installed" class="level2">
-<h2 class="anchored" data-anchor-id="check-if-it-is-properly-installed">Check if it is properly installed</h2>
-<ol type="1">
-<li>Run:</li>
-</ol>
+<section id="cd-deploy.yml" class="level3">
+<h3 class="anchored" data-anchor-id="cd-deploy.yml">cd-deploy.yml</h3>
+<p>CI in this case does only <code>tf-plan</code> but usually it runs several unit and integration tests. We could combine these two files into one if we want but we will leave things as it is.</p>
+<p>Similarly, the <code>cd-deply.yml</code> workflow file, check the <code>tf-plan</code>. Upon its success triggers the <code>tf-apply</code> job.</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
-<pre><strong>Terminal</strong></pre>
+<pre><strong>tf-apply</strong></pre>
 </div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">$python</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span>import <span class="ex">kaggle</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> TF Apply</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">id</span><span class="kw">:</span><span class="at"> tf-apply</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">working-directory</span><span class="kw">:</span><span class="at"> </span><span class="st">"infrastructure"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">if</span><span class="kw">:</span><span class="at"> ${{ steps.tf-plan.outcome }} == "success"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">    run</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      terraform apply -auto-approve -var-file=vars/prod.tfvars</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      echo "name=rest_api_url::$(terraform output rest_api_url | xargs)" &gt;&gt; $GITHUB_OUTPUT</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      echo "name=ecr_repo::$(terraform output run_id | xargs)" &gt;&gt; $GITHUB_OUTPUT</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      echo "name=run_id::$(terraform output run_id | xargs)" &gt;&gt; $GITHUB_OUTPUT</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      echo "name=lambda_function::$(terraform output lambda_function | xargs)" &gt;&gt; $GITHUB_OUTPUT</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Importing kaggle shouldn’t return an error. If there is error, check whether you’re in the right env where kaggle is installed.</p>
-<p>If no error, exit the shell and type the following command in the terminal.</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Terminal</strong></pre>
-</div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kaggle</span> competitions list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>If installed properly, the command will list all the entered competitions. 1. If not, the binary path may be incorrect. Usually it is installed in <code>~/.local/bin</code> Try using</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Terminal</strong></pre>
-</div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">~/.local/bin/kaggle</span> competitions list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<ol type="1">
-<li>If the above command works, export that binary path to the shell environment(<em>bashrc</em>) so that you might use just <code>kaggle</code> next time.</li>
-</ol>
+<p><code>$GITHUB_OUTPUT</code> takes Terraform outputs and displays them in the logs.</p>
 </section>
-<section id="api-usage" class="level2">
-<h2 class="anchored" data-anchor-id="api-usage">API usage</h2>
-<p>It is time to use the Kaggle API. For example, to see what dataset command offers, in the CLI enter</p>
+</section>
+<section id="deleting-the-infrastructure" class="level2">
+<h2 class="anchored" data-anchor-id="deleting-the-infrastructure">Deleting the infrastructure</h2>
+<p>If for some reason you wish to delete the resources created in the AWS Cloud, please follow these steps -</p>
+<ol type="1">
+<li><p>Goto <a href="infrastructure/main.tf">infrastructure’s main.tf</a> file. Comment out all the modules. Also comment out contents in <a href="infrastructure/outputs.tf">outputs.tf</a></p></li>
+<li><p>Then commit the changes, push, pull the request and merge the changes.</p></li>
+</ol>
+<p>This should delete all the resources. Confirm with AWS Console.</p>
+<p>Alternatively we can use <code>terraform destroy</code> ourselves if we know which <code>tfstate</code> and <code>tfvars</code> were used.</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
-<pre><strong>Terminal</strong></pre>
+<pre><strong>tf-destroy</strong></pre>
 </div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kaggle</span> dataset <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="annotated-cell-4"><pre class="sourceCode yaml code-annotation-code code-with-copy code-annotated"><code class="sourceCode yaml"><button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="at">terraform init -backend-config="key=mlops-grocery-sales-prod.tfstate" --reconfigure</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a><span class="at">terraform destroy -var-file=vars/prod.tfvars</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Tip</strong>: Remember to comply with competition’s terms and conditions before downloading the dataset. You will get an error <code>forbidden</code> if you try to download before agreeing.</p>
-</div>
-</div>
-<p>For more info on the API, Kaggle’s <a href="https://github.com/Kaggle/kaggle-api#commands">github</a> page is an excellent resource.</p>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="1" data-code-annotation="1">Since we know which Terraform statefile is used for production</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="2" data-code-annotation="2">Which production variable file is used</span>
+</dd>
+</dl>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>There it is our data pipeline that started with local development is fully integrated and automated into the cloud environment. Any changes made can be seamlessly tested and deployed. This concludes our “building data pipeline” series. Feel free to contact me for any questions or clarifications.</p>
 
 
 </section>
+<aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions#create-an-example-workflow<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-secrets<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</aside>
 
 </main> <!-- /main -->
 <!-- <div>
@@ -798,25 +792,90 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
+      // Handle positioning of the toggle
+      window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
           }
-        });
+        };
+      }
+      const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+      for (let i=0; i<annoteTargets.length; i++) {
+        const annoteTarget = annoteTargets[i];
+        const targetCell = annoteTarget.getAttribute("data-target-cell");
+        const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+        const contentFn = () => {
+          const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          if (content) {
+            const tipContent = content.cloneNode(true);
+            tipContent.classList.add("code-annotation-tip-content");
+            return tipContent.outerHTML;
+          }
+        }
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          onShow: (instance) => {
+            selectCodeLines(instance.reference);
+            instance.reference.classList.add('code-annotation-active');
+            window.tippy.hideAll();
+          },
+          onHide: (instance) => {
+            unselectCodeLines();
+            instance.reference.classList.remove('code-annotation-active');
+          },
+          maxWidth: 300,
+          delay: [50, 0],
+          duration: [200, 0],
+          offset: [5, 10],
+          arrow: true,
+          appendTo: function(el) {
+            return el.parentElement.parentElement.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'quarto',
+          placement: 'right',
+          popperOptions: {
+            modifiers: [
+            {
+              name: 'flip',
+              options: {
+                flipVariations: false, // true by default
+                allowedAutoPlacements: ['right'],
+                fallbackPlacements: ['right', 'top', 'top-start', 'top-end'],
+              },
+            },
+            {
+              name: 'preventOverflow',
+              options: {
+                mainAxis: false,
+                altAxis: false
+              }
+            }
+            ]        
+          }      
+        };
+        window.tippy(annoteTarget, config); 
       }
   const findCites = (el) => {
     const parentEl = el.parentElement;
