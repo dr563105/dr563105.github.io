@@ -191,7 +191,7 @@ cookieconsent.run({
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">LinkedIn course - Financial data analysis notes</h1>
+      <h1 class="title">Notes - LinkedIn course - Financial data analysis</h1>
                   <div>
         <div class="description">
           Notes on data analysis on finance data
@@ -220,7 +220,7 @@ cookieconsent.run({
       <div>
       <div class="quarto-title-meta-heading">Modified</div>
       <div class="quarto-title-meta-contents">
-        <p class="date-modified">May 19, 2023</p>
+        <p class="date-modified">June 14, 2023</p>
       </div>
     </div>
       
@@ -282,18 +282,26 @@ cookieconsent.run({
 <section id="loading-data" class="level1">
 <h1>Loading data</h1>
 <p>We use the <code>yfinance</code> library to load our stock data. The stocks listed in NASDAQ stock exchange are identified using a unique symbol aka <strong>ticker</strong> . I was interested in seeing how Pfizer(PFE) stocks fair in the last 3 years.</p>
-<div class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> yfinance <span class="im">as</span> yf</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>pharma_df <span class="op">=</span> yf.download(<span class="st">'PFE JNJ'</span>, start<span class="op">=</span><span class="st">'2015-01-01'</span>, end<span class="op">=</span><span class="st">'2023-04-28'</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>pharma_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="a11b9f4a" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> yfinance <span class="im">as</span> yf</span>
+<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt </span>
+<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a>pharma_df <span class="op">=</span> yf.download(<span class="st">'PFE JNJ'</span>, start<span class="op">=</span><span class="st">'2015-01-01'</span>, end<span class="op">=</span><span class="st">'2023-04-28'</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-7" class="code-annotation-target"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a>pharma_df.head()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="7" data-code-annotation="1">Displays first 5 rows</span>
+</dd>
+</dl>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[                       0%                       ][*********************100%***********************]  2 of 2 completed</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="32">
 <div>
 
 
@@ -342,8 +350,8 @@ cookieconsent.run({
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2015-01-02</td>
-<td>83.703026</td>
-<td>21.793072</td>
+<td>83.076210</td>
+<td>21.793076</td>
 <td>104.519997</td>
 <td>29.724857</td>
 <td>105.550003</td>
@@ -357,7 +365,7 @@ cookieconsent.run({
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">2015-01-05</td>
-<td>83.118408</td>
+<td>82.495979</td>
 <td>21.674822</td>
 <td>103.790001</td>
 <td>29.563566</td>
@@ -372,8 +380,8 @@ cookieconsent.run({
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2015-01-06</td>
-<td>82.709999</td>
-<td>21.855675</td>
+<td>82.090607</td>
+<td>21.855684</td>
 <td>103.279999</td>
 <td>29.810247</td>
 <td>104.989998</td>
@@ -387,8 +395,8 @@ cookieconsent.run({
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">2015-01-07</td>
-<td>84.535889</td>
-<td>22.154793</td>
+<td>83.902840</td>
+<td>22.154783</td>
 <td>105.559998</td>
 <td>30.218216</td>
 <td>105.830002</td>
@@ -402,7 +410,7 @@ cookieconsent.run({
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2015-01-08</td>
-<td>85.200562</td>
+<td>84.562553</td>
 <td>22.606922</td>
 <td>106.389999</td>
 <td>30.834915</td>
@@ -427,17 +435,17 @@ cookieconsent.run({
 <p>From the two stocks, <code>PFE</code> and <code>JNJ</code>, we need only <code>PFE</code>. So, we can try to use chaining principle.</p>
 <section id="without-chaining" class="level3">
 <h3 class="anchored" data-anchor-id="without-chaining">Without chaining</h3>
-<div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fix_cols(df):</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    cols <span class="op">=</span> df.columns</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    outer <span class="op">=</span> [col[<span class="dv">0</span>] <span class="cf">for</span> col <span class="kw">in</span> cols]</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    df.columns <span class="op">=</span> outer</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>pfe_df1 <span class="op">=</span> pharma_df.iloc[:,<span class="dv">1</span>::<span class="dv">2</span>]</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>pfe_df1 <span class="op">=</span> fix_cols(pfe_df1)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>pfe_df1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
+<div id="d67e0dbd" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fix_cols(df):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    cols <span class="op">=</span> df.columns</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    outer <span class="op">=</span> [col[<span class="dv">0</span>] <span class="cf">for</span> col <span class="kw">in</span> cols]</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    df.columns <span class="op">=</span> outer</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>pfe_df1 <span class="op">=</span> pharma_df.iloc[:,<span class="dv">1</span>::<span class="dv">2</span>]</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>pfe_df1 <span class="op">=</span> fix_cols(pfe_df1)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>pfe_df1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="33">
 <div>
 
 
@@ -465,7 +473,7 @@ cookieconsent.run({
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2015-01-02</td>
-<td>21.793072</td>
+<td>21.793076</td>
 <td>29.724857</td>
 <td>30.151802</td>
 <td>29.620493</td>
@@ -483,7 +491,7 @@ cookieconsent.run({
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2015-01-06</td>
-<td>21.855675</td>
+<td>21.855684</td>
 <td>29.810247</td>
 <td>30.227703</td>
 <td>29.525618</td>
@@ -492,7 +500,7 @@ cookieconsent.run({
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">2015-01-07</td>
-<td>22.154793</td>
+<td>22.154783</td>
 <td>30.218216</td>
 <td>30.237192</td>
 <td>29.962049</td>
@@ -572,13 +580,25 @@ cookieconsent.run({
 </section>
 <section id="with-chaining" class="level3">
 <h3 class="anchored" data-anchor-id="with-chaining">With chaining</h3>
-<div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pfe_df <span class="op">=</span> (pharma_df</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a> .iloc[:,<span class="dv">1</span>::<span class="dv">2</span>] <span class="co"># retrieves only PFE stock data</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a> .pipe(fix_cols) <span class="co"># Removes the ticker and just shows </span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>pfe_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div id="8cbe1ce8" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>pfe_df <span class="op">=</span> (pharma_df</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-2" class="code-annotation-target"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>          .iloc[:,<span class="dv">1</span>::<span class="dv">2</span>]</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-3" class="code-annotation-target"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>          .pipe(fix_cols)</span>
+<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>         )</span>
+<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>pfe_df</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="2" data-code-annotation="1">Retrieves only PFE stock data</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="3" data-code-annotation="2">Removes the ticker and just shows</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="34">
 <div>
 
 
@@ -606,7 +626,7 @@ cookieconsent.run({
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2015-01-02</td>
-<td>21.793072</td>
+<td>21.793076</td>
 <td>29.724857</td>
 <td>30.151802</td>
 <td>29.620493</td>
@@ -624,7 +644,7 @@ cookieconsent.run({
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2015-01-06</td>
-<td>21.855675</td>
+<td>21.855684</td>
 <td>29.810247</td>
 <td>30.227703</td>
 <td>29.525618</td>
@@ -633,7 +653,7 @@ cookieconsent.run({
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">2015-01-07</td>
-<td>22.154793</td>
+<td>22.154783</td>
 <td>30.218216</td>
 <td>30.237192</td>
 <td>29.962049</td>
@@ -717,95 +737,135 @@ cookieconsent.run({
 <section id="plotting" class="level1">
 <h1>Plotting</h1>
 <p>Since Pandas’ plotting functionality is built on top of Matplotlib, we use it easily to plot our data.</p>
-<div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(pharma_df</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a> .iloc[:,<span class="dv">1</span>::<span class="dv">2</span>] <span class="co"># retrieves only PFE stock data</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a> .pipe(fix_cols) <span class="co"># Removes the ticker and just shows </span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a> .Close <span class="co"># fetches only the Close column. Dataframe is now a series</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a> .plot() <span class="co"># date is used at x-axis and the Close column values at y-axis.</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div id="7fbff33d" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>(pharma_df</span>
+<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a> .iloc[:,<span class="dv">1</span>::<span class="dv">2</span>] </span>
+<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a> .pipe(fix_cols) </span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a> .Close</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-5" class="code-annotation-target"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a> .plot()</span>
+<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="4" data-code-annotation="1">Fetches only the volume column. Dataframe is now a series.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="5" data-code-annotation="2">Date is used at x-axis and the volume column values at y-axis.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="35">
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-5-output-2.png" class="img-fluid"></p>
+<p><img src="py_for_finance_files/figure-html/cell-5-output-2.png" width="566" height="402"></p>
 </div>
 </div>
 <p>We can also adjust plot window size using Matplotlib’s <code>figsize</code> function.</p>
-<div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pfe_vol <span class="op">=</span> (pharma_df</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a> .iloc[:,<span class="dv">1</span>::<span class="dv">2</span>] <span class="co"># retrieves only PFE stock data</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a> .pipe(fix_cols) <span class="co"># Removes the ticker and just shows </span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a> .Volume <span class="co"># fetches only the volume column. Dataframe is now a series</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a> .plot(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">2</span>)) <span class="co"># date is used at x-axis and the volume column values at y-axis.</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="b7afa6f7" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a>pfe_vol <span class="op">=</span> (pharma_df</span>
+<span id="annotated-cell-5-2"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a> .iloc[:,<span class="dv">1</span>::<span class="dv">2</span>] </span>
+<span id="annotated-cell-5-3"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a> .pipe(fix_cols) </span>
+<span id="annotated-cell-5-4"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a> .Volume</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-5" class="code-annotation-target"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a> .plot(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">2</span>))</span>
+<span id="annotated-cell-5-6"><a href="#annotated-cell-5-6" aria-hidden="true" tabindex="-1"></a>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="5" data-code-annotation="1">Adjusting the plot window size so we can visualise the volume easily</span>
+</dd>
+</dl>
+</div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
+<p><img src="py_for_finance_files/figure-html/cell-6-output-1.png" width="781" height="220"></p>
 </div>
 </div>
 </section>
 <section id="resampling" class="level1">
 <h1>Resampling</h1>
 <p>Since we have date as our row index, we can leverage <code>.resample()</code> feature of Pandas to convert our <code>PFE</code> raw data into time periods we want to visualise. The <code>.resample()</code> takes in an argument which is appropriate for the index. In our case it is date. So, it can take monthly(<code>M</code>), weekly(<code>W</code>), daily(<code>Y</code>), quarterly(<code>Q</code>) etc. Bi monthly is possible with <code>2M</code>.</p>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a> .Close</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a> .resample(<span class="st">'M'</span>) <span class="co"># returns resampler object. Looks for an aggregate function.</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a> .mean() <span class="co"># monthly average</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a> .plot()</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div id="da0c6429" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a> .Close</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-3" class="code-annotation-target"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a> .resample(<span class="st">'M'</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-4" class="code-annotation-target"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a> .mean()</span>
+<span id="annotated-cell-6-5"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a> .plot()</span>
+<span id="annotated-cell-6-6"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="3" data-code-annotation="1">Returns resampler object. Looks for an aggregate function.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="4" data-code-annotation="2">Monthly average</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="37">
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
+<p><img src="py_for_finance_files/figure-html/cell-7-output-2.png" width="568" height="422"></p>
 </div>
 </div>
 <p>If we want to aggregate two columns, then we can use <code>.agg()</code> function.</p>
-<div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a> .resample(<span class="st">'M'</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a> .agg({<span class="st">'Close'</span>: <span class="st">'max'</span>, <span class="st">'Open'</span>: <span class="st">'first'</span>})</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a> .loc[<span class="st">'jan 2020'</span>: <span class="st">'apr 2023'</span>]</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a> .plot()</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div id="41c3f7a5" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="annotated-cell-7"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-7-1"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="annotated-cell-7-2"><a href="#annotated-cell-7-2" aria-hidden="true" tabindex="-1"></a> .resample(<span class="st">'M'</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1">1</button><span id="annotated-cell-7-3" class="code-annotation-target"><a href="#annotated-cell-7-3" aria-hidden="true" tabindex="-1"></a> .agg({<span class="st">'Close'</span>: <span class="st">'max'</span>, <span class="st">'Open'</span>: <span class="st">'first'</span>})</span>
+<span id="annotated-cell-7-4"><a href="#annotated-cell-7-4" aria-hidden="true" tabindex="-1"></a> .loc[<span class="st">'jan 2020'</span>: <span class="st">'apr 2023'</span>]</span>
+<span id="annotated-cell-7-5"><a href="#annotated-cell-7-5" aria-hidden="true" tabindex="-1"></a> .plot()</span>
+<span id="annotated-cell-7-6"><a href="#annotated-cell-7-6" aria-hidden="true" tabindex="-1"></a>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="3" data-code-annotation="1"><code>Close</code> column with grouped by max values and <code>Open</code> with <code>first</code> non-null value.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="38">
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-8-output-2.png" class="img-fluid"></p>
+<p><img src="py_for_finance_files/figure-html/cell-8-output-2.png" width="566" height="437"></p>
 </div>
 </div>
 </section>
 <section id="candle-stick-chart" class="level1">
 <h1>Candle Stick chart</h1>
 <p>With stock data, it is easier to visualise its pattern using a candle stick chart. Candle stick plot is not in Pandas. We can write our own plot function using matplotlib.</p>
-<div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> dates</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">5</span>))</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_candle(df, ax):</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#wick</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    ax.vlines(x<span class="op">=</span>df.index, ymin<span class="op">=</span>df.Low, ymax<span class="op">=</span>df.High, colors<span class="op">=</span><span class="st">'k'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#red - decrease</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    red <span class="op">=</span> df.query(<span class="st">'Close &lt; Open'</span>)</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    ax.vlines(x<span class="op">=</span>red.index, ymin<span class="op">=</span>red.Close, ymax<span class="op">=</span>red.Open, colors<span class="op">=</span><span class="st">'r'</span>, linewidth<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#green - increase</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    green <span class="op">=</span> df.query(<span class="st">'Close &gt;= Open'</span>)</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    ax.vlines(x<span class="op">=</span>green.index, ymin<span class="op">=</span>green.Close, ymax<span class="op">=</span>green.Open, colors<span class="op">=</span><span class="st">'g'</span>,linewidth<span class="op">=</span><span class="dv">3</span>) <span class="co">#check this</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_major_locator(dates.MonthLocator())</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_major_formatter(dates.DateFormatter(<span class="st">'%b-%y'</span>))</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_minor_locator(dates.DayLocator())</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    ax.grid(color<span class="op">=</span><span class="st">'grey'</span>)</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a> .resample(<span class="st">'d'</span>)</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a> .agg({<span class="st">'Close'</span>: <span class="st">'last'</span>, <span class="st">'Open'</span>: <span class="st">'first'</span>, <span class="st">'Low'</span>:<span class="st">'min'</span>, <span class="st">'High'</span>:<span class="st">'max'</span>})</span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a> .loc[<span class="st">'jan 2023'</span>: <span class="st">'apr 2023'</span>]</span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a> .pipe(plot_candle,ax)</span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div id="8a96a7ee" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> dates</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">5</span>))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_candle(df, ax):</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#wick</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    ax.vlines(x<span class="op">=</span>df.index, ymin<span class="op">=</span>df.Low, ymax<span class="op">=</span>df.High, colors<span class="op">=</span><span class="st">'k'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#red - decrease</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    red <span class="op">=</span> df.query(<span class="st">'Close &lt; Open'</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    ax.vlines(x<span class="op">=</span>red.index, ymin<span class="op">=</span>red.Close, ymax<span class="op">=</span>red.Open, colors<span class="op">=</span><span class="st">'r'</span>, linewidth<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#green - increase</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    green <span class="op">=</span> df.query(<span class="st">'Close &gt;= Open'</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    ax.vlines(x<span class="op">=</span>green.index, ymin<span class="op">=</span>green.Close, ymax<span class="op">=</span>green.Open, colors<span class="op">=</span><span class="st">'g'</span>,linewidth<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_major_locator(dates.MonthLocator())</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_major_formatter(dates.DateFormatter(<span class="st">'%b-%y'</span>))</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_minor_locator(dates.DayLocator())</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    ax.grid(color<span class="op">=</span><span class="st">'grey'</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a> .resample(<span class="st">'d'</span>)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a> .agg({<span class="st">'Close'</span>: <span class="st">'last'</span>, <span class="st">'Open'</span>: <span class="st">'first'</span>, <span class="st">'Low'</span>:<span class="st">'min'</span>, <span class="st">'High'</span>:<span class="st">'max'</span>})</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a> .loc[<span class="st">'jan 2023'</span>: <span class="st">'apr 2023'</span>]</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a> .pipe(plot_candle,ax)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="39">
 <div>
 
 
@@ -911,7 +971,7 @@ cookieconsent.run({
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-9-output-2.png" class="img-fluid"></p>
+<p><img src="py_for_finance_files/figure-html/cell-9-output-2.png" width="804" height="404"></p>
 </div>
 </div>
 <p>With the chart, we can determine the patterns such as bearish, bullish etc. We can change <code>.loc</code>for the period we want to see the pattern.</p>
@@ -922,56 +982,56 @@ cookieconsent.run({
 <section id="returns" class="level2">
 <h2 class="anchored" data-anchor-id="returns">Returns</h2>
 <p>How much percentage of return can be expected? With pandas, we can simply use <code>.pct_change()</code> function and get the values. Plotting them is as simple as shown previously.</p>
-<div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a> .pct_change()</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a> .Close</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a> .plot()</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7b662df1" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a> .pct_change()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a> .Close</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a> .plot()</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><img src="./images/returns_plot.png" class="img-fluid"></p>
 <p>Histogram can be an option but it doesn’t show negative swing. Somewhat appropriate would be to use bar plot.</p>
-<div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a> .pct_change()</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a> .Close</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a> .iloc[<span class="op">-</span><span class="dv">100</span>:] <span class="co">#last 100 rows</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a> .plot.bar()</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="b13a37be" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a> .pct_change()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a> .Close</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a> .iloc[<span class="op">-</span><span class="dv">100</span>:] <span class="co">#last 100 rows</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a> .plot.bar()</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><img src="./images/returns_barplot.png" class="img-fluid"></p>
 <p>This plot shows the negative trends but the X-axis is illegible. We don’t know on which date the closing stock prices changed. This is because Pandas converts/groups whatever on the x-axis into categorical variables. For example, for categorical variable such as elephants, dogs and cats this works but for dates that isn’t correct.</p>
 <p>What if we explicitly say the x-axis as <code>dates</code>.</p>
-<div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">4</span>))</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a> .pct_change()</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a> .Close</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a> .iloc[<span class="op">-</span><span class="dv">100</span>:]</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a> .plot.bar(ax<span class="op">=</span>ax)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_locator(dates.MonthLocator())</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(dates.DateFormatter(<span class="st">'%b-%y'</span>))</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_minor_locator(dates.DayLocator())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="9c2f930e" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">4</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a> .pct_change()</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a> .Close</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a> .iloc[<span class="op">-</span><span class="dv">100</span>:]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a> .plot.bar(ax<span class="op">=</span>ax)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_locator(dates.MonthLocator())</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(dates.DateFormatter(<span class="st">'%b-%y'</span>))</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_minor_locator(dates.DayLocator())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><img src="./images/returns_barplot_1970.png" class="img-fluid"></p>
 <p>1970?!? Still Pandas converts dates to categorical variables.</p>
 <p>The solution Matt suggests is to use matplotlib.</p>
-<div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_bar(series, ax):</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    ax.bar(series.index, series)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_major_locator(dates.MonthLocator())</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_major_formatter(dates.DateFormatter(<span class="st">'%b-%y'</span>))</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_minor_locator(dates.DayLocator())</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> series</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">4</span>))</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>_ <span class="op">=</span> ( pfe_df</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a> .pct_change()</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a> .Close</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a> .iloc[<span class="op">-</span><span class="dv">100</span>:]</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a> .pipe(my_bar, ax)</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="9277160e" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_bar(series, ax):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    ax.bar(series.index, series)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_major_locator(dates.MonthLocator())</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_major_formatter(dates.DateFormatter(<span class="st">'%b-%y'</span>))</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_minor_locator(dates.DayLocator())</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> series</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">4</span>))</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>_ <span class="op">=</span> ( pfe_df</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a> .pct_change()</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a> .Close</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a> .iloc[<span class="op">-</span><span class="dv">100</span>:]</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a> .pipe(my_bar, ax)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><img src="./images/returns_barplot_plt.png" class="img-fluid"></p>
 <p>Looks good now.</p>
@@ -981,72 +1041,72 @@ cookieconsent.run({
 <p>Cumulative returns shows the investment amount gained or lost over time. The formula is given by <span class="math display">\[
 cumulative\_return = \frac{(current\_price - original\_price)}{(curent\_price)}
 \]</span></p>
-<div class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a> .Close</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a> .sub(pfe_df.Close[<span class="dv">0</span>])</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a> .div(pfe_df.Close[<span class="dv">0</span>])</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a> .plot()</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div id="700f2bdf" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a> .Close</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a> .sub(pfe_df.Close[<span class="dv">0</span>])</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a> .div(pfe_df.Close[<span class="dv">0</span>])</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a> .plot()</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="40">
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-14-output-2.png" class="img-fluid"></p>
+<p><img src="py_for_finance_files/figure-html/cell-14-output-2.png" width="571" height="402"></p>
 </div>
 </div>
 <p>Another alternate way is to numpy’s <code>cumprod</code> function.</p>
-<div class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a> .Close</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a> .add(<span class="dv">1</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a> .cumprod()</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a> .sub(<span class="dv">1</span>)</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a> .plot()</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="5bb31ff3" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a> .Close</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a> .add(<span class="dv">1</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a> .cumprod()</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a> .sub(<span class="dv">1</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a> .plot()</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/Users/dross/miniforge3/envs/mlops/lib/python3.9/site-packages/numpy/core/fromnumeric.py:57: RuntimeWarning:
 
 overflow encountered in accumulate
 </code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="41">
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-15-output-3.png" class="img-fluid"></p>
+<p><img src="py_for_finance_files/figure-html/cell-15-output-3.png" width="573" height="426"></p>
 </div>
 </div>
 <p>As you can see both plots give the same result.</p>
 <p>If we’re to use <code>.pipe</code> here, we can do like so:</p>
-<div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc_cumrets(df, col):</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>     ser <span class="op">=</span> df[col]</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>     <span class="cf">return</span> (ser</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>             .sub(ser[<span class="dv">0</span>])</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>             .div(ser[<span class="dv">0</span>])</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>            )</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a> .pipe(calc_cumrets,<span class="st">'Close'</span>)</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a> .plot()</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="11">
+<div id="09ca6ef0" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc_cumrets(df, col):</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>     ser <span class="op">=</span> df[col]</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>     <span class="cf">return</span> (ser</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>             .sub(ser[<span class="dv">0</span>])</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>             .div(ser[<span class="dv">0</span>])</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a> .pipe(calc_cumrets,<span class="st">'Close'</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a> .plot()</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="42">
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-16-output-2.png" class="img-fluid"></p>
+<p><img src="py_for_finance_files/figure-html/cell-16-output-2.png" width="571" height="402"></p>
 </div>
 </div>
 <section id="lambda-functions-or-anonymous-functions" class="level3">
 <h3 class="anchored" data-anchor-id="lambda-functions-or-anonymous-functions">Lambda functions or anonymous functions</h3>
 <p>Using lambda functions we can make impropmtu functions and use it with our chaining.</p>
 <p>We would traditionally call a function like so:</p>
-<div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_returns(df):</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> calc_cumrets(df, <span class="st">'Close'</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>get_returns(pfe_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
+<div id="8e538a3e" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_returns(df):</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> calc_cumrets(df, <span class="st">'Close'</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>get_returns(pfe_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="43">
 <pre><code>Date
 2015-01-02    0.000000
 2015-01-05   -0.005426
@@ -1063,9 +1123,9 @@ Name: Close, Length: 2094, dtype: float64</code></pre>
 </div>
 </div>
 <p>However, if we are to use <code>lambda</code>, then the above code can be written as:</p>
-<div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">lambda</span> df: get_returns(df))(pfe_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="13">
+<div id="1ce5b8a5" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>(<span class="kw">lambda</span> df: get_returns(df))(pfe_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="44">
 <pre><code>Date
 2015-01-02    0.000000
 2015-01-05   -0.005426
@@ -1082,10 +1142,10 @@ Name: Close, Length: 2094, dtype: float64</code></pre>
 </div>
 </div>
 <p>Now, with cumulative returns calculation, it would be useful if those values can be assigned to a new column in the dataframe. It is here that a Pandas feature in <code>.assign</code> function is helpful. It helps create new columns. We can couple <code>.assign</code> and <code>lambda</code> together.</p>
-<div class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>pfe_df <span class="op">=</span> (pfe_df</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a> .assign(cum_rets<span class="op">=</span><span class="kw">lambda</span> df:calc_cumrets(df, <span class="st">'Close'</span>))</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="bb716e8c" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>pfe_df <span class="op">=</span> (pfe_df</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a> .assign(cum_rets<span class="op">=</span><span class="kw">lambda</span> df:calc_cumrets(df, <span class="st">'Close'</span>))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -1093,25 +1153,25 @@ Name: Close, Length: 2094, dtype: float64</code></pre>
 <h2 class="anchored" data-anchor-id="volatility">Volatility</h2>
 <p>Volatility is a statistical measure of the dispertion of the returns for a given market index in this case stocks. In most cases, higher the volatility, the riskier the stock. It is often measured from either standard deviation or variance between returns from that stock. Remember <code>standard deviation</code> is the measure of deviation of the data relative to its mean.</p>
 <p>Just like <code>mean()</code>, we can calculate <code>std()</code>.</p>
-<div class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a> .Close</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a> <span class="co">#.mean()</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a> .std()</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="15">
+<div id="5798e596" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a> .Close</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a> <span class="co">#.mean()</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a> .std()</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="46">
 <pre><code>6.69077286484766</code></pre>
 </div>
 </div>
 <p>The <code>.assign()</code> allows consective chaining methods to use these newly created columns. In the below code block, we can use the <code>pct_change_close</code> created in the first line in to the second line. Then, we can calculate 30 day <code>rolling</code> volatility. Rolling is nothing but a time frame in which the volatility is calculated. We can see that for the first 15 days the volatility is <code>NaN</code>(not a number) and on the 30th day, there is an entry.</p>
-<div class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a> .assign(pct_change_close<span class="op">=</span>pfe_df.Close.pct_change())</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a> .pct_change_close</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a> .rolling(<span class="dv">30</span>)</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a> .std()</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="16">
+<div id="a436f851" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a> .assign(pct_change_close<span class="op">=</span>pfe_df.Close.pct_change())</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a> .pct_change_close</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a> .rolling(<span class="dv">30</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a> .std()</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="47">
 <pre><code>Date
 2015-01-02         NaN
 2015-01-05         NaN
@@ -1127,32 +1187,32 @@ Name: Close, Length: 2094, dtype: float64</code></pre>
 Name: pct_change_close, Length: 2094, dtype: float64</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#rolling volatility</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a> .assign(close_volatility<span class="op">=</span>pfe_df.rolling(<span class="dv">30</span>).Close.std(),</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>         percent_volatility<span class="op">=</span>pfe_df.Close.pct_change().rolling(<span class="dv">30</span>).std())</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a> .iloc[:,<span class="op">-</span><span class="dv">2</span>:] <span class="co"># fetch only the last two columns</span></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a> .plot(subplots<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div id="e8983b40" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#rolling volatility</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a> .assign(close_volatility<span class="op">=</span>pfe_df.rolling(<span class="dv">30</span>).Close.std(),</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>         percent_volatility<span class="op">=</span>pfe_df.Close.pct_change().rolling(<span class="dv">30</span>).std())</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a> .iloc[:,<span class="op">-</span><span class="dv">2</span>:] <span class="co"># fetch only the last two columns</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a> .plot(subplots<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="48">
 <pre><code>array([&lt;AxesSubplot:xlabel='Date'&gt;, &lt;AxesSubplot:xlabel='Date'&gt;],
       dtype=object)</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-22-output-2.png" class="img-fluid"></p>
+<p><img src="py_for_finance_files/figure-html/cell-22-output-2.png" width="579" height="403"></p>
 </div>
 </div>
 <p>We can also use <code>.resample</code> to calculate 15 day volatility as we have <code>date</code> as index.</p>
-<div class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 15 day volatility</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a> .assign(pct_change_close<span class="op">=</span>pfe_df.Close.pct_change())</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a> .resample(<span class="st">'15D'</span>)</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a> .std()</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="18">
+<div id="92e33f47" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 15 day volatility</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a> .assign(pct_change_close<span class="op">=</span>pfe_df.Close.pct_change())</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a> .resample(<span class="st">'15D'</span>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a> .std()</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="49">
 <div>
 
 
@@ -1184,7 +1244,7 @@ Name: pct_change_close, Length: 2094, dtype: float64</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2015-01-02</td>
-<td>0.423588</td>
+<td>0.423586</td>
 <td>0.577756</td>
 <td>0.554235</td>
 <td>0.536322</td>
@@ -1195,7 +1255,7 @@ Name: pct_change_close, Length: 2094, dtype: float64</code></pre>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">2015-01-17</td>
-<td>0.408931</td>
+<td>0.408934</td>
 <td>0.557768</td>
 <td>0.552896</td>
 <td>0.473576</td>
@@ -1206,7 +1266,7 @@ Name: pct_change_close, Length: 2094, dtype: float64</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2015-02-01</td>
-<td>0.864666</td>
+<td>0.864667</td>
 <td>1.092056</td>
 <td>1.124398</td>
 <td>1.137237</td>
@@ -1228,7 +1288,7 @@ Name: pct_change_close, Length: 2094, dtype: float64</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2015-03-03</td>
-<td>0.232107</td>
+<td>0.232108</td>
 <td>0.313819</td>
 <td>0.310265</td>
 <td>0.285296</td>
@@ -1310,14 +1370,14 @@ Name: pct_change_close, Length: 2094, dtype: float64</code></pre>
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 15 day rolling volatility</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a> .assign(pct_change_close<span class="op">=</span>pfe_df.Close.pct_change())</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a> .rolling(window<span class="op">=</span><span class="dv">15</span>, min_periods<span class="op">=</span><span class="dv">15</span>)</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a> .std()</span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="19">
+<div id="de524644" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 15 day rolling volatility</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a> .assign(pct_change_close<span class="op">=</span>pfe_df.Close.pct_change())</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a> .rolling(window<span class="op">=</span><span class="dv">15</span>, min_periods<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a> .std()</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="50">
 <div>
 
 
@@ -1476,21 +1536,21 @@ Name: pct_change_close, Length: 2094, dtype: float64</code></pre>
 </div>
 </div>
 <p>What happens if the assinged new column name is same as the pandas function name and we have to use further for our analysis? We can include that ‘assigned’ column within <code>[]</code>(square) braces and use it. In the below example, we can see how <code>pct_change</code> conflicts with pandas and is therefore must be put inside <code>[]</code> to access it.</p>
-<div class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 15 day rolling volatility</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a> .assign(pct_change<span class="op">=</span>pfe_df.Close.pct_change())</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a> .rolling(window<span class="op">=</span><span class="dv">15</span>, min_periods<span class="op">=</span><span class="dv">15</span>)</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a> .std()</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a> <span class="co">#.pct_change</span></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a> [<span class="st">"pct_change"</span>]</span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a> .plot()</span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div id="af1acb6a" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 15 day rolling volatility</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a> .assign(pct_change<span class="op">=</span>pfe_df.Close.pct_change())</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a> .rolling(window<span class="op">=</span><span class="dv">15</span>, min_periods<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a> .std()</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a> <span class="co">#.pct_change</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a> [<span class="st">"pct_change"</span>]</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a> .plot()</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="51">
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-25-output-2.png" class="img-fluid"></p>
+<p><img src="py_for_finance_files/figure-html/cell-25-output-2.png" width="579" height="402"></p>
 </div>
 </div>
 </section>
@@ -1506,13 +1566,13 @@ Name: pct_change_close, Length: 2094, dtype: float64</code></pre>
 <section id="lag" class="level3">
 <h3 class="anchored" data-anchor-id="lag">Lag</h3>
 <p>These lags can be calculated in Pandas using <code>shift</code> function. <code>shift(1)</code> means shift index one place down. <code>shift(2)</code> means two places down. For example,</p>
-<div class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a> .assign(s1<span class="op">=</span>pfe_df.Close.shift(<span class="dv">1</span>),</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>         s2<span class="op">=</span>pfe_df.Close.shift(<span class="dv">2</span>))</span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a> [[<span class="st">"s1"</span>,<span class="st">"s2"</span>]]</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div id="1b3ab515" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a> .assign(s1<span class="op">=</span>pfe_df.Close.shift(<span class="dv">1</span>),</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>         s2<span class="op">=</span>pfe_df.Close.shift(<span class="dv">2</span>))</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a> [[<span class="st">"s1"</span>,<span class="st">"s2"</span>]]</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="52">
 <div>
 
 
@@ -1594,16 +1654,16 @@ Name: pct_change_close, Length: 2094, dtype: float64</code></pre>
 </div>
 <p>the <code>Close</code> value in the first row will be on the second row for <code>shift(1)</code> and two rows down for <code>shift(2)</code>.</p>
 <p>Now for simple 3-day moving average, we need to average <code>Close</code>, <code>s1</code>, and <code>s2</code>. We can do it manually using a <code>lambda</code> and use the <code>rolling</code> pandas with <code>window=3</code> specified.</p>
-<div class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a> .assign(s1<span class="op">=</span>pfe_df.Close.shift(<span class="dv">1</span>),</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>         s2<span class="op">=</span>pfe_df.Close.shift(<span class="dv">2</span>),</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>         ma3<span class="op">=</span><span class="kw">lambda</span> df_:df_.loc[:,[<span class="st">"Close"</span>, <span class="st">"s1"</span>, <span class="st">"s2"</span>]].mean(axis<span class="op">=</span><span class="st">'columns'</span>),</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>         ma3_builtin<span class="op">=</span>pfe_df.Close.rolling(<span class="dv">3</span>).mean()</span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>[[<span class="st">"s1"</span>,<span class="st">"s2"</span>,<span class="st">"ma3"</span>,<span class="st">"ma3_builtin"</span>]]</span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="22">
+<div id="8f72e2b8" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a> .assign(s1<span class="op">=</span>pfe_df.Close.shift(<span class="dv">1</span>),</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>         s2<span class="op">=</span>pfe_df.Close.shift(<span class="dv">2</span>),</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>         ma3<span class="op">=</span><span class="kw">lambda</span> df_:df_.loc[:,[<span class="st">"Close"</span>, <span class="st">"s1"</span>, <span class="st">"s2"</span>]].mean(axis<span class="op">=</span><span class="st">'columns'</span>),</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>         ma3_builtin<span class="op">=</span>pfe_df.Close.rolling(<span class="dv">3</span>).mean()</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>[[<span class="st">"s1"</span>,<span class="st">"s2"</span>,<span class="st">"ma3"</span>,<span class="st">"ma3_builtin"</span>]]</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="53">
 <div>
 
 
@@ -1714,42 +1774,42 @@ Name: pct_change_close, Length: 2094, dtype: float64</code></pre>
 <section id="plotting-mas" class="level2">
 <h2 class="anchored" data-anchor-id="plotting-mas">Plotting MAs</h2>
 <p>We are getting comfortable with plotting. We select the columns needed to plotted - [‘Close’, ‘ma3_builtin’] for last 200 rows.</p>
-<div class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a> .assign(s1<span class="op">=</span>pfe_df.Close.shift(<span class="dv">1</span>),</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>         s2<span class="op">=</span>pfe_df.Close.shift(<span class="dv">2</span>),</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>         ma3<span class="op">=</span><span class="kw">lambda</span> df_:df_.loc[:,[<span class="st">"Close"</span>, <span class="st">"s1"</span>, <span class="st">"s2"</span>]].mean(axis<span class="op">=</span><span class="st">'columns'</span>),</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>         ma3_builtin<span class="op">=</span>pfe_df.Close.rolling(<span class="dv">3</span>).mean()</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a> [[<span class="st">'Close'</span>, <span class="st">'ma3_builtin'</span>]]</span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a> .iloc[<span class="op">-</span><span class="dv">200</span>:]</span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a> .plot()</span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="23">
+<div id="13b998cc" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a> .assign(s1<span class="op">=</span>pfe_df.Close.shift(<span class="dv">1</span>),</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>         s2<span class="op">=</span>pfe_df.Close.shift(<span class="dv">2</span>),</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>         ma3<span class="op">=</span><span class="kw">lambda</span> df_:df_.loc[:,[<span class="st">"Close"</span>, <span class="st">"s1"</span>, <span class="st">"s2"</span>]].mean(axis<span class="op">=</span><span class="st">'columns'</span>),</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>         ma3_builtin<span class="op">=</span>pfe_df.Close.rolling(<span class="dv">3</span>).mean()</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a> [[<span class="st">'Close'</span>, <span class="st">'ma3_builtin'</span>]]</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a> .iloc[<span class="op">-</span><span class="dv">200</span>:]</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a> .plot()</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="54">
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-28-output-2.png" class="img-fluid"></p>
+<p><img src="py_for_finance_files/figure-html/cell-28-output-2.png" width="591" height="412"></p>
 </div>
 </div>
 <p>As we can see the MA smoothes out the little peaks and troughs.</p>
 <section id="golden-cross" class="level3">
 <h3 class="anchored" data-anchor-id="golden-cross">Golden Cross</h3>
 <p>Some experts say if there is a crossover between MA-50 and MA-200, it is an indicator to buy or sell.</p>
-<div class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a> .assign(ma50<span class="op">=</span>pfe_df.Close.rolling(<span class="dv">50</span>).mean(),</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>         ma200<span class="op">=</span>pfe_df.Close.rolling(<span class="dv">200</span>).mean()</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a> [[<span class="st">"Close"</span>,<span class="st">"ma50"</span>,<span class="st">"ma200"</span>]]</span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a> .iloc[<span class="op">-</span><span class="dv">650</span>:]</span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a> .plot()</span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="24">
+<div id="21f305bc" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a> .assign(ma50<span class="op">=</span>pfe_df.Close.rolling(<span class="dv">50</span>).mean(),</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>         ma200<span class="op">=</span>pfe_df.Close.rolling(<span class="dv">200</span>).mean()</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a> [[<span class="st">"Close"</span>,<span class="st">"ma50"</span>,<span class="st">"ma200"</span>]]</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a> .iloc[<span class="op">-</span><span class="dv">650</span>:]</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a> .plot()</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="55">
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-29-output-2.png" class="img-fluid"></p>
+<p><img src="py_for_finance_files/figure-html/cell-29-output-2.png" width="585" height="412"></p>
 </div>
 </div>
 </section>
@@ -1791,9 +1851,500 @@ volume, \text{ if close &gt; close}_{prev} \\
 <p>OBV<sub>prev</sub> = previous on-balance volume level</p>
 <p>volume = Latest trading volume amount</p>
 </section>
+<section id="python---naive-approach" class="level3">
+<h3 class="anchored" data-anchor-id="python---naive-approach">Python - Naive approach</h3>
+<div id="15e04ee5" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc_obv(df): </span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.copy() </span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"OBV"</span>] <span class="op">=</span> <span class="fl">0.0</span> </span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(df)): </span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> df[<span class="st">"Close"</span>][i] <span class="op">&gt;</span> df[<span class="st">"Close"</span>][i <span class="op">-</span> <span class="dv">1</span>]: </span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>            df[<span class="st">"OBV"</span>][i] <span class="op">=</span> df[<span class="st">"OBV"</span>][i<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> df[<span class="st">"Volume"</span>][i] </span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> df[<span class="st">"Close"</span>][i] <span class="op">&lt;</span> df[<span class="st">"Close"</span>][i <span class="op">-</span> <span class="dv">1</span>]: </span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>            df[<span class="st">"OBV"</span>][i] <span class="op">=</span> df[<span class="st">"OBV"</span>][i<span class="op">-</span><span class="dv">1</span>] <span class="op">-</span> df[<span class="st">"Volume"</span>][i] </span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>: </span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>            df[<span class="st">"OBV"</span>][i] <span class="op">=</span> df[<span class="st">"OBV"</span>][i<span class="op">-</span><span class="dv">1</span>] </span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>calc_obv(pfe_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>It takes a while to complete. That is too long. Another approach would be to use numpy’s <code>where</code> condition. Inserting the conditions needs some thinking and isn’t obvious as seeing the mathematical formula. So we avoid <code>np.where</code> even though it is faster than naive python approach.</p>
+</section>
+<section id="preferred-choice-to-calculate-obv---np.select" class="level3">
+<h3 class="anchored" data-anchor-id="preferred-choice-to-calculate-obv---np.select">Preferred choice to calculate OBV - np.select</h3>
+<p>The syntax of <code>np.select</code> is easy to understand - we specify the conditions list, their choices and a default value if the conditions aren’t satisfied.</p>
+<div id="a64c905e" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>np.select(condlist<span class="op">=</span>[pfe_df.Close <span class="op">&lt;</span> <span class="fl">7.5</span>, pfe_df.Close <span class="op">&gt;</span> <span class="dv">70</span>],</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>          choicelist<span class="op">=</span>[<span class="fl">7.55</span>, <span class="dv">72</span>], default<span class="op">=</span> <span class="dv">34</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="56">
+<pre><code>array([34., 34., 34., ..., 34., 34., 34.])</code></pre>
+</div>
+</div>
+<p>So our code will be like so -</p>
+<div id="a2a184a8" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a> .assign(vol<span class="op">=</span>np.select(condlist<span class="op">=</span>[pfe_df.Close <span class="op">&gt;</span> pfe_df.Close.shift(<span class="dv">1</span>),</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                                 pfe_df.Close <span class="op">==</span> pfe_df.Close.shift(<span class="dv">1</span>),</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                                 pfe_df.Close <span class="op">&lt;</span> pfe_df.Close.shift(<span class="dv">1</span>)],</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>                       choicelist<span class="op">=</span>[pfe_df.Volume, <span class="dv">0</span>, <span class="op">-</span>pfe_df.Volume]),</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>        obv<span class="op">=</span><span class="kw">lambda</span> df_:df_.vol.cumsum()</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="57">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Adj Close</th>
+<th data-quarto-table-cell-role="th">Close</th>
+<th data-quarto-table-cell-role="th">High</th>
+<th data-quarto-table-cell-role="th">Low</th>
+<th data-quarto-table-cell-role="th">Open</th>
+<th data-quarto-table-cell-role="th">Volume</th>
+<th data-quarto-table-cell-role="th">cum_rets</th>
+<th data-quarto-table-cell-role="th">vol</th>
+<th data-quarto-table-cell-role="th">obv</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Date</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-02</td>
+<td>21.793076</td>
+<td>29.724857</td>
+<td>30.151802</td>
+<td>29.620493</td>
+<td>29.667933</td>
+<td>16371571</td>
+<td>0.000000</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2015-01-05</td>
+<td>21.674822</td>
+<td>29.563566</td>
+<td>29.800758</td>
+<td>29.421251</td>
+<td>29.743834</td>
+<td>24786391</td>
+<td>-0.005426</td>
+<td>-24786391</td>
+<td>-24786391</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-06</td>
+<td>21.855684</td>
+<td>29.810247</td>
+<td>30.227703</td>
+<td>29.525618</td>
+<td>29.667933</td>
+<td>29468681</td>
+<td>0.002873</td>
+<td>29468681</td>
+<td>4682290</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2015-01-07</td>
+<td>22.154783</td>
+<td>30.218216</td>
+<td>30.237192</td>
+<td>29.962049</td>
+<td>30.094877</td>
+<td>20248816</td>
+<td>0.016598</td>
+<td>20248816</td>
+<td>24931106</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-08</td>
+<td>22.606922</td>
+<td>30.834915</td>
+<td>30.967743</td>
+<td>30.569260</td>
+<td>30.683111</td>
+<td>49169522</td>
+<td>0.037344</td>
+<td>49169522</td>
+<td>74100628</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-21</td>
+<td>39.779552</td>
+<td>40.209999</td>
+<td>40.299999</td>
+<td>39.910000</td>
+<td>40.090000</td>
+<td>19227100</td>
+<td>0.352740</td>
+<td>19227100</td>
+<td>-538012626</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-04-24</td>
+<td>39.482765</td>
+<td>39.910000</td>
+<td>40.200001</td>
+<td>39.709999</td>
+<td>40.189999</td>
+<td>17633700</td>
+<td>0.342647</td>
+<td>-17633700</td>
+<td>-555646326</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-25</td>
+<td>38.908978</td>
+<td>39.330002</td>
+<td>39.919998</td>
+<td>39.279999</td>
+<td>39.750000</td>
+<td>24492400</td>
+<td>0.323135</td>
+<td>-24492400</td>
+<td>-580138726</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-04-26</td>
+<td>38.216469</td>
+<td>38.630001</td>
+<td>39.189999</td>
+<td>38.400002</td>
+<td>39.160000</td>
+<td>22401400</td>
+<td>0.299586</td>
+<td>-22401400</td>
+<td>-602540126</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-27</td>
+<td>38.325291</td>
+<td>38.740002</td>
+<td>38.830002</td>
+<td>38.310001</td>
+<td>38.619999</td>
+<td>22434000</td>
+<td>0.303286</td>
+<td>22434000</td>
+<td>-580106126</td>
+</tr>
+</tbody>
+</table>
+
+<p>2094 rows × 9 columns</p>
+</div>
+</div>
+</div>
+<p>Putting this as function,</p>
+<div id="2f329211" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc_obv(df, close_col<span class="op">=</span><span class="st">"Close"</span>, vol_col<span class="op">=</span><span class="st">"Volume"</span>):</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    close <span class="op">=</span> df[close_col]</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    vol <span class="op">=</span> df[vol_col]</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    close_shift <span class="op">=</span> close.shift(<span class="dv">1</span>)</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (df</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>             .assign(vol<span class="op">=</span>np.select(condlist<span class="op">=</span>[close <span class="op">&gt;</span> close.shift(<span class="dv">1</span>),</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>                                   close <span class="op">==</span> close.shift(<span class="dv">1</span>),</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>                                   close <span class="op">&lt;</span> close.shift(<span class="dv">1</span>)],</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>                                  choicelist<span class="op">=</span>[vol, <span class="dv">0</span>, <span class="op">-</span>vol]),</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>                     obv<span class="op">=</span><span class="kw">lambda</span> df_:df_.vol.fillna(<span class="dv">0</span>).cumsum()</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>                    )</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>             [<span class="st">"obv"</span>]</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>    .assign(obv<span class="op">=</span>calc_obv)</span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>    .obv</span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>    .plot()</span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="58">
+<pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="py_for_finance_files/figure-html/cell-33-output-2.png" width="582" height="416"></p>
+</div>
+</div>
+</section>
 </section>
 <section id="accumulation-distribution-indicator" class="level2">
 <h2 class="anchored" data-anchor-id="accumulation-distribution-indicator">Accumulation distribution indicator</h2>
+<section id="what-is-ad-and-why-is-it-needed" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-ad-and-why-is-it-needed">What is A/D and why is it needed?</h3>
+<p>A/D is an evolution of OBV to find the relationship between the price and volume flow of the stock. OBV, from its formula totally relies on the closing value and the volume is either added or substracted giving total bias either to the buyers or sellers. This is not realistic. So A/D brings proporation to the context. In other words it brings a multipler that ranges from <code>-1 to +1</code>. Realistically the value is between this range and therefore providing realistic volume flow.</p>
+<p>Formula for A/D is given by <span class="math display">\[
+A\\/D = A\\/D_{prev} + (\text{money flow  multiplier} * \text{current volume})
+\]</span> where Money flow multiplier and Current Volume is given by</p>
+<p><span class="math inline">\(MFM = \frac{(Close - Low) - (High - Close)}{(High - Low)}\)</span> <span class="math inline">\(CV = \text{MFM} * \text{period volume}\)</span></p>
+</section>
+<section id="what-does-ad-indicate" class="level3">
+<h3 class="anchored" data-anchor-id="what-does-ad-indicate">What does A/D indicate?</h3>
+<p>It is a cumulative indicator that uses volume and price to assess whether a stock is accumulating or distributing.</p>
+</section>
+<section id="calculation" class="level3">
+<h3 class="anchored" data-anchor-id="calculation">Calculation</h3>
+<div id="8f7c8374" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a> .assign(mfm<span class="op">=</span>((pfe_df.Close<span class="op">-</span>pfe_df.Low) <span class="op">-</span> (pfe_df.High<span class="op">-</span>pfe_df.Close)) <span class="op">/</span> (pfe_df.High<span class="op">-</span>pfe_df.Low),</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>         mfv<span class="op">=</span><span class="kw">lambda</span> df_:df_.mfm <span class="op">*</span> df_.Volume,</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>         cmfv <span class="op">=</span> <span class="kw">lambda</span> df_:df_.mfv.cumsum()</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="59">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Adj Close</th>
+<th data-quarto-table-cell-role="th">Close</th>
+<th data-quarto-table-cell-role="th">High</th>
+<th data-quarto-table-cell-role="th">Low</th>
+<th data-quarto-table-cell-role="th">Open</th>
+<th data-quarto-table-cell-role="th">Volume</th>
+<th data-quarto-table-cell-role="th">cum_rets</th>
+<th data-quarto-table-cell-role="th">mfm</th>
+<th data-quarto-table-cell-role="th">mfv</th>
+<th data-quarto-table-cell-role="th">cmfv</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Date</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-02</td>
+<td>21.793076</td>
+<td>29.724857</td>
+<td>30.151802</td>
+<td>29.620493</td>
+<td>29.667933</td>
+<td>16371571</td>
+<td>0.000000</td>
+<td>-0.607142</td>
+<td>-9.939876e+06</td>
+<td>-9.939876e+06</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2015-01-05</td>
+<td>21.674822</td>
+<td>29.563566</td>
+<td>29.800758</td>
+<td>29.421251</td>
+<td>29.743834</td>
+<td>24786391</td>
+<td>-0.005426</td>
+<td>-0.250001</td>
+<td>-6.196629e+06</td>
+<td>-1.613650e+07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-06</td>
+<td>21.855684</td>
+<td>29.810247</td>
+<td>30.227703</td>
+<td>29.525618</td>
+<td>29.667933</td>
+<td>29468681</td>
+<td>0.002873</td>
+<td>-0.189188</td>
+<td>-5.575108e+06</td>
+<td>-2.171161e+07</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2015-01-07</td>
+<td>22.154783</td>
+<td>30.218216</td>
+<td>30.237192</td>
+<td>29.962049</td>
+<td>30.094877</td>
+<td>20248816</td>
+<td>0.016598</td>
+<td>0.862063</td>
+<td>1.745575e+07</td>
+<td>-4.255863e+06</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2015-01-08</td>
+<td>22.606922</td>
+<td>30.834915</td>
+<td>30.967743</td>
+<td>30.569260</td>
+<td>30.683111</td>
+<td>49169522</td>
+<td>0.037344</td>
+<td>0.333333</td>
+<td>1.638984e+07</td>
+<td>1.213398e+07</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-21</td>
+<td>39.779552</td>
+<td>40.209999</td>
+<td>40.299999</td>
+<td>39.910000</td>
+<td>40.090000</td>
+<td>19227100</td>
+<td>0.352740</td>
+<td>0.538460</td>
+<td>1.035302e+07</td>
+<td>6.969870e+08</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-04-24</td>
+<td>39.482765</td>
+<td>39.910000</td>
+<td>40.200001</td>
+<td>39.709999</td>
+<td>40.189999</td>
+<td>17633700</td>
+<td>0.342647</td>
+<td>-0.183673</td>
+<td>-3.238837e+06</td>
+<td>6.937482e+08</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-25</td>
+<td>38.908978</td>
+<td>39.330002</td>
+<td>39.919998</td>
+<td>39.279999</td>
+<td>39.750000</td>
+<td>24492400</td>
+<td>0.323135</td>
+<td>-0.843740</td>
+<td>-2.066523e+07</td>
+<td>6.730830e+08</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2023-04-26</td>
+<td>38.216469</td>
+<td>38.630001</td>
+<td>39.189999</td>
+<td>38.400002</td>
+<td>39.160000</td>
+<td>22401400</td>
+<td>0.299586</td>
+<td>-0.417721</td>
+<td>-9.357525e+06</td>
+<td>6.637254e+08</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2023-04-27</td>
+<td>38.325291</td>
+<td>38.740002</td>
+<td>38.830002</td>
+<td>38.310001</td>
+<td>38.619999</td>
+<td>22434000</td>
+<td>0.303286</td>
+<td>0.653846</td>
+<td>1.466838e+07</td>
+<td>6.783938e+08</td>
+</tr>
+</tbody>
+</table>
+
+<p>2094 rows × 10 columns</p>
+</div>
+</div>
+</div>
+<p>Making it as a function,</p>
+<div id="5acb142c" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc_ad(df, close_col<span class="op">=</span><span class="st">"Close"</span>,low_col<span class="op">=</span><span class="st">"Low"</span>,high_col<span class="op">=</span><span class="st">"High"</span>,vol_col<span class="op">=</span><span class="st">"Volume"</span>):</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    close <span class="op">=</span> df[close_col]</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    low <span class="op">=</span> df[low_col]</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    high <span class="op">=</span> df[high_col]</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    vol <span class="op">=</span> df[vol_col]</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (df</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>             .assign(mfm<span class="op">=</span>((close<span class="op">-</span>low) <span class="op">-</span> (high<span class="op">-</span>close))<span class="op">/</span> (high<span class="op">-</span>low),</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>                     mfv<span class="op">=</span><span class="kw">lambda</span> df_:df_.mfm <span class="op">*</span> vol,</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>                     cmfv<span class="op">=</span><span class="kw">lambda</span> df_:df_.mfv.cumsum()       </span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>                    )  </span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>             .cmfv</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>           )</span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>    .assign(ad<span class="op">=</span>calc_ad)</span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>    .ad</span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>    .plot()</span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="60">
+<pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="py_for_finance_files/figure-html/cell-35-output-2.png" width="571" height="416"></p>
+</div>
+</div>
+</section>
+<section id="comparing-obv-and-ad" class="level3">
+<h3 class="anchored" data-anchor-id="comparing-obv-and-ad">Comparing OBV and AD</h3>
+<div id="4b7fc33b" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>(pfe_df</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    .assign(obv<span class="op">=</span>calc_obv,</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>            ad<span class="op">=</span>calc_ad</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>           )</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    [[<span class="st">"obv"</span>,<span class="st">"ad"</span>]]</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    .iloc[<span class="op">-</span><span class="dv">650</span>:]</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    .plot()</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="61">
+<pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="py_for_finance_files/figure-html/cell-36-output-2.png" width="585" height="426"></p>
+</div>
+</div>
+</section>
 </section>
 <section id="rsi---relative-strength-index" class="level2">
 <h2 class="anchored" data-anchor-id="rsi---relative-strength-index">RSI - Relative strength index</h2>
