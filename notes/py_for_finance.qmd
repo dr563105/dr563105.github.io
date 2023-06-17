@@ -1,9 +1,15 @@
 ---
 date: "2023-05-10"
-date-modified: "2023-05-19"
+author: "Deepak Ramani"
+date-modified: "2023-06-14"
 toc: true
-title: Notes - LinkedIn course - Financial data analysis
-description: Notes on data analysis on finance data
+title: "Notes - LinkedIn course - Financial data analysis"
+description: "Notes on data analysis on finance data"
+format: 
+ html:
+  code-annotations: hover
+  code-overflow: wrap
+   
 ---
 For financial data analysis, it is important to know certain terminologies, their purpose,
 and how to calculate them. 
@@ -26,8 +32,10 @@ import numpy as np
 import matplotlib.pyplot as plt 
 
 pharma_df = yf.download('PFE JNJ', start='2015-01-01', end='2023-04-28')
-pharma_df.head()
+pharma_df.head() #<1>
 ```
+1. Displays first 5 rows
+
 
 ## Chaining
 
@@ -56,11 +64,13 @@ pfe_df1
 
 ```{python}
 pfe_df = (pharma_df
- .iloc[:,1::2] # retrieves only PFE stock data
- .pipe(fix_cols) # Removes the ticker and just shows 
-)
+          .iloc[:,1::2] #<1>
+          .pipe(fix_cols) #<2>
+         )
 pfe_df
 ```
+1. Retrieves only PFE stock data
+2. Removes the ticker and just shows 
 
 As you can see this makes an easier reading. We use the `pipe()` to call our `fix_cols`
 function. The resulting dataframe has only the outer level column names. 
@@ -74,23 +84,26 @@ plot our data.
 
 ```{python}
 (pharma_df
- .iloc[:,1::2] # retrieves only PFE stock data
- .pipe(fix_cols) # Removes the ticker and just shows 
- .Close # fetches only the Close column. Dataframe is now a series
- .plot() # date is used at x-axis and the Close column values at y-axis.
+ .iloc[:,1::2] 
+ .pipe(fix_cols) 
+ .Close #<1>
+ .plot() #<2>
 )
 ```
+1. Fetches only the volume column. Dataframe is now a series.
+2. Date is used at x-axis and the volume column values at y-axis. 
 
 We can also adjust plot window size using Matplotlib's `figsize` function.
 
 ```{python}
 pfe_vol = (pharma_df
- .iloc[:,1::2] # retrieves only PFE stock data
- .pipe(fix_cols) # Removes the ticker and just shows 
- .Volume # fetches only the volume column. Dataframe is now a series
- .plot(figsize=(10,2)) # date is used at x-axis and the volume column values at y-axis.
+ .iloc[:,1::2] 
+ .pipe(fix_cols) 
+ .Volume
+ .plot(figsize=(10,2)) #<1>
 )
 ```
+1. Adjusting the plot window size so we can visualise the volume easily
 
 # Resampling
 
@@ -103,22 +116,25 @@ monthly(`M`), weekly(`W`), daily(`Y`), quarterly(`Q`) etc. Bi monthly is possibl
 ```{python}
 (pfe_df
  .Close
- .resample('M') # returns resampler object. Looks for an aggregate function.
- .mean() # monthly average
+ .resample('M') #<1> 
+ .mean() #<2>
  .plot()
 )
 ```
+1. Returns resampler object. Looks for an aggregate function.
+2. Monthly average
 
 If we want to aggregate two columns, then we can use `.agg()` function.
 
 ```{python}
 (pfe_df
  .resample('M')
- .agg({'Close': 'max', 'Open': 'first'})
- .loc['jan 2020': 'apr 2023']
+ .agg({'Close': 'max', 'Open': 'first'}) #<1>
+ .loc['jan 2020': 'apr 2023'] #<2>
  .plot()
 )
 ```
+1. `Close` column with grouped by max values and `Open` with `first` non-null value.
 
 # Candle Stick chart
 
@@ -136,7 +152,7 @@ def plot_candle(df, ax):
     ax.vlines(x=red.index, ymin=red.Close, ymax=red.Open, colors='r', linewidth=3)
     #green - increase
     green = df.query('Close >= Open')
-    ax.vlines(x=green.index, ymin=green.Close, ymax=green.Open, colors='g',linewidth=3) #check this
+    ax.vlines(x=green.index, ymin=green.Close, ymax=green.Open, colors='g',linewidth=3)
     ax.xaxis.set_major_locator(dates.MonthLocator())
     ax.xaxis.set_major_formatter(dates.DateFormatter('%b-%y'))
     ax.xaxis.set_minor_locator(dates.DayLocator())
@@ -492,11 +508,9 @@ The actual value of the OBV is unimportant; concentrate on its direction. (sourc
 
 - During a trading range, if the OBV is falling, distribution may be taking place—a warning of a downward breakout.
 
-- When price continues to make higher peaks and OBV fails to make higher peaks, the upward trend is 
-likely to stall or fail. This is called a negative divergence.
+- When price continues to make higher peaks and OBV fails to make higher peaks, the upward trend is likely to stall or fail. This is called a negative divergence.
 
-- When price continues to make lower troughs and OBV fails to make lower troughs, the downward trend 
-is likely to stall or fail. This is called a positive divergence.
+- When price continues to make lower troughs and OBV fails to make lower troughs, the downward trend is likely to stall or fail. This is called a positive divergence.
 
 ### OBV calculation
 If today's close is greater than yesterday's close then: 
@@ -524,11 +538,142 @@ OBV~prev~ = previous on-balance volume level
 
 volume = Latest trading volume amount
 
+### Python - Naive approach
+
+```{python}
+#| warning: false
+#| eval: false
+def calc_obv(df): 
+	df = df.copy() 
+	df["OBV"] = 0.0 
+	for i in range(1, len(df)): 
+		if df["Close"][i] > df["Close"][i - 1]: 
+			df["OBV"][i] = df["OBV"][i-1] + df["Volume"][i] 
+		elif df["Close"][i] < df["Close"][i - 1]: 
+			df["OBV"][i] = df["OBV"][i-1] - df["Volume"][i] 
+		else: 
+			df["OBV"][i] = df["OBV"][i-1] 
+	return df
+
+calc_obv(pfe_df)
+```
+
+It takes  a while to complete. That is too long. Another approach would be to use numpy's `where` condition. Inserting the conditions needs some thinking and isn't obvious as seeing the mathematical formula. So we avoid `np.where` even though it is faster than naive python approach.
+
+### Preferred choice to calculate OBV - np.select
+
+The syntax of `np.select` is easy to understand - we specify the conditions list, their choices and a default value if the conditions aren't satisfied.
+
+```{python}
+np.select(condlist=[pfe_df.Close < 7.5, pfe_df.Close > 70],
+		  choicelist=[7.55, 72], default= 34)
+```
+
+So our code will be like so -
+
+```{python}
+(pfe_df
+ .assign(vol=np.select(condlist=[pfe_df.Close > pfe_df.Close.shift(1),
+ 								 pfe_df.Close == pfe_df.Close.shift(1),
+								 pfe_df.Close < pfe_df.Close.shift(1)],
+					   choicelist=[pfe_df.Volume, 0, -pfe_df.Volume]),
+		obv=lambda df_:df_.vol.cumsum()
+		)
+)
+```
+
+Putting this as function,
+
+```{python}
+def calc_obv(df, close_col="Close", vol_col="Volume"):
+	close = df[close_col]
+	vol = df[vol_col]
+	close_shift = close.shift(1)
+	return (df
+			 .assign(vol=np.select(condlist=[close > close.shift(1),
+ 								   close == close.shift(1),
+								   close < close.shift(1)],
+					   			  choicelist=[vol, 0, -vol]),
+					 obv=lambda df_:df_.vol.fillna(0).cumsum()
+					)
+			 ["obv"]
+	)
+
+(pfe_df
+	.assign(obv=calc_obv)
+	.obv
+	# .plot()
+)
+```
+
+
 ## Accumulation distribution indicator
+
+### What is A/D and why is it needed?
+A/D is an evolution of OBV to find the relationship between the price and volume flow of the stock. OBV, from its formula totally relies on the closing value and the volume is either added or substracted giving total bias either to the buyers or sellers. This is not realistic. So A/D brings proporation to the context. In other words it brings a multipler that ranges from `-1 to +1`. Realistically the value is between this range and therefore providing realistic volume flow.
+
+Formula for A/D is given by
+$$
+A\\/D = A\\/D_{prev} + (\text{money flow  multiplier} * \text{current volume})
+$$
+where Money flow multiplier and Current Volume is given by
+
+$MFM = \frac{(Close - Low) - (High - Close)}{(High - Low)}$
+$CV = \text{MFM} * \text{period volume}$
+
+### What does A/D indicate?
+It is a cumulative indicator that uses volume and price to assess whether a stock is accumulating or distributing.
+
+### Calculation
+
+```{python}
+(pfe_df
+ .assign(mfm=((pfe_df.Close-pfe_df.Low) - (pfe_df.High-pfe_df.Close)) / (pfe_df.High-pfe_df.Low),
+		 mfv=lambda df_:df_.mfm * df_.Volume,
+		 cmfv = lambda df_:df_.mfv.cumsum()
+		)
+)
+```
+
+Making it as a function,
+
+```{python}
+def calc_ad(df, close_col="Close",low_col="Low",high_col="High",vol_col="Volume"):
+	close = df[close_col]
+	low = df[low_col]
+	high = df[high_col]
+	vol = df[vol_col]
+	return (df
+	         .assign(mfm=((close-low) - (high-close))/ (high-low),
+			 		 mfv=lambda df_:df_.mfm * vol,
+					 cmfv=lambda df_:df_.mfv.cumsum()		
+					)  
+		     .cmfv
+		   )
+(pfe_df
+	.assign(ad=calc_ad)
+	.ad
+	# .plot()
+)
+```
+
+### Comparing OBV and AD
+
+```{python}
+(pfe_df
+	.assign(obv=calc_obv,
+			ad=calc_ad
+		   )
+	[["obv","ad"]]
+	.iloc[-650:]
+	.plot()
+
+)
+```
 
 ## RSI - Relative strength index
 
-
+WIP
 
 
 
