@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.146">
+<meta name="generator" content="quarto-1.4.151">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -101,7 +101,7 @@ cookieconsent.run({
 <meta property="og:title" content="Deepak Ramani’s blog - Deepak Ramani">
 <meta property="og:description" content="A collection of my technical blogs written on machine learning, data engineering, and data science.">
 <meta property="og:image" content="https://dr563105.github.io/profile.jpg">
-<meta property="og:site-name" content="Deepak Ramani's blog">
+<meta property="og:site_name" content="Deepak Ramani's blog">
 <meta name="twitter:title" content="Deepak Ramani’s blog - Deepak Ramani">
 <meta name="twitter:description" content="A collection of my technical blogs written on machine learning, data engineering, and data science.">
 <meta name="twitter:image" content="https://dr563105.github.io/profile.jpg">
@@ -501,7 +501,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
           const parser = new DOMParser();
           const htmlDoc = parser.parseFromString(html, "text/html");
           const note = htmlDoc.getElementById(id);
-          console.log(htmlDoc.body.innerHTML);
           if (note !== null) {
             const html = processXRef(id, note);
             instance.setContent(html);

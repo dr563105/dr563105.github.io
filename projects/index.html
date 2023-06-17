@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.146">
+<meta name="generator" content="quarto-1.4.151">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -135,7 +135,7 @@ cookieconsent.run({
 <meta property="og:title" content="Deepak Ramani’s blog - Projects">
 <meta property="og:description" content="Here are the list of personal projects I worked during my free time.">
 <meta property="og:image" content="https://user-images.githubusercontent.com/1483922/208359222-2b7e938e-27c4-4556-aacb-f5a81ce77b2d.png">
-<meta property="og:site-name" content="Deepak Ramani's blog">
+<meta property="og:site_name" content="Deepak Ramani's blog">
 <meta name="twitter:title" content="Deepak Ramani’s blog - Projects">
 <meta name="twitter:description" content="Here are the list of personal projects I worked during my free time.">
 <meta name="twitter:image" content="https://user-images.githubusercontent.com/1483922/208359222-2b7e938e-27c4-4556-aacb-f5a81ce77b2d.png">
@@ -244,7 +244,7 @@ Description
 </tr>
 </thead>
 <tbody class="list">
-<tr data-index="0" data-listing-date-sort="1662508800000" data-listing-file-modified-sort="1686662405798" data-listing-date-modified-sort="1684281600000" data-listing-reading-time-sort="1" data-listing-title-sort="mlops" data-listing-filename-sort="mlops.qmd">
+<tr data-index="0" data-listing-date-sort="1662508800000" data-listing-file-modified-sort="1687017441163" data-listing-date-modified-sort="1684281600000" data-listing-reading-time-sort="1" data-listing-title-sort="mlops" data-listing-filename-sort="mlops.qmd">
 <td>
 <a href="../projects/mlops.html" class="title listing-title">mlops</a>
 </td>
@@ -571,7 +571,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
           const parser = new DOMParser();
           const htmlDoc = parser.parseFromString(html, "text/html");
           const note = htmlDoc.getElementById(id);
-          console.log(htmlDoc.body.innerHTML);
           if (note !== null) {
             const html = processXRef(id, note);
             instance.setContent(html);
