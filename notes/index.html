@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.151">
+<meta name="generator" content="quarto-1.4.315">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -133,13 +133,11 @@ cookieconsent.run({
 
 <meta property="og:title" content="Deepak Ramani’s blog - 📚 Deepak’s Notes">
 <meta property="og:description" content="This is Deepak Ramani’s personal blog.">
-<meta property="og:image" content="https://user-images.githubusercontent.com/1483922/208359222-2b7e938e-27c4-4556-aacb-f5a81ce77b2d.png">
 <meta property="og:site_name" content="Deepak Ramani's blog">
 <meta name="twitter:title" content="Deepak Ramani’s blog - 📚 Deepak’s Notes">
 <meta name="twitter:description" content="This is Deepak Ramani’s personal blog.">
-<meta name="twitter:image" content="https://user-images.githubusercontent.com/1483922/208359222-2b7e938e-27c4-4556-aacb-f5a81ce77b2d.png">
 <meta name="twitter:creator" content="@thosegradients">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="floating nav-fixed">
@@ -155,22 +153,22 @@ cookieconsent.run({
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html" rel="" target="">
- <span class="menu-text">Home</span></a>
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../notes/index.html" rel="" target="" aria-current="page">
- <span class="menu-text">Notes</span></a>
+    <a class="nav-link active" href="../notes/index.html" aria-current="page"> 
+<span class="menu-text">Notes</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../resume.pdf" rel="" target="">
- <span class="menu-text">Resume</span></a>
+    <a class="nav-link" href="../resume.pdf"> 
+<span class="menu-text">Resume</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -239,7 +237,7 @@ Description
 </tr>
 </thead>
 <tbody class="list">
-<tr data-index="0" data-listing-date-sort="1683676800000" data-listing-file-modified-sort="1687017951078" data-listing-date-modified-sort="1686700800000" data-listing-reading-time-sort="13" data-listing-title-sort="Notes - LinkedIn course - Financial data analysis" data-listing-filename-sort="py_for_finance.qmd">
+<tr data-index="0" data-listing-date-sort="1683676800000" data-listing-file-modified-sort="1691866958861" data-listing-date-modified-sort="1686700800000" data-listing-reading-time-sort="13" data-listing-word-count-sort="2529" data-listing-title-sort="Notes - LinkedIn course - Financial data analysis" data-listing-filename-sort="py_for_finance.qmd">
 <td>
 <a href="../notes/py_for_finance.html" class="title listing-title">Notes - LinkedIn course - Financial data analysis</a>
 </td>
@@ -247,7 +245,7 @@ Description
 <span class="listing-description">Notes on data analysis on finance data</span>
 </td>
 </tr>
-<tr data-index="1" data-listing-date-sort="1662508800000" data-listing-file-modified-sort="1687017951078" data-listing-date-modified-sort="1680652800000" data-listing-reading-time-sort="9" data-listing-title-sort="Notes - Python concepts" data-listing-filename-sort="python_concepts.qmd">
+<tr data-index="1" data-listing-date-sort="1662508800000" data-listing-file-modified-sort="1691866958861" data-listing-date-modified-sort="1680652800000" data-listing-reading-time-sort="9" data-listing-word-count-sort="1692" data-listing-title-sort="Notes - Python concepts" data-listing-filename-sort="python_concepts.qmd">
 <td>
 <a href="../notes/python_concepts.html" class="title listing-title">Notes - Python concepts</a>
 </td>
@@ -534,6 +532,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
   const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
     if (id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
@@ -546,6 +554,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return note.innerHTML;
       }
     } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
       return note.innerHTML;
     }
   }
@@ -555,33 +568,39 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       instance.disable();
       let url = xref.getAttribute('href');
       let hash = undefined; 
-      try { hash = new URL(url).hash; } catch {}
-      const id = hash.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note !== null) {
-        try {
-          const html = processXRef(id, note);
-          instance.setContent(html);
-        } finally {
-          instance.enable();
-          instance.show();
-        }
+      if (url.startsWith('#')) {
+        hash = url;
       } else {
-        // See if we can fetch this
-        fetch(url.split('#')[0])
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.getElementById(id);
-          if (note !== null) {
-            const html = processXRef(id, note);
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
             instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
       }
     }, function(instance) {
     });
@@ -653,6 +672,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        console.log("RESIZE");
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -722,7 +768,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
 
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/dr563105/dr563105.github.io/blob/master/notes/index.qmd" class="toc-action">View source</a></p></div></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+<div class="toc-actions"><ul><li><a href="https://github.com/dr563105/dr563105.github.io/blob/master/notes/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">

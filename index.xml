@@ -9,7 +9,7 @@
 <link>https://dr563105.github.io/index.html</link>
 <atom:link href="https://dr563105.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>This is Deepak Ramani&#39;s personal blog.</description>
-<generator>quarto-1.4.151</generator>
+<generator>quarto-1.4.315</generator>
 <lastBuildDate>Tue, 13 Jun 2023 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Building Data Pipeline - Part 4 - CI/CD</title>
@@ -226,7 +226,7 @@ background-color: null;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> plan</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-3" class="code-annotation-target"><span class="at" style="color: #657422;
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-3" class="code-annotation-target"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -320,10 +320,12 @@ font-style: inherit;">|</span></span>
 <section id="deleting-the-infrastructure" class="level2">
 <h2 class="anchored" data-anchor-id="deleting-the-infrastructure">Deleting the infrastructure</h2>
 <p>If for some reason you wish to delete the resources created in the AWS Cloud, please follow these steps -</p>
-<ol type="1">
-<li><p>Goto <a href="infrastructure/main.tf">infrastructure’s main.tf</a> file. Comment out all the modules. Also comment out contents in <a href="infrastructure/outputs.tf">outputs.tf</a></p></li>
-<li><p>Then commit the changes, push, pull the request and merge the changes.</p></li>
-</ol>
+<dl>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="3" data-code-annotation="1">Goto <a href="infrastructure/main.tf">infrastructure’s main.tf</a> file. Comment out all the modules. Also comment out contents in <a href="infrastructure/outputs.tf">outputs.tf</a></span>
+</dd>
+</dl>
 <p>This should delete all the resources. Confirm with AWS Console.</p>
 <p>Alternatively we can use <code>terraform destroy</code> ourselves if we know which <code>tfstate</code> and <code>tfvars</code> were used.</p>
 <div class="code-with-filename">
@@ -355,15 +357,15 @@ font-style: inherit;">terraform destroy -var-file=vars/prod.tfvars</span></span>
 
 
 </section>
-<aside id="footnotes" class="footnotes footnotes-end-of-document">
-<hr>
+
+
+<div id="quarto-appendix" class="default"><aside id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
 <ol>
 <li id="fn1"><p>https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions#create-an-example-workflow↩︎</p></li>
 <li id="fn2"><p>https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-secrets↩︎</p></li>
 </ol>
-</aside>
-
- ]]></description>
+</aside></div> ]]></description>
   <category>CI/CD</category>
   <category>Github Actions</category>
   <category>Terraform</category>
@@ -949,10 +951,10 @@ font-style: inherit;">terraform {</span></span>
 <span id="annotated-cell-1-2"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">  backend "s3" {</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-3" class="code-annotation-target"><span class="at" style="color: #657422;
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-3" class="code-annotation-target"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">    bucket = "s3-for-terraform-state-mlops"</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-4" class="code-annotation-target"><span class="at" style="color: #657422;
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-4" class="code-annotation-target"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">    key = "mlops-grocery-sales_stg.tfstate2"</span></span>
 <span id="annotated-cell-1-5"><span class="at" style="color: #657422;
@@ -986,12 +988,16 @@ font-style: inherit;">}</span></span><div class="code-annotation-gutter-bg"></di
 <section id="modules" class="level1">
 <h1>Modules</h1>
 <p>In Terraform, each resource is called a module. In our case there are four modules.</p>
-<ol type="1">
-<li><p>ECR</p></li>
-<li><p>Lambda Function</p></li>
-<li><p>DynamoDB</p></li>
-<li><p>API Gateway</p></li>
-</ol>
+<dl>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="3" data-code-annotation="1">ECR</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="4" data-code-annotation="2">Lambda Function</span>
+</dd>
+</dl>
 <p>For our operation the data has to flow from module 1 to 4. Terraform has a <code>depends_on</code> meta-argument that allows the sequential flow ensuring correct flow order. This way we can write our modules in any order we want and Terraform will take care of the order of execution unlike Ansible.</p>
 <p>Just like many script language, Terraform starts with a <code>main.tf</code>(entrypoint) and whatever variables used in this file has to be defined in <code>variables.tf</code>. These files are present in the root folder usually.</p>
 <p>In the <code>main.tf</code> file, each module is defined. The modules are placed in separate directories. This way it is easier to manage several resources easily. The path to the module directory is given within each module in <code>main.tf</code> and the variable used by each module is also passed as arguments. For example, if <code>accound_id</code> is needed by the module, we can pass that value to the module.</p>
@@ -1335,16 +1341,16 @@ font-style: inherit;">resource "aws_dynamodb_table" "sales_preds_table_fromtf" {
 <span id="annotated-cell-6-2"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">  name = var.dynamodb_tablename</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-3" class="code-annotation-target"><span class="at" style="color: #657422;
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-3" class="code-annotation-target"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">  billing_mode = "PAY_PER_REQUEST"</span></span>
 <span id="annotated-cell-6-4"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">  table_class  = "STANDARD_INFREQUENT_ACCESS"</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-5" class="code-annotation-target"><span class="at" style="color: #657422;
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-5" class="code-annotation-target"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">  hash_key = var.dynamodb_hashkey</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3">3</button><span id="annotated-cell-6-6" class="code-annotation-target"><span class="at" style="color: #657422;
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3">3</button><button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3">3</button><span id="annotated-cell-6-6" class="code-annotation-target"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">  range_key = var.dynamodb_rangekey</span></span>
 <span id="annotated-cell-6-7"><span class="at" style="color: #657422;
@@ -1396,14 +1402,20 @@ font-style: inherit;">}</span></span><div class="code-annotation-gutter-bg"></di
 <section id="module-block-4---api-gateway" class="level2">
 <h2 class="anchored" data-anchor-id="module-block-4---api-gateway">Module block 4 - API Gateway</h2>
 <p>API Gateway management with Terraform follows all the steps we need manually in the console. The steps are -</p>
-<ol type="1">
-<li><p>Create rest api with resource <code>aws_api_gateway_rest_api</code></p></li>
-<li><p>Create gateway resource with <code>aws_api_gateway_resource</code> and give the endpoint path as <code>predict_sales</code>.</p></li>
-<li><p>Define the gateway method with <code>rest_api_post_method</code> as <code>POST</code>.</p></li>
-<li><p>Setup POST method’s reponse upon succesfull execution with a code <code>200</code>.</p></li>
-<li><p>Integrate and deploy the gateway with <code>aws_api_gateway_integration</code> and <code>aws_api_gateway_deployment</code> respectively.</p></li>
-<li><p>Stage the deployment with <code>rest_api_stage</code> and get the <code>invoke_url</code>. For this we can use the <code>output</code> block.</p></li>
-</ol>
+<dl>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="3" data-code-annotation="1">Create rest api with resource <code>aws_api_gateway_rest_api</code></span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="5" data-code-annotation="2">Create gateway resource with <code>aws_api_gateway_resource</code> and give the endpoint path as <code>predict_sales</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="6" data-code-annotation="3">Define the gateway method with <code>rest_api_post_method</code> as <code>POST</code>.</span>
+</dd>
+</dl>
 <div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">output "rest_api_url" {</span></span>
@@ -1413,9 +1425,8 @@ font-style: inherit;">  value = "${aws_api_gateway_deployment.sales_pred_deploym
 <span id="cb1-3"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">}</span></span></code></pre></div>
-<ol start="7" type="1">
-<li>Define IAM policy for rest api with <code>aws_api_gateway_rest_api_policy</code> and give access to API gateway to invoke the lambda function with <code>aws_lambda_permission</code>.</li>
-</ol>
+<dl>
+</dl>
 <section id="variables" class="level3">
 <h3 class="anchored" data-anchor-id="variables">Variables</h3>
 <p>In Terraform we can pass variable values in many ways. One of those ways is through <code>.tfvars</code> file. This file is exclusively for variables. These variable files are extremely helpful when we need different variable names for development, staging and production. The syntax for supplying the file is like so: <code>-var-file vars/stg.tfvars</code>.</p>
@@ -2765,15 +2776,15 @@ font-style: inherit;">python</span> test_docker_fn.py</span></code></pre></div>
 
 
 </section>
-<aside id="footnotes" class="footnotes footnotes-end-of-document">
-<hr>
+
+
+<div id="quarto-appendix" class="default"><aside id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
 <ol>
 <li id="fn1"><p>https://aws.amazon.com/lambda/features/↩︎</p></li>
 <li id="fn2"><p>https://docs.aws.amazon.com/lambda/latest/dg/python-handler.html↩︎</p></li>
 </ol>
-</aside>
-
- ]]></description>
+</aside></div> ]]></description>
   <category>docker</category>
   <category>pipenv</category>
   <category>lambda_function</category>
@@ -2903,7 +2914,7 @@ font-style: inherit;">as</span> zipfile:</span>
 <span id="annotated-cell-1-18">        zipfile.extract(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"lgb_preds.parquet"</span>)</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-19" class="code-annotation-target">    df_test_preds <span class="op" style="color: #5E5E5E;
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-19" class="code-annotation-target">    df_test_preds <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> read_parquet_files(<span class="st" style="color: #20794D;
 background-color: null;
@@ -2915,7 +2926,7 @@ font-style: inherit;">=</span> read_parquet_files(<span class="st" style="color:
 background-color: null;
 font-style: inherit;">"items.parquet"</span>)</span>
 <span id="annotated-cell-1-22"></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-23" class="code-annotation-target">app <span class="op" style="color: #5E5E5E;
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-23" class="code-annotation-target">app <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> Flask(<span class="st" style="color: #20794D;
 background-color: null;
@@ -2988,7 +2999,7 @@ background-color: null;
 font-style: inherit;">2</span>))</span>
 <span id="annotated-cell-1-40"></span>
 <span id="annotated-cell-1-41"></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-42" class="code-annotation-target"><span class="at" style="color: #657422;
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-42" class="code-annotation-target"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">@app.route</span>(<span class="st" style="color: #20794D;
 background-color: null;
@@ -3055,7 +3066,7 @@ background-color: null;
 font-style: inherit;">"Unit_sales"</span>: pred_unit_sales,</span>
 <span id="annotated-cell-1-57">    }</span>
 <span id="annotated-cell-1-58"></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><span id="annotated-cell-1-59" class="code-annotation-target">    <span class="cf" style="color: #003B4F;
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><span id="annotated-cell-1-59" class="code-annotation-target">    <span class="cf" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">return</span> jsonify(result)</span>
 <span id="annotated-cell-1-60"></span>
@@ -3110,12 +3121,24 @@ font-style: inherit;">9696</span>)</span><div class="code-annotation-gutter-bg">
 <section id="dependencies-install" class="level2">
 <h2 class="anchored" data-anchor-id="dependencies-install">Dependencies install</h2>
 <p>There are number of options available for us:</p>
-<ol type="1">
-<li><p>Use <code>pip</code> and <code>requirements.txt</code>. But tracking package versions might get tedious.</p></li>
-<li><p>Use <code>Anaconda/Miniconda</code>. For local machine they’re fine but for docker container?they install so many unnecessary libraries making container huge in size.</p></li>
-<li><p>Use <code>Poetry</code>. This one is developed to deliver packages. But still it includes libraries unnecessary to us.</p></li>
-<li><p>Use <code>Pipenv</code>. It is much smaller, easy to write and use. Hence I will choose this.</p></li>
-</ol>
+<dl>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="19" data-code-annotation="1">Use <code>pip</code> and <code>requirements.txt</code>. But tracking package versions might get tedious.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="23" data-code-annotation="2">Use <code>Anaconda/Miniconda</code>. For local machine they’re fine but for docker container?they install so many unnecessary libraries making container huge in size.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="42" data-code-annotation="3">Use <code>Poetry</code>. This one is developed to deliver packages. But still it includes libraries unnecessary to us.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="59" data-code-annotation="4">Use <code>Pipenv</code>. It is much smaller, easy to write and use. Hence I will choose this.</span>
+</dd>
+</dl>
 </section>
 <section id="pipenv-pipfile-and-pipfile.lock" class="level2">
 <h2 class="anchored" data-anchor-id="pipenv-pipfile-and-pipfile.lock">Pipenv, Pipfile and Pipfile.lock</h2>
@@ -4822,14 +4845,14 @@ Important
 
 
 </section>
-<aside id="footnotes" class="footnotes footnotes-end-of-document">
-<hr>
+
+
+<div id="quarto-appendix" class="default"><aside id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
 <ol>
 <li id="fn1"><p>In the nvim command line, run <code>:echo v:servername</code> to know the name of the server↩︎</p></li>
 </ol>
-</aside>
-
- ]]></description>
+</aside></div> ]]></description>
   <category>skim</category>
   <category>vimtex</category>
   <category>neovim</category>
@@ -7265,15 +7288,15 @@ font-style: inherit;">=</span> json.loads(requests.get(URL).text)</span>
 
 
 </section>
-<aside id="footnotes" class="footnotes footnotes-end-of-document">
-<hr>
+
+
+<div id="quarto-appendix" class="default"><aside id="footnotes" class="footnotes footnotes-end-of-document"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
 <ol>
 <li id="fn1"><p>B. Chen, https://towardsdatascience.com/all-pandas-json-normalize-you-should-know-for-flattening-json-13eae1dfb7dd↩︎</p></li>
 <li id="fn2"><p>Pandas documentation, https://pandas.pydata.org/pandas-docs/version/1.2.0/reference/api/pandas.json_normalize.html↩︎</p></li>
 </ol>
-</aside>
-
- ]]></description>
+</aside></div> ]]></description>
   <category>pandas</category>
   <category>json</category>
   <category>jupyter</category>
