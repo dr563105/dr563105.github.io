@@ -24,11 +24,11 @@ about:
       href: https://www.buymeacoffee.com/dr563105
       aria-label: Buy Me a Coffee
 ---
-Hello, I'm Deepak! I am a passionate software engineer with a strong interest in data engineering, DevOps, and machine learning. I thrive on tackling complex problems and finding innovative solutions through collaborative teamwork. I spend my free time learning new tools and technologies. Currently learning "effective Pandas" and Kubeflow.
+Hello, I'm Deepak! I am a passionate software engineer with a strong interest in data engineering, DevOps, and machine learning. I thrive on tackling complex problems and finding innovative solutions through collaborative teamwork. I spend my free time learning new tools and technologies. Currently, learning "effective Pandas", developing analysis dashboards.
 
 With a background in software engineering I am driven by a desire to leverage the power of data to drive impactful results. During my master's thesis, I developed an end-to-end system with a focus on implementing simpler CNN model architectures to achieve comparable performance to the latest models. This experience allowed me to deepen my understanding of data collection, preprocessing, and the fusion techniques necessary for night-time driving and collision avoidance.
 
-I am an enthusiastic learner who stays up-to-date with the latest industry trends and technologies. My strong problem-solving skills, combined with my passion for teamwork, enable me to contribute to challenging projects and deliver high-quality results. I am now seeking new opportunities in Germany to apply my skills and knowledge in data engineering, DevOps, and machine learning, making a meaningful impact within a dynamic organization. 
+I am an enthusiastic learner who stays up-to-date with the latest industry trends and technologies. My strong problem-solving skills, combined with my passion for teamwork, enable me to contribute to challenging projects and deliver high-quality results. I am now seeking new opportunities to apply my skills and knowledge in data engineering, DevOps, and machine learning, making a meaningful impact within a dynamic organization. 
 
 Feel free to connect with me to explore collaboration opportunities, share insights, or discuss exciting projects in these fields. Let's embark on this journey together to drive innovation and solve complex problems.
 

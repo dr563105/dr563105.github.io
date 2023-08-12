@@ -5,4 +5,4 @@ listing:
   type: table
   sort-ui: false
   filter-ui: false
-  max-description-length: 50
+  max-description-length: 500
