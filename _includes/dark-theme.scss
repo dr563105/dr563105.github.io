@@ -39,10 +39,9 @@ p {
     color: #e08362dd
 }
 
-//dark-theme title colour
-#title-block-header.quarto-title-block.default .quarto-title .title {
-    color: brown;
-}
+.title{
+    color: #ab8339;
+ }
 
 //toc sidebar link colour when active
 .sidebar nav[role=doc-toc] ul>li>a.active,.sidebar nav[role=doc-toc] ul>li>ul>li>a.active {
@@ -73,13 +72,12 @@ background-color: #0b0a02;
 
 //quarto categories colours
 .quarto-title .quarto-categories .quarto-category {
-  color: brown;
-  opacity: 0.7;
-  font-family: "Fira Code", monospace;
+    color: #0e143d;
+    font-family: "Fira Code",monospace;
 }
 
 a.nav-link {
-    color: #959347;
+    color: #0d4865;
 }
 
 a.nav-link::before{
@@ -108,4 +106,6 @@ a.nav-link:hover::after {
     color: $cream;
 }
 
-
+.nav-footer p{
+    font-size: 13px
+}

@@ -60,10 +60,10 @@ p {
 }
 
 //quarto categories colours
+
 .quarto-title .quarto-categories .quarto-category {
-  color: brown;
-  opacity: 0.7;
-  font-family: "Fira Code", monospace;
+    color: #0e143d;
+    font-family: "Fira Code",monospace;
 }
 
 // underline hover effect
@@ -123,4 +123,8 @@ a.nav-link:hover::after {
 
 .nav-tabs {
     border-bottom: 1px solid #aa0f42;
+}
+
+.nav-footer p{
+    font-size: 13px
 }
