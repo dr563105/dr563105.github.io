@@ -2,7 +2,7 @@
 date: "2022-09-07"
 date-modified: "2023-04-05"
 toc: true
-title: Notes - Python concepts
+title: Python concepts
 description: Notes on some of Python concepts
 ---
 These are some of my notes on python concepts I gathered from various sources. 

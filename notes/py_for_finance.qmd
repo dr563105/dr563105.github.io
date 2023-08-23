@@ -3,7 +3,7 @@ date: "2023-05-10"
 author: "Deepak Ramani"
 date-modified: "2023-06-14"
 toc: true
-title: "Notes - LinkedIn course - Financial data analysis"
+title: "LinkedIn course - Financial data analysis"
 description: "Notes on data analysis on finance data"
 format: 
  html:
