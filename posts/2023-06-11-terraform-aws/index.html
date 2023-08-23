@@ -291,8 +291,8 @@ cookieconsent.run({
 <p>Terraform stores its states in a file called <code>.tfstate</code>. This file can be local or in cloud. We will use a <code>S3</code> bucket for it. Since this is a file that has to be placed in this bucket, the bucket has to be manually created by us. Use the console and create a <code>S3</code> bucket with a unique name such as <code>s3-for-terraform-state-mlops</code>.</p>
 <div class="sourceCode" id="annotated-cell-1"><pre class="sourceCode yaml code-annotation-code code-with-copy code-annotated"><code class="sourceCode yaml"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="at">terraform {</span></span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="at">  backend "s3" {</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-3" class="code-annotation-target"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="at">    bucket = "s3-for-terraform-state-mlops"</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-4" class="code-annotation-target"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="at">    key = "mlops-grocery-sales_stg.tfstate2"</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-3" class="code-annotation-target"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="at">    bucket = "s3-for-terraform-state-mlops"</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-4" class="code-annotation-target"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="at">    key = "mlops-grocery-sales_stg.tfstate2"</span></span>
 <span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a><span class="at">    region = "us-east-1"</span></span>
 <span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a><span class="at">    encrypt = true</span></span>
 <span id="annotated-cell-1-7"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a><span class="at">  }</span></span>
@@ -316,16 +316,10 @@ cookieconsent.run({
 <section id="modules" class="level1">
 <h1>Modules</h1>
 <p>In Terraform, each resource is called a module. In our case there are four modules.</p>
-<dl>
-<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="3" data-code-annotation="1">ECR</span>
-</dd>
-<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
-<dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="4" data-code-annotation="2">Lambda Function</span>
-</dd>
-</dl>
+<p>(1). ECR</p>
+<p>(2). Lambda Function</p>
+<p>(3). DynamoDB</p>
+<p>(4). API Gateway</p>
 <p>For our operation the data has to flow from module 1 to 4. Terraform has a <code>depends_on</code> meta-argument that allows the sequential flow ensuring correct flow order. This way we can write our modules in any order we want and Terraform will take care of the order of execution unlike Ansible.</p>
 <p>Just like many script language, Terraform starts with a <code>main.tf</code>(entrypoint) and whatever variables used in this file has to be defined in <code>variables.tf</code>. These files are present in the root folder usually.</p>
 <p>In the <code>main.tf</code> file, each module is defined. The modules are placed in separate directories. This way it is easier to manage several resources easily. The path to the module directory is given within each module in <code>main.tf</code> and the variable used by each module is also passed as arguments. For example, if <code>accound_id</code> is needed by the module, we can pass that value to the module.</p>
@@ -477,10 +471,10 @@ cookieconsent.run({
 <p>Similar to the previous two blocks, dynamodb module is called with necessary arguments.</p>
 <div class="sourceCode" id="annotated-cell-6"><pre class="sourceCode yaml code-annotation-code code-with-copy code-annotated"><code class="sourceCode yaml"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="at">resource "aws_dynamodb_table" "sales_preds_table_fromtf" {</span></span>
 <span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a><span class="at">  name = var.dynamodb_tablename</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-3" class="code-annotation-target"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a><span class="at">  billing_mode = "PAY_PER_REQUEST"</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-3" class="code-annotation-target"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a><span class="at">  billing_mode = "PAY_PER_REQUEST"</span></span>
 <span id="annotated-cell-6-4"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a><span class="at">  table_class  = "STANDARD_INFREQUENT_ACCESS"</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-5" class="code-annotation-target"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a><span class="at">  hash_key = var.dynamodb_hashkey</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3">3</button><button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3">3</button><span id="annotated-cell-6-6" class="code-annotation-target"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a><span class="at">  range_key = var.dynamodb_rangekey</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-5" class="code-annotation-target"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a><span class="at">  hash_key = var.dynamodb_hashkey</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3">3</button><span id="annotated-cell-6-6" class="code-annotation-target"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a><span class="at">  range_key = var.dynamodb_rangekey</span></span>
 <span id="annotated-cell-6-7"><a href="#annotated-cell-6-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span></span>
 <span id="annotated-cell-6-8"><a href="#annotated-cell-6-8" aria-hidden="true" tabindex="-1"></a><span class="at">  attribute {</span></span>
 <span id="annotated-cell-6-9"><a href="#annotated-cell-6-9" aria-hidden="true" tabindex="-1"></a><span class="at">    name = var.dynamodb_hash_key</span></span>
@@ -510,25 +504,16 @@ cookieconsent.run({
 <section id="module-block-4---api-gateway" class="level2">
 <h2 class="anchored" data-anchor-id="module-block-4---api-gateway">Module block 4 - API Gateway</h2>
 <p>API Gateway management with Terraform follows all the steps we need manually in the console. The steps are -</p>
-<dl>
-<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="3" data-code-annotation="1">Create rest api with resource <code>aws_api_gateway_rest_api</code></span>
-</dd>
-<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
-<dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="5" data-code-annotation="2">Create gateway resource with <code>aws_api_gateway_resource</code> and give the endpoint path as <code>predict_sales</code>.</span>
-</dd>
-<dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
-<dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="6" data-code-annotation="3">Define the gateway method with <code>rest_api_post_method</code> as <code>POST</code>.</span>
-</dd>
-</dl>
+<p>(1). Create rest api with resource <code>aws_api_gateway_rest_api</code></p>
+<p>(2). Create gateway resource with <code>aws_api_gateway_resource</code> and give the endpoint path as <code>predict_sales</code>.</p>
+<p>(3). Define the gateway method with <code>rest_api_post_method</code> as <code>POST</code>.</p>
+<p>(4). Setup POST method’s reponse upon succesfull execution with a code <code>200</code>.</p>
+<p>(5). Integrate and deploy the gateway with <code>aws_api_gateway_integration</code> and <code>aws_api_gateway_deployment</code> respectively.</p>
+<p>(6). Stage the deployment with <code>rest_api_stage</code> and get the <code>invoke_url</code>. For this we can use the <code>output</code> block.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="at">output "rest_api_url" {</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="at">  value = "${aws_api_gateway_deployment.sales_pred_deployment.invoke_url}${aws_api_gateway_stage.rest_api_stage.stage_name}${aws_api_gateway_resource.rest_api_predict_resource.path}"</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="at">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<dl>
-</dl>
+<p>(7). Define IAM policy for rest api with <code>aws_api_gateway_rest_api_policy</code> and give access to API gateway to invoke the lambda function with <code>aws_lambda_permission</code>.</p>
 <section id="variables" class="level3">
 <h3 class="anchored" data-anchor-id="variables">Variables</h3>
 <p>In Terraform we can pass variable values in many ways. One of those ways is through <code>.tfvars</code> file. This file is exclusively for variables. These variable files are extremely helpful when we need different variable names for development, staging and production. The syntax for supplying the file is like so: <code>-var-file vars/stg.tfvars</code>.</p>
