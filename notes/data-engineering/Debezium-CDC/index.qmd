@@ -90,7 +90,7 @@ The `schema` is not to be confused with DB `schema`. This schema describes the d
 
 The change event data stream payload looks something like this - 
 
-```{.yaml filename="change event data stream"}
+```{.json filename="change event data stream"}
 {
   "value":{
     "before":null,
@@ -122,8 +122,8 @@ The change event data stream payload looks something like this -
 ```
 
 This is for inserting an data entry. For an update the stream looks like -
-<!--# Quarto note - Using .yaml is just for syntax highlighting as {.json} doesn't recognise code annotations.-->
-```{.yaml}  
+
+```{.json}  
 {
   "value":{
     "before":{
@@ -149,7 +149,7 @@ This is for inserting an data entry. For an update the stream looks like -
       "schema":"commerce",
       "table":"products",
       "txId":854,
-      "lsn":23399456, # <1>
+      "lsn":23399456, // <1>
       "xmin":null
     },
     "op":"u",
@@ -178,21 +178,21 @@ Create Debezium user with minimum privielges to avoid security breaches.
 
 ## Postgres source connector config
 
-```{.yaml filename="pg-src-connector.json"}
+```{.json filename="pg-src-connector.json"}
 {
     "name": "pg-src-connector",
     "config": {
-        "connector.class": "io.debezium.connector.postgresql.PostgresConnector", # <1>
+        "connector.class": "io.debezium.connector.postgresql.PostgresConnector", // <1>
         "tasks.max": "1",
-        "database.hostname": "postgres", # <2>
-        "database.port": "5432", # <2>
-        "database.user": "postgres", # <2>
-        "database.password": "postgres", # <2>
-        "database.dbname": "postgres", # <2>
-        "database.server.name": "postgres", # <2>
-        "database.include.list": "postgres", # <2>
-        "topic.prefix": "debezium", # <3>
-        "schema.include.list": "commerce" # <4>
+        "database.hostname": "postgres", // <2>
+        "database.port": "5432", // <2>
+        "database.user": "postgres", // <2>
+        "database.password": "postgres", // <2>
+        "database.dbname": "postgres", // <2>
+        "database.server.name": "postgres", // <2>
+        "database.include.list": "postgres", // <2>
+        "topic.prefix": "debezium", // <3>
+        "schema.include.list": "commerce" // <4>
     }
 }
 ```
