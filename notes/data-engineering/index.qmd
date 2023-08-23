@@ -1,0 +1,12 @@
+---
+id: notes
+title: Data Engineering concepts/tools notes
+search: false
+metadata-files: ["../_listing_meta.yml"]
+listing:
+  contents: 
+   - "/*.qmd"
+   - "/*/index.qmd"
+# draft: true
+---
+Notes on various concepts, tools, techniques using in constructing data pipelines.
