@@ -1,0 +1,157 @@
+---
+title: "Storing secrets in JSON files"
+description: "a short post on showing how to use secrets in JSON files"
+date: "2023-09-30"
+author: "Deepak Ramani"
+format: 
+ html:
+    code-annotations: hover
+    code-overflow: wrap
+categories: ["json", "secrets", "env variables", "shell", "bash"]
+---
+
+# Introduction
+
+Unlike other file formats it is only possible to hardcode sensitive information in JSON files. In this post I explore one of the two ways we can eliminate hardcoded secrets inside JSON. 
+
+Here is how a `JSON` configuration file looks like:
+
+```{.json filename="pg-src-connections.json"}
+{
+    "name": "pg-src-connector",
+    "config": {
+        "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+        "tasks.max": "1",
+        "database.hostname": "postgres",
+        "database.port": "5432",
+        "database.user": "postgres",
+        "database.password": "postgres",
+        "database.dbname": "db",
+        "database.server.name": "postgres",
+        "database.include.list": "postgres",
+        "topic.prefix": "debezium",
+        "schema.include.list": "commerce"
+    }
+}
+```
+
+`database.user`, `database.password` and `database.dbname` are exposed to others when the author commits this file to a code repository. Anyone with access to the system can use these credentials to enter into the database. This is potentially a security risk considering this JSON object file will be sent as `POST` request.
+
+If proper API security protocols aren't followed, there are possibilites of *sensitive data exposure*, *injection attacks*, *session data hijack* etc. To prevent potential security breach, we've to exercise caution whenever there is login credentials involved.
+
+Another example is with a connector connecting Kafka to AWS S3 storage. 
+
+```{.json filename="s3-sink.json"}
+{
+    "name": "s3-sink",
+    "config": {
+        "connector.class": "io.aiven.kafka.connect.s3.AivenKafkaConnectS3SinkConnector",
+        "aws.access.key.id": "<replace with key id>",
+        "aws.secret.access.key": "<replace with secret access key>",
+        "aws.s3.bucket.name": "<replace bucket name>",
+        "aws.s3.endpoint": "<insert endpoint>",
+        "aws.s3.region": "us-east-1",
+        "format.output.type": "jsonl",
+        "topics": "debezium.commerce.users,debezium.commerce.products",
+        "file.compression.type": "none",
+        "flush.size": "20",
+        "file.name.template": "/{{topic}}/{{timestamp:unit=yyyy}}-{{timestamp:unit=MM}}-{{timestamp:unit=dd}}/{{timestamp:unit=HH}}/{{partition:padding=true}}-{{start_offset:padding=true}}.json"
+    }
+}
+```
+
+The configuration contains properties for `aws.access.key.id` and `aws.secret.access.key`. 
+Imagine if we hardcode those values into file that has approved access to several AWS services including programmatic access. What would happen if we're to push this file into a repository that allows a greater number of people to view the file? I leave the next possibly horrorifying consequences for you to decide. 
+
+# Methods used
+(i) - Putting `config.json` as `data` argument in a `curl` command and placing that command inside a shell script.
+(ii) - Using secrets `properties` file which is accessed by `config.json` file. 
+
+:::{.callout-note}
+I couldn't get the second method to work and hence only the first solution is explored. When I figure out the second, I will add it in.
+:::
+
+# Using JSON directly in CURL
+
+In most of the modern data pipelines, using HTTP/s REST API requests are common. These requests: `POST`, `GET`, `PUT` and `DELETE` are sent usually with JSON objects as data in request's `body` field. There are REST API client available to make our task easier but as always there is good old `CURL` command.
+
+If we want to send `s3-sink.json` as payload, the curl command will look like this:
+
+`curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d '@./s3-sink.json'`
+
+We already discussed the disadvantages of sending payload like that. What if we expand/unpack `'@./s3-sink.json'`? It would look like this:
+
+```{.bash filename="CURL command with unpacked JSON as data payload"}
+curl --include --request POST --header "Accept:application/json" \
+    --header "Content-Type:application/json" \
+    --url localhost:8083/connectors/ \
+    --data '{
+        "name": "s3-sink",
+        "config": {
+            "connector.class": "io.aiven.kafka.connect.s3.AivenKafkaConnectS3SinkConnector",
+            "aws.access.key.id": "< >",
+            "aws.secret.access.key": "< >",
+            "aws.s3.bucket.name": "< >",
+            "aws.s3.endpoint": "< >",
+            "aws.s3.region": "us-east-1",
+            "format.output.type": "jsonl",
+            "topics": "debezium.commerce.users,debezium.commerce.products",
+            "file.compression.type": "none",
+            "flush.size": "20",
+            "file.name.template": "/{{topic}}/{{timestamp:unit=yyyy}}-{{timestamp:unit=MM}}-{{timestamp:unit=dd}}/{{timestamp:unit=HH}}/{{partition:padding=true}}-{{start_offset:padding=true}}.json"
+        }
+    }'
+
+```
+
+Any Unix command allows environment variable to imported into the command which gets replaced at runtime. 
+
+If our `env` variables are supplied with values in the shell terminal prior to sending the CURL `POST` request, the command will replace the placeholder with necessary values at runtime.
+
+Let us see that in action.
+
+```{.bash filename="env variable in shell terminal"}
+export POSTGRES_USER=postgres
+export POSTGRES_PASSWORD=postgres
+export POSTGRES_DB=cdc-demo-db
+export POSTGRES_HOST=postgres
+export AWS_KEY_ID=minio
+export AWS_SECRET_KEY=minio123
+export AWS_BUCKET_NAME=commerce
+```
+
+To use env variables in JSON, the variables are placed inside the quotes in a unique way -- `"'"${AWS_SECRET_KEY}"'"`. 
+
+The order is important. The variable `${AWS_SECRET_KEY}` is first encased in double `"`, followed by single `'` and then ended with double `"` quotes.
+
+This way the placeholder env variables are replaced with actual values at runtime.
+
+```{.bash filename="curl command with masked JSON file"}
+curl --include --request POST --header "Accept:application/json" \
+    --header "Content-Type:application/json" \
+    --url localhost:8083/connectors/ \
+    --data '{
+        "name": "s3-sink",
+        "config": {
+            "connector.class": "io.aiven.kafka.connect.s3.AivenKafkaConnectS3SinkConnector",
+            "aws.access.key.id": "'"${AWS_KEY_ID}"'",
+            "aws.secret.access.key": "'"${AWS_SECRET_KEY}"'",
+            "aws.s3.bucket.name": "'"${AWS_BUCKET_NAME}"'",
+            "aws.s3.endpoint": "http://minio:9000",
+            "aws.s3.region": "us-east-1",
+            "format.output.type": "jsonl",
+            "topics": "debezium.commerce.users,debezium.commerce.products",
+            "file.compression.type": "none",
+            "flush.size": "20",
+            "file.name.template": "/{{topic}}/{{timestamp:unit=yyyy}}-{{timestamp:unit=MM}}-{{timestamp:unit=dd}}/{{timestamp:unit=HH}}/{{partition:padding=true}}-{{start_offset:padding=true}}.json"
+        }
+    }'
+```
+
+This command can be put into a shell script and the script can be used to execute multiple REST API requests securely.
+
+There you have it. A method that allows sensitive variables to masked in JSON payload.
+
+# Conclusion
+
+We saw how unpacking a JSON configuration file and using it in CURL command helps avert some of the basic security breaches. 
