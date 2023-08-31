@@ -1,16 +1,26 @@
 [
   {
-    "listing": "/notes/data-engineering/index.html",
+    "listing": "/index.html",
     "items": [
-      "/notes/data-engineering/Debezium-CDC/index.html"
+      "/posts/2023-08-29-cdc-debezium-kafka-pg/index.html",
+      "/posts/2023-06-13-Github-Actions-CI-CD-TF/index.html",
+      "/posts/2023-06-12-Attach-iam-policy-to-roles/index.html",
+      "/posts/2023-06-11-terraform-aws/index.html",
+      "/posts/2023-06-04-api-lambda-ecr/index.html",
+      "/posts/2023-06-03-lambda-docker/index.html",
+      "/posts/2023-06-03-deploy-with-docker/index.html",
+      "/posts/2023-06-02-Terraform-setup/index.html",
+      "/posts/2023-04-27-getting-started-with-s3/index.html",
+      "/posts/2023-02-06-skim-vimtex/index.html",
+      "/posts/2022-09-24-using-json-normalize/index.html",
+      "/posts/2022-01-09-dotfiles/index.html",
+      "/posts/2021-09-18-kaggle-setup/index.html"
     ]
   },
   {
-    "listing": "/notes/index.html",
+    "listing": "/projects/index.html",
     "items": [
-      "/notes/data-engineering/index.html",
-      "/notes/py_for_finance.html",
-      "/notes/python_concepts.html"
+      "/projects/mlops.html"
     ]
   },
   {
@@ -18,6 +28,7 @@
     "items": [
       "/notes/data-engineering/index.html",
       "/notes/index.html",
+      "/posts/2023-08-29-cdc-debezium-kafka-pg/index.html",
       "/notes/data-engineering/Debezium-CDC/index.html",
       "/posts/2023-06-13-Github-Actions-CI-CD-TF/index.html",
       "/posts/2023-06-12-Attach-iam-policy-to-roles/index.html",
@@ -36,26 +47,17 @@
     ]
   },
   {
-    "listing": "/projects/index.html",
+    "listing": "/notes/index.html",
     "items": [
-      "/projects/mlops.html"
+      "/notes/data-engineering/index.html",
+      "/notes/py_for_finance.html",
+      "/notes/python_concepts.html"
     ]
   },
   {
-    "listing": "/index.html",
+    "listing": "/notes/data-engineering/index.html",
     "items": [
-      "/posts/2023-06-13-Github-Actions-CI-CD-TF/index.html",
-      "/posts/2023-06-12-Attach-iam-policy-to-roles/index.html",
-      "/posts/2023-06-11-terraform-aws/index.html",
-      "/posts/2023-06-04-api-lambda-ecr/index.html",
-      "/posts/2023-06-03-lambda-docker/index.html",
-      "/posts/2023-06-03-deploy-with-docker/index.html",
-      "/posts/2023-06-02-Terraform-setup/index.html",
-      "/posts/2023-04-27-getting-started-with-s3/index.html",
-      "/posts/2023-02-06-skim-vimtex/index.html",
-      "/posts/2022-09-24-using-json-normalize/index.html",
-      "/posts/2022-01-09-dotfiles/index.html",
-      "/posts/2021-09-18-kaggle-setup/index.html"
+      "/notes/data-engineering/Debezium-CDC/index.html"
     ]
   }
 ]

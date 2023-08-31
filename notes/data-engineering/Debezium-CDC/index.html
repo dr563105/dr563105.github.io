@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.330">
+<meta name="generator" content="quarto-1.4.339">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -236,6 +236,7 @@ cookieconsent.run({
   <li><a href="#setting-up-permissions" id="toc-setting-up-permissions" class="nav-link" data-scroll-target="#setting-up-permissions">Setting up permissions</a></li>
   <li><a href="#postgres-source-connector-config" id="toc-postgres-source-connector-config" class="nav-link" data-scroll-target="#postgres-source-connector-config">Postgres source connector config</a></li>
   <li><a href="#postgresql-on-aws-rds" id="toc-postgresql-on-aws-rds" class="nav-link" data-scroll-target="#postgresql-on-aws-rds">Postgresql on AWS RDS</a></li>
+  <li><a href="#common-issue-with-decimal-data-types" id="toc-common-issue-with-decimal-data-types" class="nav-link" data-scroll-target="#common-issue-with-decimal-data-types">Common issue with Decimal data types</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/dr563105/dr563105.github.io/blob/master/notes/data-engineering/Debezium-CDC/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
@@ -463,6 +464,13 @@ cookieconsent.run({
 <section id="postgresql-on-aws-rds" class="level2">
 <h2 class="anchored" data-anchor-id="postgresql-on-aws-rds">Postgresql on AWS RDS</h2>
 <p>Using this <a href="https://debezium.io/documentation/reference/stable/connectors/postgresql.html#postgresql-on-amazon-rds">link</a>.</p>
+</section>
+<section id="common-issue-with-decimal-data-types" class="level2">
+<h2 class="anchored" data-anchor-id="common-issue-with-decimal-data-types">Common issue with Decimal data types</h2>
+<p>Debezium that uses Kafka connect serialises decimal values for Kafka connect to understand. That means Debezium, converts to BigDecimal binary and encodes in Base64. At the output or downstream, onus is on the user to decode and convert back to the original value.</p>
+<p>So, a decimal or numeric data type at the source, will become something like <code>eA==</code> as it passes through Debezium and reaches Kafka topic.</p>
+<p>A possible solution is to use <code>REAL</code> data type in SQL. However, this might not be possible in many real-life scenarios. Hence, a property <code>decimal.handling.mode</code> in connector can be set to either <code>string</code> or <code>double</code>. In <code>string</code> case, proper de-serialiser has to be implemented at the receiver. With <code>double</code> precision is sometimes lost.</p>
+<p>It is quite a conundrum. Read more on this issue and solution <a href="https://debezium.io/documentation/faq/#how_to_retrieve_decimal_field_from_binary_representation">here</a>, <a href="https://stackoverflow.com/a/52108339/13539744">here</a> and <a href="https://stackoverflow.com/a/61097703/13539744">here</a>.</p>
 
 
 </section>

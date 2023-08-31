@@ -9,8 +9,1997 @@
 <link>https://dr563105.github.io/index.html</link>
 <atom:link href="https://dr563105.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>This is Deepak Ramani&#39;s personal blog.</description>
-<generator>quarto-1.4.330</generator>
-<lastBuildDate>Tue, 13 Jun 2023 00:00:00 GMT</lastBuildDate>
+<generator>quarto-1.4.339</generator>
+<lastBuildDate>Tue, 29 Aug 2023 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Change Data Capture with Debezium, Kafka, S3</title>
+  <dc:creator>Deepak Ramani</dc:creator>
+  <link>https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/index.html</link>
+  <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
+
+
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p><strong>Change Data Capture</strong>(CDC) is a mechanism in which every change committed to a row in a table is captured and sent to downstream applications. This CDC post answers some of the questions:</p>
+<blockquote class="blockquote">
+<p>How to transfer change data from source database downstream through Kafka?</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>How does Debezium help with CDC?</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>How to ingest data from Kafka topics into a warehouse for analytics?</p>
+</blockquote>
+<p>We will use a simple CDC project to explore the data pipeline to get data from upstream to downstream consumers.</p>
+<p><strong>Full disclosure</strong> - this post and project is inspired from Start Data Engineering’s <a href="https://www.startdataengineering.com/post/change-data-capture-using-debezium-kafka-and-pg/">blog post</a>. I highly recommend reading his posts. It is highly informative. Although, I use his template, the data, data pipeline setup, this blog post are entirely my work.</p>
+</section>
+<section id="what-is-cdc-and-why-is-it-needed" class="level1">
+<h1>What is CDC and why is it needed?</h1>
+<p>CDC is a process of capturing all the data changes from source in the upstream and send it to consumers/applications in the downstream. The sources are usually databases and sinks/consumers/applications are data warehouses for analytics, another database for backup, caches.</p>
+<p>One of the main reasons of using CDC is to have minimal impact whilst migrating data between databases. Through continuous data change stream it is possible to quickly and efficiently forward data to downstream applications.</p>
+<p>In this post we will use the <strong>log</strong> method of capturing change from the source system using <code>Debezium</code>.</p>
+<section id="capture-change-from-source-system" class="level3">
+<h3 class="anchored" data-anchor-id="capture-change-from-source-system">Capture change from source system</h3>
+<p>As the source systems are usually databases, we use their logs to CDC. Postgres has <strong>Write Ahead Log</strong>(WAL) and MYSQL <strong>Binlog</strong>. More on WAL later.</p>
+</section>
+<section id="making-changes-available-to-consumers" class="level3">
+<h3 class="anchored" data-anchor-id="making-changes-available-to-consumers">Making changes available to consumers</h3>
+<p>Usually there are two options available to forward captured change data to downstream applications:</p>
+<ol type="i">
+<li>Use a shared location such as S3, Kafka.</li>
+<li>Directly load the change data into a consumer system.</li>
+</ol>
+<p>We will explore option 2 as our data throughput is smaller.</p>
+</section>
+</section>
+<section id="project" class="level1">
+<h1>Project</h1>
+<section id="objective" class="level2">
+<h2 class="anchored" data-anchor-id="objective">Objective</h2>
+<p>Observe and monitor a postgres DB source with a schema <code>commerce</code> and tables <code>users</code> and <code>products</code>. When there is a change in their rows, we will capture those, send it downstream through Apache Kafka and make it available for analytics through <code>duckDB</code>.</p>
+<p>Before I begin explaining the project’s data pipeline in detail, let me quickly give you the steps to reproduce it. This way you can get started already and read the details later.</p>
+</section>
+<section id="architecture" class="level2">
+<h2 class="anchored" data-anchor-id="architecture">Architecture</h2>
+<p><img src="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/cdc-pipeline.png" class="img-fluid" style="width:300.0%"></p>
+</section>
+<section id="prerequisites-and-setup" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites-and-setup">Prerequisites and Setup</h2>
+<p>We use Ubuntu 20.04 LTS AWS EC2 machine for the project. Full source code <a href="https://github.com/dr563105/cdc-pg-dbz-kafka-s3.git">here</a>.</p>
+<p>We need the following:</p>
+<ul>
+<li><p><a href="https://github.com/git-guides/install-git">git version &gt;= 2.37.1</a>,</p></li>
+<li><p><a href="https://docs.docker.com/engine/install/">Docker version &gt;= 20.10.17</a> and <a href="https://docs.docker.com/compose/install/">Docker compose v2 version &gt;= v2.10.2</a>,</p></li>
+<li><p><a href="https://www.pgcli.com/install">pgcli</a>,</p></li>
+<li><p><a href="https://linuxhint.com/install-make-ubuntu/">make</a>, <!-- - AWS account and [awscli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) --></p></li>
+<li><p>optional, python &gt;= v3.7.</p></li>
+</ul>
+<p>To make things easier I have scripted these prerequisites. Just clone my repo and run the instructions I provide.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>clone and install prerequisites</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-1" style="background: #f1f3f5;"><pre class="sourceCode bash code-annotation-code code-with-copy code-annotated"><code class="sourceCode bash"><span id="annotated-cell-1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sudo</span> apt update <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sudo</span> apt install git make <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-y</span></span>
+<span id="annotated-cell-1-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">git</span> clone </span>
+<span id="annotated-cell-1-3"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">cd</span> cdc-pg-dbz-kafka-s3</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-4" class="code-annotation-target"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">make</span> install_conda</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-5" class="code-annotation-target"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">make</span> install_docker</span>
+<span id="annotated-cell-1-6"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">source</span> ~/.bashrc</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="4" data-code-annotation="1">Installs Miniconda. Optional but recommended.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="5" data-code-annotation="2">Installs Docker and Docker-compose.</span>
+</dd>
+</dl>
+<p>Logout and log in back to the instance. To test docker if it is working, run</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>check if docker is installed</strong></pre>
+</div>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">docker</span> run <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--rm</span> hello-world <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># should return "Hello from Docker!" without errors</span></span></code></pre></div>
+</div>
+<p>Now we’re ready to execute our project. I highly encourage readers to use <code>makefile</code> as it makes setup highly efficient.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Executing CDC project</strong></pre>
+</div>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">cd</span> cdc-pg-dbz-kafka-s3</span>
+<span id="cb2-2"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">POSTGRES_USER</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>postgres</span>
+<span id="cb2-3"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">POSTGRES_PASSWORD</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>postgres</span>
+<span id="cb2-4"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">POSTGRES_DB</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>cdc-demo-db</span>
+<span id="cb2-5"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">POSTGRES_HOST</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>postgres</span>
+<span id="cb2-6"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">AWS_KEY_ID</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>minio</span>
+<span id="cb2-7"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">AWS_SECRET_KEY</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>minio123</span>
+<span id="cb2-8"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">AWS_BUCKET_NAME</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>commerce</span>
+<span id="cb2-9"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">make</span> up <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># runs all docker containers</span></span>
+<span id="cb2-10"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#wait for 60 seconds allow all containers to be up and running</span></span>
+<span id="cb2-11"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">make</span> connections <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># setup connectors</span></span>
+<span id="cb2-12"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#wait for 100-120 seconds to allow data to be pushed to Minio(S3).</span></span></code></pre></div>
+</div>
+<p>Open a browser and go to <code>localhost:9001</code> to open up <code>Minio UI</code>. Login with <code>minio</code> as username and <code>minio123</code> as password. Then navigate to <code>buckets</code> -&gt; <code>commerce</code> -&gt; <code>debezium.commerce.products</code> and further to get to the <code>json</code> files. Similarly to reach <code>debezium.commerce.users</code> table <code>json</code> files.</p>
+<p>These <code>json</code> files contain the change data(Upsert and delete) for respective tables. From here we can use <code>duckdb</code> to analyse data. There you have it, a complete data pipeline that fetches change data from the source and brings it to the sink(downstream).</p>
+<section id="deleting-resources" class="level3">
+<h3 class="anchored" data-anchor-id="deleting-resources">Deleting resources</h3>
+<p>To bring down all container and return to the original state, run the following instructions</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>restoring to original state</strong></pre>
+</div>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">make</span> down <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#shuts down all project processes and docker containers</span></span>
+<span id="cb3-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># To delete minio buckets with json files and DB volume. </span></span>
+<span id="cb3-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Docker creates directories with root as owner. </span></span>
+<span id="cb3-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># So root access is needed to delete them.</span></span>
+<span id="cb3-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># sudo rm -rf minio/ psql_vol/</span></span></code></pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="data-pipeline-detailed-explanation" class="level1">
+<h1>Data Pipeline detailed explanation</h1>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Each section contains code and sufficient explanation. Therefore, it is long. I advise giving an overview before coming back for a thourough read.</p>
+</div>
+</div>
+<p>We will setup each component in the data pipeline individually and use Debezium Kafka Connect to connect them.</p>
+<section id="loading-data-into-postgres-db-source" class="level2">
+<h2 class="anchored" data-anchor-id="loading-data-into-postgres-db-source">Loading data into Postgres DB source</h2>
+<p>We leverage Postgres docker bootstrap feature to create our table and set permissions for replication. For more on bootstrap feature, go this <a href="https://hub.docker.com/_/postgres">link</a>, navigate to <code>Initialization scripts</code>.</p>
+<p>In our case we have a file <code>init.sql</code> mounted to <code>/docker-entrypoint-initdb.d</code>.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>init.sql</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-5" style="background: #f1f3f5;"><pre class="sourceCode sql code-annotation-code code-with-copy code-annotated"><code class="sourceCode sql"><span id="annotated-cell-5-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-- create schema commerce</span></span>
+<span id="annotated-cell-5-2"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">CREATE</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">SCHEMA</span> commerce;</span>
+<span id="annotated-cell-5-3"></span>
+<span id="annotated-cell-5-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-- Use commerce schema</span></span>
+<span id="annotated-cell-5-5"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">SET</span> search_path <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">TO</span> commerce;</span>
+<span id="annotated-cell-5-6"></span>
+<span id="annotated-cell-5-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-- create a users table</span></span>
+<span id="annotated-cell-5-8"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">CREATE</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">TABLE</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">IF</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">NOT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">EXISTS</span> users (</span>
+<span id="annotated-cell-5-9">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">id</span> SERIAL <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">PRIMARY</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">KEY</span>,</span>
+<span id="annotated-cell-5-10">    username <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">VARCHAR</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">255</span>) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">NOT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">NULL</span>,</span>
+<span id="annotated-cell-5-11">    email_address TEXT <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">NOT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">NULL</span> </span>
+<span id="annotated-cell-5-12">);</span>
+<span id="annotated-cell-5-13"></span>
+<span id="annotated-cell-5-14"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">CREATE</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">TABLE</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">IF</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">NOT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">EXISTS</span> products (</span>
+<span id="annotated-cell-5-15">   <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">id</span> SERIAL <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">PRIMARY</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">KEY</span>, </span>
+<span id="annotated-cell-5-16">   name <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">VARCHAR</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">255</span>) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">NOT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">NULL</span>,</span>
+<span id="annotated-cell-5-17">   description TEXT,</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-18" class="code-annotation-target">   price <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">REAL</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">NOT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">NULL</span></span>
+<span id="annotated-cell-5-19">);</span>
+<span id="annotated-cell-5-20"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2">2</button><span id="annotated-cell-5-21" class="code-annotation-target"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">ALTER</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">TABLE</span> users REPLICA IDENTITY <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">FULL</span>;</span>
+<span id="annotated-cell-5-22"></span>
+<span id="annotated-cell-5-23"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">ALTER</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">TABLE</span> products REPLICA IDENTITY <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">FULL</span>;</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="18" data-code-annotation="1">The price has to be REAL data type as debezium encodes NUMERIC or DECIMAL data types to BigDecimal Binary. For more on that, read <a href="https://debezium.io/documentation/faq/#how_to_retrieve_decimal_field_from_binary_representation">here</a>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="21" data-code-annotation="2">To allow for replication. Records the old values of all columns in the row in the WAL.</span>
+</dd>
+</dl>
+<section id="wal---write-ahead-log" class="level3">
+<h3 class="anchored" data-anchor-id="wal---write-ahead-log">WAL - Write Ahead Log</h3>
+<p>A Write-Ahead log is a feature especially in Databases to ensure integrity of data and durability in case of system failure. It is a process of recording changes in sequential <code>logs</code> before writing directly into disk(Databases).</p>
+<p>Our intended changes are first written to the log and then passed onto DB. Upon successful transaction, the log is updated with a sequence number. Upon system failure and consective restart, the DB polls the log to resume its operation. This way systems can acheive ACID properties for reliable and robust database management.</p>
+<p>The SQL command <code>ALTER TABLE users REPLICA IDENTITY FULL;</code> instructs Postgres to use all columns of the users table to identify rows when replicating changes.</p>
+</section>
+<section id="generating-data-for-upload" class="level3">
+<h3 class="anchored" data-anchor-id="generating-data-for-upload">Generating data for upload</h3>
+<p>We use <code>faker</code> python library to generate fake data into the tables - users and products. We use the <code>psycopg2</code> Postgres python library to establish database(DB) connection. And then use it to commit the generated data.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>user_product_data.py</strong></pre>
+</div>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1">conn <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> psycopg2.<span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">connect</span>(database<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f'</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>POSTGRES_DB<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'</span>,</span>
+<span id="cb4-2">                        user<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f'</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>POSTGRES_USER<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'</span>,</span>
+<span id="cb4-3">                        password<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f'</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>POSTGRES_PASSWORD<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'</span>,</span>
+<span id="cb4-4">                        host<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f'</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>POSTGRES_HOSTNAME<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'</span></span>
+<span id="cb4-5">                       )</span>
+<span id="cb4-6"></span>
+<span id="cb4-7">curr <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> conn.cursor()</span>
+<span id="cb4-8">curr.execute(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"INSERT INTO </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb4-9"><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">               commerce.users (id, username, email_address) </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb4-10"><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">               VALUES (%s, %s, %s)"</span>, (<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">id</span>, fake.user_name(), fake.email())</span>
+<span id="cb4-11">            )</span>
+<span id="cb4-12">curr.execute(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"INSERT INTO </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb4-13"><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">               commerce.products (id, name, description, price) </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb4-14"><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">               VALUES (%s, %s, %s, %s)"</span>, (<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">id</span>, fake.name(), fake.text(), </span>
+<span id="cb4-15">               (fake.random_int(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">min</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">max</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">999_999</span>))<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100.0</span>)</span>
+<span id="cb4-16">      )</span>
+<span id="cb4-17">conn.commit()</span></code></pre></div>
+</div>
+<p>We can use the same script to simulate(with <code>sleep</code>) updating and deleting a few rows at random.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>user_product_data.py</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-7" style="background: #f1f3f5;"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1">1</button><span id="annotated-cell-7-1" class="code-annotation-target">sleep(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.3</span>)</span>
+<span id="annotated-cell-7-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># update 10 % of the time</span></span>
+<span id="annotated-cell-7-3"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">if</span> random.randint(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">90</span>:</span>
+<span id="annotated-cell-7-4">  curr.execute(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"UPDATE commerce.users </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="annotated-cell-7-5"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">                SET username = </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%s</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="annotated-cell-7-6"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">                WHERE id = </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%s</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>,(fake.user_name(), <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">id</span>)</span>
+<span id="annotated-cell-7-7">              )</span>
+<span id="annotated-cell-7-8">  curr.execute(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"UPDATE commerce.products </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="annotated-cell-7-9"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">                SET name = </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%s</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;"> </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="annotated-cell-7-10"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">                WHERE id = </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%s</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>,(fake.user_name(), <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">id</span>)</span>
+<span id="annotated-cell-7-11">              )</span>
+<span id="annotated-cell-7-12">  conn.commit()</span>
+<span id="annotated-cell-7-13"></span>
+<span id="annotated-cell-7-14">sleep(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.4</span>)</span>
+<span id="annotated-cell-7-15"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># delete 5 % of the time</span></span>
+<span id="annotated-cell-7-16"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">if</span> random.randint(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">95</span>:</span>
+<span id="annotated-cell-7-17">  curr.execute(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"DELETE FROM commerce.users WHERE id = </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%s</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>,(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">id</span>,))</span>
+<span id="annotated-cell-7-18">  curr.execute(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"DELETE FROM commerce.products WHERE id = </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%s</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>, (<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">id</span>,))</span>
+<span id="annotated-cell-7-19"></span>
+<span id="annotated-cell-7-20">conn.commit()</span>
+<span id="annotated-cell-7-21">curr.close()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="1" data-code-annotation="1"><code>sleep</code> allows for data to be inserted and be ready sequential operations.</span>
+</dd>
+</dl>
+</section>
+<section id="associated-docker-configuration" class="level3">
+<h3 class="anchored" data-anchor-id="associated-docker-configuration">Associated Docker configuration</h3>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>docker-compose.yml for data upload into source DB</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-8" style="background: #f1f3f5;"><pre class="sourceCode yaml code-annotation-code code-with-copy code-annotated"><code class="sourceCode yaml"><span id="annotated-cell-8-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">cdc_commerce_postgres</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="annotated-cell-8-2"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">container_name</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> source-db</span></span>
+<span id="annotated-cell-8-3"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">image</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> debezium/postgres:13-alpine</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1">1</button><span id="annotated-cell-8-4" class="code-annotation-target"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">hostname</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> ${POSTGRES_HOST}</span></span>
+<span id="annotated-cell-8-5"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ports</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="annotated-cell-8-6"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> 5432:5432</span></span>
+<span id="annotated-cell-8-7"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">environment</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="annotated-cell-8-8"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">POSTGRES_USER</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> ${POSTGRES_USER}</span></span>
+<span id="annotated-cell-8-9"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">POSTGRES_PASSWORD</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> ${POSTGRES_PASSWORD}</span></span>
+<span id="annotated-cell-8-10"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">POSTGRES_DB</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> ${POSTGRES_DB}</span></span>
+<span id="annotated-cell-8-11"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">volumes</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="2">2</button><span id="annotated-cell-8-12" class="code-annotation-target"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql"</span></span>
+<span id="annotated-cell-8-13"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"./psql_vol:/var/lib/postgresql/data:rw"</span></span>
+<span id="annotated-cell-8-14"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">networks</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="annotated-cell-8-15"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> my_network</span></span>
+<span id="annotated-cell-8-16"></span>
+<span id="annotated-cell-8-17"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">datagen</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="annotated-cell-8-18"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">build</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> ./generate-data</span></span>
+<span id="annotated-cell-8-19"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">container_name</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> datagen</span></span>
+<span id="annotated-cell-8-20"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">restart</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> on-failure</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="3">3</button><span id="annotated-cell-8-21" class="code-annotation-target"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">environment</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="annotated-cell-8-22"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">POSTGRES_USER</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> ${POSTGRES_USER}</span></span>
+<span id="annotated-cell-8-23"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">POSTGRES_PASSWORD</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> ${POSTGRES_PASSWORD}</span></span>
+<span id="annotated-cell-8-24"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">POSTGRES_DB</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> ${POSTGRES_DB}</span></span>
+<span id="annotated-cell-8-25"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">POSTGRES_HOST</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> ${POSTGRES_HOST}</span></span>
+<span id="annotated-cell-8-26"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">depends_on</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="4">4</button><span id="annotated-cell-8-27" class="code-annotation-target"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> cdc_commerce_postgres</span></span>
+<span id="annotated-cell-8-28"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">networks</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="annotated-cell-8-29"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> my_network</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-8" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="4,8,9,10" data-code-annotation="1">Environment variables to spin up a Postgres DB server is supplied from the terminal.</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="12" data-code-annotation="2">Utilising Postgres bootstrap feature we can create our schema, define and create tables.</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="21" data-code-annotation="3">For <code>datagen</code> container DB env variables are supplied. The <code>user_product_data.py</code> uses these variables to populate the tables.</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="27" data-code-annotation="4">Ofcourse, to populate the tables, source DB must be ready. <code>depends_on</code> property defines the dependency between two services.</span>
+</dd>
+</dl>
+<p>Now our source DB is populated.</p>
+</section>
+</section>
+<section id="apache-kafka" class="level2">
+<h2 class="anchored" data-anchor-id="apache-kafka">Apache Kafka</h2>
+<p>Apache Kafka is a message stream processing framework. The change data from the source DB must be streamed downstream. Kafka facilitates this process.</p>
+<p>Kafka uses a meta-data service management tool called <code>Zookeeper</code>. It handles the configurations needed for Kafka brokers to perform their tasks properly.</p>
+<p>Using docker properties, we invoke <code>kafka</code> and <code>zookeeper</code> services.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>docker-compose config for Zookeeper and Kafka</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-9" style="background: #f1f3f5;"><pre class="sourceCode yaml code-annotation-code code-with-copy code-annotated"><code class="sourceCode yaml"><span id="annotated-cell-9-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">zookeeper</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="annotated-cell-9-2"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">image</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> debezium/zookeeper:2.4</span></span>
+<span id="annotated-cell-9-3"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">container_name</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> zookeeper</span></span>
+<span id="annotated-cell-9-4"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ports</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="1">1</button><span id="annotated-cell-9-5" class="code-annotation-target"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"2181:2181"</span></span>
+<span id="annotated-cell-9-6"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">networks</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="annotated-cell-9-7"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> my_network</span></span>
+<span id="annotated-cell-9-8"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span></span>
+<span id="annotated-cell-9-9"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">kafka</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="annotated-cell-9-10"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">container_name</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> kafka</span></span>
+<span id="annotated-cell-9-11"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">image</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> debezium/kafka:latest</span></span>
+<span id="annotated-cell-9-12"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ports</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="annotated-cell-9-13"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"9093:9093"</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span></span>
+<span id="annotated-cell-9-14"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">environment</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="2">2</button><span id="annotated-cell-9-15" class="code-annotation-target"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> ZOOKEEPER_CONNECT=zookeeper:2181</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="3">3</button><span id="annotated-cell-9-16" class="code-annotation-target"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> KAFKA_INTER_BROKER_LISTENER_NAME=LISTENER_INT</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="4">4</button><span id="annotated-cell-9-17" class="code-annotation-target"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=LISTENER_INT:PLAINTEXT,LISTENER_EXT:PLAINTEXT</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="5">5</button><span id="annotated-cell-9-18" class="code-annotation-target"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> KAFKA_ADVERTISED_LISTENERS=LISTENER_INT://kafka:9092,LISTENER_EXT://localhost:9093</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="6">6</button><span id="annotated-cell-9-19" class="code-annotation-target"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> KAFKA_LISTENERS=LISTENER_INT://0.0.0.0:9092,LISTENER_EXT://0.0.0.0:9093</span></span>
+<span id="annotated-cell-9-20"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">depends_on</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="annotated-cell-9-21"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> zookeeper</span></span>
+<span id="annotated-cell-9-22"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">networks</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="annotated-cell-9-23"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> my_network</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-9" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-9" data-code-lines="5" data-code-annotation="1">Zookeeper utilises port <code>2181</code> for its service.</span>
+</dd>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-9" data-code-lines="15" data-code-annotation="2">Kafka communicates with zookeeper through <code>2181</code> port.</span>
+</dd>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-9" data-code-lines="16" data-code-annotation="3">Internal broker listener name definition.</span>
+</dd>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-9" data-code-lines="17" data-code-annotation="4">Definition of security protocol between listener names and their protocols. Here it is just plain text.</span>
+</dd>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-9" data-code-lines="18" data-code-annotation="5">Internally Kafka brokers communicate with themselves using <code>9092</code>. They also communicate with port <code>9093</code> since it is mapped.</span>
+</dd>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-9" data-code-lines="19" data-code-annotation="6"><code>kafka.listeners</code> property is redundant here as it same as the previous line. But the consumers reading from Kafka can use port <code>9093</code> also.</span>
+</dd>
+</dl>
+<p>Apache Kafka configuration can be confusing. It is advised to start simple and add in as needs demand.</p>
+<p>Next, up is to setup the sink or the final destination.</p>
+</section>
+<section id="storage---minio-s3" class="level2">
+<h2 class="anchored" data-anchor-id="storage---minio-s3">Storage - Minio S3</h2>
+<p>We want to store our message streams from Kafka into a storage as files. We utlise <code>Minio</code> an object storage service as it mimics AWS S3.</p>
+<p>To set it up, as usual we configure its properties through docker-compose.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>docker-compose for Minio storage</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-10" style="background: #f1f3f5;"><pre class="sourceCode yaml code-annotation-code code-with-copy code-annotated"><code class="sourceCode yaml"><span id="annotated-cell-10-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">minio</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="annotated-cell-10-2"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">image</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> minio/minio:RELEASE.2022-05-26T05-48-41Z</span></span>
+<span id="annotated-cell-10-3"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">hostname</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> minio</span></span>
+<span id="annotated-cell-10-4"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">container_name</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> minio</span></span>
+<span id="annotated-cell-10-5"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ports</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="annotated-cell-10-6"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'9000:9000'</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span></span>
+<span id="annotated-cell-10-7"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'9001:9001'</span></span>
+<span id="annotated-cell-10-8"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">volumes</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1">1</button><span id="annotated-cell-10-9" class="code-annotation-target"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"./minio/data:/data"</span></span>
+<span id="annotated-cell-10-10"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">environment</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="2">2</button><span id="annotated-cell-10-11" class="code-annotation-target"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">MINIO_ACCESS_KEY</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> ${AWS_KEY_ID}</span></span>
+<span id="annotated-cell-10-12"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">MINIO_SECRET_KEY</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> ${AWS_SECRET_KEY}</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="9" data-code-annotation="1"><code>minio</code> directory is created and it is mounted as volume.</span>
+</dd>
+<dt data-target-cell="annotated-cell-10" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="11,12" data-code-annotation="2">To mimic AWS S3, we can pass credentials as env variables.</span>
+</dd>
+</dl>
+<p>There is another service that creates buckets inside the mounted volume. I leave that to the reader as a self-exercise.</p>
+</section>
+<section id="debezium-kafka-connect" class="level2">
+<h2 class="anchored" data-anchor-id="debezium-kafka-connect">Debezium Kafka Connect</h2>
+<p>All the individual blocks are now prepared, and the remaining task is to connect them.</p>
+<p>Setting up Debezium involves two parts:</p>
+<ul>
+<li><p>Connect to Source DB</p></li>
+<li><p>Connect Kafka topics to Minio S3 storage</p></li>
+</ul>
+<p>Debezium supports Postgres source using Kafka connect natively but as a sink connector to S3 it lacks functionality. So we borrow Kafka connect, add in a plugin that recognises both Kafka topics and S3 storage.</p>
+<p>There are several services which offers sink connectors but for simplicity sake, I use an open source service in <a href="https://docs.aiven.io/docs/products/kafka/kafka-connect/reference/s3-sink-additional-parameters">Aiven</a>.</p>
+<p>So, with the help of <code>docker-compose</code>, we use <code>debezium/connect</code> docker image and install <a href="https://github.com/Aiven-Open/s3-connector-for-apache-kafka"><code>Aiven</code> S3 connector plugin</a> on top of it.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>docker-compose for Debezium connect</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-11" style="background: #f1f3f5;"><pre class="sourceCode yaml code-annotation-code code-with-copy code-annotated"><code class="sourceCode yaml"><span id="annotated-cell-11-1"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">debezium-connect</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="annotated-cell-11-2"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">container_name</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> debezium-connect</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="1">1</button><span id="annotated-cell-11-3" class="code-annotation-target"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">build</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> ./sink-connector</span></span>
+<span id="annotated-cell-11-4"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ports</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="annotated-cell-11-5"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"8083:8083"</span></span>
+<span id="annotated-cell-11-6"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">environment</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="2">2</button><span id="annotated-cell-11-7" class="code-annotation-target"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> BOOTSTRAP_SERVERS=kafka:9092</span></span>
+<span id="annotated-cell-11-8"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> GROUP_ID=1</span></span>
+<span id="annotated-cell-11-9"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> CONFIG_STORAGE_TOPIC=my_connect_configs</span></span>
+<span id="annotated-cell-11-10"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> OFFSET_STORAGE_TOPIC=my_connect_offsets</span></span>
+<span id="annotated-cell-11-11"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> STATUS_STORAGE_TOPIC=my_connect_statuses</span></span>
+<span id="annotated-cell-11-12"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">depends_on</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="annotated-cell-11-13"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> zookeeper</span></span>
+<span id="annotated-cell-11-14"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> kafka</span></span>
+<span id="annotated-cell-11-15"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">networks</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="annotated-cell-11-16"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> my_network</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-11" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-11" data-code-lines="3" data-code-annotation="1">Installs Aiven S3 connector plugin.</span>
+</dd>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-11" data-code-lines="7" data-code-annotation="2">Debezium connects to Kafka as a producer and Aiven S3 Kafka Connect monitors Kafka topics as a consumer.</span>
+</dd>
+</dl>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Debezium(<code>producer</code>) connector still doesn’t know from where it is fetching the data from or the Aiven Connect(<code>consumer</code>) sending the data to.</p>
+</div>
+</div>
+</section>
+<section id="activating-the-traffic-in-the-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="activating-the-traffic-in-the-pipeline">Activating the traffic in the pipeline</h2>
+<p>To activate the traffic flow from source to destination, we need to supply source and destination link configurations. This is acheived through <code>json</code> connector configuration.</p>
+<p>The configuration can be supplied as data argument in a <code>curl</code> command. <code>JSON</code> files don’t allow for secure transfer of environment variables. So will put the <code>json</code> connector config in the <code>data</code> directly inside a shell script. This way sensitive properties can still use reference to the env variables.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>setup-connections.sh</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-12" style="background: #f1f3f5;"><pre class="sourceCode bash code-annotation-code code-with-copy code-annotated"><code class="sourceCode bash"><span id="annotated-cell-12-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">curl</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--include</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--request</span> POST <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--header</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Accept:application/json"</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="annotated-cell-12-2">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--header</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Content-Type:application/json"</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="annotated-cell-12-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--url</span> localhost:8083/connectors/ <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="annotated-cell-12-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--data</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'{    </span></span>
+<span id="annotated-cell-12-5"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">        "name": "pg-src-connector",</span></span>
+<span id="annotated-cell-12-6"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">        "config": {</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="1">1</button><span id="annotated-cell-12-7" class="code-annotation-target"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "connector.class": "io.debezium.connector.postgresql.PostgresConnector",</span></span>
+<span id="annotated-cell-12-8"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "tasks.max": "1",</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="2">2</button><span id="annotated-cell-12-9" class="code-annotation-target"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "database.hostname": "'"</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${POSTGRES_USER}</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"'",</span></span>
+<span id="annotated-cell-12-10"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "database.port": "5432",</span></span>
+<span id="annotated-cell-12-11"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "database.user": "'"</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${POSTGRES_USER}</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"'",</span></span>
+<span id="annotated-cell-12-12"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "database.password": "'"</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${POSTGRES_PASSWORD}</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"'",</span></span>
+<span id="annotated-cell-12-13"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "database.dbname": "'"</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${POSTGRES_DB}</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"'",</span></span>
+<span id="annotated-cell-12-14"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "database.server.name": "postgres",</span></span>
+<span id="annotated-cell-12-15"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "database.include.list": "postgres",</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="3">3</button><span id="annotated-cell-12-16" class="code-annotation-target"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "topic.prefix": "debezium",</span></span>
+<span id="annotated-cell-12-17"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "schema.include.list": "commerce",</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="4">4</button><span id="annotated-cell-12-18" class="code-annotation-target"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "decimal.handling.mode": "precise"</span></span>
+<span id="annotated-cell-12-19"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">        }</span></span>
+<span id="annotated-cell-12-20"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">      }'</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-12" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-12" data-code-lines="7" data-code-annotation="1">Debezium connector standards.</span>
+</dd>
+<dt data-target-cell="annotated-cell-12" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-12" data-code-lines="9" data-code-annotation="2">Supplying env variables to the properties</span>
+</dd>
+<dt data-target-cell="annotated-cell-12" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-12" data-code-lines="16,17" data-code-annotation="3">Usually Kafka topic names are just table names. So in our case, it will be <code>debezium.commerce.products</code> and <code>debezium.commerce.users</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-12" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-12" data-code-lines="18" data-code-annotation="4">This property can adjusted to <code>double</code> preserve source’s decimal or numeric data types.</span>
+</dd>
+</dl>
+<p>Similarly we can setup sink connector.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>setup-connections.sh</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-13" style="background: #f1f3f5;"><pre class="sourceCode bash code-annotation-code code-with-copy code-annotated"><code class="sourceCode bash"><span id="annotated-cell-13-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">curl</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--include</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--request</span> POST <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--header</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Accept:application/json"</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="annotated-cell-13-2">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--header</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Content-Type:application/json"</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="annotated-cell-13-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--url</span> localhost:8083/connectors/ <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="annotated-cell-13-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--data</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'{</span></span>
+<span id="annotated-cell-13-5"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">        "name": "s3-sink",</span></span>
+<span id="annotated-cell-13-6"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">        "config": {</span></span>
+<span id="annotated-cell-13-7"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "connector.class": "io.aiven.kafka.connect.s3.AivenKafkaConnectS3SinkConnector",</span></span>
+<span id="annotated-cell-13-8"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "aws.access.key.id": "'"</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${AWS_KEY_ID}</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"'",</span></span>
+<span id="annotated-cell-13-9"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "aws.secret.access.key": "'"</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${AWS_SECRET_KEY}</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"'",</span></span>
+<span id="annotated-cell-13-10"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "aws.s3.bucket.name": "'"</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${AWS_BUCKET_NAME}</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"'",</span></span>
+<span id="annotated-cell-13-11"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "aws.s3.endpoint": "http://minio:9000",</span></span>
+<span id="annotated-cell-13-12"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "aws.s3.region": "us-east-1",</span></span>
+<span id="annotated-cell-13-13"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "format.output.type": "jsonl",</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="1">1</button><span id="annotated-cell-13-14" class="code-annotation-target"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "topics": "debezium.commerce.users,debezium.commerce.products",</span></span>
+<span id="annotated-cell-13-15"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "file.compression.type": "none",</span></span>
+<span id="annotated-cell-13-16"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "flush.size": "20",</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="2">2</button><span id="annotated-cell-13-17" class="code-annotation-target"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "file.name.template": "/{{topic}}/{{timestamp:unit=yyyy}}-{{timestamp:unit=MM}}-{{timestamp:unit=dd}}/{{timestamp:unit=HH}}/{{partition:padding=true}}-{{start_offset:padding=true}}.json"</span></span>
+<span id="annotated-cell-13-18"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">        }</span></span>
+<span id="annotated-cell-13-19"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">    }'</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-13" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-13" data-code-lines="14" data-code-annotation="1">Sink connector actively listens to these topics to receive data.</span>
+</dd>
+<dt data-target-cell="annotated-cell-13" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-13" data-code-lines="17" data-code-annotation="2">File generated have templated filename.</span>
+</dd>
+</dl>
+</section>
+<section id="deployment" class="level2">
+<h2 class="anchored" data-anchor-id="deployment">Deployment</h2>
+<p>To deploy all the components we can use these commands</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>setup data pipeline</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-14" style="background: #f1f3f5;"><pre class="sourceCode bash code-annotation-code code-with-copy code-annotated"><code class="sourceCode bash"><button class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="1">1</button><span id="annotated-cell-14-1" class="code-annotation-target"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">make</span> up</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="2">2</button><span id="annotated-cell-14-2" class="code-annotation-target"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">make</span> connections</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-14" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-14" data-code-lines="1" data-code-annotation="1">Fires up all the services.</span>
+</dd>
+<dt data-target-cell="annotated-cell-14" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-14" data-code-lines="2" data-code-annotation="2">Links source to Kafka and Kafka topics to Minio S3.</span>
+</dd>
+</dl>
+<p><img src="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-make-up.png" class="img-fluid"></p>
+<p>On successful connection establishment, we will <code>201 created</code> message as shown in the below screenshot.</p>
+<p><img src="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-make-connections.png" class="img-fluid"></p>
+<p>If done correctly, we should have successfully connected the source to the destination. We will wait a few minutes to have the files appear in the Minio <code>commerce</code> bucket.</p>
+<p><img src="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-commerce-json.png" class="img-fluid"></p>
+<p>We can also use the Minio UI available at <code>localhost:9001</code>. Use the Minio’s credentials supplied as env variables to login.</p>
+<p><img src="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-minio-bucket.jpeg" class="img-fluid"></p>
+<p><img src="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-minio-commerce.png" class="img-fluid"></p>
+<p><img src="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-minio-commerce-jsons.png" class="img-fluid"></p>
+</section>
+<section id="analysis" class="level2">
+<h2 class="anchored" data-anchor-id="analysis">Analysis</h2>
+<p>The next part would be to use an analytics DB as such as <code>DuckDB</code> to perform analytics. A sample query that can used to generate <code>SCD2</code> table.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>analysis.sql</strong></pre>
+</div>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">WITH</span> cte <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AS</span> (</span>
+<span id="cb5-2">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">SELECT</span></span>
+<span id="cb5-3">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">COALESCE</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">CAST</span>(json<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'value'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'after'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'id'</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AS</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">INTEGER</span>), <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">CAST</span>(json<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'value'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'before'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'id'</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AS</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">INTEGER</span>)) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AS</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">id</span>,</span>
+<span id="cb5-4">        json<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'value'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'before'</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AS</span> before_row_value,</span>
+<span id="cb5-5">        json<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'value'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'after'</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AS</span> after_row_value,</span>
+<span id="cb5-6">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">CASE</span></span>
+<span id="cb5-7">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">WHEN</span> json<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'value'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'op'</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'c'</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">THEN</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'CREATE'</span></span>
+<span id="cb5-8">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">WHEN</span> json<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'value'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'op'</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'d'</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">THEN</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'DELETE'</span></span>
+<span id="cb5-9">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">WHEN</span> json<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'value'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'op'</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'u'</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">THEN</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'UPDATE'</span></span>
+<span id="cb5-10">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">WHEN</span> json<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'value'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'op'</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'r'</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">THEN</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'SNAPSHOT'</span></span>
+<span id="cb5-11">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">ELSE</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'INVALID'</span></span>
+<span id="cb5-12">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">END</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AS</span> operation_type,</span>
+<span id="cb5-13">        json<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'value'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'source'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'lsn'</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AS</span> log_seq_num,</span>
+<span id="cb5-14">        epoch_ms(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">CAST</span>(json<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'value'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'source'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'ts_ms'</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AS</span> BIGINT)) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AS</span> source_timestamp</span>
+<span id="cb5-15">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">FROM</span></span>
+<span id="cb5-16">        read_ndjson_objects(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'minio/data/commerce/debezium.commerce.products/*/*/*.json'</span>)</span>
+<span id="cb5-17">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">WHERE</span> log_seq_num <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">IS</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">NOT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">NULL</span></span>
+<span id="cb5-18">)</span>
+<span id="cb5-19"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">SELECT</span></span>
+<span id="cb5-20">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">id</span>,</span>
+<span id="cb5-21">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">CAST</span>(after_row_value<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'name'</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AS</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">VARCHAR</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">255</span>)) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AS</span> name,</span>
+<span id="cb5-22">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">CAST</span>(after_row_value<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'description'</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AS</span> TEXT) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AS</span> description,</span>
+<span id="cb5-23">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">CAST</span>(after_row_value<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;&gt;</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'price'</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AS</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">NUMERIC</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AS</span> price,</span>
+<span id="cb5-24">    source_timestamp <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AS</span> row_valid_start_timestamp,</span>
+<span id="cb5-25">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">CASE</span> </span>
+<span id="cb5-26">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">WHEN</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">LEAD</span>(source_timestamp, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">OVER</span> w_lead_txn_timestamp <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">IS</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">NULL</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">THEN</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">CAST</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'9999-01-01'</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AS</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">TIMESTAMP</span>) </span>
+<span id="cb5-27">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">ELSE</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">LEAD</span>(source_timestamp, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">OVER</span> w_lead_txn_timestamp </span>
+<span id="cb5-28">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">END</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AS</span> row_valid_expiration_timestamp</span>
+<span id="cb5-29"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">FROM</span> cte</span>
+<span id="cb5-30"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">WHERE</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">id</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">IN</span> (<span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">SELECT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">id</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">FROM</span> cte <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">GROUP</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">BY</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">id</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">HAVING</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">COUNT</span>(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb5-31">WINDOW w_lead_txn_timestamp <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AS</span> (<span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">PARTITION</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">BY</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">id</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">ORDER</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">BY</span> log_seq_num)</span>
+<span id="cb5-32"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">ORDER</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">BY</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">id</span>, row_valid_start_timestamp</span>
+<span id="cb5-33"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">LIMIT</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">20</span>;</span></code></pre></div>
+</div>
+<p><img src="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-query-result-1.png" class="img-fluid"></p>
+<p>Making SCD2 table is out of scope for this project but no worries I will go through it another post.</p>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>In this post, we saw a simple project that explore the advantages of change data capture using Debezium and Kafka Connect and its implementation. I hope you found it as informative as I found it while developing the project. As always please feel free to contact me on the links provided. I would love to hear your comments.</p>
+
+
+</section>
+
+ ]]></description>
+  <guid>https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/index.html</guid>
+  <pubDate>Tue, 29 Aug 2023 00:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Building Data Pipeline - Part 4 - CI/CD</title>
   <dc:creator>Deepak Ramani</dc:creator>
