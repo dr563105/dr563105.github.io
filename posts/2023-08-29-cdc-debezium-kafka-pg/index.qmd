@@ -9,6 +9,7 @@ format:
     code-annotations: hover
 execute: 
   eval: false
+categories: ["Debezium", "Postgres", "Change Data Capture", "CDC", "Kafka", "Connectors", "Faker", "Docker", ""]
 ---
 
 # Introduction
@@ -52,6 +53,15 @@ We will explore option 2 as our data throughput is smaller.
 Observe and monitor a postgres DB source with a schema `commerce` and tables `users` and `products`. When there is a change in their rows, we will capture those, send it downstream through Apache Kafka and make it available for analytics through `duckDB`.
 
 Before I begin explaining the project's data pipeline in detail, let me quickly give you the steps to reproduce it. This way you can get started already and read the details later.
+
+## Challenges faced
+If you're curious like me, it is always the challenges that make a good story to tell others. Instead of going in length about each challenge, I will just list a few that I found harder.
+
+- Figuring out why decimal/numeric data type variables from source don't reach the destination with same values. I went from source to sink to Kafka to Debezium to finally discover that it is an issue with Debezium Kafka Connect.
+
+- Understanding various configurations for Apache Kafka and which ones are needed while starting its Docker container.
+
+- Learning how WAL works and the significance of CDC
 
 ## Architecture
 
@@ -372,10 +382,12 @@ The Debezium(`producer`) connector still doesn't know from where it is fetching 
 
 ## Activating the traffic in the pipeline
 
-To activate the traffic flow from source to destination, we need to supply source and destination link configurations. This is acheived through `json` connector configuration.
+To activate the traffic flow from source to destination, we need to supply source and destination link configurations.  This is acheived through `json` connector configuration.
 
-The configuration can be supplied as data argument in a `curl` command.
-`JSON` files don't allow for secure transfer of environment variables. So will put the `json` connector config in the `data` directly inside a shell script. This way sensitive properties can still use reference to the env variables.
+Apache Kafka uses `REST API` so that means a JSON data goes into the body of the POST request.
+Conveniently there is `curl` command that can be used to request. Though `curl` commands allows to pass `json` files to the `data` option, the `JSON` format as such require sensitive information properties to be hard-coded. That puts system security at risk.
+
+Fortunately for us, a shell script allows for sensitive information to be masked while being supplied at run time. It is indeed that approach we take for our task to connect the blocks in the pipeline.
 
 ```{.bash filename="setup-connections.sh"}
 curl --include --request POST --header "Accept:application/json" \
