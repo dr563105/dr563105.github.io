@@ -1,0 +1,10 @@
+---
+title: "notes on Kafka Connect"
+description: "My notes on Kafka connect"
+date: "2023-08-30"
+format: 
+ html:
+  code-annotations: hover
+  code-overflow: wrap
+---
+Use this wonderful video to learn in detail about Kafka [Connect](https://www.youtube.com/watch?v=dXXfkoXXBbs&list=PLFqFO0uE26rlIu2iDFcsALFrcTMYK91j4).

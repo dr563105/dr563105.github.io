@@ -1,0 +1,33 @@
+---
+title: "Postgres - notes"
+description: "Notes on and related to postgres"
+date: "2023-08-24"
+author: "Deepak Ramani"
+---
+
+## Using Postgres DB as source for streaming change data
+
+An insert, update or delete operation on the table in the DB is called a *transaction*. When a transaction occurs, the transaction is logged in a log file called Write Ahead Log(WAL) in disk. In case of a database crash we may loose the cache but the database can recover using the logs in WAL in disk. A WAL is append-only log file. More on this log, read its [Wikipedia page](https://en.wikipedia.org/wiki/Write-ahead_logging).
+
+Now a service has to do is just monitor this file for changes. This process of having backup or replicating data is called **replication**. 
+
+For our task we need to make sure WAL level is set correctly. For that we need to check the `postgresql.conf` file. 
+
+```{.bash filename="/var/lib/postgresql/data/postgresql.conf"}
+cat /var/lib/postgresql/data/postgresql.conf | grep -iE "max_wal|wal_level"
+#wal_level = replica                    # minimal, replica, or logical
+#max_wal_senders = 10           # max number of walsender processes
+```
+Uncomment them, change `wal_level` to `logical` and leave `max_wal_senders` as `10`.
+
+### WAL_LEVEL
+The `minimal` WAL does not contain sufficient information for point-in-time recovery, so `replica` or higher must be used to enable continuous archiving (archive_mode) and streaming binary replication.
+
+In `logical` level, the same information is logged as with `replica`, plus information needed to extract logical change sets from the WAL. Using a level of `logical` will increase the WAL volume, particularly if many tables are configured for `REPLICA IDENTITY FULL` and many `UPDATE` and `DELETE` statements are executed.[^1]
+
+[^1]: Runtime WAL config - [https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-SETTINGS](https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-SETTINGS) 
+
+
+## Replica Identity 
+
+https://www.postgresql.org/docs/current/sql-altertable.html#SQL-ALTERTABLE-REPLICA-IDENTITY
