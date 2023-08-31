@@ -9,3 +9,9 @@
   role: Creator
   description: |
         An end-to-end autonomous driving neural network ML model using simpler CNN architecture.
+
+- project: "Capture Change data using Debezium and Kafka"
+  path: https://github.com/dr563105/cdc-pg-dbz-kafka-s3
+  role: Creator
+  description: |
+      A data pipeline that looks for changes and streams it through Kafka downstream for analytics.
