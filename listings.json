@@ -2,7 +2,9 @@
   {
     "listing": "/notes/data-engineering/index.html",
     "items": [
-      "/notes/data-engineering/Debezium-CDC/index.html"
+      "/notes/data-engineering/Debezium-CDC/index.html",
+      "/notes/data-engineering/postgres/index.html",
+      "/notes/data-engineering/Kafka-connect/index.html"
     ]
   },
   {
@@ -19,7 +21,9 @@
       "/notes/data-engineering/index.html",
       "/notes/index.html",
       "/posts/2023-08-30-secrets-in-json/index.html",
+      "/notes/data-engineering/Kafka-connect/index.html",
       "/posts/2023-08-29-cdc-debezium-kafka-pg/index.html",
+      "/notes/data-engineering/postgres/index.html",
       "/notes/data-engineering/Debezium-CDC/index.html",
       "/posts/2023-06-13-Github-Actions-CI-CD-TF/index.html",
       "/posts/2023-06-12-Attach-iam-policy-to-roles/index.html",

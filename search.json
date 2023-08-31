@@ -420,11 +420,102 @@
     "text": "RSI - Relative strength index"
   },
   {
+    "objectID": "notes/data-engineering/Debezium-CDC/index.html",
+    "href": "notes/data-engineering/Debezium-CDC/index.html",
+    "title": "Debezium",
+    "section": "",
+    "text": "These are my notes about Debezium. There will be typos or misunderstood concepts. Please as always reach out to me to rectify them.\nMy sources were Baeldung and official Debezium documentation. Also the FAQ section of the official site gives all the necessary reading."
+  },
+  {
+    "objectID": "notes/data-engineering/Debezium-CDC/index.html#what-is-debezium",
+    "href": "notes/data-engineering/Debezium-CDC/index.html#what-is-debezium",
+    "title": "Debezium",
+    "section": "What is Debezium?",
+    "text": "What is Debezium?\nIt is an open source, low latency distributed platform for capturing change in data from a source and syncing with a target."
+  },
+  {
+    "objectID": "notes/data-engineering/Debezium-CDC/index.html#why-is-it-needed",
+    "href": "notes/data-engineering/Debezium-CDC/index.html#why-is-it-needed",
+    "title": "Debezium",
+    "section": "Why is it needed?",
+    "text": "Why is it needed?\nMost companies still use batch processing that means - a. data is not synced immediately, b. more resources are required when sync happens, c. data replication happens at specific intervals.\nHowever, what if streaming data is used or quick reporting on the new data is required? Then we need some kind of a platform/service that periodically checks the source and when an event change occurs, it has to pick the change and transfer it somewhere for analysis or storage. Debezium as a microservice provides that functionality."
+  },
+  {
+    "objectID": "notes/data-engineering/Debezium-CDC/index.html#advantages-of-using-debezium",
+    "href": "notes/data-engineering/Debezium-CDC/index.html#advantages-of-using-debezium",
+    "title": "Debezium",
+    "section": "Advantages of using Debezium",
+    "text": "Advantages of using Debezium\n\nUpstream data(source) change is incrementally pushed downstream(sink) – continuous sync,\nInstant updates eliminates bulk load updates – Data transfer cost less,\nFewer resources required,"
+  },
+  {
+    "objectID": "notes/data-engineering/Debezium-CDC/index.html#use-cases",
+    "href": "notes/data-engineering/Debezium-CDC/index.html#use-cases",
+    "title": "Debezium",
+    "section": "Use cases",
+    "text": "Use cases\n\nKeep different data sources in sync,\nUpdate or invalidate a cache,\nUpdate search indexes,\nData sync across microservices"
+  },
+  {
+    "objectID": "notes/data-engineering/Debezium-CDC/index.html#debezium-architecture",
+    "href": "notes/data-engineering/Debezium-CDC/index.html#debezium-architecture",
+    "title": "Debezium",
+    "section": "Debezium architecture",
+    "text": "Debezium architecture\nDebezium is basically a handshake service/protocol for source and target. It is achieved through connectors.\n\n\n\n\n\nAs seen in the image, Debezium architecture consists of three components – external source DBs, Debezium server, and downstream applications such as Redis, Amazon Kinesis, Google Pub/Sub or Apache Kakfa. Debezium server acts as a mediator to capture and stream real-time data change between source DBs and consumer applications.\nIf we look at the entire data pipeline as shown in the below image,\n\n\n\n\n\nthe Debezium source connectors monitor and capture real-time data updates puts them into Kafka topics. These topics capture updates in the forms of commit log, which is ordered sequentially for easy retrieval. These records are then transfered to downstream applications using sink connectors.\nIf Debezium connects to Apache Kafka, it generally uses Apache Kafka Connect(AKC). Like Debezium, AKC is also distributed to manage Kafka brokers."
+  },
+  {
+    "objectID": "notes/data-engineering/Debezium-CDC/index.html#debezium-connectors-vs-kafka-connect",
+    "href": "notes/data-engineering/Debezium-CDC/index.html#debezium-connectors-vs-kafka-connect",
+    "title": "Debezium",
+    "section": "Debezium connectors vs Kafka Connect",
+    "text": "Debezium connectors vs Kafka Connect\nDebezium(DBZ) provides a library of CDC connectors whereas Kafka Connect comprises JDBC connectors to interact with external or downstream applications.\nDBZ connectors can only be used as source connectors to monitor external DBs whereas AKC can be both source and sink connectors.\nIn Kafka Connect, the JDBC source connector imports or reads real-time messages from any external data source, while the JDBC sink connector distributes real-time records across multiple consumer applications.\nJDBC connectors do not capture and stream deleted records, whereas CDC connectors are capable of streaming all real-time updates, including deleted entries.\nMoreover, JDBC connections always query database updates at certain and predetermined intervals, while CDC connectors regularly record and transmit real-time event changes as soon as they occur on the respective database systems."
+  },
+  {
+    "objectID": "notes/data-engineering/Debezium-CDC/index.html#connector-data",
+    "href": "notes/data-engineering/Debezium-CDC/index.html#connector-data",
+    "title": "Debezium",
+    "section": "Connector data",
+    "text": "Connector data\nThe change stream consists of schema and payload.\nThe schema is not to be confused with DB schema. This schema describes the data types of all the fields in the payload section. Usually for JSON messages, schema is not included.\nThe change event data stream payload looks something like this -\n\n\nchange event data stream\n\n{\n  \"value\":{\n    \"before\":null,\n    \"after\":{\n      \"id\":89,\n      \"name\":\"Colleen Myers\",\n      \"description\":\"Nothing evening stand week reveal quickly man traditional. True positive second because lose detail.\\nNice enough become woman then staff along. Life receive account. Many exist data thousand.\",\n      \"price\":98.0\n    },\n    \"source\":{\n      \"version\":\"2.2.0.Alpha3\",\n      \"connector\":\"postgresql\",\n      \"name\":\"debezium\",\n      \"ts_ms\":1692626411411,\n      \"snapshot\":\"false\",\n      \"db\":\"postgres\",\n      \"sequence\":\"[\\\"23395760\\\",\\\"23395904\\\"]\",\n      \"schema\":\"commerce\",\n      \"table\":\"products\",\n      \"txId\":847,\n      \"lsn\":23395904,\n      \"xmin\":null\n    },\n    \"op\":\"c\",\n    \"ts_ms\":1692626411879,\n    \"transaction\":null\n  }\n}\n\nThis is for inserting an data entry. For an update the stream looks like -\n{\n  \"value\":{\n    \"before\":{\n      \"id\":95,\n      \"name\":\"Steven Cowan\",\n      \"description\":\"Heavy rise something sell case institution chair. Control them might court surface none property. Subject behind them. Quickly near trial.\",\n      \"price\":75.0\n    },\n    \"after\":{\n      \"id\":95,\n      \"name\":\"Yvonne Collins\",\n      \"description\":\"Heavy rise something sell case institution chair. Control them might court surface none property. Subject behind them. Quickly near trial.\",\n      \"price\":75.0\n    },\n    \"source\":{\n      \"version\":\"2.2.0.Alpha3\",\n      \"connector\":\"postgresql\",\n      \"name\":\"debezium\",\n      \"ts_ms\":1692626421005,\n      \"snapshot\":\"false\",\n      \"db\":\"postgres\",\n      \"sequence\":\"[\\\"23399328\\\",\\\"23399456\\\"]\",\n      \"schema\":\"commerce\",\n      \"table\":\"products\",\n      \"txId\":854,\n1      \"lsn\":23399456,\n      \"xmin\":null\n    },\n    \"op\":\"u\",\n    \"ts_ms\":1692626421499,\n    \"transaction\":null\n  }\n}\n\n1\n\nLSN- Log sequence number. An unique number for every change entry. Used to track and order transactions and changes within the transaction log."
+  },
+  {
+    "objectID": "notes/data-engineering/Debezium-CDC/index.html#streaming-changes---postgresql",
+    "href": "notes/data-engineering/Debezium-CDC/index.html#streaming-changes---postgresql",
+    "title": "Debezium",
+    "section": "Streaming Changes - PostgreSQL",
+    "text": "Streaming Changes - PostgreSQL\nThe PostgreSQL connector typically spends the vast majority of its time streaming changes from the PostgreSQL server to which it is connected. This mechanism relies on PostgreSQL’s replication protocol. This protocol enables clients to receive changes from the server as they are committed in the server’s transaction log at certain positions, which are referred to as Log Sequence Numbers (LSNs).\nThe Debezium PostgreSQL connector acts as a PostgreSQL client. When the connector receives changes it transforms the events into Debezium create, update, or delete events that include the LSN of the event. The PostgreSQL connector forwards these change events in records to the Kafka Connect framework, which is running in the same process. The Kafka Connect process asynchronously writes the change event records in the same order in which they were generated to the appropriate Kafka topic.1"
+  },
+  {
+    "objectID": "notes/data-engineering/Debezium-CDC/index.html#setting-up-permissions",
+    "href": "notes/data-engineering/Debezium-CDC/index.html#setting-up-permissions",
+    "title": "Debezium",
+    "section": "Setting up permissions",
+    "text": "Setting up permissions\nUse this link to set up permissions.\nCreate Debezium user with minimum privielges to avoid security breaches."
+  },
+  {
+    "objectID": "notes/data-engineering/Debezium-CDC/index.html#postgres-source-connector-config",
+    "href": "notes/data-engineering/Debezium-CDC/index.html#postgres-source-connector-config",
+    "title": "Debezium",
+    "section": "Postgres source connector config",
+    "text": "Postgres source connector config\n\n\npg-src-connector.json\n\n{\n    \"name\": \"pg-src-connector\",\n    \"config\": {\n1        \"connector.class\": \"io.debezium.connector.postgresql.PostgresConnector\",\n        \"tasks.max\": \"1\",\n2        \"database.hostname\": \"postgres\",\n        \"database.port\": \"5432\",\n        \"database.user\": \"postgres\",\n        \"database.password\": \"postgres\",\n        \"database.dbname\": \"postgres\",\n        \"database.server.name\": \"postgres\",\n        \"database.include.list\": \"postgres\",\n3        \"topic.prefix\": \"debezium\",\n4        \"schema.include.list\": \"commerce\"\n    }\n}\n\n\n1\n\na postgres DB connector\n\n2\n\nDB’s configurations\n\n3\n\nKafka topic prefix that is used in Kafka topic.\n\n4\n\nThe tables in the schema the server monitors for changes\n\n\nSo the Debezium server will monitor postgres DB as user postgres and the same password at port 5432 on the tables in schema commerce.\nThe kafka topic prefix is debezium, the schema commerce which has two tables - products and users.\nSo, the connector would stream records to these two Kafka topics:\n\ndebezium.commerce.products and\ndebezium.commerice.users\n\nread more on topic names here."
+  },
+  {
+    "objectID": "notes/data-engineering/Debezium-CDC/index.html#postgresql-on-aws-rds",
+    "href": "notes/data-engineering/Debezium-CDC/index.html#postgresql-on-aws-rds",
+    "title": "Debezium",
+    "section": "Postgresql on AWS RDS",
+    "text": "Postgresql on AWS RDS\nUsing this link."
+  },
+  {
+    "objectID": "notes/data-engineering/Debezium-CDC/index.html#common-issue-with-decimal-data-types",
+    "href": "notes/data-engineering/Debezium-CDC/index.html#common-issue-with-decimal-data-types",
+    "title": "Debezium",
+    "section": "Common issue with Decimal data types",
+    "text": "Common issue with Decimal data types\nDebezium that uses Kafka connect serialises decimal values for Kafka connect to understand. That means Debezium, converts to BigDecimal binary and encodes in Base64. At the output or downstream, onus is on the user to decode and convert back to the original value.\nSo, a decimal or numeric data type at the source, will become something like eA== as it passes through Debezium and reaches Kafka topic.\nA possible solution is to use REAL data type in SQL. However, this might not be possible in many real-life scenarios. Hence, a property decimal.handling.mode in connector can be set to either string or double. In string case, proper de-serialiser has to be implemented at the receiver. With double precision is sometimes lost.\nIt is quite a conundrum. Read more on this issue and solution here, here and here."
+  },
+  {
     "objectID": "archive.html",
     "href": "archive.html",
     "title": "Archive",
     "section": "",
-    "text": "Date\n\n\nTitle\n\n\n\n\n\n\n \n\n\nData Engineering concepts/tools notes\n\n\n\n\n \n\n\n📚 Deepak’s Notes\n\n\n\n\nSep 30, 2023\n\n\nStoring secrets in JSON files\n\n\n\n\nAug 29, 2023\n\n\nChange Data Capture with Debezium, Kafka, S3\n\n\n\n\nAug 20, 2023\n\n\nDebezium\n\n\n\n\nJun 13, 2023\n\n\nBuilding Data Pipeline - Part 4 - CI/CD\n\n\n\n\nJun 12, 2023\n\n\nTerraform - Attach IAM policies to a role\n\n\n\n\nJun 11, 2023\n\n\nBuilding Data Pipelines - Part 3 - Terraform\n\n\n\n\nJun 4, 2023\n\n\nBuilding Data Pipelines - Part 2 - AWS Cloud\n\n\n\n\nJun 3, 2023\n\n\nDeploy Web Application with Docker\n\n\n\n\nJun 3, 2023\n\n\nBuilding Data Pipelines - Part 1 - Docker\n\n\n\n\nJun 2, 2023\n\n\nGetting started with Terraform\n\n\n\n\nMay 10, 2023\n\n\nLinkedIn course - Financial data analysis\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n\n\nSep 7, 2022\n\n\nPython concepts\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n\n\n\nNo matching items"
+    "text": "Date\n\n\nTitle\n\n\n\n\n\n\n \n\n\nData Engineering concepts/tools notes\n\n\n\n\n \n\n\n📚 Deepak’s Notes\n\n\n\n\nSep 30, 2023\n\n\nStoring secrets in JSON files\n\n\n\n\nAug 30, 2023\n\n\nnotes on Kafka Connect\n\n\n\n\nAug 29, 2023\n\n\nChange Data Capture with Debezium, Kafka, S3\n\n\n\n\nAug 24, 2023\n\n\nPostgres - notes\n\n\n\n\nAug 20, 2023\n\n\nDebezium\n\n\n\n\nJun 13, 2023\n\n\nBuilding Data Pipeline - Part 4 - CI/CD\n\n\n\n\nJun 12, 2023\n\n\nTerraform - Attach IAM policies to a role\n\n\n\n\nJun 11, 2023\n\n\nBuilding Data Pipelines - Part 3 - Terraform\n\n\n\n\nJun 4, 2023\n\n\nBuilding Data Pipelines - Part 2 - AWS Cloud\n\n\n\n\nJun 3, 2023\n\n\nDeploy Web Application with Docker\n\n\n\n\nJun 3, 2023\n\n\nBuilding Data Pipelines - Part 1 - Docker\n\n\n\n\nJun 2, 2023\n\n\nGetting started with Terraform\n\n\n\n\nMay 10, 2023\n\n\nLinkedIn course - Financial data analysis\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n\n\nSep 7, 2022\n\n\nPython concepts\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "projects/mlops.html",
@@ -518,95 +609,32 @@
     "text": "Context Managers\nUsually with is used w.r.t to file operations, database connections. In addition to using with and as keywords, we can make custom context managers using @contextlib.contextmanger which is a generator decorator.\n\nfrom contextlib import contextmanager\n\n@contextmanager\ndef opening(filename, method):\n    print(\"Enter\")\n    f = open(filename, method) \n    try:\n        yield f\n    finally:\n        f.close()\n        print(\"Exit\")\n\nwith opening(\"hello.txt\", \"w\") as f:\n    print(\"inside\")\n    f.write(\"hello there\")\n\nEnter\ninside\nExit"
   },
   {
-    "objectID": "notes/data-engineering/Debezium-CDC/index.html",
-    "href": "notes/data-engineering/Debezium-CDC/index.html",
-    "title": "Debezium",
+    "objectID": "notes/data-engineering/Kafka-connect/index.html",
+    "href": "notes/data-engineering/Kafka-connect/index.html",
+    "title": "notes on Kafka Connect",
     "section": "",
-    "text": "These are my notes about Debezium. There will be typos or misunderstood concepts. Please as always reach out to me to rectify them.\nMy sources were Baeldung and official Debezium documentation. Also the FAQ section of the official site gives all the necessary reading."
+    "text": "Use this wonderful video to learn in detail about Kafka Connect."
   },
   {
-    "objectID": "notes/data-engineering/Debezium-CDC/index.html#what-is-debezium",
-    "href": "notes/data-engineering/Debezium-CDC/index.html#what-is-debezium",
-    "title": "Debezium",
-    "section": "What is Debezium?",
-    "text": "What is Debezium?\nIt is an open source, low latency distributed platform for capturing change in data from a source and syncing with a target."
+    "objectID": "notes/data-engineering/postgres/index.html",
+    "href": "notes/data-engineering/postgres/index.html",
+    "title": "Postgres - notes",
+    "section": "",
+    "text": "An insert, update or delete operation on the table in the DB is called a transaction. When a transaction occurs, the transaction is logged in a log file called Write Ahead Log(WAL) in disk. In case of a database crash we may loose the cache but the database can recover using the logs in WAL in disk. A WAL is append-only log file. More on this log, read its Wikipedia page.\nNow a service has to do is just monitor this file for changes. This process of having backup or replicating data is called replication.\nFor our task we need to make sure WAL level is set correctly. For that we need to check the postgresql.conf file.\n\n\n/var/lib/postgresql/data/postgresql.conf\n\ncat /var/lib/postgresql/data/postgresql.conf | grep -iE \"max_wal|wal_level\"\n#wal_level = replica                    # minimal, replica, or logical\n#max_wal_senders = 10           # max number of walsender processes\n\nUncomment them, change wal_level to logical and leave max_wal_senders as 10.\n\n\nThe minimal WAL does not contain sufficient information for point-in-time recovery, so replica or higher must be used to enable continuous archiving (archive_mode) and streaming binary replication.\nIn logical level, the same information is logged as with replica, plus information needed to extract logical change sets from the WAL. Using a level of logical will increase the WAL volume, particularly if many tables are configured for REPLICA IDENTITY FULL and many UPDATE and DELETE statements are executed.1"
   },
   {
-    "objectID": "notes/data-engineering/Debezium-CDC/index.html#why-is-it-needed",
-    "href": "notes/data-engineering/Debezium-CDC/index.html#why-is-it-needed",
-    "title": "Debezium",
-    "section": "Why is it needed?",
-    "text": "Why is it needed?\nMost companies still use batch processing that means - a. data is not synced immediately, b. more resources are required when sync happens, c. data replication happens at specific intervals.\nHowever, what if streaming data is used or quick reporting on the new data is required? Then we need some kind of a platform/service that periodically checks the source and when an event change occurs, it has to pick the change and transfer it somewhere for analysis or storage. Debezium as a microservice provides that functionality."
+    "objectID": "notes/data-engineering/postgres/index.html#using-postgres-db-as-source-for-streaming-change-data",
+    "href": "notes/data-engineering/postgres/index.html#using-postgres-db-as-source-for-streaming-change-data",
+    "title": "Postgres - notes",
+    "section": "",
+    "text": "An insert, update or delete operation on the table in the DB is called a transaction. When a transaction occurs, the transaction is logged in a log file called Write Ahead Log(WAL) in disk. In case of a database crash we may loose the cache but the database can recover using the logs in WAL in disk. A WAL is append-only log file. More on this log, read its Wikipedia page.\nNow a service has to do is just monitor this file for changes. This process of having backup or replicating data is called replication.\nFor our task we need to make sure WAL level is set correctly. For that we need to check the postgresql.conf file.\n\n\n/var/lib/postgresql/data/postgresql.conf\n\ncat /var/lib/postgresql/data/postgresql.conf | grep -iE \"max_wal|wal_level\"\n#wal_level = replica                    # minimal, replica, or logical\n#max_wal_senders = 10           # max number of walsender processes\n\nUncomment them, change wal_level to logical and leave max_wal_senders as 10.\n\n\nThe minimal WAL does not contain sufficient information for point-in-time recovery, so replica or higher must be used to enable continuous archiving (archive_mode) and streaming binary replication.\nIn logical level, the same information is logged as with replica, plus information needed to extract logical change sets from the WAL. Using a level of logical will increase the WAL volume, particularly if many tables are configured for REPLICA IDENTITY FULL and many UPDATE and DELETE statements are executed.1"
   },
   {
-    "objectID": "notes/data-engineering/Debezium-CDC/index.html#advantages-of-using-debezium",
-    "href": "notes/data-engineering/Debezium-CDC/index.html#advantages-of-using-debezium",
-    "title": "Debezium",
-    "section": "Advantages of using Debezium",
-    "text": "Advantages of using Debezium\n\nUpstream data(source) change is incrementally pushed downstream(sink) – continuous sync,\nInstant updates eliminates bulk load updates – Data transfer cost less,\nFewer resources required,"
-  },
-  {
-    "objectID": "notes/data-engineering/Debezium-CDC/index.html#use-cases",
-    "href": "notes/data-engineering/Debezium-CDC/index.html#use-cases",
-    "title": "Debezium",
-    "section": "Use cases",
-    "text": "Use cases\n\nKeep different data sources in sync,\nUpdate or invalidate a cache,\nUpdate search indexes,\nData sync across microservices"
-  },
-  {
-    "objectID": "notes/data-engineering/Debezium-CDC/index.html#debezium-architecture",
-    "href": "notes/data-engineering/Debezium-CDC/index.html#debezium-architecture",
-    "title": "Debezium",
-    "section": "Debezium architecture",
-    "text": "Debezium architecture\nDebezium is basically a handshake service/protocol for source and target. It is achieved through connectors.\n\n\n\n\n\nAs seen in the image, Debezium architecture consists of three components – external source DBs, Debezium server, and downstream applications such as Redis, Amazon Kinesis, Google Pub/Sub or Apache Kakfa. Debezium server acts as a mediator to capture and stream real-time data change between source DBs and consumer applications.\nIf we look at the entire data pipeline as shown in the below image,\n\n\n\n\n\nthe Debezium source connectors monitor and capture real-time data updates puts them into Kafka topics. These topics capture updates in the forms of commit log, which is ordered sequentially for easy retrieval. These records are then transfered to downstream applications using sink connectors.\nIf Debezium connects to Apache Kafka, it generally uses Apache Kafka Connect(AKC). Like Debezium, AKC is also distributed to manage Kafka brokers."
-  },
-  {
-    "objectID": "notes/data-engineering/Debezium-CDC/index.html#debezium-connectors-vs-kafka-connect",
-    "href": "notes/data-engineering/Debezium-CDC/index.html#debezium-connectors-vs-kafka-connect",
-    "title": "Debezium",
-    "section": "Debezium connectors vs Kafka Connect",
-    "text": "Debezium connectors vs Kafka Connect\nDebezium(DBZ) provides a library of CDC connectors whereas Kafka Connect comprises JDBC connectors to interact with external or downstream applications.\nDBZ connectors can only be used as source connectors to monitor external DBs whereas AKC can be both source and sink connectors.\nIn Kafka Connect, the JDBC source connector imports or reads real-time messages from any external data source, while the JDBC sink connector distributes real-time records across multiple consumer applications.\nJDBC connectors do not capture and stream deleted records, whereas CDC connectors are capable of streaming all real-time updates, including deleted entries.\nMoreover, JDBC connections always query database updates at certain and predetermined intervals, while CDC connectors regularly record and transmit real-time event changes as soon as they occur on the respective database systems."
-  },
-  {
-    "objectID": "notes/data-engineering/Debezium-CDC/index.html#connector-data",
-    "href": "notes/data-engineering/Debezium-CDC/index.html#connector-data",
-    "title": "Debezium",
-    "section": "Connector data",
-    "text": "Connector data\nThe change stream consists of schema and payload.\nThe schema is not to be confused with DB schema. This schema describes the data types of all the fields in the payload section. Usually for JSON messages, schema is not included.\nThe change event data stream payload looks something like this -\n\n\nchange event data stream\n\n{\n  \"value\":{\n    \"before\":null,\n    \"after\":{\n      \"id\":89,\n      \"name\":\"Colleen Myers\",\n      \"description\":\"Nothing evening stand week reveal quickly man traditional. True positive second because lose detail.\\nNice enough become woman then staff along. Life receive account. Many exist data thousand.\",\n      \"price\":98.0\n    },\n    \"source\":{\n      \"version\":\"2.2.0.Alpha3\",\n      \"connector\":\"postgresql\",\n      \"name\":\"debezium\",\n      \"ts_ms\":1692626411411,\n      \"snapshot\":\"false\",\n      \"db\":\"postgres\",\n      \"sequence\":\"[\\\"23395760\\\",\\\"23395904\\\"]\",\n      \"schema\":\"commerce\",\n      \"table\":\"products\",\n      \"txId\":847,\n      \"lsn\":23395904,\n      \"xmin\":null\n    },\n    \"op\":\"c\",\n    \"ts_ms\":1692626411879,\n    \"transaction\":null\n  }\n}\n\nThis is for inserting an data entry. For an update the stream looks like -\n{\n  \"value\":{\n    \"before\":{\n      \"id\":95,\n      \"name\":\"Steven Cowan\",\n      \"description\":\"Heavy rise something sell case institution chair. Control them might court surface none property. Subject behind them. Quickly near trial.\",\n      \"price\":75.0\n    },\n    \"after\":{\n      \"id\":95,\n      \"name\":\"Yvonne Collins\",\n      \"description\":\"Heavy rise something sell case institution chair. Control them might court surface none property. Subject behind them. Quickly near trial.\",\n      \"price\":75.0\n    },\n    \"source\":{\n      \"version\":\"2.2.0.Alpha3\",\n      \"connector\":\"postgresql\",\n      \"name\":\"debezium\",\n      \"ts_ms\":1692626421005,\n      \"snapshot\":\"false\",\n      \"db\":\"postgres\",\n      \"sequence\":\"[\\\"23399328\\\",\\\"23399456\\\"]\",\n      \"schema\":\"commerce\",\n      \"table\":\"products\",\n      \"txId\":854,\n1      \"lsn\":23399456,\n      \"xmin\":null\n    },\n    \"op\":\"u\",\n    \"ts_ms\":1692626421499,\n    \"transaction\":null\n  }\n}\n\n1\n\nLSN- Log sequence number. An unique number for every change entry. Used to track and order transactions and changes within the transaction log."
-  },
-  {
-    "objectID": "notes/data-engineering/Debezium-CDC/index.html#streaming-changes---postgresql",
-    "href": "notes/data-engineering/Debezium-CDC/index.html#streaming-changes---postgresql",
-    "title": "Debezium",
-    "section": "Streaming Changes - PostgreSQL",
-    "text": "Streaming Changes - PostgreSQL\nThe PostgreSQL connector typically spends the vast majority of its time streaming changes from the PostgreSQL server to which it is connected. This mechanism relies on PostgreSQL’s replication protocol. This protocol enables clients to receive changes from the server as they are committed in the server’s transaction log at certain positions, which are referred to as Log Sequence Numbers (LSNs).\nThe Debezium PostgreSQL connector acts as a PostgreSQL client. When the connector receives changes it transforms the events into Debezium create, update, or delete events that include the LSN of the event. The PostgreSQL connector forwards these change events in records to the Kafka Connect framework, which is running in the same process. The Kafka Connect process asynchronously writes the change event records in the same order in which they were generated to the appropriate Kafka topic.1"
-  },
-  {
-    "objectID": "notes/data-engineering/Debezium-CDC/index.html#setting-up-permissions",
-    "href": "notes/data-engineering/Debezium-CDC/index.html#setting-up-permissions",
-    "title": "Debezium",
-    "section": "Setting up permissions",
-    "text": "Setting up permissions\nUse this link to set up permissions.\nCreate Debezium user with minimum privielges to avoid security breaches."
-  },
-  {
-    "objectID": "notes/data-engineering/Debezium-CDC/index.html#postgres-source-connector-config",
-    "href": "notes/data-engineering/Debezium-CDC/index.html#postgres-source-connector-config",
-    "title": "Debezium",
-    "section": "Postgres source connector config",
-    "text": "Postgres source connector config\n\n\npg-src-connector.json\n\n{\n    \"name\": \"pg-src-connector\",\n    \"config\": {\n1        \"connector.class\": \"io.debezium.connector.postgresql.PostgresConnector\",\n        \"tasks.max\": \"1\",\n2        \"database.hostname\": \"postgres\",\n        \"database.port\": \"5432\",\n        \"database.user\": \"postgres\",\n        \"database.password\": \"postgres\",\n        \"database.dbname\": \"postgres\",\n        \"database.server.name\": \"postgres\",\n        \"database.include.list\": \"postgres\",\n3        \"topic.prefix\": \"debezium\",\n4        \"schema.include.list\": \"commerce\"\n    }\n}\n\n\n1\n\na postgres DB connector\n\n2\n\nDB’s configurations\n\n3\n\nKafka topic prefix that is used in Kafka topic.\n\n4\n\nThe tables in the schema the server monitors for changes\n\n\nSo the Debezium server will monitor postgres DB as user postgres and the same password at port 5432 on the tables in schema commerce.\nThe kafka topic prefix is debezium, the schema commerce which has two tables - products and users.\nSo, the connector would stream records to these two Kafka topics:\n\ndebezium.commerce.products and\ndebezium.commerice.users\n\nread more on topic names here."
-  },
-  {
-    "objectID": "notes/data-engineering/Debezium-CDC/index.html#postgresql-on-aws-rds",
-    "href": "notes/data-engineering/Debezium-CDC/index.html#postgresql-on-aws-rds",
-    "title": "Debezium",
-    "section": "Postgresql on AWS RDS",
-    "text": "Postgresql on AWS RDS\nUsing this link."
-  },
-  {
-    "objectID": "notes/data-engineering/Debezium-CDC/index.html#common-issue-with-decimal-data-types",
-    "href": "notes/data-engineering/Debezium-CDC/index.html#common-issue-with-decimal-data-types",
-    "title": "Debezium",
-    "section": "Common issue with Decimal data types",
-    "text": "Common issue with Decimal data types\nDebezium that uses Kafka connect serialises decimal values for Kafka connect to understand. That means Debezium, converts to BigDecimal binary and encodes in Base64. At the output or downstream, onus is on the user to decode and convert back to the original value.\nSo, a decimal or numeric data type at the source, will become something like eA== as it passes through Debezium and reaches Kafka topic.\nA possible solution is to use REAL data type in SQL. However, this might not be possible in many real-life scenarios. Hence, a property decimal.handling.mode in connector can be set to either string or double. In string case, proper de-serialiser has to be implemented at the receiver. With double precision is sometimes lost.\nIt is quite a conundrum. Read more on this issue and solution here, here and here."
+    "objectID": "notes/data-engineering/postgres/index.html#replica-identity",
+    "href": "notes/data-engineering/postgres/index.html#replica-identity",
+    "title": "Postgres - notes",
+    "section": "Replica Identity",
+    "text": "Replica Identity\nhttps://www.postgresql.org/docs/current/sql-altertable.html#SQL-ALTERTABLE-REPLICA-IDENTITY"
   },
   {
     "objectID": "posts/2023-08-29-cdc-debezium-kafka-pg/index.html",

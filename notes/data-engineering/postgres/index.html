@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Deepak Ramani">
+<meta name="dcterms.date" content="2023-08-24">
+<meta name="description" content="Notes on and related to postgres">
 
-<title>Deepak Ramani’s blog - 📚 Deepak’s Notes</title>
+<title>Deepak Ramani’s blog - Postgres - notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,32 +23,64 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="../logo.png" rel="icon" type="image/png">
-<script src="../site_libs/quarto-listing/list.min.js"></script>
-<script src="../site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="../site_libs/cookie-consent/cookie-consent.js"></script>
-<link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
-<script src="../site_libs/quarto-html/quarto.js"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../logo.png" rel="icon" type="image/png">
+<script src="../../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": true,
@@ -69,35 +104,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
 
 <script type="text/plain" cookie-consent="tracking">
@@ -128,14 +134,12 @@ cookieconsent.run({
 <style>html{ scroll-behavior: smooth; }</style>
 <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9028821857593432" crossorigin="anonymous"></script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<meta property="og:title" content="Deepak Ramani’s blog - 📚 Deepak’s Notes">
-<meta property="og:description" content="This is Deepak Ramani’s personal blog.">
+<meta property="og:title" content="Deepak Ramani’s blog - Postgres - notes">
+<meta property="og:description" content="Notes on and related to postgres">
 <meta property="og:site_name" content="Deepak Ramani's blog">
-<meta name="twitter:title" content="Deepak Ramani’s blog - 📚 Deepak’s Notes">
-<meta name="twitter:description" content="This is Deepak Ramani’s personal blog.">
+<meta name="twitter:title" content="Deepak Ramani’s blog - Postgres - notes">
+<meta name="twitter:description" content="Notes on and related to postgres">
 <meta name="twitter:creator" content="@thosegradients">
 <meta name="twitter:card" content="summary">
 </head>
@@ -153,21 +157,21 @@ cookieconsent.run({
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
+    <a class="nav-link" href="../../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../notes/index.html" aria-current="page"> 
+    <a class="nav-link" href="../../../notes/index.html"> 
 <span class="menu-text">Notes</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../about.html"> 
+    <a class="nav-link" href="../../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../resume.pdf"> 
+    <a class="nav-link" href="../../../resume.pdf"> 
 <span class="menu-text">Resume</span></a>
   </li>  
 </ul>
@@ -182,14 +186,31 @@ cookieconsent.run({
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">📚 Deepak’s Notes</h1>
-                      </div>
+      <h1 class="title">Postgres - notes</h1>
+                  <div>
+        <div class="description">
+          Notes on and related to postgres
+        </div>
+      </div>
+                </div>
   </div>
     
   
   <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Deepak Ramani </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">August 24, 2023</p>
+      </div>
+    </div>
     
       
     </div>
@@ -198,7 +219,14 @@ cookieconsent.run({
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
-    
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#using-postgres-db-as-source-for-streaming-change-data" id="toc-using-postgres-db-as-source-for-streaming-change-data" class="nav-link active" data-scroll-target="#using-postgres-db-as-source-for-streaming-change-data">Using Postgres DB as source for streaming change data</a></li>
+  <li><a href="#replica-identity" id="toc-replica-identity" class="nav-link" data-scroll-target="#replica-identity">Replica Identity</a></li>
+  </ul>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/dr563105/dr563105.github.io/blob/master/notes/data-engineering/postgres/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
@@ -219,55 +247,40 @@ cookieconsent.run({
 
 
 
-<p>This is a place where I share some of my notes. There will be typos or misunderstood concepts. Please as always reach out to me to rectify them.</p>
-<p>If you find an error, please <a href="https://github.com/dr563105/dr563105.github.io/tree/master/notes">submit a pull request</a>. You can also get in touch with me <a href="../../index.qmd">here</a>.</p>
-
-
-
-
-<div class="quarto-listing quarto-listing-container-table" id="listing-listing">
-<table class="quarto-listing-table table">
-<thead>
-<tr>
-<th>
-Title
-</th>
-<th>
-Description
-</th>
-</tr>
-</thead>
-<tbody class="list">
-<tr data-index="0" data-listing-file-modified-sort="1693508075225" data-listing-reading-time-sort="1" data-listing-word-count-sort="11" data-listing-title-sort="Data Engineering concepts/tools notes" data-listing-filename-sort="index.qmd">
-<td>
-<a href="../notes/data-engineering/index.html" class="title listing-title">Data Engineering concepts/tools notes</a>
-</td>
-<td>
-<span class="listing-description">Notes on various concepts, tools, techniques using in constructing data pipelines.</span>
-</td>
-</tr>
-<tr data-index="1" data-listing-date-sort="1683676800000" data-listing-file-modified-sort="1693508075233" data-listing-date-modified-sort="1686700800000" data-listing-reading-time-sort="13" data-listing-word-count-sort="2529" data-listing-title-sort="LinkedIn course - Financial data analysis" data-listing-filename-sort="py_for_finance.qmd">
-<td>
-<a href="../notes/py_for_finance.html" class="title listing-title">LinkedIn course - Financial data analysis</a>
-</td>
-<td>
-<span class="listing-description">Notes on data analysis on finance data</span>
-</td>
-</tr>
-<tr data-index="2" data-listing-date-sort="1662508800000" data-listing-file-modified-sort="1693508075233" data-listing-date-modified-sort="1680652800000" data-listing-reading-time-sort="9" data-listing-word-count-sort="1692" data-listing-title-sort="Python concepts" data-listing-filename-sort="python_concepts.qmd">
-<td>
-<a href="../notes/python_concepts.html" class="title listing-title">Python concepts</a>
-</td>
-<td>
-<span class="listing-description">Notes on some of Python concepts</span>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="listing-no-matching d-none">
-No matching items
+<section id="using-postgres-db-as-source-for-streaming-change-data" class="level2">
+<h2 class="anchored" data-anchor-id="using-postgres-db-as-source-for-streaming-change-data">Using Postgres DB as source for streaming change data</h2>
+<p>An insert, update or delete operation on the table in the DB is called a <em>transaction</em>. When a transaction occurs, the transaction is logged in a log file called Write Ahead Log(WAL) in disk. In case of a database crash we may loose the cache but the database can recover using the logs in WAL in disk. A WAL is append-only log file. More on this log, read its <a href="https://en.wikipedia.org/wiki/Write-ahead_logging">Wikipedia page</a>.</p>
+<p>Now a service has to do is just monitor this file for changes. This process of having backup or replicating data is called <strong>replication</strong>.</p>
+<p>For our task we need to make sure WAL level is set correctly. For that we need to check the <code>postgresql.conf</code> file.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>/var/lib/postgresql/data/postgresql.conf</strong></pre>
 </div>
-</div></main> <!-- /main -->
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> /var/lib/postgresql/data/postgresql.conf <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-iE</span> <span class="st">"max_wal|wal_level"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#wal_level = replica                    # minimal, replica, or logical</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#max_wal_senders = 10           # max number of walsender processes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Uncomment them, change <code>wal_level</code> to <code>logical</code> and leave <code>max_wal_senders</code> as <code>10</code>.</p>
+<section id="wal_level" class="level3">
+<h3 class="anchored" data-anchor-id="wal_level">WAL_LEVEL</h3>
+<p>The <code>minimal</code> WAL does not contain sufficient information for point-in-time recovery, so <code>replica</code> or higher must be used to enable continuous archiving (archive_mode) and streaming binary replication.</p>
+<p>In <code>logical</code> level, the same information is logged as with <code>replica</code>, plus information needed to extract logical change sets from the WAL. Using a level of <code>logical</code> will increase the WAL volume, particularly if many tables are configured for <code>REPLICA IDENTITY FULL</code> and many <code>UPDATE</code> and <code>DELETE</code> statements are executed.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+</section>
+</section>
+<section id="replica-identity" class="level2">
+<h2 class="anchored" data-anchor-id="replica-identity">Replica Identity</h2>
+<p>https://www.postgresql.org/docs/current/sql-altertable.html#SQL-ALTERTABLE-REPLICA-IDENTITY</p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Runtime WAL config - <a href="https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-SETTINGS">https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-SETTINGS</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</aside></div></main> <!-- /main -->
 <!-- <div>
 <hr>
 <h3> Support my work with a coffee </h3>
@@ -777,16 +790,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
 
-<div class="toc-actions"><ul><li><a href="https://github.com/dr563105/dr563105.github.io/blob/master/notes/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
-    <a class="nav-link" href="../archive.html">
+    <a class="nav-link" href="../../../archive.html">
 <p>Archive</p>
 </a>
   </li>  
     <li class="nav-item compact">
-    <a class="nav-link" href="../index.xml">
+    <a class="nav-link" href="../../../index.xml">
       <i class="bi bi-rss" role="img">
 </i> 
     </a>
@@ -799,5 +812,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
