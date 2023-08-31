@@ -16,7 +16,7 @@ listing:
     # image-align: left
     page-size: 4
   - id: project-listing
-    contents: projects/data/mlops.yml
+    contents: ["projects/data/mlops.yml", "projects/data/de.yml"]
     type: table
     table-hover: true
     sort-ui: false
