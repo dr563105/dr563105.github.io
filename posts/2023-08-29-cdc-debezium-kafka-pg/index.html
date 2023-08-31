@@ -192,7 +192,18 @@ cookieconsent.run({
           Using Debezium capture data changes and stream it downstream to consumers.
         </div>
       </div>
-                </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Debezium</div>
+                <div class="quarto-category">Postgres</div>
+                <div class="quarto-category">Change Data Capture</div>
+                <div class="quarto-category">CDC</div>
+                <div class="quarto-category">Kafka</div>
+                <div class="quarto-category">Connectors</div>
+                <div class="quarto-category">Faker</div>
+                <div class="quarto-category">Docker</div>
+                <div class="quarto-category"></div>
+              </div>
+                  </div>
   </div>
     
   
@@ -228,6 +239,7 @@ cookieconsent.run({
   <li><a href="#project" id="toc-project" class="nav-link" data-scroll-target="#project">Project</a>
   <ul class="collapse">
   <li><a href="#objective" id="toc-objective" class="nav-link" data-scroll-target="#objective">Objective</a></li>
+  <li><a href="#challenges-faced" id="toc-challenges-faced" class="nav-link" data-scroll-target="#challenges-faced">Challenges faced</a></li>
   <li><a href="#architecture" id="toc-architecture" class="nav-link" data-scroll-target="#architecture">Architecture</a></li>
   <li><a href="#prerequisites-and-setup" id="toc-prerequisites-and-setup" class="nav-link" data-scroll-target="#prerequisites-and-setup">Prerequisites and Setup</a></li>
   </ul></li>
@@ -304,6 +316,15 @@ cookieconsent.run({
 <h2 class="anchored" data-anchor-id="objective">Objective</h2>
 <p>Observe and monitor a postgres DB source with a schema <code>commerce</code> and tables <code>users</code> and <code>products</code>. When there is a change in their rows, we will capture those, send it downstream through Apache Kafka and make it available for analytics through <code>duckDB</code>.</p>
 <p>Before I begin explaining the project’s data pipeline in detail, let me quickly give you the steps to reproduce it. This way you can get started already and read the details later.</p>
+</section>
+<section id="challenges-faced" class="level2">
+<h2 class="anchored" data-anchor-id="challenges-faced">Challenges faced</h2>
+<p>If you’re curious like me, it is always the challenges that make a good story to tell others. Instead of going in length about each challenge, I will just list a few that I found harder.</p>
+<ul>
+<li><p>Figuring out why decimal/numeric data type variables from source don’t reach the destination with same values. I went from source to sink to Kafka to Debezium to finally discover that it is an issue with Debezium Kafka Connect.</p></li>
+<li><p>Understanding various configurations for Apache Kafka and which ones are needed while starting its Docker container.</p></li>
+<li><p>Learning how WAL works and the significance of CDC</p></li>
+</ul>
 </section>
 <section id="architecture" class="level2">
 <h2 class="anchored" data-anchor-id="architecture">Architecture</h2>
@@ -719,7 +740,8 @@ Important
 <section id="activating-the-traffic-in-the-pipeline" class="level2">
 <h2 class="anchored" data-anchor-id="activating-the-traffic-in-the-pipeline">Activating the traffic in the pipeline</h2>
 <p>To activate the traffic flow from source to destination, we need to supply source and destination link configurations. This is acheived through <code>json</code> connector configuration.</p>
-<p>The configuration can be supplied as data argument in a <code>curl</code> command. <code>JSON</code> files don’t allow for secure transfer of environment variables. So will put the <code>json</code> connector config in the <code>data</code> directly inside a shell script. This way sensitive properties can still use reference to the env variables.</p>
+<p>Apache Kafka uses <code>REST API</code> so that means a JSON data goes into the body of the POST request. Conveniently there is <code>curl</code> command that can be used to request. Though <code>curl</code> commands allows to pass <code>json</code> files to the <code>data</code> option, the <code>JSON</code> format as such require sensitive information properties to be hard-coded. That puts system security at risk.</p>
+<p>Fortunately for us, a shell script allows for sensitive information to be masked while being supplied at run time(more on it <a href="https://dr563105.github.io/posts/2023-08-30-secrets-in-json/">here</a>). It is indeed that approach we take for our task to connect the blocks in the pipeline.</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>setup-connections.sh</strong></pre>

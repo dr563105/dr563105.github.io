@@ -2,106 +2,110 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://dr563105.github.io/about.html</loc>
-    <lastmod>2023-08-31T13:34:45.454Z</lastmod>
+    <lastmod>2023-08-31T18:50:02.916Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/posts/2023-02-06-skim-vimtex/index.html</loc>
-    <lastmod>2023-08-31T13:34:45.470Z</lastmod>
+    <lastmod>2023-08-31T18:50:02.932Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/posts/2023-06-13-Github-Actions-CI-CD-TF/index.html</loc>
-    <lastmod>2023-08-31T13:34:45.593Z</lastmod>
+    <lastmod>2023-08-31T18:50:03.068Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/aws-ecr-api.html</loc>
-    <lastmod>2023-08-31T13:34:45.541Z</lastmod>
+    <lastmod>2023-08-31T18:50:03.004Z</lastmod>
   </url>
   <url>
-    <loc>https://dr563105.github.io/posts/2023-06-12-Attach-iam-policy-to-roles/index.html</loc>
-    <lastmod>2023-08-31T13:34:45.593Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2023-04-27-getting-started-with-s3/data/30-days-create-folds.html</loc>
-    <lastmod>2023-08-31T13:34:45.470Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2023-06-11-terraform-aws/index.html</loc>
-    <lastmod>2023-08-31T13:34:45.589Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/index.html</loc>
-    <lastmod>2023-08-31T13:34:45.490Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/index.html</loc>
-    <lastmod>2023-08-31T13:34:45.593Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/notes/data-engineering/Debezium-CDC/index.html</loc>
-    <lastmod>2023-08-31T13:34:45.458Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/notes/python_concepts.html</loc>
-    <lastmod>2023-08-31T13:34:45.466Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/index.html</loc>
-    <lastmod>2023-08-31T13:34:45.454Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/projects/mlops.html</loc>
-    <lastmod>2023-08-31T13:34:45.613Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/projects/index.html</loc>
-    <lastmod>2023-08-31T13:34:45.613Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/archive.html</loc>
-    <lastmod>2023-08-31T13:34:45.454Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/notes/index.html</loc>
-    <lastmod>2023-08-31T13:34:45.466Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/notes/data-engineering/index.html</loc>
-    <lastmod>2023-08-31T13:34:45.458Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/notes/py_for_finance.html</loc>
-    <lastmod>2023-08-31T13:34:45.466Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2021-09-18-kaggle-setup/index.html</loc>
-    <lastmod>2023-08-31T13:34:45.466Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2023-06-03-lambda-docker/index.html</loc>
-    <lastmod>2023-08-31T13:34:45.537Z</lastmod>
-  </url>
-  <url>
-    <loc>https://dr563105.github.io/posts/2023-04-27-getting-started-with-s3/index.html</loc>
-    <lastmod>2023-08-31T13:34:45.470Z</lastmod>
+    <loc>https://dr563105.github.io/posts/2023-08-30-secrets-in-json/index.html</loc>
+    <lastmod>2023-08-31T18:50:03.088Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/posts/2022-09-24-using-json-normalize/index.html</loc>
-    <lastmod>2023-08-31T13:34:45.470Z</lastmod>
+    <lastmod>2023-08-31T18:50:02.928Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2023-04-27-getting-started-with-s3/index.html</loc>
+    <lastmod>2023-08-31T18:50:02.936Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2023-06-03-lambda-docker/index.html</loc>
+    <lastmod>2023-08-31T18:50:03.004Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2021-09-18-kaggle-setup/index.html</loc>
+    <lastmod>2023-08-31T18:50:02.928Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/notes/py_for_finance.html</loc>
+    <lastmod>2023-08-31T18:50:02.928Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/notes/data-engineering/index.html</loc>
+    <lastmod>2023-08-31T18:50:02.920Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/notes/index.html</loc>
+    <lastmod>2023-08-31T18:50:02.928Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/archive.html</loc>
+    <lastmod>2023-08-31T18:50:02.916Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/projects/index.html</loc>
+    <lastmod>2023-08-31T18:50:03.092Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/projects/mlops.html</loc>
+    <lastmod>2023-08-31T18:50:03.092Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/index.html</loc>
+    <lastmod>2023-08-31T18:50:02.916Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/notes/python_concepts.html</loc>
+    <lastmod>2023-08-31T18:50:02.928Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/notes/data-engineering/Debezium-CDC/index.html</loc>
+    <lastmod>2023-08-31T18:50:02.920Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/index.html</loc>
+    <lastmod>2023-08-31T18:50:03.068Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/index.html</loc>
+    <lastmod>2023-08-31T18:50:02.952Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2023-06-11-terraform-aws/index.html</loc>
+    <lastmod>2023-08-31T18:50:03.064Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2023-04-27-getting-started-with-s3/data/30-days-create-folds.html</loc>
+    <lastmod>2023-08-31T18:50:02.932Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dr563105.github.io/posts/2023-06-12-Attach-iam-policy-to-roles/index.html</loc>
+    <lastmod>2023-08-31T18:50:03.064Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/index.html</loc>
-    <lastmod>2023-08-31T13:34:45.585Z</lastmod>
+    <lastmod>2023-08-31T18:50:03.056Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/posts/2022-01-09-dotfiles/index.html</loc>
-    <lastmod>2023-08-31T13:34:45.470Z</lastmod>
+    <lastmod>2023-08-31T18:50:02.928Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/posts/2023-06-02-Terraform-setup/index.html</loc>
-    <lastmod>2023-08-31T13:34:45.478Z</lastmod>
+    <lastmod>2023-08-31T18:50:02.940Z</lastmod>
   </url>
   <url>
     <loc>https://dr563105.github.io/resume.html</loc>
-    <lastmod>2023-08-31T13:34:45.617Z</lastmod>
+    <lastmod>2023-08-31T18:50:03.092Z</lastmod>
   </url>
 </urlset>

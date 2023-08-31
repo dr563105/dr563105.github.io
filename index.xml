@@ -10,7 +10,569 @@
 <atom:link href="https://dr563105.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>This is Deepak Ramani&#39;s personal blog.</description>
 <generator>quarto-1.4.339</generator>
-<lastBuildDate>Tue, 29 Aug 2023 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 30 Sep 2023 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Storing secrets in JSON files</title>
+  <dc:creator>Deepak Ramani</dc:creator>
+  <link>https://dr563105.github.io/posts/2023-08-30-secrets-in-json/index.html</link>
+  <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
+
+
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Unlike other file formats it is only possible to hardcode sensitive information in JSON files. In this post I explore one of the two ways we can eliminate hardcoded secrets inside JSON.</p>
+<p>Here is how a <code>JSON</code> configuration file looks like:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>pg-src-connections.json</strong></pre>
+</div>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb1-2">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"name"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pg-src-connector"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb1-3">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"config"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb1-4">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"connector.class"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"io.debezium.connector.postgresql.PostgresConnector"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb1-5">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"tasks.max"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"1"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb1-6">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"database.hostname"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"postgres"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb1-7">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"database.port"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"5432"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb1-8">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"database.user"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"postgres"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb1-9">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"database.password"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"postgres"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb1-10">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"database.dbname"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"db"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb1-11">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"database.server.name"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"postgres"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb1-12">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"database.include.list"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"postgres"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb1-13">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"topic.prefix"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"debezium"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb1-14">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"schema.include.list"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"commerce"</span></span>
+<span id="cb1-15">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span id="cb1-16"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span></span></code></pre></div>
+</div>
+<p><code>database.user</code>, <code>database.password</code> and <code>database.dbname</code> are exposed to others when the author commits this file to a code repository. Anyone with access to the system can use these credentials to enter into the database. This is potentially a security risk considering this JSON object file will be sent as <code>POST</code> request.</p>
+<p>If proper API security protocols aren’t followed, there are possibilites of <em>sensitive data exposure</em>, <em>injection attacks</em>, <em>session data hijack</em> etc. To prevent potential security breach, we’ve to exercise caution whenever there is login credentials involved.</p>
+<p>Another example is with a connector connecting Kafka to AWS S3 storage.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>s3-sink.json</strong></pre>
+</div>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb2-2">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"name"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"s3-sink"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb2-3">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"config"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb2-4">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"connector.class"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"io.aiven.kafka.connect.s3.AivenKafkaConnectS3SinkConnector"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb2-5">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"aws.access.key.id"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&lt;replace with key id&gt;"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb2-6">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"aws.secret.access.key"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&lt;replace with secret access key&gt;"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb2-7">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"aws.s3.bucket.name"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&lt;replace bucket name&gt;"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb2-8">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"aws.s3.endpoint"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&lt;insert endpoint&gt;"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb2-9">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"aws.s3.region"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"us-east-1"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb2-10">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"format.output.type"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"jsonl"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb2-11">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"topics"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"debezium.commerce.users,debezium.commerce.products"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb2-12">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"file.compression.type"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"none"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb2-13">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"flush.size"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"20"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb2-14">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"file.name.template"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/{{topic}}/{{timestamp:unit=yyyy}}-{{timestamp:unit=MM}}-{{timestamp:unit=dd}}/{{timestamp:unit=HH}}/{{partition:padding=true}}-{{start_offset:padding=true}}.json"</span></span>
+<span id="cb2-15">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span id="cb2-16"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span></span></code></pre></div>
+</div>
+<p>The configuration contains properties for <code>aws.access.key.id</code> and <code>aws.secret.access.key</code>. Imagine if we hardcode those values into file that has approved access to several AWS services including programmatic access. What would happen if we’re to push this file into a repository that allows a greater number of people to view the file? I leave the next possibly horrorifying consequences for you to decide.</p>
+</section>
+<section id="methods-used" class="level1">
+<h1>Methods used</h1>
+<ol type="i">
+<li><ul>
+<li>Putting <code>config.json</code> as <code>data</code> argument in a <code>curl</code> command and placing that command inside a shell script.</li>
+</ul></li>
+<li><ul>
+<li>Using secrets <code>properties</code> file which is accessed by <code>config.json</code> file.</li>
+</ul></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I couldn’t get the second method to work and hence only the first solution is explored. When I figure out the second, I will add it in.</p>
+</div>
+</div>
+</section>
+<section id="using-json-directly-in-curl" class="level1">
+<h1>Using JSON directly in CURL</h1>
+<p>In most of the modern data pipelines, using HTTP/s REST API requests are common. These requests: <code>POST</code>, <code>GET</code>, <code>PUT</code> and <code>DELETE</code> are sent usually with JSON objects as data in request’s <code>body</code> field. There are REST API client available to make our task easier but as always there is good old <code>CURL</code> command.</p>
+<p>If we want to send <code>s3-sink.json</code> as payload, the curl command will look like this:</p>
+<p><code>curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d '@./s3-sink.json'</code></p>
+<p>We already discussed the disadvantages of sending payload like that. What if we expand/unpack <code>'@./s3-sink.json'</code>? It would look like this:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>CURL command with unpacked JSON as data payload</strong></pre>
+</div>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">curl</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--include</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--request</span> POST <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--header</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Accept:application/json"</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb3-2">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--header</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Content-Type:application/json"</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb3-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--url</span> localhost:8083/connectors/ <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb3-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--data</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'{</span></span>
+<span id="cb3-5"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">        "name": "s3-sink",</span></span>
+<span id="cb3-6"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">        "config": {</span></span>
+<span id="cb3-7"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "connector.class": "io.aiven.kafka.connect.s3.AivenKafkaConnectS3SinkConnector",</span></span>
+<span id="cb3-8"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "aws.access.key.id": "&lt; &gt;",</span></span>
+<span id="cb3-9"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "aws.secret.access.key": "&lt; &gt;",</span></span>
+<span id="cb3-10"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "aws.s3.bucket.name": "&lt; &gt;",</span></span>
+<span id="cb3-11"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "aws.s3.endpoint": "&lt; &gt;",</span></span>
+<span id="cb3-12"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "aws.s3.region": "us-east-1",</span></span>
+<span id="cb3-13"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "format.output.type": "jsonl",</span></span>
+<span id="cb3-14"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "topics": "debezium.commerce.users,debezium.commerce.products",</span></span>
+<span id="cb3-15"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "file.compression.type": "none",</span></span>
+<span id="cb3-16"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "flush.size": "20",</span></span>
+<span id="cb3-17"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "file.name.template": "/{{topic}}/{{timestamp:unit=yyyy}}-{{timestamp:unit=MM}}-{{timestamp:unit=dd}}/{{timestamp:unit=HH}}/{{partition:padding=true}}-{{start_offset:padding=true}}.json"</span></span>
+<span id="cb3-18"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">        }</span></span>
+<span id="cb3-19"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">    }'</span></span></code></pre></div>
+</div>
+<p>Any Unix command allows environment variable to imported into the command which gets replaced at runtime.</p>
+<p>If our <code>env</code> variables are supplied with values in the shell terminal prior to sending the CURL <code>POST</code> request, the command will replace the placeholder with necessary values at runtime.</p>
+<p>Let us see that in action.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>env variable in shell terminal</strong></pre>
+</div>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">POSTGRES_USER</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>postgres</span>
+<span id="cb4-2"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">POSTGRES_PASSWORD</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>postgres</span>
+<span id="cb4-3"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">POSTGRES_DB</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>cdc-demo-db</span>
+<span id="cb4-4"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">POSTGRES_HOST</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>postgres</span>
+<span id="cb4-5"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">AWS_KEY_ID</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>minio</span>
+<span id="cb4-6"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">AWS_SECRET_KEY</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>minio123</span>
+<span id="cb4-7"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">AWS_BUCKET_NAME</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>commerce</span></code></pre></div>
+</div>
+<p>To use env variables in JSON, the variables are placed inside the quotes in a unique way – <code>"'"${AWS_SECRET_KEY}"'"</code>.</p>
+<p>The order is important. The variable <code>${AWS_SECRET_KEY}</code> is first encased in double <code>"</code>, followed by single <code>'</code> and then ended with double <code>"</code> quotes.</p>
+<p>This way the placeholder env variables are replaced with actual values at runtime.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>curl command with masked JSON file</strong></pre>
+</div>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">curl</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--include</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--request</span> POST <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--header</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Accept:application/json"</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb5-2">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--header</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Content-Type:application/json"</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb5-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--url</span> localhost:8083/connectors/ <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb5-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--data</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'{</span></span>
+<span id="cb5-5"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">        "name": "s3-sink",</span></span>
+<span id="cb5-6"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">        "config": {</span></span>
+<span id="cb5-7"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "connector.class": "io.aiven.kafka.connect.s3.AivenKafkaConnectS3SinkConnector",</span></span>
+<span id="cb5-8"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "aws.access.key.id": "'"</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${AWS_KEY_ID}</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"'",</span></span>
+<span id="cb5-9"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "aws.secret.access.key": "'"</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${AWS_SECRET_KEY}</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"'",</span></span>
+<span id="cb5-10"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "aws.s3.bucket.name": "'"</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${AWS_BUCKET_NAME}</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"'",</span></span>
+<span id="cb5-11"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "aws.s3.endpoint": "http://minio:9000",</span></span>
+<span id="cb5-12"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "aws.s3.region": "us-east-1",</span></span>
+<span id="cb5-13"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "format.output.type": "jsonl",</span></span>
+<span id="cb5-14"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "topics": "debezium.commerce.users,debezium.commerce.products",</span></span>
+<span id="cb5-15"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "file.compression.type": "none",</span></span>
+<span id="cb5-16"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "flush.size": "20",</span></span>
+<span id="cb5-17"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">            "file.name.template": "/{{topic}}/{{timestamp:unit=yyyy}}-{{timestamp:unit=MM}}-{{timestamp:unit=dd}}/{{timestamp:unit=HH}}/{{partition:padding=true}}-{{start_offset:padding=true}}.json"</span></span>
+<span id="cb5-18"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">        }</span></span>
+<span id="cb5-19"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">    }'</span></span></code></pre></div>
+</div>
+<p>This command can be put into a shell script and the script can be used to execute multiple REST API requests securely.</p>
+<p>There you have it. A method that allows sensitive variables to masked in JSON payload.</p>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>We saw how unpacking a JSON configuration file and using it in CURL command helps avert some of the basic security breaches.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>json</category>
+  <category>secrets</category>
+  <category>env variables</category>
+  <category>shell</category>
+  <category>bash</category>
+  <guid>https://dr563105.github.io/posts/2023-08-30-secrets-in-json/index.html</guid>
+  <pubDate>Sat, 30 Sep 2023 00:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Change Data Capture with Debezium, Kafka, S3</title>
   <dc:creator>Deepak Ramani</dc:creator>
@@ -69,6 +631,15 @@
 <h2 class="anchored" data-anchor-id="objective">Objective</h2>
 <p>Observe and monitor a postgres DB source with a schema <code>commerce</code> and tables <code>users</code> and <code>products</code>. When there is a change in their rows, we will capture those, send it downstream through Apache Kafka and make it available for analytics through <code>duckDB</code>.</p>
 <p>Before I begin explaining the project’s data pipeline in detail, let me quickly give you the steps to reproduce it. This way you can get started already and read the details later.</p>
+</section>
+<section id="challenges-faced" class="level2">
+<h2 class="anchored" data-anchor-id="challenges-faced">Challenges faced</h2>
+<p>If you’re curious like me, it is always the challenges that make a good story to tell others. Instead of going in length about each challenge, I will just list a few that I found harder.</p>
+<ul>
+<li><p>Figuring out why decimal/numeric data type variables from source don’t reach the destination with same values. I went from source to sink to Kafka to Debezium to finally discover that it is an issue with Debezium Kafka Connect.</p></li>
+<li><p>Understanding various configurations for Apache Kafka and which ones are needed while starting its Docker container.</p></li>
+<li><p>Learning how WAL works and the significance of CDC</p></li>
+</ul>
 </section>
 <section id="architecture" class="level2">
 <h2 class="anchored" data-anchor-id="architecture">Architecture</h2>
@@ -1360,7 +1931,8 @@ Important
 <section id="activating-the-traffic-in-the-pipeline" class="level2">
 <h2 class="anchored" data-anchor-id="activating-the-traffic-in-the-pipeline">Activating the traffic in the pipeline</h2>
 <p>To activate the traffic flow from source to destination, we need to supply source and destination link configurations. This is acheived through <code>json</code> connector configuration.</p>
-<p>The configuration can be supplied as data argument in a <code>curl</code> command. <code>JSON</code> files don’t allow for secure transfer of environment variables. So will put the <code>json</code> connector config in the <code>data</code> directly inside a shell script. This way sensitive properties can still use reference to the env variables.</p>
+<p>Apache Kafka uses <code>REST API</code> so that means a JSON data goes into the body of the POST request. Conveniently there is <code>curl</code> command that can be used to request. Though <code>curl</code> commands allows to pass <code>json</code> files to the <code>data</code> option, the <code>JSON</code> format as such require sensitive information properties to be hard-coded. That puts system security at risk.</p>
+<p>Fortunately for us, a shell script allows for sensitive information to be masked while being supplied at run time(more on it <a href="https://dr563105.github.io/posts/2023-08-30-secrets-in-json/">here</a>). It is indeed that approach we take for our task to connect the blocks in the pipeline.</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>setup-connections.sh</strong></pre>
@@ -1997,6 +2569,15 @@ font-style: inherit;">20</span>;</span></code></pre></div>
 </section>
 
  ]]></description>
+  <category>Debezium</category>
+  <category>Postgres</category>
+  <category>Change Data Capture</category>
+  <category>CDC</category>
+  <category>Kafka</category>
+  <category>Connectors</category>
+  <category>Faker</category>
+  <category>Docker</category>
+  <category></category>
   <guid>https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/index.html</guid>
   <pubDate>Tue, 29 Aug 2023 00:00:00 GMT</pubDate>
 </item>
