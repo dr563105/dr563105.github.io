@@ -216,3 +216,14 @@ read more on topic names [here](https://debezium.io/documentation/reference/stab
 ## Postgresql on AWS RDS 
 
 Using this [link](https://debezium.io/documentation/reference/stable/connectors/postgresql.html#postgresql-on-amazon-rds).
+
+
+## Common issue with Decimal data types
+
+Debezium that uses Kafka connect serialises decimal values for Kafka connect to understand. That means Debezium, converts to  BigDecimal binary and encodes in Base64. At the output or downstream, onus is on the user to decode and convert back to the original value.
+
+So, a decimal or numeric data type at the source, will become something like `eA==` as it passes through Debezium and reaches Kafka topic. 
+
+A possible solution is to use `REAL` data type in SQL. However, this might not be possible in many real-life scenarios. Hence, a property `decimal.handling.mode` in connector can be set to either `string` or `double`. In `string` case, proper de-serialiser has to be implemented at the receiver. With `double` precision is sometimes lost. 
+
+It is quite a conundrum. Read more on this issue and solution [here](https://debezium.io/documentation/faq/#how_to_retrieve_decimal_field_from_binary_representation), [here](https://stackoverflow.com/a/52108339/13539744) and [here](https://stackoverflow.com/a/61097703/13539744).
