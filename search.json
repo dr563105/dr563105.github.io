@@ -543,7 +543,7 @@
     "href": "index.html#projects",
     "title": "Deepak Ramani's blog",
     "section": "Projects",
-    "text": "Projects\n\n\n\n\n\nProject\n\n\nDescription\n\n\n\n\n\n\nGrocery Unit Sale Predictor - a MLOPS project\n\n\nAn end-to-end ML project that designs and manages a ML model production workflow. \n\n\n\n\nAutonomous driving framework - a DL project\n\n\nAn end-to-end autonomous driving neural network ML model using simpler CNN architecture. \n\n\n\n\nCapture Change data using Debezium and Kafka\n\n\nA data pipeline that looks for changes and streams it through Kafka downstream for analytics. \n\n\n\n\n\nNo matching items"
+    "text": "Projects\n\n\n\n\n\nProject\n\n\nDescription\n\n\n\n\n\n\nCapture Change data using Debezium and Kafka\n\n\nA data pipeline that looks for changes and streams it through Kafka downstream for analytics. \n\n\n\n\nGrocery Unit Sale Predictor - a MLOPS project\n\n\nAn end-to-end ML project that designs and manages a ML model production workflow. \n\n\n\n\nAutonomous driving framework - a DL project\n\n\nAn end-to-end autonomous driving neural network ML model using simpler CNN architecture. \n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "notes/python_concepts.html",
