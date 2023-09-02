@@ -1,7 +1,7 @@
 ---
 title: "Storing secrets in JSON files"
 description: "a short post on showing how to use secrets in JSON files"
-date: "2023-09-30"
+date: "2023-08-30"
 author: "Deepak Ramani"
 format: 
  html:
