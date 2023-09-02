@@ -10,7 +10,7 @@
 <atom:link href="https://dr563105.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>This is Deepak Ramani&#39;s personal blog.</description>
 <generator>quarto-1.4.339</generator>
-<lastBuildDate>Sat, 30 Sep 2023 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Wed, 30 Aug 2023 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Storing secrets in JSON files</title>
   <dc:creator>Deepak Ramani</dc:creator>
@@ -571,7 +571,7 @@ font-style: inherit;">    }'</span></span></code></pre></div>
   <category>shell</category>
   <category>bash</category>
   <guid>https://dr563105.github.io/posts/2023-08-30-secrets-in-json/index.html</guid>
-  <pubDate>Sat, 30 Sep 2023 00:00:00 GMT</pubDate>
+  <pubDate>Wed, 30 Aug 2023 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Change Data Capture with Debezium, Kafka, S3</title>
