@@ -8,7 +8,7 @@ listing:
       - "title asc"
     type: table
     table-hover: true
-    categories: true
+    categories: false
     sort-ui: false
     filter-ui: false
     fields: [title, date, description, reading-time]
@@ -22,7 +22,7 @@ listing:
     sort-ui: false
     filter-ui: false
     categories: false
-    fields: [project, description, role]
+    fields: [project, description] #, role
     field-links: 
       - project
     field-display-names:
