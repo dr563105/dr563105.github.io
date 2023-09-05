@@ -2,6 +2,7 @@
 title: Change Data Capture with Debezium, Kafka, S3
 description: "Using Debezium capture data changes and stream it downstream to consumers."
 date: "2023-08-29"
+date-modified: "2023-09-05"
 author: "Deepak Ramani"
 format: 
   html:
@@ -110,6 +111,7 @@ export POSTGRES_USER=postgres
 export POSTGRES_PASSWORD=postgres
 export POSTGRES_DB=cdc-demo-db
 export POSTGRES_HOST=postgres
+export DB_SCHEMA=commerce
 export AWS_KEY_ID=minio
 export AWS_SECRET_KEY=minio123
 export AWS_BUCKET_NAME=commerce
@@ -132,6 +134,35 @@ make down #shuts down all project processes and docker containers
 # So root access is needed to delete them.
 # sudo rm -rf minio/ psql_vol/
 ```
+
+## Testing
+Testing the data pipeline is one of the important aspects of data engineering. I'm on the process of writing a new blog on it. I will link it as soon it is ready. 
+
+Meanwhile, you can do unit tests on datagen and source DB and integration test on datagen-sourceDB.
+
+:::{.callout-note}
+More unit and integration tests on Debezium and Kafka are WIP.
+:::
+
+```{.bash filename="testing"}
+make tup # <1>
+make ci # <2>
+```
+1. Opens similar test containers for source DB and datagen.
+2. Executes `pytest` and displays if passed or failed.
+
+:::{.callout-important}
+Test suite can be run only once. Running it again will result in error as the previous run data is still present in the DB.
+:::
+
+To shutdown after testing,
+
+```{.bash}
+make tdown
+sudo rm -rf test_psql_vol/ # <1>
+```
+1. Need to remove the mounted volume `test_psql_vol` if you want to run test suite again.
+
 
 # Data Pipeline detailed explanation
 :::{.callout-warning}
@@ -184,6 +215,10 @@ The SQL command `ALTER TABLE users REPLICA IDENTITY FULL;` instructs Postgres to
 ### Generating data for upload
 
 We use `faker` python library to generate fake data into the tables - users and products. We use the `psycopg2` Postgres python library to establish database(DB) connection. And then use it to commit the generated data.
+
+:::{.callout-note}
+**Update - Sep 5, 2023** - The datagen script has changed to accomodate testing but the below source code logic remains the same.
+:::
 
 ```{.python filename="user_product_data.py"}
 conn = psycopg2.connect(database=f'{POSTGRES_DB}',
@@ -253,6 +288,7 @@ cdc_commerce_postgres:
 
   datagen:
     build: ./generate-data
+    image: cdc-datagen
     container_name: datagen
     restart: on-failure
     environment: # <3>
@@ -260,6 +296,7 @@ cdc_commerce_postgres:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_HOST: ${POSTGRES_HOST}
+      DB_SCHEMA: ${DB_SCHEMA}
     depends_on:
       - cdc_commerce_postgres # <4>
     networks:
