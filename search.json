@@ -511,11 +511,39 @@
     "text": "Common issue with Decimal data types\nDebezium that uses Kafka connect serialises decimal values for Kafka connect to understand. That means Debezium, converts to BigDecimal binary and encodes in Base64. At the output or downstream, onus is on the user to decode and convert back to the original value.\nSo, a decimal or numeric data type at the source, will become something like eA== as it passes through Debezium and reaches Kafka topic.\nA possible solution is to use REAL data type in SQL. However, this might not be possible in many real-life scenarios. Hence, a property decimal.handling.mode in connector can be set to either string or double. In string case, proper de-serialiser has to be implemented at the receiver. With double precision is sometimes lost.\nIt is quite a conundrum. Read more on this issue and solution here, here and here."
   },
   {
+    "objectID": "notes/data-engineering/apache-Kafka/commands-cheatsheet.html",
+    "href": "notes/data-engineering/apache-Kafka/commands-cheatsheet.html",
+    "title": "Kafka and Kafka connect command cheatsheet",
+    "section": "",
+    "text": "These commands I used many times. This page notes down them for quick reference in future."
+  },
+  {
+    "objectID": "notes/data-engineering/apache-Kafka/commands-cheatsheet.html#kafka-connect",
+    "href": "notes/data-engineering/apache-Kafka/commands-cheatsheet.html#kafka-connect",
+    "title": "Kafka and Kafka connect command cheatsheet",
+    "section": "Kafka Connect",
+    "text": "Kafka Connect\nKafka connect uses Rest API so we can interact with a simple curl command.\n\n\nCommands for connectors\n\n#sudo apt instal jq -y\n1curl -X GET http://localhost:8083/connectors| jq\n2curl -X GET http://localhost:8083/connectors?expand=status | jq\n3curl -X GET http://localhost:8083/connectors?expand=info | jq\n4curl -X GET http://localhost:8083/connectors/&lt;connector-name&gt; | jq\n5curl -X DELETE http://localhost:8083/connectors/&lt;connector-name&gt; | jq\n\n\n1\n\nGet list of all connectors\n\n2\n\nGet status of all connectors\n\n3\n\nGet info of all connectors\n\n4\n\nGet a connector name and use it here to get information of it\n\n5\n\nDelete a respective connector\n\n\nTo know more on jq read here."
+  },
+  {
+    "objectID": "notes/data-engineering/apache-Kafka/commands-cheatsheet.html#kafka-commands",
+    "href": "notes/data-engineering/apache-Kafka/commands-cheatsheet.html#kafka-commands",
+    "title": "Kafka and Kafka connect command cheatsheet",
+    "section": "Kafka commands",
+    "text": "Kafka commands\n\n\nCommands for Kafka\n\n1docker exec -it kafka bin/kafka-topics.sh --list --bootstrap-server localhost:9092\n2docker exec -it kafka bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic debezium.commerce.products --from-beginning\n3docker exec -it kafka bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test_debezium.commerce.products --from-beginning | grep -i \"\\\"price\\\":\"\n\n\n1\n\nList all topics connected to the bootstrap-server\n\n2\n\nConsume messages with the console consumer\n\n3\n\nConsume messages with the console consumer but with a grep filter."
+  },
+  {
+    "objectID": "notes/data-engineering/apache-Kafka/commands-cheatsheet.html#kafka-configuration",
+    "href": "notes/data-engineering/apache-Kafka/commands-cheatsheet.html#kafka-configuration",
+    "title": "Kafka and Kafka connect command cheatsheet",
+    "section": "Kafka configuration",
+    "text": "Kafka configuration\n\n\nkafka configuration\n\n  zookeeper:\n    image: debezium/zookeeper:2.4\n    container_name: zookeeper\n    ports:\n      - \"2181:2181\"\n    networks:\n      - my_network\n  kafka:\n    container_name: kafka\n    image: debezium/kafka:latest\n    ports:\n      - \"9093:9093\"\n    environment:\n      - ZOOKEEPER_CONNECT=zookeeper:2181\n      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=LISTENER_INT:PLAINTEXT,LISTENER_EXT:PLAINTEXT\n      - KAFKA_ADVERTISED_LISTENERS=LISTENER_INT://kafka:9092,LISTENER_EXT://localhost:9093\n      - KAFKA_LISTENERS=LISTENER_INT://0.0.0.0:9092,LISTENER_EXT://0.0.0.0:9093\n      - KAFKA_INTER_BROKER_LISTENER_NAME=LISTENER_INT\n    depends_on:\n      - zookeeper\n    networks:\n      - my_network\n\nnetworks:\n  my_network:"
+  },
+  {
     "objectID": "archive.html",
     "href": "archive.html",
     "title": "Archive",
     "section": "",
-    "text": "Date\n\n\nTitle\n\n\n\n\n\n\n \n\n\nData Engineering concepts/tools notes\n\n\n\n\n \n\n\n📚 Deepak’s Notes\n\n\n\n\nAug 30, 2023\n\n\nStoring secrets in JSON files\n\n\n\n\nAug 30, 2023\n\n\nnotes on Kafka Connect\n\n\n\n\nAug 29, 2023\n\n\nChange Data Capture with Debezium, Kafka, S3\n\n\n\n\nAug 24, 2023\n\n\nPostgres - notes\n\n\n\n\nAug 20, 2023\n\n\nDebezium\n\n\n\n\nJun 13, 2023\n\n\nBuilding Data Pipeline - Part 4 - CI/CD\n\n\n\n\nJun 12, 2023\n\n\nTerraform - Attach IAM policies to a role\n\n\n\n\nJun 11, 2023\n\n\nBuilding Data Pipelines - Part 3 - Terraform\n\n\n\n\nJun 4, 2023\n\n\nBuilding Data Pipelines - Part 2 - AWS Cloud\n\n\n\n\nJun 3, 2023\n\n\nDeploy Web Application with Docker\n\n\n\n\nJun 3, 2023\n\n\nBuilding Data Pipelines - Part 1 - Docker\n\n\n\n\nJun 2, 2023\n\n\nGetting started with Terraform\n\n\n\n\nMay 10, 2023\n\n\nLinkedIn course - Financial data analysis\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n\n\nSep 7, 2022\n\n\nPython concepts\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n\n\n\nNo matching items"
+    "text": "Date\n\n\nTitle\n\n\n\n\n\n\n \n\n\nData Engineering concepts/tools notes\n\n\n\n\n \n\n\n📚 Deepak’s Notes\n\n\n\n\nSep 8, 2023\n\n\nKafka and Kafka connect command cheatsheet\n\n\n\n\nAug 30, 2023\n\n\nStoring secrets in JSON files\n\n\n\n\nAug 30, 2023\n\n\nnotes on Kafka Connect\n\n\n\n\nAug 29, 2023\n\n\nChange Data Capture with Debezium, Kafka, S3\n\n\n\n\nAug 24, 2023\n\n\nPostgres - notes\n\n\n\n\nAug 23, 2023\n\n\nApache Kafka notes\n\n\n\n\nAug 20, 2023\n\n\nDebezium\n\n\n\n\nJun 13, 2023\n\n\nBuilding Data Pipeline - Part 4 - CI/CD\n\n\n\n\nJun 12, 2023\n\n\nTerraform - Attach IAM policies to a role\n\n\n\n\nJun 11, 2023\n\n\nBuilding Data Pipelines - Part 3 - Terraform\n\n\n\n\nJun 4, 2023\n\n\nBuilding Data Pipelines - Part 2 - AWS Cloud\n\n\n\n\nJun 3, 2023\n\n\nDeploy Web Application with Docker\n\n\n\n\nJun 3, 2023\n\n\nBuilding Data Pipelines - Part 1 - Docker\n\n\n\n\nJun 2, 2023\n\n\nGetting started with Terraform\n\n\n\n\nMay 10, 2023\n\n\nLinkedIn course - Financial data analysis\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n\n\nSep 7, 2022\n\n\nPython concepts\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "projects/mlops.html",
@@ -607,6 +635,27 @@
     "title": "Python concepts notes",
     "section": "Context Managers",
     "text": "Context Managers\nUsually with is used w.r.t to file operations, database connections. In addition to using with and as keywords, we can make custom context managers using @contextlib.contextmanger which is a generator decorator.\n\nfrom contextlib import contextmanager\n\n@contextmanager\ndef opening(filename, method):\n    print(\"Enter\")\n    f = open(filename, method) \n    try:\n        yield f\n    finally:\n        f.close()\n        print(\"Exit\")\n\nwith opening(\"hello.txt\", \"w\") as f:\n    print(\"inside\")\n    f.write(\"hello there\")\n\nEnter\ninside\nExit"
+  },
+  {
+    "objectID": "notes/data-engineering/apache-Kafka/index.html",
+    "href": "notes/data-engineering/apache-Kafka/index.html",
+    "title": "Apache Kafka notes",
+    "section": "",
+    "text": "Kafka requires Zookeeper(ZK) to handle its configurations. Zookeeper is a meta-data management service tool.\nKafka brokers use ZK to determine which broker is the leader of a given partition and topic and perform leader elections.\nZK stores configurations for topics and permissions.\nZK sends notifications to Kafka in case of changes such as new topic, broker died, broker restarted."
+  },
+  {
+    "objectID": "notes/data-engineering/apache-Kafka/index.html#zookeeper",
+    "href": "notes/data-engineering/apache-Kafka/index.html#zookeeper",
+    "title": "Apache Kafka notes",
+    "section": "",
+    "text": "Kafka requires Zookeeper(ZK) to handle its configurations. Zookeeper is a meta-data management service tool.\nKafka brokers use ZK to determine which broker is the leader of a given partition and topic and perform leader elections.\nZK stores configurations for topics and permissions.\nZK sends notifications to Kafka in case of changes such as new topic, broker died, broker restarted."
+  },
+  {
+    "objectID": "notes/data-engineering/apache-Kafka/index.html#schema-registry",
+    "href": "notes/data-engineering/apache-Kafka/index.html#schema-registry",
+    "title": "Apache Kafka notes",
+    "section": "Schema Registry",
+    "text": "Schema Registry\nSchema Registry provides a centralized repository for managing and validating schemas for topic message data, and for serialization and deserialization of the data over the network. Producers and consumers to Kafka topics can use schemas to ensure data consistency and compatibility as schemas evolve.\nSchema Registry is a key component for data governance, helping to ensure data quality, adherence to standards, visibility into data lineage, audit capabilities, collaboration across teams, efficient application development protocols, and system performance."
   },
   {
     "objectID": "notes/data-engineering/Kafka-connect/index.html",

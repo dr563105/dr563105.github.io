@@ -6,10 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2022-09-07">
-<meta name="description" content="An end-to-end mlops project that uses ML services to make ML model pipeline.">
+<meta name="author" content="Deepak Ramani">
+<meta name="dcterms.date" content="2023-08-23">
+<meta name="description" content="Notes on apache Kafka">
 
-<title>Deepak Ramani’s blog - mlops</title>
+<title>Deepak Ramani’s blog - Apache Kafka notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -25,27 +26,27 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="../logo.png" rel="icon" type="image/png">
-<script src="../site_libs/cookie-consent/cookie-consent.js"></script>
-<link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
-<script src="../site_libs/quarto-html/quarto.js"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../logo.png" rel="icon" type="image/png">
+<script src="../../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": true,
@@ -100,11 +101,11 @@ cookieconsent.run({
 <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9028821857593432" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Deepak Ramani’s blog - mlops">
-<meta property="og:description" content="An end-to-end mlops project that uses ML services to make ML model pipeline.">
+<meta property="og:title" content="Deepak Ramani’s blog - Apache Kafka notes">
+<meta property="og:description" content="Notes on apache Kafka">
 <meta property="og:site_name" content="Deepak Ramani's blog">
-<meta name="twitter:title" content="Deepak Ramani’s blog - mlops">
-<meta name="twitter:description" content="An end-to-end mlops project that uses ML services to make ML model pipeline.">
+<meta name="twitter:title" content="Deepak Ramani’s blog - Apache Kafka notes">
+<meta name="twitter:description" content="Notes on apache Kafka">
 <meta name="twitter:creator" content="@thosegradients">
 <meta name="twitter:card" content="summary">
 </head>
@@ -122,21 +123,21 @@ cookieconsent.run({
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
+    <a class="nav-link" href="../../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../notes/index.html"> 
+    <a class="nav-link" href="../../../notes/index.html"> 
 <span class="menu-text">Notes</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../about.html"> 
+    <a class="nav-link" href="../../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../resume.pdf"> 
+    <a class="nav-link" href="../../../resume.pdf"> 
 <span class="menu-text">Resume</span></a>
   </li>  
 </ul>
@@ -151,10 +152,10 @@ cookieconsent.run({
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">mlops</h1>
+      <h1 class="title">Apache Kafka notes</h1>
                   <div>
         <div class="description">
-          An end-to-end mlops project that uses ML services to make ML model pipeline.
+          Notes on apache Kafka
         </div>
       </div>
                 </div>
@@ -163,20 +164,20 @@ cookieconsent.run({
   
   <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Deepak Ramani </p>
+            </div>
+    </div>
       
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">September 7, 2022</p>
+        <p class="date">August 23, 2023</p>
       </div>
     </div>
     
-      <div>
-      <div class="quarto-title-meta-heading">Modified</div>
-      <div class="quarto-title-meta-contents">
-        <p class="date-modified">May 17, 2023</p>
-      </div>
-    </div>
       
     </div>
     
@@ -184,7 +185,14 @@ cookieconsent.run({
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
-    
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#zookeeper" id="toc-zookeeper" class="nav-link active" data-scroll-target="#zookeeper">Zookeeper</a></li>
+  <li><a href="#schema-registry" id="toc-schema-registry" class="nav-link" data-scroll-target="#schema-registry">Schema Registry</a></li>
+  </ul>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/dr563105/dr563105.github.io/blob/master/notes/data-engineering/apache-Kafka/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
@@ -205,9 +213,20 @@ cookieconsent.run({
 
 
 
-<p>You can read about it in <a href="https://github.com/dr563105/mlops-project-grocery-sales">github</a>.</p>
+<section id="zookeeper" class="level2">
+<h2 class="anchored" data-anchor-id="zookeeper">Zookeeper</h2>
+<p>Kafka requires Zookeeper(ZK) to handle its configurations. Zookeeper is a meta-data management service tool.</p>
+<p>Kafka brokers use ZK to determine which broker is the leader of a given partition and topic and perform leader elections.</p>
+<p>ZK stores configurations for topics and permissions.</p>
+<p>ZK sends notifications to Kafka in case of changes such as new topic, broker died, broker restarted.</p>
+</section>
+<section id="schema-registry" class="level2">
+<h2 class="anchored" data-anchor-id="schema-registry">Schema Registry</h2>
+<p>Schema Registry provides a centralized repository for managing and validating schemas for topic message data, and for serialization and deserialization of the data over the network. Producers and consumers to Kafka topics can use schemas to ensure data consistency and compatibility as schemas evolve.</p>
+<p>Schema Registry is a key component for data governance, helping to ensure data quality, adherence to standards, visibility into data lineage, audit capabilities, collaboration across teams, efficient application development protocols, and system performance.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <!-- <div>
@@ -719,16 +738,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
 
-<div class="toc-actions"><ul><li><a href="https://github.com/dr563105/dr563105.github.io/blob/master/projects/mlops.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
-    <a class="nav-link" href="../archive.html">
+    <a class="nav-link" href="../../../archive.html">
 <p>Archive</p>
 </a>
   </li>  
     <li class="nav-item compact">
-    <a class="nav-link" href="../index.xml">
+    <a class="nav-link" href="../../../index.xml">
       <i class="bi bi-rss" role="img">
 </i> 
     </a>
@@ -741,5 +760,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
