@@ -1,0 +1,22 @@
+---
+title: Apache Kafka notes
+description: "Notes on apache Kafka"
+date: "2023-08-23"
+author: "Deepak Ramani"
+---
+
+## Zookeeper
+Kafka requires Zookeeper(ZK) to handle its configurations. Zookeeper is a meta-data management service tool. 
+
+Kafka brokers use ZK to determine which broker is the leader of a given partition and topic and perform leader elections.
+
+ZK stores configurations for topics and permissions.
+
+ZK sends notifications to Kafka in case of changes such as new topic, broker died, broker restarted.
+
+
+## Schema Registry
+
+Schema Registry provides a centralized repository for managing and validating schemas for topic message data, and for serialization and deserialization of the data over the network. Producers and consumers to Kafka topics can use schemas to ensure data consistency and compatibility as schemas evolve. 
+
+Schema Registry is a key component for data governance, helping to ensure data quality, adherence to standards, visibility into data lineage, audit capabilities, collaboration across teams, efficient application development protocols, and system performance.
