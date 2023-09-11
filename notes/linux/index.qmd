@@ -1,0 +1,51 @@
+---
+title: "Useful things found while using Linux"
+description: "all things concerning Linux"
+date: "2023-09-11"
+---
+Here I note down all things related to Linux which I find interesting. Those can be just short notes or tips and tricks to future reference.
+
+# Makefile
+Makefile is a wonderful utility application that allows to define rules which are then run in the order of their definition.
+
+```{.bash}
+target ... : prerequisites ...
+        command
+        ...
+        ...
+```
+
+
+Mostly Makefile makes it easier to execute two or more commands in a single execution or abbreviate a lengthy command. 
+
+For example, `docker-compose up -d` can be abbreviated or aliased as `make up`.
+
+Or, `make pg-src` runs 
+
+```{.bash}
+curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d '@./connectors/pg-src-connector.json'
+```
+
+Or, `make tsetup` which expands to `tsetup: tup tc ci` runs two or more make commands sequentially as those targets mentioned as prerequistes.
+
+```{.bash}
+tup:
+	docker-compose -f docker-compose-test.yml up -d
+	@echo -n "sleeping for 30s to launch all containers..."
+	@sleep 30
+
+test-connections:
+	. ./tests/setup-connections.sh
+	@echo -n "sleeping for 10s to get ready for testing..."
+	@sleep 10
+
+ci:
+	docker exec test_suite pytest -p no:warnings -v
+```
+
+The `@` flag infront of an echo command or any Linux command, suppresses its output 
+
+Usually each line inside a target gets displayed before executing. Sometimes it is unnecessary. For example, `@echo -n "sleeping for 10s to get ready for testing..."` won't display `echo -n "sleeping for 10s to get ready for testing..."` but rather just `sleeping for 30s to launch all containers...`.
+
+`@` flag in front of `sleep` command suppresses `sleep 30` being displayed as we already written a longer sentence previously.
+

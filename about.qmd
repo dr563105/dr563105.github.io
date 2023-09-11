@@ -1,6 +1,6 @@
 ---
 title: "Deepak Ramani"
-description: "A collection of my technical blogs written on machine learning, data engineering, and data science. "
+description: "A collection of my technical blogs written on data engineering, data science and technologies in general."
 image: profile.jpg
 about:
   template: trestles
@@ -24,7 +24,14 @@ about:
       href: https://www.buymeacoffee.com/dr563105
       aria-label: Buy Me a Coffee
 ---
-Hello, I'm Deepak! I am a passionate software engineer with a strong interest in data engineering, DevOps, and machine learning. I thrive on tackling complex problems and finding innovative solutions through collaborative teamwork. I spend my free time learning new tools and technologies. Currently, learning "effective Pandas", developing analysis dashboards.
+Hello, I'm Deepak! I am a passionate software engineer with a strong interest in data engineering, DevOps, machine learning and data science in general. I thrive on tackling complex problems and finding innovative solutions through collaborative teamwork. I tend to spend more time on making a workflow simpler and easier to execute. I spend my free time learning new tools and technologies. Currently my focus is on these topics, 
+
+- Effective data analysis with Pandas. I use [this wonderful book](https://www.amazon.in/Effective-Pandas-Patterns-Data-Manipulation/dp/B09MYXXSFM),
+
+- Developing dashboard with Tableau. I use Rob Caroll's [Tableau for sport](https://www.youtube.com/playlist?list=PLchE8bhmmIxK94imJ4QZncXrbld_NGoiW) Youtube playlists more than other resources.
+
+- Learning to use Pyspark. I use Jigsawlabs [free course](https://www.jigsawlabs.io/free-data-engineering-course).
+
 
 With a background in software engineering I am driven by a desire to leverage the power of data to drive impactful results. During my master's thesis, I developed an end-to-end system with a focus on implementing simpler CNN model architectures to achieve comparable performance to the latest models. This experience allowed me to deepen my understanding of data collection, preprocessing, and the fusion techniques necessary for night-time driving and collision avoidance.
 
