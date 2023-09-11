@@ -13,7 +13,33 @@
     "items": [
       "/notes/data-engineering/index.html",
       "/notes/py_for_finance.html",
-      "/notes/python_concepts.html"
+      "/notes/python_concepts.html",
+      "/notes/linux/index.html"
+    ]
+  },
+  {
+    "listing": "/index.html",
+    "items": [
+      "/posts/2023-08-30-secrets-in-json/index.html",
+      "/posts/2023-08-29-cdc-debezium-kafka-pg/index.html",
+      "/posts/2023-06-13-Github-Actions-CI-CD-TF/index.html",
+      "/posts/2023-06-12-Attach-iam-policy-to-roles/index.html",
+      "/posts/2023-06-11-terraform-aws/index.html",
+      "/posts/2023-06-04-api-lambda-ecr/index.html",
+      "/posts/2023-06-03-lambda-docker/index.html",
+      "/posts/2023-06-03-deploy-with-docker/index.html",
+      "/posts/2023-06-02-Terraform-setup/index.html",
+      "/posts/2023-04-27-getting-started-with-s3/index.html",
+      "/posts/2023-02-06-skim-vimtex/index.html",
+      "/posts/2022-09-24-using-json-normalize/index.html",
+      "/posts/2022-01-09-dotfiles/index.html",
+      "/posts/2021-09-18-kaggle-setup/index.html"
+    ]
+  },
+  {
+    "listing": "/projects/index.html",
+    "items": [
+      "/projects/mlops.html"
     ]
   },
   {
@@ -21,6 +47,7 @@
     "items": [
       "/notes/data-engineering/index.html",
       "/notes/index.html",
+      "/notes/linux/index.html",
       "/notes/data-engineering/apache-Kafka/commands-cheatsheet.html",
       "/posts/2023-08-30-secrets-in-json/index.html",
       "/notes/data-engineering/Kafka-connect/index.html",
@@ -40,31 +67,6 @@
       "/posts/2023-02-06-skim-vimtex/index.html",
       "/posts/2022-09-24-using-json-normalize/index.html",
       "/notes/python_concepts.html",
-      "/posts/2022-01-09-dotfiles/index.html",
-      "/posts/2021-09-18-kaggle-setup/index.html"
-    ]
-  },
-  {
-    "listing": "/projects/index.html",
-    "items": [
-      "/projects/mlops.html"
-    ]
-  },
-  {
-    "listing": "/index.html",
-    "items": [
-      "/posts/2023-08-30-secrets-in-json/index.html",
-      "/posts/2023-08-29-cdc-debezium-kafka-pg/index.html",
-      "/posts/2023-06-13-Github-Actions-CI-CD-TF/index.html",
-      "/posts/2023-06-12-Attach-iam-policy-to-roles/index.html",
-      "/posts/2023-06-11-terraform-aws/index.html",
-      "/posts/2023-06-04-api-lambda-ecr/index.html",
-      "/posts/2023-06-03-lambda-docker/index.html",
-      "/posts/2023-06-03-deploy-with-docker/index.html",
-      "/posts/2023-06-02-Terraform-setup/index.html",
-      "/posts/2023-04-27-getting-started-with-s3/index.html",
-      "/posts/2023-02-06-skim-vimtex/index.html",
-      "/posts/2022-09-24-using-json-normalize/index.html",
       "/posts/2022-01-09-dotfiles/index.html",
       "/posts/2021-09-18-kaggle-setup/index.html"
     ]

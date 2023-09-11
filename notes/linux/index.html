@@ -6,11 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Deepak Ramani">
-<meta name="dcterms.date" content="2023-08-23">
-<meta name="description" content="Notes on apache Kafka">
+<meta name="dcterms.date" content="2023-09-11">
+<meta name="description" content="all things concerning Linux">
 
-<title>Deepak Ramani’s blog - Apache Kafka notes</title>
+<title>Deepak Ramani’s blog - Useful things found while using Linux</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,30 +22,64 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../../">
-<link href="../../../logo.png" rel="icon" type="image/png">
-<script src="../../../site_libs/cookie-consent/cookie-consent.js"></script>
-<link href="../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
-<script src="../../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../logo.png" rel="icon" type="image/png">
+<script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": true,
@@ -101,11 +134,11 @@ cookieconsent.run({
 <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9028821857593432" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Deepak Ramani’s blog - Apache Kafka notes">
-<meta property="og:description" content="Notes on apache Kafka">
+<meta property="og:title" content="Deepak Ramani’s blog - Useful things found while using Linux">
+<meta property="og:description" content="all things concerning Linux">
 <meta property="og:site_name" content="Deepak Ramani's blog">
-<meta name="twitter:title" content="Deepak Ramani’s blog - Apache Kafka notes">
-<meta name="twitter:description" content="Notes on apache Kafka">
+<meta name="twitter:title" content="Deepak Ramani’s blog - Useful things found while using Linux">
+<meta name="twitter:description" content="all things concerning Linux">
 <meta name="twitter:creator" content="@thosegradients">
 <meta name="twitter:card" content="summary">
 </head>
@@ -123,21 +156,21 @@ cookieconsent.run({
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../../index.html"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../notes/index.html"> 
+    <a class="nav-link" href="../../notes/index.html"> 
 <span class="menu-text">Notes</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../../about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../resume.pdf"> 
+    <a class="nav-link" href="../../resume.pdf"> 
 <span class="menu-text">Resume</span></a>
   </li>  
 </ul>
@@ -152,10 +185,10 @@ cookieconsent.run({
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Apache Kafka notes</h1>
+      <h1 class="title">Useful things found while using Linux</h1>
                   <div>
         <div class="description">
-          Notes on apache Kafka
+          all things concerning Linux
         </div>
       </div>
                 </div>
@@ -164,17 +197,11 @@ cookieconsent.run({
   
   <div class="quarto-title-meta">
 
-      <div>
-      <div class="quarto-title-meta-heading">Author</div>
-      <div class="quarto-title-meta-contents">
-               <p>Deepak Ramani </p>
-            </div>
-    </div>
       
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">August 23, 2023</p>
+        <p class="date">September 11, 2023</p>
       </div>
     </div>
     
@@ -189,10 +216,9 @@ cookieconsent.run({
     <h2 id="toc-title">Table of contents</h2>
    
   <ul class="collapse">
-  <li><a href="#zookeeper" id="toc-zookeeper" class="nav-link active" data-scroll-target="#zookeeper">Zookeeper</a></li>
-  <li><a href="#schema-registry" id="toc-schema-registry" class="nav-link" data-scroll-target="#schema-registry">Schema Registry</a></li>
+  <li><a href="#makefile" id="toc-makefile" class="nav-link active" data-scroll-target="#makefile">Makefile</a></li>
   </ul>
-<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/dr563105/dr563105.github.io/blob/master/notes/data-engineering/apache-Kafka/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/dr563105/dr563105.github.io/blob/master/notes/linux/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
@@ -213,17 +239,34 @@ cookieconsent.run({
 
 
 
-<section id="zookeeper" class="level2">
-<h2 class="anchored" data-anchor-id="zookeeper">Zookeeper</h2>
-<p>Kafka requires Zookeeper(ZK) to handle its configurations. Zookeeper is a meta-data management service tool.</p>
-<p>Kafka brokers use ZK to determine which broker is the leader of a given partition and topic and perform leader elections.</p>
-<p>ZK stores configurations for topics and permissions.</p>
-<p>ZK sends notifications to Kafka in case of changes such as new topic, broker died, broker restarted.</p>
-</section>
-<section id="schema-registry" class="level2">
-<h2 class="anchored" data-anchor-id="schema-registry">Schema Registry</h2>
-<p>Schema Registry provides a centralized repository for managing and validating schemas for topic message data, and for serialization and deserialization of the data over the network. Producers and consumers to Kafka topics can use schemas to ensure data consistency and compatibility as schemas evolve.</p>
-<p>Schema Registry is a key component for data governance, helping to ensure data quality, adherence to standards, visibility into data lineage, audit capabilities, collaboration across teams, efficient application development protocols, and system performance.</p>
+<p>Here I note down all things related to Linux which I find interesting. Those can be just short notes or tips and tricks to future reference.</p>
+<section id="makefile" class="level1">
+<h1>Makefile</h1>
+<p>Makefile is a wonderful utility application that allows to define rules which are then run in the order of their definition.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">target</span> ... : prerequisites ...</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>        <span class="bu">command</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="ex">...</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="ex">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Mostly Makefile makes it easier to execute two or more commands in a single execution or abbreviate a lengthy command.</p>
+<p>For example, <code>docker-compose up -d</code> can be abbreviated or aliased as <code>make up</code>.</p>
+<p>Or, <code>make pg-src</code> runs</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-i</span> <span class="at">-X</span> POST <span class="at">-H</span> <span class="st">"Accept:application/json"</span> <span class="at">-H</span> <span class="st">"Content-Type:application/json"</span> localhost:8083/connectors/ <span class="at">-d</span> <span class="st">'@./connectors/pg-src-connector.json'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Or, <code>make tsetup</code> which expands to <code>tsetup: tup tc ci</code> runs two or more make commands sequentially as those targets mentioned as prerequistes.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tup:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">docker-compose</span> <span class="at">-f</span> docker-compose-test.yml up <span class="at">-d</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">@echo</span> <span class="at">-n</span> <span class="st">"sleeping for 30s to launch all containers..."</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="ex">@sleep</span> 30</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="ex">test-connections:</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">.</span> ./tests/setup-connections.sh</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="ex">@echo</span> <span class="at">-n</span> <span class="st">"sleeping for 10s to get ready for testing..."</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="ex">@sleep</span> 10</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="ex">ci:</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="ex">docker</span> exec test_suite pytest <span class="at">-p</span> no:warnings <span class="at">-v</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>@</code> flag infront of an echo command or any Linux command, suppresses its output</p>
+<p>Usually each line inside a target gets displayed before executing. Sometimes it is unnecessary. For example, <code>@echo -n "sleeping for 10s to get ready for testing..."</code> won’t display <code>echo -n "sleeping for 10s to get ready for testing..."</code> but rather just <code>sleeping for 30s to launch all containers...</code>.</p>
+<p><code>@</code> flag in front of <code>sleep</code> command suppresses <code>sleep 30</code> being displayed as we already written a longer sentence previously.</p>
 
 
 </section>
@@ -742,12 +785,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
-    <a class="nav-link" href="../../../archive.html">
+    <a class="nav-link" href="../../archive.html">
 <p>Archive</p>
 </a>
   </li>  
     <li class="nav-item compact">
-    <a class="nav-link" href="../../../index.xml">
+    <a class="nav-link" href="../../index.xml">
       <i class="bi bi-rss" role="img">
 </i> 
     </a>
@@ -760,5 +803,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<script src="../../../site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

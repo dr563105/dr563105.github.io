@@ -4,7 +4,7 @@
     "href": "about.html",
     "title": "Deepak Ramani",
     "section": "",
-    "text": "Hello, I’m Deepak! I am a passionate software engineer with a strong interest in data engineering, DevOps, and machine learning. I thrive on tackling complex problems and finding innovative solutions through collaborative teamwork. I spend my free time learning new tools and technologies. Currently, learning “effective Pandas”, developing analysis dashboards.\nWith a background in software engineering I am driven by a desire to leverage the power of data to drive impactful results. During my master’s thesis, I developed an end-to-end system with a focus on implementing simpler CNN model architectures to achieve comparable performance to the latest models. This experience allowed me to deepen my understanding of data collection, preprocessing, and the fusion techniques necessary for night-time driving and collision avoidance.\nI am an enthusiastic learner who stays up-to-date with the latest industry trends and technologies. My strong problem-solving skills, combined with my passion for teamwork, enable me to contribute to challenging projects and deliver high-quality results. I am now seeking new opportunities to apply my skills and knowledge in data engineering, DevOps, and machine learning, making a meaningful impact within a dynamic organization.\nFeel free to connect with me to explore collaboration opportunities, share insights, or discuss exciting projects in these fields. Let’s embark on this journey together to drive innovation and solve complex problems."
+    "text": "Hello, I’m Deepak! I am a passionate software engineer with a strong interest in data engineering, DevOps, machine learning and data science in general. I thrive on tackling complex problems and finding innovative solutions through collaborative teamwork. I tend to spend more time on making a workflow simpler and easier to execute. I spend my free time learning new tools and technologies. Currently my focus is on these topics,\n\nEffective data analysis with Pandas. I use this wonderful book,\nDeveloping dashboard with Tableau. I use Rob Caroll’s Tableau for sport Youtube playlists more than other resources.\nLearning to use Pyspark. I use Jigsawlabs free course.\n\nWith a background in software engineering I am driven by a desire to leverage the power of data to drive impactful results. During my master’s thesis, I developed an end-to-end system with a focus on implementing simpler CNN model architectures to achieve comparable performance to the latest models. This experience allowed me to deepen my understanding of data collection, preprocessing, and the fusion techniques necessary for night-time driving and collision avoidance.\nI am an enthusiastic learner who stays up-to-date with the latest industry trends and technologies. My strong problem-solving skills, combined with my passion for teamwork, enable me to contribute to challenging projects and deliver high-quality results. I am now seeking new opportunities to apply my skills and knowledge in data engineering, DevOps, and machine learning, making a meaningful impact within a dynamic organization.\nFeel free to connect with me to explore collaboration opportunities, share insights, or discuss exciting projects in these fields. Let’s embark on this journey together to drive innovation and solve complex problems."
   },
   {
     "objectID": "posts/2023-02-06-skim-vimtex/index.html",
@@ -539,20 +539,6 @@
     "text": "Kafka configuration\n\n\nkafka configuration\n\n  zookeeper:\n    image: debezium/zookeeper:2.4\n    container_name: zookeeper\n    ports:\n      - \"2181:2181\"\n    networks:\n      - my_network\n  kafka:\n    container_name: kafka\n    image: debezium/kafka:latest\n    ports:\n      - \"9093:9093\"\n    environment:\n      - ZOOKEEPER_CONNECT=zookeeper:2181\n      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=LISTENER_INT:PLAINTEXT,LISTENER_EXT:PLAINTEXT\n      - KAFKA_ADVERTISED_LISTENERS=LISTENER_INT://kafka:9092,LISTENER_EXT://localhost:9093\n      - KAFKA_LISTENERS=LISTENER_INT://0.0.0.0:9092,LISTENER_EXT://0.0.0.0:9093\n      - KAFKA_INTER_BROKER_LISTENER_NAME=LISTENER_INT\n    depends_on:\n      - zookeeper\n    networks:\n      - my_network\n\nnetworks:\n  my_network:"
   },
   {
-    "objectID": "archive.html",
-    "href": "archive.html",
-    "title": "Archive",
-    "section": "",
-    "text": "Date\n\n\nTitle\n\n\n\n\n\n\n \n\n\nData Engineering concepts/tools notes\n\n\n\n\n \n\n\n📚 Deepak’s Notes\n\n\n\n\nSep 8, 2023\n\n\nKafka and Kafka connect command cheatsheet\n\n\n\n\nAug 30, 2023\n\n\nStoring secrets in JSON files\n\n\n\n\nAug 30, 2023\n\n\nnotes on Kafka Connect\n\n\n\n\nAug 29, 2023\n\n\nChange Data Capture with Debezium, Kafka, S3\n\n\n\n\nAug 24, 2023\n\n\nPostgres - notes\n\n\n\n\nAug 23, 2023\n\n\nApache Kafka notes\n\n\n\n\nAug 20, 2023\n\n\nDebezium\n\n\n\n\nJun 13, 2023\n\n\nBuilding Data Pipeline - Part 4 - CI/CD\n\n\n\n\nJun 12, 2023\n\n\nTerraform - Attach IAM policies to a role\n\n\n\n\nJun 11, 2023\n\n\nBuilding Data Pipelines - Part 3 - Terraform\n\n\n\n\nJun 4, 2023\n\n\nBuilding Data Pipelines - Part 2 - AWS Cloud\n\n\n\n\nJun 3, 2023\n\n\nDeploy Web Application with Docker\n\n\n\n\nJun 3, 2023\n\n\nBuilding Data Pipelines - Part 1 - Docker\n\n\n\n\nJun 2, 2023\n\n\nGetting started with Terraform\n\n\n\n\nMay 10, 2023\n\n\nLinkedIn course - Financial data analysis\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n\n\nSep 7, 2022\n\n\nPython concepts\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "projects/mlops.html",
-    "href": "projects/mlops.html",
-    "title": "mlops",
-    "section": "",
-    "text": "You can read about it in github."
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Deepak Ramani's blog",
@@ -572,6 +558,27 @@
     "title": "Deepak Ramani's blog",
     "section": "Projects",
     "text": "Projects\n\n\n\n\n\nProject\n\n\nDescription\n\n\n\n\n\n\nCapture Change data using Debezium and Kafka\n\n\nA data pipeline that looks for changes and streams it through Kafka downstream for analytics. \n\n\n\n\nGrocery Unit Sale Predictor - a MLOPS project\n\n\nAn end-to-end ML project that designs and manages a ML model production workflow. \n\n\n\n\nAutonomous driving framework - a DL project\n\n\nAn end-to-end autonomous driving neural network ML model using simpler CNN architecture. \n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "projects/mlops.html",
+    "href": "projects/mlops.html",
+    "title": "mlops",
+    "section": "",
+    "text": "You can read about it in github."
+  },
+  {
+    "objectID": "archive.html",
+    "href": "archive.html",
+    "title": "Archive",
+    "section": "",
+    "text": "Date\n\n\nTitle\n\n\n\n\n\n\n \n\n\nData Engineering concepts/tools notes\n\n\n\n\n \n\n\n📚 Deepak’s Notes\n\n\n\n\nSep 11, 2023\n\n\nUseful things found while using Linux\n\n\n\n\nSep 8, 2023\n\n\nKafka and Kafka connect command cheatsheet\n\n\n\n\nAug 30, 2023\n\n\nStoring secrets in JSON files\n\n\n\n\nAug 30, 2023\n\n\nnotes on Kafka Connect\n\n\n\n\nAug 29, 2023\n\n\nChange Data Capture with Debezium, Kafka, S3\n\n\n\n\nAug 24, 2023\n\n\nPostgres - notes\n\n\n\n\nAug 23, 2023\n\n\nApache Kafka notes\n\n\n\n\nAug 20, 2023\n\n\nDebezium\n\n\n\n\nJun 13, 2023\n\n\nBuilding Data Pipeline - Part 4 - CI/CD\n\n\n\n\nJun 12, 2023\n\n\nTerraform - Attach IAM policies to a role\n\n\n\n\nJun 11, 2023\n\n\nBuilding Data Pipelines - Part 3 - Terraform\n\n\n\n\nJun 4, 2023\n\n\nBuilding Data Pipelines - Part 2 - AWS Cloud\n\n\n\n\nJun 3, 2023\n\n\nDeploy Web Application with Docker\n\n\n\n\nJun 3, 2023\n\n\nBuilding Data Pipelines - Part 1 - Docker\n\n\n\n\nJun 2, 2023\n\n\nGetting started with Terraform\n\n\n\n\nMay 10, 2023\n\n\nLinkedIn course - Financial data analysis\n\n\n\n\nApr 27, 2023\n\n\nGetting started with S3 using boto3\n\n\n\n\nFeb 6, 2023\n\n\nSetup Skim PDF reader with VimTeX in Mac OS\n\n\n\n\nSep 24, 2022\n\n\nUsing json_normalize Pandas function\n\n\n\n\nSep 7, 2022\n\n\nPython concepts\n\n\n\n\nJan 9, 2022\n\n\nManage dotfiles with GNU Stow\n\n\n\n\nSep 18, 2021\n\n\nSetting up Kaggle on Linux/Mac\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "notes/linux/index.html",
+    "href": "notes/linux/index.html",
+    "title": "Useful things found while using Linux",
+    "section": "",
+    "text": "Here I note down all things related to Linux which I find interesting. Those can be just short notes or tips and tricks to future reference.\n\nMakefile\nMakefile is a wonderful utility application that allows to define rules which are then run in the order of their definition.\ntarget ... : prerequisites ...\n        command\n        ...\n        ...\nMostly Makefile makes it easier to execute two or more commands in a single execution or abbreviate a lengthy command.\nFor example, docker-compose up -d can be abbreviated or aliased as make up.\nOr, make pg-src runs\ncurl -i -X POST -H \"Accept:application/json\" -H \"Content-Type:application/json\" localhost:8083/connectors/ -d '@./connectors/pg-src-connector.json'\nOr, make tsetup which expands to tsetup: tup tc ci runs two or more make commands sequentially as those targets mentioned as prerequistes.\ntup:\n    docker-compose -f docker-compose-test.yml up -d\n    @echo -n \"sleeping for 30s to launch all containers...\"\n    @sleep 30\n\ntest-connections:\n    . ./tests/setup-connections.sh\n    @echo -n \"sleeping for 10s to get ready for testing...\"\n    @sleep 10\n\nci:\n    docker exec test_suite pytest -p no:warnings -v\nThe @ flag infront of an echo command or any Linux command, suppresses its output\nUsually each line inside a target gets displayed before executing. Sometimes it is unnecessary. For example, @echo -n \"sleeping for 10s to get ready for testing...\" won’t display echo -n \"sleeping for 10s to get ready for testing...\" but rather just sleeping for 30s to launch all containers....\n@ flag in front of sleep command suppresses sleep 30 being displayed as we already written a longer sentence previously."
   },
   {
     "objectID": "notes/python_concepts.html",

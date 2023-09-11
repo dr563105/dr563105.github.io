@@ -9,7 +9,7 @@
 <link>https://dr563105.github.io/index.html</link>
 <atom:link href="https://dr563105.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>This is Deepak Ramani&#39;s personal blog.</description>
-<generator>quarto-1.4.349</generator>
+<generator>quarto-1.4.358</generator>
 <lastBuildDate>Wed, 30 Aug 2023 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Storing secrets in JSON files</title>
