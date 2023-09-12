@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.358">
+<meta name="generator" content="quarto-1.4.357">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -158,7 +158,10 @@ cookieconsent.run({
           Notes on apache Kafka
         </div>
       </div>
-                </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">kafka listeners</div>
+              </div>
+                  </div>
   </div>
     
   
@@ -190,6 +193,7 @@ cookieconsent.run({
    
   <ul class="collapse">
   <li><a href="#zookeeper" id="toc-zookeeper" class="nav-link active" data-scroll-target="#zookeeper">Zookeeper</a></li>
+  <li><a href="#kafka-listeners" id="toc-kafka-listeners" class="nav-link" data-scroll-target="#kafka-listeners">Kafka Listeners</a></li>
   <li><a href="#schema-registry" id="toc-schema-registry" class="nav-link" data-scroll-target="#schema-registry">Schema Registry</a></li>
   </ul>
 <div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/dr563105/dr563105.github.io/blob/master/notes/data-engineering/apache-Kafka/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
@@ -219,6 +223,19 @@ cookieconsent.run({
 <p>Kafka brokers use ZK to determine which broker is the leader of a given partition and topic and perform leader elections.</p>
 <p>ZK stores configurations for topics and permissions.</p>
 <p>ZK sends notifications to Kafka in case of changes such as new topic, broker died, broker restarted.</p>
+</section>
+<section id="kafka-listeners" class="level2">
+<h2 class="anchored" data-anchor-id="kafka-listeners">Kafka Listeners</h2>
+<p>This note is learnings from <a href="https://www.confluent.io/blog/kafka-listeners-explained/">this blog post</a> on Kafka listeners.</p>
+<p>Kafka listeners are important server properties in Kafka. Both <code>KAFKA_ADVERTISED_LISTENERS</code> and <code>KAFKA_LISTENERS</code> configure how Kafka brokers interact with each other and with others. Kafka being a distributed system utilises these properties to manage interactions.</p>
+<p>On a single machine everything can be <code>localhost</code> but in a distributed system it is not often so. Most often Kafka is run in Kubernetes cloud within docker. To interact with individual brokers, we need to address each broker specifically. The blog details configurations clearly. For simpler cases, these are my takeaways:</p>
+<ul>
+<li><p>A listener is combination of Host/IP, Port and Protocol.</p></li>
+<li><p><code>KAFKA_ADVERTISED_LISTENERS</code> and <code>KAFKA_LISTENERS</code> have two components – one host/ip to interact internally with themselves(defined by <code>KAFKA_INTER_BROKER_LISTENER_NAME</code>) and one to interact with others.</p></li>
+<li><p>Internally it is usually docker hostname <code>kafka</code> followed by a port number. Example: <code>kafka:9092</code>.</p></li>
+<li><p>Externally, it is usually <code>localhost</code> with a port.</p></li>
+<li><p>Debezium which connects to kafka, uses internal listener. <code>kafka:9092</code> as bootstrap-server.</p></li>
+</ul>
 </section>
 <section id="schema-registry" class="level2">
 <h2 class="anchored" data-anchor-id="schema-registry">Schema Registry</h2>

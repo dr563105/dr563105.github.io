@@ -9,8 +9,585 @@
 <link>https://dr563105.github.io/index.html</link>
 <atom:link href="https://dr563105.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>This is Deepak Ramani&#39;s personal blog.</description>
-<generator>quarto-1.4.358</generator>
-<lastBuildDate>Wed, 30 Aug 2023 00:00:00 GMT</lastBuildDate>
+<generator>quarto-1.4.357</generator>
+<lastBuildDate>Sat, 02 Sep 2023 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Testing Data Pipelines</title>
+  <dc:creator>Deepak Ramani</dc:creator>
+  <link>https://dr563105.github.io/posts/2023-09-02-testing-data-pipelines/index.html</link>
+  <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
+
+
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Testing is one of the important phases in software development cycle before a software is turned to production.</p>
+<p><img src="https://dr563105.github.io/posts/2023-09-02-testing-data-pipelines/SDLC-stages.png" class="img-fluid"></p>
+<p>Testing is a way to simulate and the application for all possible actions from users before delivery. It reveals flaws in development and sometimes even upto design phase. Imagine a scenario in which a user has to enter price of a product. Mistakenly they enter <code>1w</code> instead of 12. If this pattern happens regularly, and in the monthly report, these numbers won’t add up at all. With testing, we can set guardrails to protect against such mistakes.</p>
+<p>In my <a href="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/">post</a>, I designed a pipeline to check a Postgres DB for data changes and transport those changes through Apache Kafka and store in S3-like storage. However, I didn’t have time to write proper test cases. After publishing that post, I created unit and integration test cases. In this post we will go through how each test case was developed.</p>
+</section>
+<section id="testing-environment" class="level1">
+<h1>Testing Environment</h1>
+<p>In almost well setup software delivery teams, there are two environments before delivery into production – development and testing.</p>
+<p>In our case, the architecture as shown below, there are source and sink systems with Apache Kafka in the middle. The Debezium connects source database(DB) to Kafka. Testing the data pipeline shouldn’t affect development environment or live environment. So we will setup a testing environment that mimics the live environment – using a different port numbers, source DB, topics, buckets.</p>
+<p>In the first part of testing, we will do unit and integration for the source systems - Fake datagen and source Postgres DB</p>
+<p><img src="https://dr563105.github.io/posts/2023-09-02-testing-data-pipelines/cdc-pipeline.png" class="img-fluid"></p>
+<p>Full project is located <a href="https://github.com/dr563105/cdc-pg-dbz-kafka-s3">here</a>.</p>
+<section id="source-system" class="level2">
+<h2 class="anchored" data-anchor-id="source-system">Source system</h2>
+<p>Source system in our case is just two components – a python script that generates data and Postgres database that stores the generated data. With automated testing, we will do checks on individual component – unit tests, a combined test – integration test.</p>
+<section id="setup" class="level3">
+<h3 class="anchored" data-anchor-id="setup">Setup</h3>
+<p>I created a directory <code>tests</code> to mimic a testing environment. File structure drawn using <a href="https://www.cyberciti.biz/faq/linux-show-directory-structure-command-line/">this wonderful utility app</a>.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>tests directory structure</strong></pre>
+</div>
+<div class="sourceCode" id="annotated-cell-1" style="background: #f1f3f5;"><pre class="sourceCode bash code-annotation-code code-with-copy code-annotated"><code class="sourceCode bash"><span id="annotated-cell-1-1"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">.</span></span>
+<span id="annotated-cell-1-2"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">├──</span> postgres</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-3" class="code-annotation-target"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">│&nbsp;&nbsp;</span> └── init.sql</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-4" class="code-annotation-target"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">├──</span> Makefile</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-5" class="code-annotation-target"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">├──</span> docker-compose-test.yml</span>
+<span id="annotated-cell-1-6"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">└──</span> tests</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><span id="annotated-cell-1-7" class="code-annotation-target">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">├──</span> Pipfile</span>
+<span id="annotated-cell-1-8">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">├──</span> Pipfile.lock</span>
+<span id="annotated-cell-1-9">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">├──</span> integration</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="5">5</button><span id="annotated-cell-1-10" class="code-annotation-target">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">│&nbsp;&nbsp;</span> └── test_datagen_db.py</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="6">6</button><span id="annotated-cell-1-11" class="code-annotation-target">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">├──</span> test-setup-connections.sh</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="7">7</button><span id="annotated-cell-1-12" class="code-annotation-target">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">├──</span> test_Dockerfile</span>
+<span id="annotated-cell-1-13">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">├──</span> unit</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="8">8</button><span id="annotated-cell-1-14" class="code-annotation-target">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">│&nbsp;&nbsp;</span> ├── test_datagen.py</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="9">9</button><span id="annotated-cell-1-15" class="code-annotation-target">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">│&nbsp;&nbsp;</span> └── test_pg_src_db.py</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="10">10</button><span id="annotated-cell-1-16" class="code-annotation-target">    <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">└──</span> user_product_data.py</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="3" data-code-annotation="1">Initilisation script to setup DB</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="4" data-code-annotation="2">Makefile with added commands for testing</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="5" data-code-annotation="3">Docker-compose template file for testing</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="7" data-code-annotation="4">Pipfile contains dev packages for testing</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="10" data-code-annotation="5">A testing script to test integration between datagen and DB</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="11" data-code-annotation="6">A shell script to establish connectors</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="7">7</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="12" data-code-annotation="7">Test dockerfile to copy all the files and install dependencies</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="8">8</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="14" data-code-annotation="8">Unit test script for datagen</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="9">9</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="15" data-code-annotation="9">Unit test script for Postgres source DB</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="10">10</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="16" data-code-annotation="10">Original script for which testing automation is written</span>
+</dd>
+</dl>
+</section>
+</section>
+</section>
+<section id="changes-to-compliment-testing" class="level1">
+<h1>Changes to compliment testing</h1>
+<section id="docker-compose-file" class="level2">
+<h2 class="anchored" data-anchor-id="docker-compose-file">Docker-compose file</h2>
+<p>Since we’re going to create a separate testing environment, it would be useful to have a separate <code>docker-compose-test.yml</code> file too.</p>
+<section id="changes" class="level3">
+<h3 class="anchored" data-anchor-id="changes">Changes</h3>
+<p><strong>Change the host port number</strong></p>
+<p>Why? Because if we run both testing and live environment in the same machine(most often it wouldn’t be), then there will be clashing of ports.</p>
+<ul>
+<li><p>So, for DB host port changes from <code>5432</code> to <code>15432</code>,</p></li>
+<li><p>Zookeeper - <code>2181</code> to <code>12181</code>,</p></li>
+<li><p>Kafka - <code>9093</code> to <code>19093</code> and also corresponding environment changes,</p></li>
+<li><p>Debezium Kafka Connect - <code>8083</code> to <code>18083</code>.</p></li>
+</ul>
+<p><strong>Creating a new test network</strong></p>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">networks</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="cb1-2"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">my_test_network</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">:</span></span></code></pre></div>
+<p><strong>Environment</strong></p>
+<ul>
+<li>Creating separate variables to pass test environment parameters.</li>
+</ul>
+</section>
+</section>
+<section id="dockerfile" class="level2">
+<h2 class="anchored" data-anchor-id="dockerfile">Dockerfile</h2>
+<p>We are trying to reproduce live version in testing. That means the <code>test-suite</code> must be built the same way. However, as we run <code>pytest</code> manually and not as an entrypoint with the docker, environment must be made ready for container. This is done with <code>ENV</code> keyword. Remember to pass these variables in <code>docker-compose.yml</code>.</p>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">ENV</span> TEST_POSTGRES_USER = <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${TEST_POSTGRES_USER}</span></span>
+<span id="cb2-2"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">ENV</span> TEST_POSTGRES_PASSWORD = <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${TEST_POSTGRES_PASSWORD}</span></span>
+<span id="cb2-3"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">ENV</span> TEST_POSTGRES_DB = <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${TEST_POSTGRES_DB}</span></span>
+<span id="cb2-4"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">ENV</span> TEST_POSTGRES_HOST = <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${TEST_POSTGRES_HOST}</span></span>
+<span id="cb2-5"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">ENV</span> DB_SCHEMA = <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">${DB_SCHEMA}</span></span></code></pre></div>
+<p>Also we need to set python path to make python execute tests. That is achieved with <code>ENV PYTHONPATH=/test_app/tests/</code>.</p>
+<p>Finally we can keep our container alive with command <code>tail -f /dev/null</code>. This is a unix feature which continuously runs this command and flushes the output to a <code>null</code> directory.</p>
+</section>
+<section id="pipfile-and-pipfile.lock" class="level2">
+<h2 class="anchored" data-anchor-id="pipfile-and-pipfile.lock">Pipfile and Pipfile.lock</h2>
+<p>The initial requirements are still the same but for testing we add <code>pytest</code>. <code>pipenv</code> allows to categorise packages such as <code>pytest</code> as <code>dev-packages</code> which makes it useful to install only when necessary. To install we use <code>pipenv install --dev --system --deploy</code>. <code>--dev</code> flag installs the <code>dev-packages</code>.</p>
+</section>
+<section id="unit-testing" class="level2">
+<h2 class="anchored" data-anchor-id="unit-testing">Unit testing</h2>
+<p>Testing a unit or single component is called unit testing. Here there are two units – Datagen and source DB.</p>
+<section id="datagen-unit-testing" class="level3">
+<h3 class="anchored" data-anchor-id="datagen-unit-testing">Datagen unit testing</h3>
+<p>A test file in python is named with <code>test</code> prefix. <code>pytest</code> picks up those file automatically to run tests. The unit/component function we are testing is imported in the test file. Here they are <code>generate_user_data</code> and <code>generate_product_data</code>.</p>
+<p>Any function with <code>test</code> as prefix is recognised by <code>pytest</code> library. And <code>assert</code> keyword is used to compare the actual and expected output. This comparision can any condition depending on the case.</p>
+<p>Here we determine if the generated user and product data are of <code>dictionary</code> data type. And determine if the data generated is not empty. Upon successful testing, the pytest should return with <code>100%</code> and no errors.</p>
+</section>
+<section id="source-db" class="level3">
+<h3 class="anchored" data-anchor-id="source-db">Source DB</h3>
+<p>Unlike datagen testing, source DB testing involves little more preparatory steps such as connection parameters.</p>
+<p>Here we test</p>
+<ul>
+<li><p>Whether DB is reachable with the given connection parameters,</p></li>
+<li><p>Whether a simple <code>select 1</code> command returns the value <code>1</code>,</p></li>
+<li><p>Whether the schema created using <code>init.sql</code> script contains the tables we created – <code>products</code> and <code>users</code>,</p></li>
+</ul>
+<p>– Whether are there any missing tables.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As environment variable I used <code>TEST_SCHEMA</code> but unfortunately the script failed to recognise the variable. If you find out why please let me know.</p>
+</div>
+</div>
+<p>To execute a function only once per run we can leverage pytest’s scope as <code>module</code>. <code>@pytest.fixture(scope="module")</code></p>
+</section>
+</section>
+<section id="integration-testing" class="level2">
+<h2 class="anchored" data-anchor-id="integration-testing">Integration testing</h2>
+<p>Integration testing is a test of two or more components such as datagen and source DB.</p>
+<p>We put this file inside <code>integration</code> directory and as usual prefix it with <code>test</code>, import <code>env</code> variables and setup DB connection.</p>
+<section id="changes-to-original-script" class="level3">
+<h3 class="anchored" data-anchor-id="changes-to-original-script">Changes to original script</h3>
+<p>In the first version of the script to generate data and push it to the DB, I didn’t modularise the functionalities. Every operation – data generation, DB connect, inseration, update, delete was written under one function. Had I not implemented testing, this simple function would be sufficient. Any failure would only point to this single function. However, for testing we must test each operation. That means each operation has be modularised or in other words has to be its own function.</p>
+<p>Yes, this made for further changes but the code looks robust and easy to spot failures. This is important point to remember.</p>
+</section>
+<section id="testing-capabilities" class="level3">
+<h3 class="anchored" data-anchor-id="testing-capabilities">Testing capabilities</h3>
+<p>We check each operation:</p>
+<ul>
+<li><p>Generation and inseration of data into respective tables,</p></li>
+<li><p>Update some records</p></li>
+<li><p>Delete some records</p></li>
+<li><p>Finally execute all operation sequentially and verify the total number of records remaining. This way we know the operation performed without errors.</p></li>
+</ul>
+<p>Ofcourse, these test cases are the basics. Several more can be added to test specific or edge cases.</p>
+<p>A successful testing will results in <code>100%</code> message being displayed. Now we can be sure the source end of the data pipeline works. Next would be test the middle part of the pipeline. Since the next section would be to test at Kafka and as it is connected with Debezium it is an integration test.</p>
+</section>
+</section>
+<section id="middle-system-debezium-kafka-connect-and-kafka" class="level2">
+<h2 class="anchored" data-anchor-id="middle-system-debezium-kafka-connect-and-kafka">Middle system – Debezium Kafka connect and Kafka</h2>
+<p>Testing at Kafka means we update <code>docker-compose-test.yml</code> with <code>zookeeper</code>, <code>kafka</code> and <code>debezium</code> with Aiven S3 connector. Please refer to the source code for more info.</p>
+<p>We use <code>kafka-python</code> library to test at Kafka. Add in <code>kafka-python = "*"</code> to the <code>Pipfile</code> and read its dev install.</p>
+<p>For testing at Kafka, we will need the Kafka topics that be monitored by Kafka broker and also a connection to the source DB to verify if contents came through.</p>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">KAFKA_TOPIC_PRODUCTS</span> = <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"test_debezium.commerce.products"</span> </span>
+<span id="cb3-2"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">KAFKA_TOPIC_USERS</span> = <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"test_debezium.commerce.users"</span></span>
+<span id="cb3-3"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">TEST_POSTGRES_USER</span> = os.getenv<span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">(</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"TEST_POSTGRES_USER"</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span id="cb3-4"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">TEST_POSTGRES_PASSWORD</span> = os.getenv<span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">(</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"TEST_POSTGRES_PASSWORD"</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span id="cb3-5"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">TEST_POSTGRES_HOSTNAME</span> = os.getenv<span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">(</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"TEST_POSTGRES_HOST"</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span id="cb3-6"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">TEST_POSTGRES_DB</span> = os.getenv<span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">(</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"TEST_POSTGRES_DB"</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">)</span></span>
+<span id="cb3-7"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">SCHEMA</span> = os.getenv<span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">(</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"DB_SCHEMA"</span><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">,</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"commerce"</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">)</span></span></code></pre></div>
+<p>Like previously we introduce pytest’s <code>module</code> functionality for DB connection. In addition we also make <code>KafkaConsumer</code> for products and users similarly so.</p>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">@pytest.fixture</span>(scope<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"module"</span>)</span>
+<span id="cb4-2"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> get_consumer_users():</span>
+<span id="cb4-3">    consumer_users <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> KafkaConsumer(</span>
+<span id="cb4-4">        KAFKA_TOPIC_USERS,</span>
+<span id="cb4-5">        bootstrap_servers<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'kafka:9092'</span>],</span>
+<span id="cb4-6">        auto_offset_reset<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"earliest"</span>,</span>
+<span id="cb4-7">        consumer_timeout_ms<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1000</span></span>
+<span id="cb4-8">    )</span>
+<span id="cb4-9">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">yield</span> consumer_users</span>
+<span id="cb4-10">    consumer_users.close()</span></code></pre></div>
+<p>Then we test the following:</p>
+<ul>
+<li>Test if bootstrap server is connected</li>
+</ul>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> test_bootstrap_connection(get_consumer_products, get_consumer_users):</span>
+<span id="cb5-2">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">assert</span> get_consumer_products.bootstrap_connected()</span>
+<span id="cb5-3">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">assert</span> get_consumer_users.bootstrap_connected()</span></code></pre></div>
+<ul>
+<li>Test if topic name is correctly subscribed</li>
+</ul>
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> test_topic_name(get_consumer_products, get_consumer_users):</span>
+<span id="cb6-2">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">assert</span> get_consumer_products.subscription() <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> {KAFKA_TOPIC_PRODUCTS}</span>
+<span id="cb6-3">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">assert</span> get_consumer_users.subscription() <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> {KAFKA_TOPIC_USERS}</span></code></pre></div>
+<ul>
+<li>Test to check if the total number of transactions is expected</li>
+</ul>
+<div class="sourceCode" id="annotated-cell-8" style="background: #f1f3f5;"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-8-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> test_total_transactions(get_consumer_users, get_consumer_products):</span>
+<span id="annotated-cell-8-2">  lsn_u<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[]</span>
+<span id="annotated-cell-8-3">  lsn_p<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[]</span>
+<span id="annotated-cell-8-4">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> msg <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> get_consumer_users:</span>
+<span id="annotated-cell-8-5">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">if</span> msg.value:</span>
+<span id="annotated-cell-8-6">            json_object <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> json.loads(msg.value)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1">1</button><span id="annotated-cell-8-7" class="code-annotation-target">            lsn_u.append(json_object[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'payload'</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'source'</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'lsn'</span>])</span>
+<span id="annotated-cell-8-8"></span>
+<span id="annotated-cell-8-9">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> msg <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> get_consumer_products:</span>
+<span id="annotated-cell-8-10">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">if</span> msg.value:</span>
+<span id="annotated-cell-8-11">            json_object <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> json.loads(msg.value)</span>
+<span id="annotated-cell-8-12">            lsn_p.append(json_object[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'payload'</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'source'</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'lsn'</span>])</span>
+<span id="annotated-cell-8-13"></span>
+<span id="annotated-cell-8-14">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">assert</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(lsn_u) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">35</span></span>
+<span id="annotated-cell-8-15">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">assert</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(lsn_p) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">35</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-8" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="7" data-code-annotation="1">Parsing through JSON Object to get to the value</span>
+</dd>
+</dl>
+<ul>
+<li>Test if a username from the DB is present in the message</li>
+</ul>
+<div class="sourceCode" id="annotated-cell-9" style="background: #f1f3f5;"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-9-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">def</span> test_username_present(get_db_connection):</span>
+<span id="annotated-cell-9-2">  </span>
+<span id="annotated-cell-9-3">  usernames <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[]</span>
+<span id="annotated-cell-9-4"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="1">1</button><span id="annotated-cell-9-5" class="code-annotation-target">  consumer_users <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> KafkaConsumer(</span>
+<span id="annotated-cell-9-6">        KAFKA_TOPIC_USERS,</span>
+<span id="annotated-cell-9-7">        bootstrap_servers<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'kafka:9092'</span>],</span>
+<span id="annotated-cell-9-8">        auto_offset_reset<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"earliest"</span>,</span>
+<span id="annotated-cell-9-9">        consumer_timeout_ms<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1000</span></span>
+<span id="annotated-cell-9-10">    )</span>
+<span id="annotated-cell-9-11">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">for</span> msg <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> consumer_users:</span>
+<span id="annotated-cell-9-12">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">if</span> msg.value:</span>
+<span id="annotated-cell-9-13">            json_object <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> json.loads(msg.value)</span>
+<span id="annotated-cell-9-14">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">if</span> json_object[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'payload'</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'after'</span>]:</span>
+<span id="annotated-cell-9-15">                usernames.append(json_object[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'payload'</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'after'</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'username'</span>])</span>
+<span id="annotated-cell-9-16"></span>
+<span id="annotated-cell-9-17">  consumer_users.close()</span>
+<span id="annotated-cell-9-18">  cur <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> get_db_connection.cursor()</span>
+<span id="annotated-cell-9-19">  cur.execute(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"SELECT username FROM </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>SCHEMA<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">.users"</span>)</span>
+<span id="annotated-cell-9-20">  result <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> cur.fetchone()[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]</span>
+<span id="annotated-cell-9-21"></span>
+<span id="annotated-cell-9-22">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">assert</span> result <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">in</span> usernames</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-9" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-9" data-code-lines="5" data-code-annotation="1">For some weird reason, the KafkaConsumer pytest module failed to work</span>
+</dd>
+</dl>
+<p>The next part would be verify if the Aiven S3 sink connector picked up our messages and stored in Minio S3 storage as JSON files. Once the testing for those have been written, this blog will be updated.</p>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<ul>
+<li><p>We learnt how to test data pipelines from source till its middle part. Files can be seen created in the directory provided.</p></li>
+<li><p>Testing provided us with more clarity on the functionality of the pipeline.</p></li>
+<li><p>Testing also helped us learn how to create a separate testing environment, Kafka listener interactions etc.</p></li>
+<li><p>Importantly we learnt how to pytest to write test cases.</p></li>
+</ul>
+<p>I hope you found this blog as informative as I found writing it. Thanks for taking the time to read it. I welcome your comments.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>testing</category>
+  <category>quality assurance</category>
+  <category>pytest</category>
+  <category>data pipeline testing</category>
+  <category>testing Kafka</category>
+  <category>end-to-end testing</category>
+  <guid>https://dr563105.github.io/posts/2023-09-02-testing-data-pipelines/index.html</guid>
+  <pubDate>Sat, 02 Sep 2023 00:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Storing secrets in JSON files</title>
   <dc:creator>Deepak Ramani</dc:creator>
