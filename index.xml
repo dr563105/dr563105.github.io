@@ -9,7 +9,7 @@
 <link>https://dr563105.github.io/index.html</link>
 <atom:link href="https://dr563105.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>This is Deepak Ramani&#39;s personal blog.</description>
-<generator>quarto-1.4.357</generator>
+<generator>quarto-1.4.358</generator>
 <lastBuildDate>Sat, 02 Sep 2023 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Testing Data Pipelines</title>
@@ -1398,40 +1398,82 @@ font-style: inherit;"># sudo rm -rf minio/ psql_vol/</span></span></code></pre><
 </section>
 <section id="testing" class="level2">
 <h2 class="anchored" data-anchor-id="testing">Testing</h2>
-<p>Testing the data pipeline is one of the important aspects of data engineering. I’m on the process of writing a new blog on it. I will link it as soon it is ready.</p>
-<p>Meanwhile, you can do unit tests on datagen and source DB and integration test on datagen-sourceDB.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>More unit and integration tests on Debezium and Kafka are WIP.</p>
-</div>
-</div>
+<p>Testing the data pipeline is one of the important aspects of data engineering. Read more about it in a detail blog <a href="https://dr563105.github.io/posts/2023-09-02-testing-data-pipelines/">here</a></p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>testing</strong></pre>
 </div>
-<div class="sourceCode" id="annotated-cell-5" style="background: #f1f3f5;"><pre class="sourceCode bash code-annotation-code code-with-copy code-annotated"><code class="sourceCode bash"><button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-1" class="code-annotation-target"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="annotated-cell-5" style="background: #f1f3f5;"><pre class="sourceCode bash code-annotation-code code-with-copy code-annotated"><code class="sourceCode bash"><span id="annotated-cell-5-1"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">TEST_POSTGRES_USER</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>test_postgres</span>
+<span id="annotated-cell-5-2"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">TEST_POSTGRES_PASSWORD</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>test_postgres</span>
+<span id="annotated-cell-5-3"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">TEST_POSTGRES_DB</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>test_cdc-demo-db</span>
+<span id="annotated-cell-5-4"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">TEST_POSTGRES_HOST</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>test_postgres</span>
+<span id="annotated-cell-5-5"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">TEST_DB_SCHEMA</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>commerce</span>
+<span id="annotated-cell-5-6"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">TEST_AWS_KEY_ID</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>test_minio</span>
+<span id="annotated-cell-5-7"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">TEST_AWS_SECRET_KEY</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>test_minio123</span>
+<span id="annotated-cell-5-8"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">export</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">TEST_AWS_BUCKET_NAME</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>commerce</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1">1</button><span id="annotated-cell-5-9" class="code-annotation-target"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">make</span> tup</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2">2</button><span id="annotated-cell-5-2" class="code-annotation-target"><span class="fu" style="color: #4758AB;
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2">2</button><span id="annotated-cell-5-10" class="code-annotation-target"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">make</span> ci</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
 </div>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="1" data-code-annotation="1">Opens similar test containers for source DB and datagen.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="9" data-code-annotation="1">Opens similar test containers for source DB and datagen.</span>
 </dd>
 <dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="2" data-code-annotation="2">Executes <code>pytest</code> and displays if passed or failed.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="10" data-code-annotation="2">Executes <code>pytest</code> and displays if passed or failed.</span>
 </dd>
 </dl>
 <div class="callout callout-style-default callout-important callout-titled">
@@ -2266,13 +2308,13 @@ background-color: null;
 font-style: inherit;">-</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> KAFKA_ADVERTISED_LISTENERS=LISTENER_INT://kafka:9092,LISTENER_EXT://localhost:9093</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="6">6</button><span id="annotated-cell-11-19" class="code-annotation-target"><span class="at" style="color: #657422;
+<span id="annotated-cell-11-19"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">-</span><span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;"> KAFKA_LISTENERS=LISTENER_INT://0.0.0.0:9092,LISTENER_EXT://0.0.0.0:9093</span></span>
+font-style: inherit;"> KAFKA_LISTENERS=LISTENER_INT://kafka:9092,LISTENER_EXT://0.0.0.0:9093 </span></span>
 <span id="annotated-cell-11-20"><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
@@ -2313,7 +2355,7 @@ font-style: inherit;"> my_network</span></span><div class="code-annotation-gutte
 </dd>
 <dt data-target-cell="annotated-cell-11" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="16" data-code-annotation="3">Internal broker listener name definition.</span>
+<span data-code-cell="annotated-cell-11" data-code-lines="16" data-code-annotation="3">Kafka uses this host/ip to interact with themselves. Here it is <code>kafka:9092</code>.</span>
 </dd>
 <dt data-target-cell="annotated-cell-11" data-target-annotation="4">4</dt>
 <dd>
@@ -2321,13 +2363,10 @@ font-style: inherit;"> my_network</span></span><div class="code-annotation-gutte
 </dd>
 <dt data-target-cell="annotated-cell-11" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="18" data-code-annotation="5">Internally Kafka brokers communicate with themselves using <code>9092</code>. They also communicate with port <code>9093</code> since it is mapped.</span>
-</dd>
-<dt data-target-cell="annotated-cell-11" data-target-annotation="6">6</dt>
-<dd>
-<span data-code-cell="annotated-cell-11" data-code-lines="19" data-code-annotation="6"><code>kafka.listeners</code> property is redundant here as it same as the previous line. But the consumers reading from Kafka can use port <code>9093</code> also.</span>
+<span data-code-cell="annotated-cell-11" data-code-lines="18" data-code-annotation="5">Internally Kafka brokers communicate with themselves using <code>9092</code>. With others in <code>localhost:9093</code>.</span>
 </dd>
 </dl>
+<p>Read more on Kafka Listerners <a href="https://dr563105.github.io/notes/data-engineering/apache-Kafka/#Kafka-Listeners">here</a>.</p>
 <p>Apache Kafka configuration can be confusing. It is advised to start simple and add in as needs demand.</p>
 <p>Next, up is to setup the sink or the final destination.</p>
 </section>
@@ -2425,7 +2464,7 @@ font-style: inherit;">:</span></span>
 background-color: null;
 font-style: inherit;">      </span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">MINIO_ACCESS_KEY</span><span class="kw" style="color: #003B4F;
+font-style: inherit;">MINIO_ROOT_USER</span><span class="kw" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
@@ -2434,7 +2473,7 @@ font-style: inherit;"> ${AWS_KEY_ID}</span></span>
 background-color: null;
 font-style: inherit;">      </span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">MINIO_SECRET_KEY</span><span class="kw" style="color: #003B4F;
+font-style: inherit;">MINIO_ROOT_PASSWORD</span><span class="kw" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
@@ -2593,7 +2632,7 @@ font-style: inherit;"> my_network</span></span><div class="code-annotation-gutte
 </dd>
 <dt data-target-cell="annotated-cell-13" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-13" data-code-lines="7" data-code-annotation="2">Debezium connects to Kafka as a producer and Aiven S3 Kafka Connect monitors Kafka topics as a consumer.</span>
+<span data-code-cell="annotated-cell-13" data-code-lines="7" data-code-annotation="2">Debezium connects to Kafka as a producer and Aiven S3 Kafka Connect monitors Kafka topics as a consumer. Importantly this is the bootstrap-server to communicate within the docker network <code>my_network</code>.</span>
 </dd>
 </dl>
 <div class="callout callout-style-default callout-important callout-titled">
