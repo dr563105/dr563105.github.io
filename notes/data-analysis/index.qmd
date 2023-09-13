@@ -1,0 +1,13 @@
+---
+title: "Notes on Data Analytics"
+description: "notes on tools and techniques used in data analysis"
+date: "2023-09-13"
+search: false
+metadata-files: ["../_listing_meta.yml"]
+listing:
+  contents: 
+   - "/*.qmd"
+   - "/*/index.qmd"
+---
+
+This section contains the notes on various tools techniques used in data analysis.

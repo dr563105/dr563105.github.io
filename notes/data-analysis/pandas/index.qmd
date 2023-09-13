@@ -1,0 +1,230 @@
+---
+title: "Notes on Pandas"
+description: "general notes, tips on using Pandas"
+date: "2023-09-13"
+execute: 
+  eval: false
+format: 
+ html:
+  code-annotations: hover
+  code-overflow: wrap
+---
+
+# Introduction
+
+Pandas is a powerful and versatile tool for data analysis and manipulation. I use it almost every day to analyse something. 
+
+A dataframe(DF) is a table with rows and columns. It has several properties attached to it. Importantly it allows data analysis and manipulation.
+
+```{.python}
+
+pd.set_option('max_columns', 200) # <1>
+
+df = pd.read_csv('filename')  # <2>
+df = pd.read_parquet('filename')  # <2>
+
+df.shape # <3>
+
+df.info() # <4>
+
+df.describe() # <5>
+
+df.head()/tail() # <6>
+```
+1. Increases the max columns displayed to 200. Default is 20.
+2. Reads an appropriate file format to a DF.
+3. Returns a tuple with the dimensions of a DF.
+4. Returns concise summary of a DF.
+5. Generates descriptive statistics of a DF.
+6. Returns the first(head) or last(tail) 5 rows of a DF.
+
+### Data Types
+
+```{.python}
+df.dtypes # <1>
+
+df.select_dtypes('#select from prev command#') # <2>
+
+df.select_dtypes('object').columns.tolist() # <3> 
+
+f"categorical columns: {df.select_dtypes('object').columns.tolist()}" # <4>
+
+df.select_dtypes('object').head() # <5> 
+
+df.select_dtypes('int64').head().style.background_gradient(cmap='YlOrRd') # <6> 
+```
+1. Provides data types of each column in a DF.
+2. Allows to select a particular data type. `int64` picks all the int columns. 
+3. Lists all columns that have object dtype.
+4. A way to display categorical columns.
+5. Outputs first 10 rows of object columns.
+6. Colour gradients the int datatype columns.
+
+
+## Explore columns
+
+```{.python}
+
+df.columns # <1>
+
+df.drop(['#columntodrop'],axis=1, inplace=True/False) # <2>
+
+df = df[['','']].copy() # <3> 
+
+#It is generally advised to pick the columns needed than drop from the dataframe. How to list all columns? `df.columns`. Then make a variable and assign the columns needed.
+cols = ['col1', 'col2', 'col3']
+df = df[cols] 
+
+df.isna() # <4> 
+df.isnull() # <4>
+
+df.isna().sum() # <5>
+
+df.nunique() # <6>
+
+df['column_name'].unique() # <7>
+
+df['column_name'].value_counts() # <8>
+
+df.corr() # <9>
+```
+1. List all the column names.
+2. Mention the columns to drop/remove from DF.
+3. Tells pandas this is a new DF and not a reference to the prev DF.
+4. Displays true or false for check if there is a null in values.
+5. Gives the sum of null values in each columns.
+6. Returns the number of unique values in each column.
+7. Returns an array of unique values in a specific column.
+8. Returns a Series containing counts of unique values in a specific column.
+9. Calculates the correlation between numeric columns.
+
+### Data Manipulation
+
+```{.python}
+
+df['cleandt'] = pd.to_datetime(df['ColumnName']) # <1>
+
+df.rename(columns={'':'','':''}) # <2>
+
+df.columns = [col.replace(' ', '') for col in df.columns] # <3>
+```
+1. Change a column to datetime format.
+2. Rename column names.
+3. Remove white spaces in columns names.
+
+
+### Duplicate rows and columns
+
+```{.python}
+df.duplicated() # <1> 
+
+df.loc[df.duplicated()] # <2> 
+
+df.loc[df.duplicated(subset=['ColumnName'])] # <3>
+df.loc[df.duplicated(df.query('column_name==""'))] # <3> 
+
+df_new = df.loc[~df.duplicated(subset=['ColumnName','ColumnName','ColumnName'])].reset_index(drop=True) # <4> 
+```
+1. True or False for duplicated rows.
+2. Select rows that are duplicated.
+3. Finds duplicate rows based on the 'ColumnName' column. The result will be a DF containing the duplicate rows.
+4. Inverse of duplicated values. This way only non-duplicated rows can be selected and assigned to new DF. We `reset_index` to reset the index.
+
+### Aggregation
+
+```{.python}
+df.groupby('column_name').agg({'column_to_aggregate': 'aggregation_function'}) # <1>
+
+df['column_name'].sum() .mean() .median() .min() .max() .std() .var() .count() # <2> 
+
+df['column_name'].quantile(q) .cumsum() .cumprod() # <3>
+
+df.agg({'column_name_1': 'mean', 'column_name_2': 'sum'}) # <4>
+
+df.resample('D').sum() # <5>
+
+
+```
+1. Groups data by a specific column and applies an aggregation function to another column.
+2. Aggregate functions that return a single value.
+3. Calculates quantile(0.25), cumulative sum and product.
+4. Calculates a separate aggregate for each column.
+5. If the date is the index, then the DF can be resampled by specified time frequency and aggregated.
+
+### Pivot Table
+
+Pivot table is allows to reorganize and aggregate data based on one or more columns. It provides a way to create a multidimensional view of your data. It is a powerful reporting tool.
+
+```{.python}
+import pandas as pd
+
+# Create a sample DataFrame
+data = {'category': ['A', 'B', 'A', 'B', 'A', 'B'],
+        'values': [10, 20, 30, 40, 50, 60]}
+
+df = pd.DataFrame(data)
+
+# Create a pivot table
+pivot_table = df.pivot_table(values='values', index='category', aggfunc='sum')
+
+print(pivot_table)
+
+```
+
+```{.css}
+          
+          values
+category       
+A            90
+B           120
+
+```
+
+- values: The column to aggregate (in this case, 'values').
+
+- index: The column to use as the index of the pivot table (in this case, 'category').
+
+- aggfunc: The aggregation function to use when summarizing the data (in this case, we use 'sum' to add up the values).
+
+
+## Windowed aggregates
+
+```{.python}
+df['Rolling Mean'] = df['Value'].rolling(window=3).mean() # <1>
+
+df['Expanding Sum'] = df['Value'].expanding().sum() # <2>
+
+df['Shifted Value'] = df['Value'].shift(1) # <3>
+
+df['Shifted Value'] = df['Value'].shift(-1) # <4>
+
+df['Rank'] = df['Value'].rank() # <4>
+
+df['Percentage Change'] = df['Value'].pct_change() # <5>
+
+weekly_rolling_mean = df['data'].resample('W').mean().rolling(window=3).mean() # <6>
+
+```
+1. Computes rolling statistics, such as rolling mean, sum, etc., over a specified window of rows.
+2. Computes expanding statistics, which includes all preceding rows.
+3. Shifts the values of a column by a specified number of periods. Here it shifts down the current row by one row. SQL equivalent of `LAG`.
+4. Shifts up the current row by one row. SQL equivalent of `LEAD`.
+5. Assigns a rank to each value in a column based on a specified ordering.
+6. Computes the percentage change between the current and a prior element.
+7. Resample to weekly data and calculate the rolling mean over a window of 3 weeks.
+
+
+## Notes on lead and lag functions
+
+### Lead Function
+The lead function provides information about future values. For example, if you have a time series dataset and you apply a lead function with a lead of 1, it will give you the value of the next time period.
+
+Leads are used to make predictions or forecasts based on historical data. For instance, if you're trying to predict sales for the next month, you might use a lead function to access the current month's data.
+
+### Lag Function
+The lag function provides information about past values. For example, if you have a time series dataset and you apply a lag function with a lag of 1, it will give you the value of the previous time period.
+
+Lags are used for various purposes, including trend analysis, identifying patterns, and calculating changes over time. For instance, if you want to calculate the month-to-month growth rate, you might use a lag function to access the previous month's data.
+
+
+There is also method chaining. To know more on that and others Pandas concepts, refer to my [other notes](https://dr563105.github.io/notes/py_for_finance.html).
