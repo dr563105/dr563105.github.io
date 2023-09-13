@@ -1,4 +1,5 @@
 ---
+id: "notes"
 title: "Notes on Data Analytics"
 description: "notes on tools and techniques used in data analysis"
 date: "2023-09-13"

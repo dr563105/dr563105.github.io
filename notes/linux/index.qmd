@@ -1,4 +1,5 @@
 ---
+id: "notes"
 title: "Useful things found while using Linux"
 description: "all things concerning Linux"
 date: "2023-09-11"
