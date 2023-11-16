@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.358">
+<meta name="generator" content="quarto-1.4.504">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -87,7 +87,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
   "keyboard-shortcut": [
     null
   ],
@@ -154,7 +154,7 @@ cookieconsent.run({
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
             <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -234,7 +234,7 @@ cookieconsent.run({
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
@@ -260,7 +260,7 @@ cookieconsent.run({
   </ul>
 <div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/dr563105/dr563105.github.io/blob/master/posts/2023-06-04-api-lambda-ecr/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
     </div>
@@ -275,6 +275,7 @@ cookieconsent.run({
 
   gtag('config', 'G-8HL173849C');
 </script>
+
 
 
 
@@ -297,9 +298,13 @@ cookieconsent.run({
 <section id="data-pipeline" class="level1">
 <h1>Data Pipeline</h1>
 <div id="fig-data-pipeline" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="images/AWS-api-lambda-ecr-db-archi.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Figure&nbsp;1: Data Pipeline</figcaption>
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-data-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/AWS-api-lambda-ecr-db-archi.png" class="img-fluid figure-img">
+</div>
+<figcaption class="figure quarto-float-caption quarto-float-fig" id="fig-data-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Data Pipeline
+</figcaption>
 </figure>
 </div>
 <section id="lambda-function-to-predict-sales" class="level2">
@@ -309,7 +314,7 @@ cookieconsent.run({
 <div class="code-with-filename-file">
 <pre><strong>lambda_function.py</strong></pre>
 </div>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<div class="sourceCode" id="cb1" data-filename="lambda_function.py"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mlflow</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -389,7 +394,7 @@ cookieconsent.run({
 <div class="code-with-filename-file">
 <pre><strong>Terminal 1</strong></pre>
 </div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-t</span> lambda-app:v1 .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2" data-filename="Terminal 1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-t</span> lambda-app:v1 .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="using-sensitivesecret-access-keys." class="level3">
 <h3 class="anchored" data-anchor-id="using-sensitivesecret-access-keys.">Using sensitive/secret access keys.</h3>
@@ -398,22 +403,16 @@ cookieconsent.run({
 <div class="code-with-filename-file">
 <pre><strong>Terminal 1</strong></pre>
 </div>
-<div class="sourceCode" id="annotated-cell-3"><pre class="sourceCode bash code-annotation-code code-with-copy code-annotated"><code class="sourceCode bash"><button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-1" class="code-annotation-target"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> +o history</span>
+<div class="sourceCode" id="annotated-cell-3" data-filename="Terminal 1"><pre class="sourceCode bash code-annotation-code code-with-copy"><code class="sourceCode bash"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> +o history</span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">HISTIGNORE</span><span class="op">=</span> <span class="dt">\</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-3" class="code-annotation-target"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"ls*:cat*:*AWS*:*SECRET*:*KEY*:*PASS*:*TOKEN*"</span></span>
+<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"ls*:cat*:*AWS*:*SECRET*:*KEY*:*PASS*:*TOKEN*"</span></span>
 <span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a> <span class="bu">export</span> <span class="va">AWS_ACCESS_KEY_ID</span><span class="op">=</span>xxxx</span>
-<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a> <span class="bu">export</span> <span class="va">AWS_SECRET_ACCESS_KEY</span><span class="op">=</span>xxxtt</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a> <span class="bu">export</span> <span class="va">AWS_SECRET_ACCESS_KEY</span><span class="op">=</span>xxxtt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="1" data-code-annotation="1">Disables history for the current terminal session.</span>
-</dd>
-<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
-<dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="3" data-code-annotation="2">History doesn’t store any command that has leading space. Highly useful for sensitive environment variables.</span>
-</dd>
-</dl>
+<ol type="1">
+<li>Disables history for the current terminal session.</li>
+<li>History doesn’t store any command that has leading space. Highly useful for sensitive environment variables.</li>
+</ol>
 </section>
 <section id="running-the-container-and-testing-locally" class="level3">
 <h3 class="anchored" data-anchor-id="running-the-container-and-testing-locally">Running the container and testing locally</h3>
@@ -422,7 +421,7 @@ cookieconsent.run({
 <div class="code-with-filename-file">
 <pre><strong>Terminal 1</strong></pre>
 </div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="dt">\</span></span>
+<div class="sourceCode" id="cb3" data-filename="Terminal 1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="dt">\</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">-it</span> <span class="at">--rm</span> <span class="dt">\</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">-p</span> 9000:8080 <span class="dt">\</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">-e</span> AWS_ACCESS_KEY_ID=<span class="va">${AWS_ACCESS_KEY_ID}</span> <span class="dt">\</span></span>
@@ -436,7 +435,7 @@ cookieconsent.run({
 <div class="code-with-filename-file">
 <pre><strong>test_docker_fn_docker.py in Terminal 2</strong></pre>
 </div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> test_docker_fn_docker.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4" data-filename="test_docker_fn_docker.py in Terminal 2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> test_docker_fn_docker.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We will get a prediction as we have done in the previous post. <img src="images/aws-local-test.png" class="img-fluid"></p>
 </section>
@@ -453,27 +452,18 @@ cookieconsent.run({
 <div class="code-with-filename-file">
 <pre><strong>Terminal</strong></pre>
 </div>
-<div class="sourceCode" id="annotated-cell-6"><pre class="sourceCode bash code-annotation-code code-with-copy code-annotated"><code class="sourceCode bash"><button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-1" class="code-annotation-target"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-t</span> lambda-app:v1 .</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-2" class="code-annotation-target"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">ACCOUNT_ID</span><span class="op">=</span>xxxx</span>
+<div class="sourceCode" id="annotated-cell-6" data-filename="Terminal"><pre class="sourceCode bash code-annotation-code code-with-copy"><code class="sourceCode bash"><span id="annotated-cell-6-1"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-t</span> lambda-app:v1 .</span>
+<span id="annotated-cell-6-2"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">ACCOUNT_ID</span><span class="op">=</span>xxxx</span>
 <span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> ecr create-repository <span class="at">--repository-name</span> lambda-images</span>
 <span id="annotated-cell-6-4"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> tag lambda-app:v1 <span class="va">${ACCOUNT_ID}</span>.dkr.ecr.us-east-1.amazonaws.com/lambda-images:app</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3">3</button><span id="annotated-cell-6-5" class="code-annotation-target"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a><span class="va">$(</span><span class="ex">aws</span> ecr get-login <span class="at">--no-include-email</span><span class="va">)</span></span>
-<span id="annotated-cell-6-6"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> push <span class="va">${ACCOUNT_ID}</span>.dkr.ecr.us-east-1.amazonaws.com/lambda-images:app</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="annotated-cell-6-5"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a><span class="va">$(</span><span class="ex">aws</span> ecr get-login <span class="at">--no-include-email</span><span class="va">)</span></span>
+<span id="annotated-cell-6-6"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> push <span class="va">${ACCOUNT_ID}</span>.dkr.ecr.us-east-1.amazonaws.com/lambda-images:app</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="1" data-code-annotation="1">Optional as we already built the image.</span>
-</dd>
-<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
-<dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="2" data-code-annotation="2">Replace with your account ID.</span>
-</dd>
-<dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
-<dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="5" data-code-annotation="3">Remember we supplied aws access key and secret before. The session borrows them for ECR login. If it is a new session, those variables have to be given again.</span>
-</dd>
-</dl>
+<ol type="1">
+<li>Optional as we already built the image.</li>
+<li>Replace with your account ID.</li>
+<li>Remember we supplied aws access key and secret before. The session borrows them for ECR login. If it is a new session, those variables have to be given again.</li>
+</ol>
 <p><img src="images/ecr-upload.png" class="img-fluid"> <img src="images/ecr-upload-ui.png" class="img-fluid"> In the screenshots we can see that our container image is uploaded to the registry.</p>
 </section>
 <section id="setup-aws-lambda-function" class="level2">
@@ -508,7 +498,7 @@ cookieconsent.run({
 <div class="code-with-filename-file">
 <pre><strong>lambda_function.py</strong></pre>
 </div>
-<div class="sourceCode" id="annotated-cell-7"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-7-1"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<div class="sourceCode" id="annotated-cell-7" data-filename="lambda_function.py"><pre class="sourceCode python code-annotation-code code-with-copy"><code class="sourceCode python"><span id="annotated-cell-7-1"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="annotated-cell-7-2"><a href="#annotated-cell-7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-7-3"><a href="#annotated-cell-7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mlflow</span>
 <span id="annotated-cell-7-4"><a href="#annotated-cell-7-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -526,7 +516,7 @@ cookieconsent.run({
 <span id="annotated-cell-7-16"><a href="#annotated-cell-7-16" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="annotated-cell-7-17"><a href="#annotated-cell-7-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-7-18"><a href="#annotated-cell-7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the SNS client object outside of the handler</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1">1</button><span id="annotated-cell-7-19" class="code-annotation-target"><a href="#annotated-cell-7-19" aria-hidden="true" tabindex="-1"></a>dynamodb <span class="op">=</span> boto3.resource(<span class="st">'dynamodb'</span>)</span>
+<span id="annotated-cell-7-19"><a href="#annotated-cell-7-19" aria-hidden="true" tabindex="-1"></a>dynamodb <span class="op">=</span> boto3.resource(<span class="st">'dynamodb'</span>)</span>
 <span id="annotated-cell-7-20"><a href="#annotated-cell-7-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-7-21"><a href="#annotated-cell-7-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> read_parquet_files(filename: <span class="bu">str</span>):</span>
 <span id="annotated-cell-7-22"><a href="#annotated-cell-7-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
@@ -583,29 +573,20 @@ cookieconsent.run({
 <span id="annotated-cell-7-73"><a href="#annotated-cell-7-73" aria-hidden="true" tabindex="-1"></a>        <span class="st">"unit_sales"</span>: <span class="bu">str</span>(pred_unit_sales),</span>
 <span id="annotated-cell-7-74"><a href="#annotated-cell-7-74" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="annotated-cell-7-75"><a href="#annotated-cell-7-75" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2">2</button><span id="annotated-cell-7-76" class="code-annotation-target"><a href="#annotated-cell-7-76" aria-hidden="true" tabindex="-1"></a>    table <span class="op">=</span> dynamodb.Table(<span class="st">"sales_preds_for_blog"</span>)</span>
+<span id="annotated-cell-7-76"><a href="#annotated-cell-7-76" aria-hidden="true" tabindex="-1"></a>    table <span class="op">=</span> dynamodb.Table(<span class="st">"sales_preds_for_blog"</span>)</span>
 <span id="annotated-cell-7-77"><a href="#annotated-cell-7-77" aria-hidden="true" tabindex="-1"></a>    table.put_item(</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3">3</button><span id="annotated-cell-7-78" class="code-annotation-target"><a href="#annotated-cell-7-78" aria-hidden="true" tabindex="-1"></a>        Item <span class="op">=</span> result</span>
+<span id="annotated-cell-7-78"><a href="#annotated-cell-7-78" aria-hidden="true" tabindex="-1"></a>        Item <span class="op">=</span> result</span>
 <span id="annotated-cell-7-79"><a href="#annotated-cell-7-79" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="annotated-cell-7-80"><a href="#annotated-cell-7-80" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
 <span id="annotated-cell-7-81"><a href="#annotated-cell-7-81" aria-hidden="true" tabindex="-1"></a>      <span class="st">'statusCode'</span>: <span class="dv">200</span>,</span>
 <span id="annotated-cell-7-82"><a href="#annotated-cell-7-82" aria-hidden="true" tabindex="-1"></a>      <span class="st">'body'</span>: <span class="st">'successfully created item!'</span>,</span>
-<span id="annotated-cell-7-83"><a href="#annotated-cell-7-83" aria-hidden="true" tabindex="-1"></a>      }</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="annotated-cell-7-83"><a href="#annotated-cell-7-83" aria-hidden="true" tabindex="-1"></a>      }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="19" data-code-annotation="1">Create <code>dynamodb</code> resource</span>
-</dd>
-<dt data-target-cell="annotated-cell-7" data-target-annotation="2">2</dt>
-<dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="76" data-code-annotation="2">Access already created table <code>sales_preds_for_blog</code></span>
-</dd>
-<dt data-target-cell="annotated-cell-7" data-target-annotation="3">3</dt>
-<dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="78" data-code-annotation="3">Insert item into the table</span>
-</dd>
-</dl>
+<ol type="1">
+<li>Create <code>dynamodb</code> resource</li>
+<li>Access already created table <code>sales_preds_for_blog</code></li>
+<li>Insert item into the table</li>
+</ol>
 <p>Rebuild the docker image, retag it, publish it to the ECR repo. Then in AWS Lambda, use <code>deploy new image</code> to select the latest build. Test with sample input. <img src="images/aws-db-items.png" class="img-fluid"></p>
 </section>
 </section>
@@ -900,15 +881,45 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    if (id.startsWith('sec-')) {
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
       if (note.children && note.children.length > 2) {
-        for (let i = 0; i < 2; i++) {
-          container.appendChild(note.children[i].cloneNode(true));
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
         }
+        typesetMath(container);
         return container.innerHTML
       } else {
+        typesetMath(note);
         return note.innerHTML;
       }
     } else {
@@ -917,6 +928,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
+      typesetMath(note);
       return note.innerHTML;
     }
   }
@@ -959,6 +971,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
       }
     }, function(instance) {
     });
@@ -1034,7 +1069,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     window.addEventListener(
       "resize",
       throttle(() => {
-        console.log("RESIZE");
         elRect = undefined;
         if (selectedAnnoteEl) {
           selectCodeLines(selectedAnnoteEl);

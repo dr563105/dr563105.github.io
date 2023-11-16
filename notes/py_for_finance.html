@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.358">
+<meta name="generator" content="quarto-1.4.504">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -87,7 +87,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
   "keyboard-shortcut": [
     null
   ],
@@ -153,7 +153,7 @@ cookieconsent.run({
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
             <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -229,7 +229,7 @@ cookieconsent.run({
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
@@ -258,7 +258,7 @@ cookieconsent.run({
   </ul>
 <div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/dr563105/dr563105.github.io/blob/master/notes/py_for_finance.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
     </div>
@@ -273,6 +273,7 @@ cookieconsent.run({
 
   gtag('config', 'G-8HL173849C');
 </script>
+
 
 
 
@@ -760,7 +761,11 @@ cookieconsent.run({
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-5-output-2.png" width="566" height="402"></p>
+<div>
+<figure class="figure">
+<p><img src="py_for_finance_files/figure-html/cell-5-output-2.png" width="566" height="402" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We can also adjust plot window size using Matplotlib’s <code>figsize</code> function.</p>
@@ -780,7 +785,11 @@ cookieconsent.run({
 </dl>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-6-output-1.png" width="781" height="220"></p>
+<div>
+<figure class="figure">
+<p><img src="py_for_finance_files/figure-html/cell-6-output-1.png" width="781" height="220" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -810,7 +819,11 @@ cookieconsent.run({
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-7-output-2.png" width="568" height="422"></p>
+<div>
+<figure class="figure">
+<p><img src="py_for_finance_files/figure-html/cell-7-output-2.png" width="568" height="422" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>If we want to aggregate two columns, then we can use <code>.agg()</code> function.</p>
@@ -833,7 +846,11 @@ cookieconsent.run({
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-8-output-2.png" width="566" height="437"></p>
+<div>
+<figure class="figure">
+<p><img src="py_for_finance_files/figure-html/cell-8-output-2.png" width="566" height="437" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -971,7 +988,11 @@ cookieconsent.run({
 </div>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-9-output-2.png" width="804" height="404"></p>
+<div>
+<figure class="figure">
+<p><img src="py_for_finance_files/figure-html/cell-9-output-2.png" width="804" height="404" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>With the chart, we can determine the patterns such as bearish, bullish etc. We can change <code>.loc</code>for the period we want to see the pattern.</p>
@@ -1052,7 +1073,11 @@ cumulative\_return = \frac{(current\_price - original\_price)}{(curent\_price)}
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-14-output-2.png" width="571" height="402"></p>
+<div>
+<figure class="figure">
+<p><img src="py_for_finance_files/figure-html/cell-14-output-2.png" width="571" height="402" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Another alternate way is to numpy’s <code>cumprod</code> function.</p>
@@ -1074,7 +1099,11 @@ overflow encountered in accumulate
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-15-output-3.png" width="573" height="426"></p>
+<div>
+<figure class="figure">
+<p><img src="py_for_finance_files/figure-html/cell-15-output-3.png" width="573" height="426" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>As you can see both plots give the same result.</p>
@@ -1094,7 +1123,11 @@ overflow encountered in accumulate
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-16-output-2.png" width="571" height="402"></p>
+<div>
+<figure class="figure">
+<p><img src="py_for_finance_files/figure-html/cell-16-output-2.png" width="571" height="402" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <section id="lambda-functions-or-anonymous-functions" class="level3">
@@ -1201,7 +1234,11 @@ Name: pct_change_close, Length: 2094, dtype: float64</code></pre>
       dtype=object)</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-22-output-2.png" width="579" height="403"></p>
+<div>
+<figure class="figure">
+<p><img src="py_for_finance_files/figure-html/cell-22-output-2.png" width="579" height="403" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We can also use <code>.resample</code> to calculate 15 day volatility as we have <code>date</code> as index.</p>
@@ -1550,7 +1587,11 @@ Name: pct_change_close, Length: 2094, dtype: float64</code></pre>
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-25-output-2.png" width="579" height="402"></p>
+<div>
+<figure class="figure">
+<p><img src="py_for_finance_files/figure-html/cell-25-output-2.png" width="579" height="402" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1789,7 +1830,11 @@ Name: pct_change_close, Length: 2094, dtype: float64</code></pre>
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-28-output-2.png" width="591" height="412"></p>
+<div>
+<figure class="figure">
+<p><img src="py_for_finance_files/figure-html/cell-28-output-2.png" width="591" height="412" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>As we can see the MA smoothes out the little peaks and troughs.</p>
@@ -1809,7 +1854,11 @@ Name: pct_change_close, Length: 2094, dtype: float64</code></pre>
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-29-output-2.png" width="585" height="412"></p>
+<div>
+<figure class="figure">
+<p><img src="py_for_finance_files/figure-html/cell-29-output-2.png" width="585" height="412" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -2086,7 +2135,11 @@ volume, \text{ if close &gt; close}_{prev} \\
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-33-output-2.png" width="582" height="416"></p>
+<div>
+<figure class="figure">
+<p><img src="py_for_finance_files/figure-html/cell-33-output-2.png" width="582" height="416" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -2321,7 +2374,11 @@ A\\/D = A\\/D_{prev} + (\text{money flow  multiplier} * \text{current volume})
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-35-output-2.png" width="571" height="416"></p>
+<div>
+<figure class="figure">
+<p><img src="py_for_finance_files/figure-html/cell-35-output-2.png" width="571" height="416" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -2341,7 +2398,11 @@ A\\/D = A\\/D_{prev} + (\text{money flow  multiplier} * \text{current volume})
 <pre><code>&lt;AxesSubplot:xlabel='Date'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="py_for_finance_files/figure-html/cell-36-output-2.png" width="585" height="426"></p>
+<div>
+<figure class="figure">
+<p><img src="py_for_finance_files/figure-html/cell-36-output-2.png" width="585" height="426" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -2637,15 +2698,45 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    if (id.startsWith('sec-')) {
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
       if (note.children && note.children.length > 2) {
-        for (let i = 0; i < 2; i++) {
-          container.appendChild(note.children[i].cloneNode(true));
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
         }
+        typesetMath(container);
         return container.innerHTML
       } else {
+        typesetMath(note);
         return note.innerHTML;
       }
     } else {
@@ -2654,6 +2745,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
+      typesetMath(note);
       return note.innerHTML;
     }
   }
@@ -2696,6 +2788,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
       }
     }, function(instance) {
     });
@@ -2771,7 +2886,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     window.addEventListener(
       "resize",
       throttle(() => {
-        console.log("RESIZE");
         elRect = undefined;
         if (selectedAnnoteEl) {
           selectCodeLines(selectedAnnoteEl);
