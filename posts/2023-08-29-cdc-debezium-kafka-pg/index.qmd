@@ -88,13 +88,13 @@ To make things easier I have scripted these prerequisites. Just clone my repo an
 
 ```{.bash filename="clone and install prerequisites"}
 sudo apt update && sudo apt install git make -y
-git clone 
-cd cdc-pg-dbz-kafka-s3
+git clone https://github.com/dr563105/cdc-debezium-kafka.git
+cd cdc-debezium-kafka
 make install_conda # <1> 
 make install_docker # <2>
 source ~/.bashrc
 ```
-1. Installs Miniconda. Optional but recommended.
+1. Installs Miniforge. Optional but recommended.
 2. Installs Docker and Docker-compose.
 
 Logout and log in back to the instance. To test docker if it is working, run
@@ -106,7 +106,7 @@ docker run --rm hello-world # should return "Hello from Docker!" without errors
 Now we're ready to execute our project. I highly encourage readers to use `makefile` as it makes setup highly efficient.
 
 ```{.bash filename="Executing CDC project"}
-cd cdc-pg-dbz-kafka-s3
+cd cdc-debezium-kafka
 export POSTGRES_USER=postgres
 export POSTGRES_PASSWORD=postgres
 export POSTGRES_DB=cdc-demo-db
