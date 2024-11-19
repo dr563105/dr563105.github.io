@@ -2,6 +2,8 @@ project:
   type: website
   preview: 
     port: 6542
+  resources:
+    - ads.txt
 
 website:
   favicon: logo.png
@@ -49,8 +51,8 @@ website:
   #     contents: notes/**
 
   google-analytics: 
-    tracking-id: "G-8HL173849C"
-    anonymize-ip: true
+    tracking-id: "G-V08NSV8XPF"
+    anonymize-ip: true  
   cookie-consent:
     type: express
     palette: light
@@ -58,13 +60,18 @@ website:
     location: navbar
     copy-button: true
   page-footer: 
-    left: Copyright 2023, Deepak Ramani |
+    left: Copyright 2024, Deepak Ramani |
           powered by [Quarto](https://quarto.org)
     right:
       - text: Archive
         href: archive.qmd
       - icon: rss
         href: index.xml
+        
+adsense:
+  publisher-id: ca-pub-9028821857593432
+  filters: 
+    - adsense
 
 format:
   html:
@@ -73,10 +80,10 @@ format:
       dark: [_includes/dark-theme.scss]
     highlight-style: dracula
     # css: _includes/styles.css
-    include-before-body: 
-      _includes/analytics.html
-    include-in-header: 
-      _includes/google-ads.html
+    # include-before-body: 
+      # _includes/analytics.html
+    # include-in-header: 
+      # _includes/google-ads.html
     code-link: true
     smooth-scroll: true
     code-copy: hover
