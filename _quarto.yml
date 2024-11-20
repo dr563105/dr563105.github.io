@@ -1,15 +1,15 @@
 project:
   type: website
-  preview: 
-    port: 6542
   resources:
     - ads.txt
+  preview:
+    port: 6542
 
 website:
   favicon: logo.png
   title: "Deepak Ramani's blog"
   description: "This is Deepak Ramani's personal blog."
-  site-url: https://dr563105.github.io/  
+  site-url: https://dr563105.github.io
   repo-url: https://github.com/dr563105/dr563105.github.io
   repo-actions: source
   repo-branch: master
@@ -68,11 +68,6 @@ website:
       - icon: rss
         href: index.xml
         
-adsense:
-  publisher-id: ca-pub-9028821857593432
-  filters: 
-    - adsense
-
 format:
   html:
     theme: 
@@ -82,8 +77,8 @@ format:
     # css: _includes/styles.css
     # include-before-body: 
       # _includes/analytics.html
-    # include-in-header: 
-      # _includes/google-ads.html
+    include-in-header:
+      _includes/google-ads.html
     code-link: true
     smooth-scroll: true
     code-copy: hover
