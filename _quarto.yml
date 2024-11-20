@@ -85,8 +85,3 @@ format:
 
 execute: 
   freeze: auto
-
-robots:
-  - User-agent: "*"
-  - Allow: /
-  - Sitemap: https://dr563105.github.io/sitemap.xml
