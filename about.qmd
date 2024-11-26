@@ -7,6 +7,9 @@ about:
   image-width: 16em
   image-shape: rounded
   links:
+    - text: "{{< iconify simple-icons bluesky >}} BlueSky"
+      href: https://bsky.app/profile/itsdeepak5.bsky.social
+      aria-label: BlueSky
     - icon: twitter
       text: Twitter
       href: https://twitter.com/thosegradients

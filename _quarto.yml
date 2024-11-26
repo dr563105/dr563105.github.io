@@ -5,8 +5,8 @@ project:
 
 website:
   favicon: logo.png
-  title: "Deepak Ramani's blog"
-  description: "This is Deepak Ramani's personal blog."
+  title: "Deepak Ramani blog"
+  description: "This is Deepak Ramani personal blog."
   site-url: https://deepakramani.github.io
   repo-url: https://github.com/deepakramani/dr563105.github.io
   repo-actions: source
@@ -48,23 +48,26 @@ website:
   #     style: docked
   #     contents: notes/**
 
-  google-analytics: 
-    tracking-id: "G-V08NSV8XPF"
-    anonymize-ip: true  
+  # google-analytics:
+  #   tracking-id: "G-V08NSV8XPF"
   cookie-consent:
-    type: express
+    type: implied
     palette: light
+    prefs-text: " "
   search: 
     location: navbar
     copy-button: true
-  page-footer: 
+    keyboard-shortcut: ["/"]
+  page-footer:
     left: Copyright 2024, Deepak Ramani |
           powered by [Quarto](https://quarto.org)
     right:
-      - text: Archive
+      - text: "{{< iconify width='20' height='27' mage archive-drawer >}}"
         href: archive.qmd
       - icon: rss
         href: index.xml
+      - text: "{{< iconify width='20' height='27' fe sitemap >}}"
+        href: sitemap.xml
         
 format:
   html:
@@ -73,8 +76,8 @@ format:
       dark: [_includes/dark-theme.scss]
     highlight-style: dracula
     # css: _includes/styles.css
-    # include-before-body: 
-      # _includes/analytics.html
+    include-before-body: 
+      _includes/analytics.html
     # include-in-header:
     #   _includes/google-ads.html
     code-link: true
