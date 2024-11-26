@@ -70,7 +70,7 @@ If you're curious like me, it is always the challenges that make a good story to
 
 ## Prerequisites and Setup
 
-We use Ubuntu 20.04 LTS AWS EC2 machine for the project. Full source code [here](https://github.com/dr563105/cdc-pg-dbz-kafka-s3.git).
+We use Ubuntu 20.04 LTS AWS EC2 machine for the project. Full source code [here](https://github.com/deepakramani/cdc-pg-dbz-kafka-s3.git).
 
 We need the following:
 
@@ -88,7 +88,7 @@ To make things easier I have scripted these prerequisites. Just clone my repo an
 
 ```{.bash filename="clone and install prerequisites"}
 sudo apt update && sudo apt install git make -y
-git clone https://github.com/dr563105/cdc-debezium-kafka.git
+git clone https://github.com/deepakramani/cdc-debezium-kafka.git
 cd cdc-debezium-kafka
 make install_conda # <1> 
 make install_docker # <2>
@@ -136,7 +136,7 @@ make down #shuts down all project processes and docker containers
 ```
 
 ## Testing
-Testing the data pipeline is one of the important aspects of data engineering. Read more about it in a detail blog [here](https://dr563105.github.io/posts/2023-09-02-testing-data-pipelines/)
+Testing the data pipeline is one of the important aspects of data engineering. Read more about it in a detail blog [here](https://deepakramani.github.io/posts/2023-09-02-testing-data-pipelines/)
 
 ```{.bash filename="testing"}
 export TEST_POSTGRES_USER=test_postgres
@@ -349,7 +349,7 @@ zookeeper:
 4. Definition of security protocol between listener names and their protocols. Here it is just plain text.
 5. Internally Kafka brokers communicate with themselves using `9092`. With others in `localhost:9093`.
 
-Read more on Kafka Listerners [here](https://dr563105.github.io/notes/data-engineering/apache-Kafka/#Kafka-Listeners).
+Read more on Kafka Listerners [here](https://deepakramani.github.io/notes/data-engineering/apache-Kafka/#Kafka-Listeners).
 
 Apache Kafka configuration can be confusing. It is advised to start simple and add in as needs demand.
 
@@ -427,7 +427,7 @@ To activate the traffic flow from source to destination, we need to supply sourc
 Apache Kafka uses `REST API` so that means a JSON data goes into the body of the POST request.
 Conveniently there is `curl` command that can be used to request. Though `curl` commands allows to pass `json` files to the `data` option, the `JSON` format as such require sensitive information properties to be hard-coded. That puts system security at risk.
 
-Fortunately for us, a shell script allows for sensitive information to be masked while being supplied at run time(more on it [here](https://dr563105.github.io/posts/2023-08-30-secrets-in-json/)). It is indeed that approach we take for our task to connect the blocks in the pipeline.
+Fortunately for us, a shell script allows for sensitive information to be masked while being supplied at run time(more on it [here](https://deepakramani.github.io/posts/2023-08-30-secrets-in-json/)). It is indeed that approach we take for our task to connect the blocks in the pipeline.
 
 ```{.bash filename="setup-connections.sh"}
 curl --include --request POST --header "Accept:application/json" \

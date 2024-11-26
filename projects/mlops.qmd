@@ -5,4 +5,4 @@ date-modified: "2023-05-17"
 description: An end-to-end mlops project that uses ML services to make ML model pipeline.
 ---
 
-You can read about it in [github](https://github.com/dr563105/mlops-project-grocery-sales).
+You can read about it in [github](https://github.com/deepakramani/mlops-project-grocery-sales).

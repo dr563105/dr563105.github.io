@@ -13,7 +13,7 @@ execute:
   eval: false
 ---
 # Introduction
-This post is a follow up to my previous [post](https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/) on deploying with docker. This will be part 1 of the deploy using Docker series. In this part, I will introduce the concept of `lambda_function` and how it can tested locally. 
+This post is a follow up to my previous [post](https://deepakramani.github.io/posts/2023-06-03-deploy-with-docker/) on deploying with docker. This will be part 1 of the deploy using Docker series. In this part, I will introduce the concept of `lambda_function` and how it can tested locally. 
 
 ## Why Lambda_function?
 The customer from my previous post doesn't want to keep things in their local machine and wish for a cloud option. Also don't want to reserve resources as they expect only intermittent requests. What could be a viable solution? Enter **Lambda_function**. Each cloud provider has other own name for lambda function. We will use AWS and it is called `Lambda`. 
@@ -81,7 +81,7 @@ def lambda_handler(event, context=None) -> dict: # <1>
 ```
 1. Default handler function name
 
-Like last time we will use `Pipenv` to install dependencies. If you're new, kindly visit [deploy with docker](https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/) post to know why we use `Pipenv`.
+Like last time we will use `Pipenv` to install dependencies. If you're new, kindly visit [deploy with docker](https://deepakramani.github.io/posts/2023-06-03-deploy-with-docker/) post to know why we use `Pipenv`.
 
 ## Dockerfile
 

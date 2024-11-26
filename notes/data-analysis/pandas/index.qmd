@@ -227,4 +227,4 @@ The lag function provides information about past values. For example, if you hav
 Lags are used for various purposes, including trend analysis, identifying patterns, and calculating changes over time. For instance, if you want to calculate the month-to-month growth rate, you might use a lag function to access the previous month's data.
 
 
-There is also method chaining. To know more on that and others Pandas concepts, refer to my [other notes](https://dr563105.github.io/notes/py_for_finance.html).
+There is also method chaining. To know more on that and others Pandas concepts, refer to my [other notes](https://deepakramani.github.io/notes/py_for_finance.html).

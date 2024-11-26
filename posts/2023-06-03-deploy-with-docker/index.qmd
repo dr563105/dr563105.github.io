@@ -29,7 +29,7 @@ All the three approaches are technical. In other words, there are chances of fai
 # Docker
 Docker is a service that allows to package the software as containers. This container contains all the necessary packages to successfully run the software. A customer's machine might be different from the software developer's. Using Docker we can eliminate that bottleneck. The customer just needs to use the container for their purpose. Any failure they encounter can be easily duplicated in developer's environment.
 
-In my previous [post](https://dr563105.github.io/posts/2023-06-02-Terraform-setup/#docker-installation---optional-but-recommended) I show how to install docker in Apple Silicon and Ubuntu cloud instance. When I develop in my Apple Silicon Macbook, I get small, frustrating, unexpected errors only to know that it is due to Apple Silicon(ARM64) architecture. So for this purpose I recommend using an Ubuntu machine.
+In my previous [post](https://deepakramani.github.io/posts/2023-06-02-Terraform-setup/#docker-installation---optional-but-recommended) I show how to install docker in Apple Silicon and Ubuntu cloud instance. When I develop in my Apple Silicon Macbook, I get small, frustrating, unexpected errors only to know that it is due to Apple Silicon(ARM64) architecture. So for this purpose I recommend using an Ubuntu machine.
 
 
 ## Why Flask?

@@ -12,4 +12,4 @@ listing:
 
 This is a place where I share some of my notes. There will be typos or misunderstood concepts. Please as always reach out to me to rectify them.
 
-If you find an error, please [submit a pull request](https://github.com/dr563105/dr563105.github.io/tree/master/notes). You can also get in touch with me [here](../../index.qmd).
+If you find an error, please [submit a pull request](https://github.com/deepakramani/deepakramani.github.io/tree/master/notes). You can also get in touch with me [here](../../index.qmd).

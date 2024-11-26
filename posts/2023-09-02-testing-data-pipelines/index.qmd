@@ -20,7 +20,7 @@ Testing is one of the important phases in software development cycle before a so
 
 Testing is a way to simulate and the application for all possible actions from users before delivery. It reveals flaws in development and sometimes even upto design phase. Imagine a scenario in which a user has to enter price of a product. Mistakenly they enter `1w` instead of 12. If this pattern happens regularly, and in the monthly report, these numbers won't add up at all. With testing, we can set guardrails to protect against such mistakes. 
 
-In my [post](https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/), I designed a pipeline to check a Postgres DB for data changes and transport those changes through Apache Kafka and store in S3-like storage. However, I didn't have time to write proper test cases. 
+In my [post](https://deepakramani.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/), I designed a pipeline to check a Postgres DB for data changes and transport those changes through Apache Kafka and store in S3-like storage. However, I didn't have time to write proper test cases. 
 After publishing that post, I created unit and integration test cases. In this post we will go through how each test case was developed.
 
 # Testing Environment
@@ -33,7 +33,7 @@ In the first part of testing, we will do unit and integration for the source sys
 
 ![](cdc-pipeline.png)
 
-Full project is located [here](https://github.com/dr563105/cdc-pg-dbz-kafka-s3).
+Full project is located [here](https://github.com/deepakramani/cdc-pg-dbz-kafka-s3).
 
 ## Source system
 

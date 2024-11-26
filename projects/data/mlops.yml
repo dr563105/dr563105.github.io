@@ -1,11 +1,11 @@
 - project: Grocery Unit Sale Predictor - a MLOPS project
-  path: https://github.com/dr563105/mlops-project-grocery-sales
+  path: https://github.com/deepakramani/mlops-project-grocery-sales
   role: Creator
   description: |
        An end-to-end ML project that designs and manages a ML model production workflow.
 
 - project: Autonomous driving framework - a DL project
-  path: https://github.com/dr563105/basicad_framework
+  path: https://github.com/deepakramani/basicad_framework
   role: Creator
   description: |
         An end-to-end autonomous driving neural network ML model using simpler CNN architecture.

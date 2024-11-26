@@ -26,7 +26,7 @@ Since we're doing both two workflows - pull and push, we will have two `yaml` fi
 
 ![CI/CD Pipeline](AWS-ci-cd.png)
 
-The source code is present at [my github repo](https://github.com/dr563105/CI-CD-Terraform-Github-actions).
+The source code is present at [my github repo](https://github.com/deepakramani/CI-CD-Terraform-Github-actions).
 
 ## Triggers
 

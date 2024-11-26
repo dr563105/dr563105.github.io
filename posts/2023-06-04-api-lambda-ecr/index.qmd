@@ -15,7 +15,7 @@ image: aws-part2-logo.png
 
 # Introduction
 
-In [part 1](https://dr563105.github.io/posts/2023-06-03-lambda-docker/), we saw how to make and test lambda function locally. In part 2, we will switch focus to AWS cloud provider. We will migrate our code to use AWS cloud platform. 
+In [part 1](https://deepakramani.github.io/posts/2023-06-03-lambda-docker/), we saw how to make and test lambda function locally. In part 2, we will switch focus to AWS cloud provider. We will migrate our code to use AWS cloud platform. 
 
 ## Services used
 We will use these services to form our data pipeline:

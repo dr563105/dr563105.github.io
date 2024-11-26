@@ -7,8 +7,8 @@ website:
   favicon: logo.png
   title: "Deepak Ramani's blog"
   description: "This is Deepak Ramani's personal blog."
-  site-url: https://dr563105.github.io
-  repo-url: https://github.com/dr563105/dr563105.github.io
+  site-url: https://deepakramani.github.io
+  repo-url: https://github.com/deepakramani/dr563105.github.io
   repo-actions: source
   repo-branch: master
   open-graph: true

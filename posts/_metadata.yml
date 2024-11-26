@@ -16,7 +16,7 @@ toc-location: left
 # enable comments
 comments: 
   utterances:
-    repo: dr563105/blog_comments
+    repo: deepakramani/blog_comments
     theme: github-dark
 
 # Enable footer at the end of each posts

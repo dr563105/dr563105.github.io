@@ -14,7 +14,7 @@ categories: ["Terraform", "AWS", "Docker", "ECR", "Lambda", "API Gateway", "IAM"
 
 # Introduction
 
-In part 2 we saw how to migrate to AWS cloud. In bigger projects where so many resources are present, it is near impossible to remember and manage them using the console. Terraform provides that solution. It allows to track resources just like code.  We saw about the use of Terraform in my introduction [post](https://dr563105.github.io/posts/2023-06-02-Terraform-setup/) on Terraform.
+In part 2 we saw how to migrate to AWS cloud. In bigger projects where so many resources are present, it is near impossible to remember and manage them using the console. Terraform provides that solution. It allows to track resources just like code.  We saw about the use of Terraform in my introduction [post](https://deepakramani.github.io/posts/2023-06-02-Terraform-setup/) on Terraform.
 
 In this part, we will take the data pipeline from part 2 and use Terraform to manage the infrastructure.
 
