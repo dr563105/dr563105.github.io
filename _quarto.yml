@@ -1,7 +1,5 @@
 project:
   type: website
-  resources:
-    - ads.txt
   preview:
     port: 6542
 
@@ -77,8 +75,8 @@ format:
     # css: _includes/styles.css
     # include-before-body: 
       # _includes/analytics.html
-    include-in-header:
-      _includes/google-ads.html
+    # include-in-header:
+    #   _includes/google-ads.html
     code-link: true
     smooth-scroll: true
     code-copy: hover
