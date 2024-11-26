@@ -139,13 +139,13 @@ cookieconsent.run({
 
 <meta property="og:title" content="Change Data Capture with Debezium, Kafka, S3 – Deepak Ramani’s blog">
 <meta property="og:description" content="Using Debezium capture data changes and stream it downstream to consumers.">
-<meta property="og:image" content="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/cdc-pipeline.png">
+<meta property="og:image" content="https://deepakramani.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/cdc-pipeline.png">
 <meta property="og:site_name" content="Deepak Ramani's blog">
 <meta property="og:image:height" content="518">
 <meta property="og:image:width" content="1595">
 <meta name="twitter:title" content="Change Data Capture with Debezium, Kafka, S3 – Deepak Ramani’s blog">
 <meta name="twitter:description" content="Using Debezium capture data changes and stream it downstream to consumers.">
-<meta name="twitter:image" content="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/cdc-pipeline.png">
+<meta name="twitter:image" content="https://deepakramani.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/cdc-pipeline.png">
 <meta name="twitter:creator" content="@thosegradients">
 <meta name="twitter:image-height" content="518">
 <meta name="twitter:image-width" content="1595">
@@ -270,7 +270,7 @@ cookieconsent.run({
   </ul></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
-<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/dr563105/dr563105.github.io/blob/master/posts/2023-08-29-cdc-debezium-kafka-pg/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/deepakramani/dr563105.github.io/blob/master/posts/2023-08-29-cdc-debezium-kafka-pg/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
@@ -339,7 +339,7 @@ cookieconsent.run({
 </section>
 <section id="prerequisites-and-setup" class="level2">
 <h2 class="anchored" data-anchor-id="prerequisites-and-setup">Prerequisites and Setup</h2>
-<p>We use Ubuntu 20.04 LTS AWS EC2 machine for the project. Full source code <a href="https://github.com/dr563105/cdc-pg-dbz-kafka-s3.git">here</a>.</p>
+<p>We use Ubuntu 20.04 LTS AWS EC2 machine for the project. Full source code <a href="https://github.com/deepakramani/cdc-pg-dbz-kafka-s3.git">here</a>.</p>
 <p>We need the following:</p>
 <ul>
 <li><p><a href="https://github.com/git-guides/install-git">git version &gt;= 2.37.1</a>,</p></li>
@@ -354,7 +354,7 @@ cookieconsent.run({
 <pre><strong>clone and install prerequisites</strong></pre>
 </div>
 <div class="sourceCode" id="annotated-cell-1" data-filename="clone and install prerequisites"><pre class="sourceCode bash code-annotation-code code-with-copy code-annotated"><code class="sourceCode bash"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update <span class="kw">&amp;&amp;</span> <span class="fu">sudo</span> apt install git make <span class="at">-y</span></span>
-<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/dr563105/cdc-debezium-kafka.git</span>
+<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/deepakramani/cdc-debezium-kafka.git</span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> cdc-debezium-kafka</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-4" class="code-annotation-target"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> install_conda</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-5" class="code-annotation-target"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> install_docker</span>
@@ -415,7 +415,7 @@ cookieconsent.run({
 </section>
 <section id="testing" class="level2">
 <h2 class="anchored" data-anchor-id="testing">Testing</h2>
-<p>Testing the data pipeline is one of the important aspects of data engineering. Read more about it in a detail blog <a href="https://dr563105.github.io/posts/2023-09-02-testing-data-pipelines/">here</a></p>
+<p>Testing the data pipeline is one of the important aspects of data engineering. Read more about it in a detail blog <a href="https://deepakramani.github.io/posts/2023-09-02-testing-data-pipelines/">here</a></p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>testing</strong></pre>
@@ -715,7 +715,7 @@ Note
 <span data-code-cell="annotated-cell-11" data-code-lines="18" data-code-annotation="5">Internally Kafka brokers communicate with themselves using <code>9092</code>. With others in <code>localhost:9093</code>.</span>
 </dd>
 </dl>
-<p>Read more on Kafka Listerners <a href="https://dr563105.github.io/notes/data-engineering/apache-Kafka/#Kafka-Listeners">here</a>.</p>
+<p>Read more on Kafka Listerners <a href="https://deepakramani.github.io/notes/data-engineering/apache-Kafka/#Kafka-Listeners">here</a>.</p>
 <p>Apache Kafka configuration can be confusing. It is advised to start simple and add in as needs demand.</p>
 <p>Next, up is to setup the sink or the final destination.</p>
 </section>
@@ -812,7 +812,7 @@ Important
 <h2 class="anchored" data-anchor-id="activating-the-traffic-in-the-pipeline">Activating the traffic in the pipeline</h2>
 <p>To activate the traffic flow from source to destination, we need to supply source and destination link configurations. This is acheived through <code>json</code> connector configuration.</p>
 <p>Apache Kafka uses <code>REST API</code> so that means a JSON data goes into the body of the POST request. Conveniently there is <code>curl</code> command that can be used to request. Though <code>curl</code> commands allows to pass <code>json</code> files to the <code>data</code> option, the <code>JSON</code> format as such require sensitive information properties to be hard-coded. That puts system security at risk.</p>
-<p>Fortunately for us, a shell script allows for sensitive information to be masked while being supplied at run time(more on it <a href="https://dr563105.github.io/posts/2023-08-30-secrets-in-json/">here</a>). It is indeed that approach we take for our task to connect the blocks in the pipeline.</p>
+<p>Fortunately for us, a shell script allows for sensitive information to be masked while being supplied at run time(more on it <a href="https://deepakramani.github.io/posts/2023-08-30-secrets-in-json/">here</a>). It is indeed that approach we take for our task to connect the blocks in the pipeline.</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>setup-connections.sh</strong></pre>
@@ -1220,7 +1220,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/dr563105\.github\.io");
+      var filterRegex = new RegExp("https:\/\/deepakramani\.github\.io");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -1586,7 +1586,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<script src="https://utteranc.es/client.js" repo="dr563105/blog_comments" issue-term="pathname" theme="github-dark" crossorigin="anonymous" async="">
+<script src="https://utteranc.es/client.js" repo="deepakramani/blog_comments" issue-term="pathname" theme="github-dark" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 <footer class="footer">
@@ -1596,7 +1596,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
 
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/dr563105/dr563105.github.io/blob/master/posts/2023-08-29-cdc-debezium-kafka-pg/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/deepakramani/dr563105.github.io/blob/master/posts/2023-08-29-cdc-debezium-kafka-pg/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">

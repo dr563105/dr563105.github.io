@@ -6,15 +6,15 @@
       version="2.0">
 <channel>
 <title>Deepak Ramani&#39;s blog</title>
-<link>https://dr563105.github.io/</link>
-<atom:link href="https://dr563105.github.io/index.xml" rel="self" type="application/rss+xml"/>
+<link>https://deepakramani.github.io/</link>
+<atom:link href="https://deepakramani.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>This is Deepak Ramani&#39;s personal blog.</description>
 <generator>quarto-1.7.0</generator>
 <lastBuildDate>Sat, 02 Sep 2023 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Testing Data Pipelines</title>
   <dc:creator>Deepak Ramani</dc:creator>
-  <link>https://dr563105.github.io/posts/2023-09-02-testing-data-pipelines/</link>
+  <link>https://deepakramani.github.io/posts/2023-09-02-testing-data-pipelines/</link>
   <description><![CDATA[ 
 
 
@@ -24,17 +24,17 @@
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <p>Testing is one of the important phases in software development cycle before a software is turned to production.</p>
-<p><img src="https://dr563105.github.io/posts/2023-09-02-testing-data-pipelines/SDLC-stages.png" class="img-fluid"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-09-02-testing-data-pipelines/SDLC-stages.png" class="img-fluid"></p>
 <p>Testing is a way to simulate and the application for all possible actions from users before delivery. It reveals flaws in development and sometimes even upto design phase. Imagine a scenario in which a user has to enter price of a product. Mistakenly they enter <code>1w</code> instead of 12. If this pattern happens regularly, and in the monthly report, these numbers won’t add up at all. With testing, we can set guardrails to protect against such mistakes.</p>
-<p>In my <a href="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/">post</a>, I designed a pipeline to check a Postgres DB for data changes and transport those changes through Apache Kafka and store in S3-like storage. However, I didn’t have time to write proper test cases. After publishing that post, I created unit and integration test cases. In this post we will go through how each test case was developed.</p>
+<p>In my <a href="https://deepakramani.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/">post</a>, I designed a pipeline to check a Postgres DB for data changes and transport those changes through Apache Kafka and store in S3-like storage. However, I didn’t have time to write proper test cases. After publishing that post, I created unit and integration test cases. In this post we will go through how each test case was developed.</p>
 </section>
 <section id="testing-environment" class="level1">
 <h1>Testing Environment</h1>
 <p>In almost well setup software delivery teams, there are two environments before delivery into production – development and testing.</p>
 <p>In our case, the architecture as shown below, there are source and sink systems with Apache Kafka in the middle. The Debezium connects source database(DB) to Kafka. Testing the data pipeline shouldn’t affect development environment or live environment. So we will setup a testing environment that mimics the live environment – using a different port numbers, source DB, topics, buckets.</p>
 <p>In the first part of testing, we will do unit and integration for the source systems - Fake datagen and source Postgres DB</p>
-<p><img src="https://dr563105.github.io/posts/2023-09-02-testing-data-pipelines/cdc-pipeline.png" class="img-fluid"></p>
-<p>Full project is located <a href="https://github.com/dr563105/cdc-pg-dbz-kafka-s3">here</a>.</p>
+<p><img src="https://deepakramani.github.io/posts/2023-09-02-testing-data-pipelines/cdc-pipeline.png" class="img-fluid"></p>
+<p>Full project is located <a href="https://github.com/deepakramani/cdc-pg-dbz-kafka-s3">here</a>.</p>
 <section id="source-system" class="level2">
 <h2 class="anchored" data-anchor-id="source-system">Source system</h2>
 <p>Source system in our case is just two components – a python script that generates data and Postgres database that stores the generated data. With automated testing, we will do checks on individual component – unit tests, a combined test – integration test.</p>
@@ -608,13 +608,13 @@ font-style: inherit;">in</span> usernames</span><div class="code-annotation-gutt
   <category>data pipeline testing</category>
   <category>testing Kafka</category>
   <category>end-to-end testing</category>
-  <guid>https://dr563105.github.io/posts/2023-09-02-testing-data-pipelines/</guid>
+  <guid>https://deepakramani.github.io/posts/2023-09-02-testing-data-pipelines/</guid>
   <pubDate>Sat, 02 Sep 2023 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Storing secrets in JSON files</title>
   <dc:creator>Deepak Ramani</dc:creator>
-  <link>https://dr563105.github.io/posts/2023-08-30-secrets-in-json/</link>
+  <link>https://deepakramani.github.io/posts/2023-08-30-secrets-in-json/</link>
   <description><![CDATA[ 
 
 
@@ -1162,13 +1162,13 @@ font-style: inherit;">    }'</span></span></code></pre></div>
   <category>env variables</category>
   <category>shell</category>
   <category>bash</category>
-  <guid>https://dr563105.github.io/posts/2023-08-30-secrets-in-json/</guid>
+  <guid>https://deepakramani.github.io/posts/2023-08-30-secrets-in-json/</guid>
   <pubDate>Wed, 30 Aug 2023 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Change Data Capture with Debezium, Kafka, S3</title>
   <dc:creator>Deepak Ramani</dc:creator>
-  <link>https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/</link>
+  <link>https://deepakramani.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/</link>
   <description><![CDATA[ 
 
 
@@ -1227,11 +1227,11 @@ font-style: inherit;">    }'</span></span></code></pre></div>
 </section>
 <section id="architecture" class="level2">
 <h2 class="anchored" data-anchor-id="architecture">Architecture</h2>
-<p><img src="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/cdc-pipeline.png" class="img-fluid" style="width:300.0%"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/cdc-pipeline.png" class="img-fluid" style="width:300.0%"></p>
 </section>
 <section id="prerequisites-and-setup" class="level2">
 <h2 class="anchored" data-anchor-id="prerequisites-and-setup">Prerequisites and Setup</h2>
-<p>We use Ubuntu 20.04 LTS AWS EC2 machine for the project. Full source code <a href="https://github.com/dr563105/cdc-pg-dbz-kafka-s3.git">here</a>.</p>
+<p>We use Ubuntu 20.04 LTS AWS EC2 machine for the project. Full source code <a href="https://github.com/deepakramani/cdc-pg-dbz-kafka-s3.git">here</a>.</p>
 <p>We need the following:</p>
 <ul>
 <li><p><a href="https://github.com/git-guides/install-git">git version &gt;= 2.37.1</a>,</p></li>
@@ -1257,7 +1257,7 @@ background-color: null;
 font-style: inherit;">-y</span></span>
 <span id="annotated-cell-1-2"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">git</span> clone https://github.com/dr563105/cdc-debezium-kafka.git</span>
+font-style: inherit;">git</span> clone https://github.com/deepakramani/cdc-debezium-kafka.git</span>
 <span id="annotated-cell-1-3"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">cd</span> cdc-debezium-kafka</span>
@@ -1406,7 +1406,7 @@ font-style: inherit;"># sudo rm -rf minio/ psql_vol/</span></span></code></pre><
 </section>
 <section id="testing" class="level2">
 <h2 class="anchored" data-anchor-id="testing">Testing</h2>
-<p>Testing the data pipeline is one of the important aspects of data engineering. Read more about it in a detail blog <a href="https://dr563105.github.io/posts/2023-09-02-testing-data-pipelines/">here</a></p>
+<p>Testing the data pipeline is one of the important aspects of data engineering. Read more about it in a detail blog <a href="https://deepakramani.github.io/posts/2023-09-02-testing-data-pipelines/">here</a></p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>testing</strong></pre>
@@ -2462,7 +2462,7 @@ font-style: inherit;"> my_network</span></span><div class="code-annotation-gutte
 <span data-code-cell="annotated-cell-11" data-code-lines="18" data-code-annotation="5">Internally Kafka brokers communicate with themselves using <code>9092</code>. With others in <code>localhost:9093</code>.</span>
 </dd>
 </dl>
-<p>Read more on Kafka Listerners <a href="https://dr563105.github.io/notes/data-engineering/apache-Kafka/#Kafka-Listeners">here</a>.</p>
+<p>Read more on Kafka Listerners <a href="https://deepakramani.github.io/notes/data-engineering/apache-Kafka/#Kafka-Listeners">here</a>.</p>
 <p>Apache Kafka configuration can be confusing. It is advised to start simple and add in as needs demand.</p>
 <p>Next, up is to setup the sink or the final destination.</p>
 </section>
@@ -2777,7 +2777,7 @@ Important
 <h2 class="anchored" data-anchor-id="activating-the-traffic-in-the-pipeline">Activating the traffic in the pipeline</h2>
 <p>To activate the traffic flow from source to destination, we need to supply source and destination link configurations. This is acheived through <code>json</code> connector configuration.</p>
 <p>Apache Kafka uses <code>REST API</code> so that means a JSON data goes into the body of the POST request. Conveniently there is <code>curl</code> command that can be used to request. Though <code>curl</code> commands allows to pass <code>json</code> files to the <code>data</code> option, the <code>JSON</code> format as such require sensitive information properties to be hard-coded. That puts system security at risk.</p>
-<p>Fortunately for us, a shell script allows for sensitive information to be masked while being supplied at run time(more on it <a href="https://dr563105.github.io/posts/2023-08-30-secrets-in-json/">here</a>). It is indeed that approach we take for our task to connect the blocks in the pipeline.</p>
+<p>Fortunately for us, a shell script allows for sensitive information to be masked while being supplied at run time(more on it <a href="https://deepakramani.github.io/posts/2023-08-30-secrets-in-json/">here</a>). It is indeed that approach we take for our task to connect the blocks in the pipeline.</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>setup-connections.sh</strong></pre>
@@ -3023,15 +3023,15 @@ font-style: inherit;">make</span> connections</span><div class="code-annotation-
 <span data-code-cell="annotated-cell-16" data-code-lines="2" data-code-annotation="2">Links source to Kafka and Kafka topics to Minio S3.</span>
 </dd>
 </dl>
-<p><img src="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-make-up.png" class="img-fluid"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-make-up.png" class="img-fluid"></p>
 <p>On successful connection establishment, we will <code>201 created</code> message as shown in the below screenshot.</p>
-<p><img src="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-make-connections.png" class="img-fluid"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-make-connections.png" class="img-fluid"></p>
 <p>If done correctly, we should have successfully connected the source to the destination. We will wait a few minutes to have the files appear in the Minio <code>commerce</code> bucket.</p>
-<p><img src="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-commerce-json.png" class="img-fluid"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-commerce-json.png" class="img-fluid"></p>
 <p>We can also use the Minio UI available at <code>localhost:9001</code>. Use the Minio’s credentials supplied as env variables to login.</p>
-<p><img src="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-minio-bucket.jpeg" class="img-fluid"></p>
-<p><img src="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-minio-commerce.png" class="img-fluid"></p>
-<p><img src="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-minio-commerce-jsons.png" class="img-fluid"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-minio-bucket.jpeg" class="img-fluid"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-minio-commerce.png" class="img-fluid"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-minio-commerce-jsons.png" class="img-fluid"></p>
 </section>
 <section id="analysis" class="level2">
 <h2 class="anchored" data-anchor-id="analysis">Analysis</h2>
@@ -3472,7 +3472,7 @@ font-style: inherit;">LIMIT</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">20</span>;</span></code></pre></div>
 </div>
-<p><img src="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-query-result-1.png" class="img-fluid"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/scr-query-result-1.png" class="img-fluid"></p>
 <p>Making SCD2 table is out of scope for this project but no worries I will go through it another post.</p>
 </section>
 </section>
@@ -3493,13 +3493,13 @@ font-style: inherit;">20</span>;</span></code></pre></div>
   <category>Faker</category>
   <category>Docker</category>
   <category></category>
-  <guid>https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/</guid>
+  <guid>https://deepakramani.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/</guid>
   <pubDate>Tue, 29 Aug 2023 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Building Data Pipeline - Part 4 - CI/CD</title>
   <dc:creator>Deepak Ramani</dc:creator>
-  <link>https://dr563105.github.io/posts/2023-06-13-Github-Actions-CI-CD-TF/</link>
+  <link>https://deepakramani.github.io/posts/2023-06-13-Github-Actions-CI-CD-TF/</link>
   <description><![CDATA[ 
 
 
@@ -3517,11 +3517,11 @@ font-style: inherit;">20</span>;</span></code></pre></div>
 <p>Since we’re doing both two workflows - pull and push, we will have two <code>yaml</code> files - <code>ci-test.yml</code> and <code>cd-deploy.yml</code>. This post will not explain syntax used in these files. It will explain how the tasks are accomplished through these syntaxes. For thorough understanding of syntax, read <a href="https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions#understanding-the-workflow-file">this document</a>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://dr563105.github.io/posts/2023-06-13-Github-Actions-CI-CD-TF/AWS-ci-cd.png" class="img-fluid figure-img"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-06-13-Github-Actions-CI-CD-TF/AWS-ci-cd.png" class="img-fluid figure-img"></p>
 <figcaption>CI/CD Pipeline</figcaption>
 </figure>
 </div>
-<p>The source code is present at <a href="https://github.com/dr563105/CI-CD-Terraform-Github-actions">my github repo</a>.</p>
+<p>The source code is present at <a href="https://github.com/deepakramani/CI-CD-Terraform-Github-actions">my github repo</a>.</p>
 <section id="triggers" class="level2">
 <h2 class="anchored" data-anchor-id="triggers">Triggers</h2>
 <p>We want to setup event based triggers to activate our workflows. Since we don’t to distrub <code>main</code> branch code base, we create two branches - <code>develop</code> and <code>feature/ci-cd</code>. We switch to the <code>feature/ci-cd</code> branch and define our workflows.</p>
@@ -3874,13 +3874,13 @@ font-style: inherit;">terraform destroy -var-file=vars/prod.tfvars</span></span>
   <category>Terraform</category>
   <category>AWS</category>
   <category>Docker</category>
-  <guid>https://dr563105.github.io/posts/2023-06-13-Github-Actions-CI-CD-TF/</guid>
+  <guid>https://deepakramani.github.io/posts/2023-06-13-Github-Actions-CI-CD-TF/</guid>
   <pubDate>Tue, 13 Jun 2023 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Terraform - Attach IAM policies to a role</title>
   <dc:creator>Deepak Ramani</dc:creator>
-  <link>https://dr563105.github.io/posts/2023-06-12-Attach-iam-policy-to-roles/</link>
+  <link>https://deepakramani.github.io/posts/2023-06-12-Attach-iam-policy-to-roles/</link>
   <description><![CDATA[ 
 
 
@@ -4450,13 +4450,13 @@ font-style: inherit;">}</span></span><div class="code-annotation-gutter-bg"></di
   <category>AWS</category>
   <category>IAM</category>
   <category>JSON</category>
-  <guid>https://dr563105.github.io/posts/2023-06-12-Attach-iam-policy-to-roles/</guid>
+  <guid>https://deepakramani.github.io/posts/2023-06-12-Attach-iam-policy-to-roles/</guid>
   <pubDate>Mon, 12 Jun 2023 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Building Data Pipelines - Part 3 - Terraform</title>
   <dc:creator>Deepak Ramani</dc:creator>
-  <link>https://dr563105.github.io/posts/2023-06-11-terraform-aws/</link>
+  <link>https://deepakramani.github.io/posts/2023-06-11-terraform-aws/</link>
   <description><![CDATA[ 
 
 
@@ -4465,7 +4465,7 @@ font-style: inherit;">}</span></span><div class="code-annotation-gutter-bg"></di
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>In part 2 we saw how to migrate to AWS cloud. In bigger projects where so many resources are present, it is near impossible to remember and manage them using the console. Terraform provides that solution. It allows to track resources just like code. We saw about the use of Terraform in my introduction <a href="https://dr563105.github.io/posts/2023-06-02-Terraform-setup/">post</a> on Terraform.</p>
+<p>In part 2 we saw how to migrate to AWS cloud. In bigger projects where so many resources are present, it is near impossible to remember and manage them using the console. Terraform provides that solution. It allows to track resources just like code. We saw about the use of Terraform in my introduction <a href="https://deepakramani.github.io/posts/2023-06-02-Terraform-setup/">post</a> on Terraform.</p>
 <p>In this part, we will take the data pipeline from part 2 and use Terraform to manage the infrastructure.</p>
 </section>
 <section id="designing-the-pipeline" class="level1">
@@ -4473,7 +4473,7 @@ font-style: inherit;">}</span></span><div class="code-annotation-gutter-bg"></di
 <div id="fig-terraform-data-pipeline" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-terraform-data-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="https://dr563105.github.io/posts/2023-06-11-terraform-aws/AWS-api-lambda-ecr-db-archi-tf.png" class="img-fluid figure-img">
+<img src="https://deepakramani.github.io/posts/2023-06-11-terraform-aws/AWS-api-lambda-ecr-db-archi-tf.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-terraform-data-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Data Pipeline
@@ -4978,11 +4978,11 @@ font-style: inherit;">}</span></span></code></pre></div>
 <section id="plan-and-apply-changes" class="level2">
 <h2 class="anchored" data-anchor-id="plan-and-apply-changes">Plan and Apply Changes</h2>
 <p>With <code>terraform plan -var-file vars/stg.tfvars</code> we can see what new resources be created/changed/destroyed. This gives as a plan and confirmation of our setup.</p>
-<p><code>terraform apply -var-file vars/stg.tfvars</code> will apply our configurations. At the end the <code>rest_api_url</code> will be displayed. <img src="https://dr563105.github.io/posts/2023-06-11-terraform-aws/terraform_apply.png" class="img-fluid"></p>
+<p><code>terraform apply -var-file vars/stg.tfvars</code> will apply our configurations. At the end the <code>rest_api_url</code> will be displayed. <img src="https://deepakramani.github.io/posts/2023-06-11-terraform-aws/terraform_apply.png" class="img-fluid"></p>
 <p>Take that, put it in an api client and supplying our sample JSON input <code>{"find": {"date1": "2017-08-28", "store_nbr": 19}}</code>. You should see the status code as 200 and the body containing the predictions with a confirmation saying the item has been successfully created.</p>
-<p><img src="https://dr563105.github.io/posts/2023-06-11-terraform-aws/api_invocation_result.png" class="img-fluid"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-06-11-terraform-aws/api_invocation_result.png" class="img-fluid"></p>
 <p>We can confirm it by going to Dynamodb console and checking the items in the table</p>
-<p><img src="https://dr563105.github.io/posts/2023-06-11-terraform-aws/dynamodb_items.png" class="img-fluid"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-06-11-terraform-aws/dynamodb_items.png" class="img-fluid"></p>
 </section>
 <section id="destroying-resources" class="level2">
 <h2 class="anchored" data-anchor-id="destroying-resources">Destroying resources</h2>
@@ -5008,13 +5008,13 @@ font-style: inherit;">}</span></span></code></pre></div>
   <category>S3 Bucket</category>
   <category>Rest API</category>
   <category>DynamoDB</category>
-  <guid>https://dr563105.github.io/posts/2023-06-11-terraform-aws/</guid>
+  <guid>https://deepakramani.github.io/posts/2023-06-11-terraform-aws/</guid>
   <pubDate>Sun, 11 Jun 2023 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Building Data Pipelines - Part 2 - AWS Cloud</title>
   <dc:creator>Deepak Ramani</dc:creator>
-  <link>https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/</link>
+  <link>https://deepakramani.github.io/posts/2023-06-04-api-lambda-ecr/</link>
   <description><![CDATA[ 
 
 
@@ -5023,7 +5023,7 @@ font-style: inherit;">}</span></span></code></pre></div>
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>In <a href="https://dr563105.github.io/posts/2023-06-03-lambda-docker/">part 1</a>, we saw how to make and test lambda function locally. In part 2, we will switch focus to AWS cloud provider. We will migrate our code to use AWS cloud platform.</p>
+<p>In <a href="https://deepakramani.github.io/posts/2023-06-03-lambda-docker/">part 1</a>, we saw how to make and test lambda function locally. In part 2, we will switch focus to AWS cloud provider. We will migrate our code to use AWS cloud platform.</p>
 <section id="services-used" class="level2">
 <h2 class="anchored" data-anchor-id="services-used">Services used</h2>
 <p>We will use these services to form our data pipeline:</p>
@@ -5041,7 +5041,7 @@ font-style: inherit;">}</span></span></code></pre></div>
 <div id="fig-data-pipeline" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-data-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/images/AWS-api-lambda-ecr-db-archi.png" class="img-fluid figure-img">
+<img src="https://deepakramani.github.io/posts/2023-06-04-api-lambda-ecr/images/AWS-api-lambda-ecr-db-archi.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-data-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Data Pipeline
@@ -5462,7 +5462,7 @@ font-style: inherit;">\</span></span>
 background-color: null;
 font-style: inherit;">python</span> test_docker_fn_docker.py</span></code></pre></div>
 </div>
-<p>We will get a prediction as we have done in the previous post. <img src="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/images/aws-local-test.png" class="img-fluid"></p>
+<p>We will get a prediction as we have done in the previous post. <img src="https://deepakramani.github.io/posts/2023-06-04-api-lambda-ecr/images/aws-local-test.png" class="img-fluid"></p>
 </section>
 </section>
 </section>
@@ -5528,14 +5528,14 @@ font-style: inherit;">${ACCOUNT_ID}</span>.dkr.ecr.us-east-1.amazonaws.com/lambd
 <span data-code-cell="annotated-cell-6" data-code-lines="5" data-code-annotation="3">Remember we supplied aws access key and secret before. The session borrows them for ECR login. If it is a new session, those variables have to be given again.</span>
 </dd>
 </dl>
-<p><img src="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/images/ecr-upload.png" class="img-fluid"> <img src="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/images/ecr-upload-ui.png" class="img-fluid"> In the screenshots we can see that our container image is uploaded to the registry.</p>
+<p><img src="https://deepakramani.github.io/posts/2023-06-04-api-lambda-ecr/images/ecr-upload.png" class="img-fluid"> <img src="https://deepakramani.github.io/posts/2023-06-04-api-lambda-ecr/images/ecr-upload-ui.png" class="img-fluid"> In the screenshots we can see that our container image is uploaded to the registry.</p>
 </section>
 <section id="setup-aws-lambda-function" class="level2">
 <h2 class="anchored" data-anchor-id="setup-aws-lambda-function">Setup AWS Lambda function</h2>
 <p>This part is a bit tedious as it is not as straight forward as running commands. I’d like to point out to a detailed <a href="../../posts/2023-06-04-api-lambda-ecr/aws-ecr-api.html#aws-lambda-function">guide</a> which has all the steps to create a AWS Lambda function, attach policies, configure and supply environment variable. I urge you to visit that link. Including them here will make it too long, full of screenshots and frankly boring.</p>
 <section id="testing-the-lambda-function" class="level3">
 <h3 class="anchored" data-anchor-id="testing-the-lambda-function">Testing the Lambda function</h3>
-<p>In the <code>Test</code> tab, create a test event with our good old sample JSON object. <code>{"find":{"date1":"2017-08-26","store_nbr":20}}</code>. <img src="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/images/aws-lambda-test-event.png" class="img-fluid"> <img src="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/images/aws-lambda-test-result.png" class="img-fluid" alt="testresult"> Hitting the Test button should give us a prediction. as seen in the second image.</p>
+<p>In the <code>Test</code> tab, create a test event with our good old sample JSON object. <code>{"find":{"date1":"2017-08-26","store_nbr":20}}</code>. <img src="https://deepakramani.github.io/posts/2023-06-04-api-lambda-ecr/images/aws-lambda-test-event.png" class="img-fluid"> <img src="https://deepakramani.github.io/posts/2023-06-04-api-lambda-ecr/images/aws-lambda-test-result.png" class="img-fluid" alt="testresult"> Hitting the Test button should give us a prediction. as seen in the second image.</p>
 <p>So our function is able to access S3 artifact bucket to download and give out predictions. Meaning our attached policies are correct. Testing once in the console is fine but the customer wouldn’t want to do that. We need something that triggers the lambda function - we need an API Gateway.</p>
 </section>
 </section>
@@ -5545,7 +5545,7 @@ font-style: inherit;">${ACCOUNT_ID}</span>.dkr.ecr.us-east-1.amazonaws.com/lambd
 <section id="create-rest-api-test-and-deploy-it" class="level3">
 <h3 class="anchored" data-anchor-id="create-rest-api-test-and-deploy-it">Create Rest API, test and deploy it</h3>
 <p>Again I advise you to refer my other <a href="../../posts/2023-06-04-api-lambda-ecr/aws-ecr-api.html#rest-api-with-an-endpoint">guide</a> to create an endpoint. This endpoint is same as the Flask one we encountered in the last posts.</p>
-<p>Upon deploying we get an <code>invoke</code> url. This url is without an endpoint. <img src="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/images/aws-api-deploy-3.png" class="img-fluid"></p>
+<p>Upon deploying we get an <code>invoke</code> url. This url is without an endpoint. <img src="https://deepakramani.github.io/posts/2023-06-04-api-lambda-ecr/images/aws-api-deploy-3.png" class="img-fluid"></p>
 <p>We need to append <code>predict-sales</code>, our resource endpoint, to the url. The final url would look like <code>https://eecweeeeeg.execute-api.us-east-1.amazonaws.com/stg-lambda-app-for-blog/predict-sales</code></p>
 <p>Use the following JSON object to test it out in an API platform client such as Thunder Client in VSCode, Postman etc.</p>
 <p><code>{"find": {"date1": "2017-08-26", "store_nbr": 20}}</code></p>
@@ -5900,7 +5900,7 @@ font-style: inherit;">'successfully created item!'</span>,</span>
 <span data-code-cell="annotated-cell-7" data-code-lines="78" data-code-annotation="3">Insert item into the table</span>
 </dd>
 </dl>
-<p>Rebuild the docker image, retag it, publish it to the ECR repo. Then in AWS Lambda, use <code>deploy new image</code> to select the latest build. Test with sample input. <img src="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/images/aws-db-items.png" class="img-fluid"></p>
+<p>Rebuild the docker image, retag it, publish it to the ECR repo. Then in AWS Lambda, use <code>deploy new image</code> to select the latest build. Test with sample input. <img src="https://deepakramani.github.io/posts/2023-06-04-api-lambda-ecr/images/aws-db-items.png" class="img-fluid"></p>
 </section>
 </section>
 <section id="conclusion" class="level1">
@@ -5919,14 +5919,14 @@ font-style: inherit;">'successfully created item!'</span>,</span>
   <category>MLflow</category>
   <category>S3</category>
   <category>DynamoDB</category>
-  <guid>https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/</guid>
+  <guid>https://deepakramani.github.io/posts/2023-06-04-api-lambda-ecr/</guid>
   <pubDate>Sun, 04 Jun 2023 00:00:00 GMT</pubDate>
-  <media:content url="https://dr563105.github.io/posts/2023-06-04-api-lambda-ecr/aws-part2-logo.png" medium="image" type="image/png" height="70" width="144"/>
+  <media:content url="https://deepakramani.github.io/posts/2023-06-04-api-lambda-ecr/aws-part2-logo.png" medium="image" type="image/png" height="70" width="144"/>
 </item>
 <item>
   <title>Building Data Pipelines - Part 1 - Docker</title>
   <dc:creator>Deepak Ramani</dc:creator>
-  <link>https://dr563105.github.io/posts/2023-06-03-lambda-docker/</link>
+  <link>https://deepakramani.github.io/posts/2023-06-03-lambda-docker/</link>
   <description><![CDATA[ 
 
 
@@ -5935,7 +5935,7 @@ font-style: inherit;">'successfully created item!'</span>,</span>
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>This post is a follow up to my previous <a href="https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/">post</a> on deploying with docker. This will be part 1 of the deploy using Docker series. In this part, I will introduce the concept of <code>lambda_function</code> and how it can tested locally.</p>
+<p>This post is a follow up to my previous <a href="https://deepakramani.github.io/posts/2023-06-03-deploy-with-docker/">post</a> on deploying with docker. This will be part 1 of the deploy using Docker series. In this part, I will introduce the concept of <code>lambda_function</code> and how it can tested locally.</p>
 <section id="why-lambda_function" class="level2">
 <h2 class="anchored" data-anchor-id="why-lambda_function">Why Lambda_function?</h2>
 <p>The customer from my previous post doesn’t want to keep things in their local machine and wish for a cloud option. Also don’t want to reserve resources as they expect only intermittent requests. What could be a viable solution? Enter <strong>Lambda_function</strong>. Each cloud provider has other own name for lambda function. We will use AWS and it is called <code>Lambda</code>.</p>
@@ -6145,7 +6145,7 @@ font-style: inherit;">return</span> result</span><div class="code-annotation-gut
 <span data-code-cell="annotated-cell-1" data-code-lines="29" data-code-annotation="1">Default handler function name</span>
 </dd>
 </dl>
-<p>Like last time we will use <code>Pipenv</code> to install dependencies. If you’re new, kindly visit <a href="https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/">deploy with docker</a> post to know why we use <code>Pipenv</code>.</p>
+<p>Like last time we will use <code>Pipenv</code> to install dependencies. If you’re new, kindly visit <a href="https://deepakramani.github.io/posts/2023-06-03-deploy-with-docker/">deploy with docker</a> post to know why we use <code>Pipenv</code>.</p>
 </section>
 <section id="dockerfile" class="level2">
 <h2 class="anchored" data-anchor-id="dockerfile">Dockerfile</h2>
@@ -6232,7 +6232,7 @@ background-color: null;
 font-style: inherit;">-t</span> lambda-app:v1 .</span></code></pre></div>
 </div>
 <p>The result if successful would look like this:</p>
-<p><img src="https://dr563105.github.io/posts/2023-06-03-lambda-docker/docker-build.png" class="img-fluid"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-06-03-lambda-docker/docker-build.png" class="img-fluid"></p>
 <p>Running the container is different this time as the port exposed is different. AWS allows local testing of Lambda function code through a localhost endpoint. This endpoint is at <code>9000</code> port(it can be customised). Inside docker container we make it listen to <code>8080</code> port. So we forward <code>9000</code> to <code>8080</code>.</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
@@ -6267,7 +6267,7 @@ font-style: inherit;">\</span></span>
 </dd>
 </dl>
 <p>Result looks like so:</p>
-<p><img src="https://dr563105.github.io/posts/2023-06-03-lambda-docker/docker-run.png" class="img-fluid"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-06-03-lambda-docker/docker-run.png" class="img-fluid"></p>
 </section>
 </section>
 <section id="test-lambda-function-locally" class="level1">
@@ -6325,7 +6325,7 @@ font-style: inherit;">print</span>(response.json())</span></code></pre></div>
 background-color: null;
 font-style: inherit;">python</span> test_docker_fn.py</span></code></pre></div>
 </div>
-<p>If there are no errors, we should see some predictions. <img src="https://dr563105.github.io/posts/2023-06-03-lambda-docker/lambda-test.png" class="img-fluid"></p>
+<p>If there are no errors, we should see some predictions. <img src="https://deepakramani.github.io/posts/2023-06-03-lambda-docker/lambda-test.png" class="img-fluid"></p>
 </section>
 <section id="conclusion" class="level1">
 <h1>Conclusion</h1>
@@ -6346,14 +6346,14 @@ font-style: inherit;">python</span> test_docker_fn.py</span></code></pre></div>
   <category>pipenv</category>
   <category>lambda_function</category>
   <category>AWS Lambda</category>
-  <guid>https://dr563105.github.io/posts/2023-06-03-lambda-docker/</guid>
+  <guid>https://deepakramani.github.io/posts/2023-06-03-lambda-docker/</guid>
   <pubDate>Sat, 03 Jun 2023 00:00:00 GMT</pubDate>
-  <media:content url="https://dr563105.github.io/posts/2023-06-03-lambda-docker/docker-lambda.png" medium="image" type="image/png" height="53" width="144"/>
+  <media:content url="https://deepakramani.github.io/posts/2023-06-03-lambda-docker/docker-lambda.png" medium="image" type="image/png" height="53" width="144"/>
 </item>
 <item>
   <title>Deploy Web Application with Docker</title>
   <dc:creator>Deepak Ramani</dc:creator>
-  <link>https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/</link>
+  <link>https://deepakramani.github.io/posts/2023-06-03-deploy-with-docker/</link>
   <description><![CDATA[ 
 
 
@@ -6377,7 +6377,7 @@ font-style: inherit;">python</span> test_docker_fn.py</span></code></pre></div>
 <section id="docker" class="level1">
 <h1>Docker</h1>
 <p>Docker is a service that allows to package the software as containers. This container contains all the necessary packages to successfully run the software. A customer’s machine might be different from the software developer’s. Using Docker we can eliminate that bottleneck. The customer just needs to use the container for their purpose. Any failure they encounter can be easily duplicated in developer’s environment.</p>
-<p>In my previous <a href="https://dr563105.github.io/posts/2023-06-02-Terraform-setup/#docker-installation---optional-but-recommended">post</a> I show how to install docker in Apple Silicon and Ubuntu cloud instance. When I develop in my Apple Silicon Macbook, I get small, frustrating, unexpected errors only to know that it is due to Apple Silicon(ARM64) architecture. So for this purpose I recommend using an Ubuntu machine.</p>
+<p>In my previous <a href="https://deepakramani.github.io/posts/2023-06-02-Terraform-setup/#docker-installation---optional-but-recommended">post</a> I show how to install docker in Apple Silicon and Ubuntu cloud instance. When I develop in my Apple Silicon Macbook, I get small, frustrating, unexpected errors only to know that it is due to Apple Silicon(ARM64) architecture. So for this purpose I recommend using an Ubuntu machine.</p>
 <section id="why-flask" class="level2">
 <h2 class="anchored" data-anchor-id="why-flask">Why Flask?</h2>
 <p>Flask is a popular Python microframework for developing web applications. It is also known for its simplicity, flexibility and scalability. Since we want to use Python and make it simple for us to maintain, we will choose Flask.</p>
@@ -6770,7 +6770,7 @@ background-color: null;
 font-style: inherit;">python_version = "3.9"</span></span></code></pre></div>
 </div>
 <p>On the first run we need to install these packages locally and also to create <code>Pipfile.lock</code>. We can accomplish that using the command <code>pipenv install --dev</code>. I recommend running this inside conda’s <code>base</code> environment. Please don’t use system’s python to manage projects.</p>
-<p><img src="https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/pipenv-install.png" class="img-fluid"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-06-03-deploy-with-docker/pipenv-install.png" class="img-fluid"></p>
 </section>
 <section id="dockerfile-and-building-docker-image" class="level2">
 <h2 class="anchored" data-anchor-id="dockerfile-and-building-docker-image">Dockerfile and building docker image</h2>
@@ -6853,7 +6853,7 @@ font-style: inherit;">"flask_sales_predictor:app"</span> ]</span></code></pre></
 </div>
 <p>To build a docker image, we use the command <code>docker build -t flask_app:v1 .</code> .</p>
 <p>To verify it is created we can run <code>docker images</code> and look for the name.</p>
-<p><img src="https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/docker-build.png" class="img-fluid"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-06-03-deploy-with-docker/docker-build.png" class="img-fluid"></p>
 </section>
 <section id="running-the-docker-container" class="level2">
 <h2 class="anchored" data-anchor-id="running-the-docker-container">Running the docker container</h2>
@@ -6884,7 +6884,7 @@ background-color: null;
 font-style: inherit;">\</span></span>
 <span id="cb3-5">    flask_app:v1</span></code></pre></div>
 </div>
-<p><img src="https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/docker-run.png" class="img-fluid"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-06-03-deploy-with-docker/docker-run.png" class="img-fluid"></p>
 </section>
 <section id="testing-the-application" class="level2">
 <h2 class="anchored" data-anchor-id="testing-the-application">Testing the application</h2>
@@ -6930,7 +6930,7 @@ font-style: inherit;">print</span>(response.json())</span></code></pre></div>
 <p>The <code>test_requests.py</code> file has the input in <code>JSON</code> format and the endpoint url <code>http://localhost:9696/predict-sales</code>. We leverage the requests library to make our requests.</p>
 <p>Open up another <code>terminal</code> or another tab, activate virtual environment and run <code>python test_requests.py</code>. Just python needs to be present inside this environment as everything else is inside the docker container.</p>
 <p>If everything goes well, we should the predicted product price printed.</p>
-<p><img src="https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/docker-testing.png" class="img-fluid"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-06-03-deploy-with-docker/docker-testing.png" class="img-fluid"></p>
 </section>
 </section>
 <section id="conclusion" class="level1">
@@ -6945,14 +6945,14 @@ font-style: inherit;">print</span>(response.json())</span></code></pre></div>
   <category>flask</category>
   <category>deployment</category>
   <category>pipenv</category>
-  <guid>https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/</guid>
+  <guid>https://deepakramani.github.io/posts/2023-06-03-deploy-with-docker/</guid>
   <pubDate>Sat, 03 Jun 2023 00:00:00 GMT</pubDate>
-  <media:content url="https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/docker-logo.png" medium="image" type="image/png" height="81" width="144"/>
+  <media:content url="https://deepakramani.github.io/posts/2023-06-03-deploy-with-docker/docker-logo.png" medium="image" type="image/png" height="81" width="144"/>
 </item>
 <item>
   <title>Getting started with Terraform</title>
   <dc:creator>Deepak Ramani</dc:creator>
-  <link>https://dr563105.github.io/posts/2023-06-02-Terraform-setup/</link>
+  <link>https://deepakramani.github.io/posts/2023-06-02-Terraform-setup/</link>
   <description><![CDATA[ 
 
 
@@ -7458,7 +7458,7 @@ font-style: inherit;">terrform</span> validate</span><div class="code-annotation
 <section id="result" class="level2">
 <h2 class="anchored" data-anchor-id="result">Result</h2>
 <p>A nginx server has been started and we can access it through <code>http:127.0.0.1:8000</code>. We will be greeted with a message “Welcome to nginx!”.</p>
-<p><img src="https://dr563105.github.io/posts/2023-06-02-Terraform-setup/nginx_success.png" class="img-fluid"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-06-02-Terraform-setup/nginx_success.png" class="img-fluid"></p>
 </section>
 <section id="terraform-state" class="level2">
 <h2 class="anchored" data-anchor-id="terraform-state">Terraform state</h2>
@@ -7492,7 +7492,7 @@ background-color: null;
 font-style: inherit;">}</span></span></code></pre></div>
 <p>You will see that there will be two state files - <code>terraform.tfstate</code> and <code>terraform.tfstate.backup</code>. On the first run both file’s contents will be same. However, now that we changed the port to <code>8010</code>, <code>terraform.tfstate</code> will change <code>8010</code> but the <code>backup</code> file will retain <code>8000</code>. This is Terraform’s <code>rollback</code> feature.</p>
 <p>Apply the changes using <code>terraform apply</code>.</p>
-<p><img src="https://dr563105.github.io/posts/2023-06-02-Terraform-setup/change-tf.png" class="img-fluid"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-06-02-Terraform-setup/change-tf.png" class="img-fluid"></p>
 </section>
 </section>
 <section id="destroy-infrastructure" class="level2">
@@ -7508,13 +7508,13 @@ font-style: inherit;">}</span></span></code></pre></div>
 </section>
 
  ]]></description>
-  <guid>https://dr563105.github.io/posts/2023-06-02-Terraform-setup/</guid>
+  <guid>https://deepakramani.github.io/posts/2023-06-02-Terraform-setup/</guid>
   <pubDate>Fri, 02 Jun 2023 00:00:00 GMT</pubDate>
-  <media:content url="https://dr563105.github.io/posts/2023-06-02-Terraform-setup/tf.png" medium="image" type="image/png" height="50" width="144"/>
+  <media:content url="https://deepakramani.github.io/posts/2023-06-02-Terraform-setup/tf.png" medium="image" type="image/png" height="50" width="144"/>
 </item>
 <item>
   <title>Getting started with S3 using boto3</title>
-  <link>https://dr563105.github.io/posts/2023-04-27-getting-started-with-s3/</link>
+  <link>https://deepakramani.github.io/posts/2023-04-27-getting-started-with-s3/</link>
   <description><![CDATA[ 
 
 
@@ -8271,14 +8271,14 @@ font-style: inherit;">'downloaded_turtlesim.jpg'</span>)</span></code></pre></di
   <category>boto3</category>
   <category>s3</category>
   <category>aws</category>
-  <guid>https://dr563105.github.io/posts/2023-04-27-getting-started-with-s3/</guid>
+  <guid>https://deepakramani.github.io/posts/2023-04-27-getting-started-with-s3/</guid>
   <pubDate>Thu, 27 Apr 2023 00:00:00 GMT</pubDate>
-  <media:content url="https://dr563105.github.io/posts/2023-04-27-getting-started-with-s3/logo_awss3.png" medium="image" type="image/png" height="44" width="144"/>
+  <media:content url="https://deepakramani.github.io/posts/2023-04-27-getting-started-with-s3/logo_awss3.png" medium="image" type="image/png" height="44" width="144"/>
 </item>
 <item>
   <title>Setup Skim PDF reader with VimTeX in Mac OS</title>
   <dc:creator>Deepak Ramani</dc:creator>
-  <link>https://dr563105.github.io/posts/2023-02-06-skim-vimtex/</link>
+  <link>https://deepakramani.github.io/posts/2023-02-06-skim-vimtex/</link>
   <description><![CDATA[ 
 
 
@@ -8408,7 +8408,7 @@ font-style: inherit;">1</span></span><div class="code-annotation-gutter-bg"></di
 <p>Consider a scenario where we are going through a paper and find an error, instead of going back to source TeX file and finding the error location can be cumbersome. Using <em>backward search</em>, we can go to the error location from PDF to TeX. For Skim, to activate <em>backward search</em> press <code>shift</code> and <code>command</code> together and <code>click</code> the position in PDF using the mouse. That location gets reflected in the editor in the background. For more information, see <code>:h :VimtexInverseSearch</code></p>
 <p>Natively, every instance of neovim starts a server <sup>1</sup>. With Skim as client and nvim as server, we can interact in that direction.</p>
 <p>In order to do so, in the preferances pane of Skim, navigate to <code>Sync</code> tab. There, in the <code>PDF-TeX Sync support</code>, make <code>preset</code> as <code>custom</code>, <code>command</code> as <code>nvim</code>(use <code>vim</code> if you use vim editor), and set <code>arguments</code> as <code>--headless -c "VimtexInverseSearch %line '%file'"</code>.</p>
-<p><img src="https://dr563105.github.io/posts/2023-02-06-skim-vimtex/skim_setting.png" title="Skim preferances window" class="img-fluid"></p>
+<p><img src="https://deepakramani.github.io/posts/2023-02-06-skim-vimtex/skim_setting.png" title="Skim preferances window" class="img-fluid"></p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -8445,14 +8445,14 @@ Important
   <category>mac</category>
   <category>inverse search</category>
   <category>backward search</category>
-  <guid>https://dr563105.github.io/posts/2023-02-06-skim-vimtex/</guid>
+  <guid>https://deepakramani.github.io/posts/2023-02-06-skim-vimtex/</guid>
   <pubDate>Mon, 06 Feb 2023 00:00:00 GMT</pubDate>
-  <media:content url="https://dr563105.github.io/posts/2023-02-06-skim-vimtex/neovim-logo1.png" medium="image" type="image/png" height="38" width="144"/>
+  <media:content url="https://deepakramani.github.io/posts/2023-02-06-skim-vimtex/neovim-logo1.png" medium="image" type="image/png" height="38" width="144"/>
 </item>
 <item>
   <title>Using json_normalize Pandas function</title>
   <dc:creator>Deepak Ramani</dc:creator>
-  <link>https://dr563105.github.io/posts/2022-09-24-using-json-normalize/</link>
+  <link>https://deepakramani.github.io/posts/2022-09-24-using-json-normalize/</link>
   <description><![CDATA[ 
 
 
@@ -8461,7 +8461,7 @@ Important
 
 <p><strong>J</strong>ava<strong>s</strong>cript <strong>O</strong>bject <strong>N</strong>otation(JSON) is a widely used format for storing and exchanging data. Coming from the relational database, it could be difficult to understand NoSQL databases that use JSON to store data and similarly REST API’s response. JSON is also used in storing football event data. It allows easy addition of features in the future.</p>
 <p>Though JSON format allows for easier exchange of data, for analysis, a tabular form would be appropriate. A JSON structure can be of two forms: a JSON object and list of JSON objects. Since our programming language of choice is Python, those structures can be somewhat called as a dictionary object or list of dicts.</p>
-<p><img src="https://dr563105.github.io/posts/2022-09-24-using-json-normalize/jsonobjectimage.png" title="source: B. Chen" class="img-fluid"><sup>1</sup></p>
+<p><img src="https://deepakramani.github.io/posts/2022-09-24-using-json-normalize/jsonobjectimage.png" title="source: B. Chen" class="img-fluid"><sup>1</sup></p>
 <p>Importing pandas library,</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
@@ -10878,14 +10878,14 @@ font-style: inherit;">=</span> json.loads(requests.get(URL).text)</span>
   <category>pandas</category>
   <category>json</category>
   <category>jupyter</category>
-  <guid>https://dr563105.github.io/posts/2022-09-24-using-json-normalize/</guid>
+  <guid>https://deepakramani.github.io/posts/2022-09-24-using-json-normalize/</guid>
   <pubDate>Sat, 24 Sep 2022 00:00:00 GMT</pubDate>
-  <media:content url="https://dr563105.github.io/posts/2022-09-24-using-json-normalize/pandas-logo.png" medium="image" type="image/png" height="54" width="144"/>
+  <media:content url="https://deepakramani.github.io/posts/2022-09-24-using-json-normalize/pandas-logo.png" medium="image" type="image/png" height="54" width="144"/>
 </item>
 <item>
   <title>Manage dotfiles with GNU Stow</title>
   <dc:creator>Deepak Ramani</dc:creator>
-  <link>https://dr563105.github.io/posts/2022-01-09-dotfiles/</link>
+  <link>https://deepakramani.github.io/posts/2022-01-09-dotfiles/</link>
   <description><![CDATA[ 
 
 
@@ -11091,14 +11091,14 @@ font-style: inherit;">&gt;</span> ../.dotfiles/nvim/.config/nvim</span></code></
   <category>dotfiles</category>
   <category>GNU stow</category>
   <category>setup-dev-env</category>
-  <guid>https://dr563105.github.io/posts/2022-01-09-dotfiles/</guid>
+  <guid>https://deepakramani.github.io/posts/2022-01-09-dotfiles/</guid>
   <pubDate>Sun, 09 Jan 2022 00:00:00 GMT</pubDate>
-  <media:content url="https://dr563105.github.io/posts/2022-01-09-dotfiles/gnu-logo.png" medium="image" type="image/png" height="52" width="144"/>
+  <media:content url="https://deepakramani.github.io/posts/2022-01-09-dotfiles/gnu-logo.png" medium="image" type="image/png" height="52" width="144"/>
 </item>
 <item>
   <title>Setting up Kaggle on Linux/Mac</title>
   <dc:creator>Deepak Ramani</dc:creator>
-  <link>https://dr563105.github.io/posts/2021-09-18-kaggle-setup/</link>
+  <link>https://deepakramani.github.io/posts/2021-09-18-kaggle-setup/</link>
   <description><![CDATA[ 
 
 
@@ -11282,9 +11282,9 @@ Tip
  ]]></description>
   <category>kaggle</category>
   <category>markdown</category>
-  <guid>https://dr563105.github.io/posts/2021-09-18-kaggle-setup/</guid>
+  <guid>https://deepakramani.github.io/posts/2021-09-18-kaggle-setup/</guid>
   <pubDate>Sat, 18 Sep 2021 00:00:00 GMT</pubDate>
-  <media:content url="https://dr563105.github.io/posts/2021-09-18-kaggle-setup/kaggle.png" medium="image" type="image/png" height="63" width="144"/>
+  <media:content url="https://deepakramani.github.io/posts/2021-09-18-kaggle-setup/kaggle.png" medium="image" type="image/png" height="63" width="144"/>
 </item>
 </channel>
 </rss>

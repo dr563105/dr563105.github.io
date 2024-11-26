@@ -139,13 +139,13 @@ cookieconsent.run({
 
 <meta property="og:title" content="Building Data Pipelines - Part 1 - Docker – Deepak Ramani’s blog">
 <meta property="og:description" content="A short post on using docker to deploy lambda function locally">
-<meta property="og:image" content="https://dr563105.github.io/posts/2023-06-03-lambda-docker/docker-lambda.png">
+<meta property="og:image" content="https://deepakramani.github.io/posts/2023-06-03-lambda-docker/docker-lambda.png">
 <meta property="og:site_name" content="Deepak Ramani's blog">
 <meta property="og:image:height" content="324">
 <meta property="og:image:width" content="880">
 <meta name="twitter:title" content="Building Data Pipelines - Part 1 - Docker – Deepak Ramani’s blog">
 <meta name="twitter:description" content="A short post on using docker to deploy lambda function locally">
-<meta name="twitter:image" content="https://dr563105.github.io/posts/2023-06-03-lambda-docker/docker-lambda.png">
+<meta name="twitter:image" content="https://deepakramani.github.io/posts/2023-06-03-lambda-docker/docker-lambda.png">
 <meta name="twitter:creator" content="@thosegradients">
 <meta name="twitter:image-height" content="324">
 <meta name="twitter:image-width" content="880">
@@ -247,7 +247,7 @@ cookieconsent.run({
   <li><a href="#test-lambda-function-locally" id="toc-test-lambda-function-locally" class="nav-link" data-scroll-target="#test-lambda-function-locally">Test Lambda function locally</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
-<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/dr563105/dr563105.github.io/blob/master/posts/2023-06-03-lambda-docker/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/deepakramani/dr563105.github.io/blob/master/posts/2023-06-03-lambda-docker/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
@@ -262,7 +262,7 @@ cookieconsent.run({
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>This post is a follow up to my previous <a href="https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/">post</a> on deploying with docker. This will be part 1 of the deploy using Docker series. In this part, I will introduce the concept of <code>lambda_function</code> and how it can tested locally.</p>
+<p>This post is a follow up to my previous <a href="https://deepakramani.github.io/posts/2023-06-03-deploy-with-docker/">post</a> on deploying with docker. This will be part 1 of the deploy using Docker series. In this part, I will introduce the concept of <code>lambda_function</code> and how it can tested locally.</p>
 <section id="why-lambda_function" class="level2">
 <h2 class="anchored" data-anchor-id="why-lambda_function">Why Lambda_function?</h2>
 <p>The customer from my previous post doesn’t want to keep things in their local machine and wish for a cloud option. Also don’t want to reserve resources as they expect only intermittent requests. What could be a viable solution? Enter <strong>Lambda_function</strong>. Each cloud provider has other own name for lambda function. We will use AWS and it is called <code>Lambda</code>.</p>
@@ -330,7 +330,7 @@ cookieconsent.run({
 <span data-code-cell="annotated-cell-1" data-code-lines="29" data-code-annotation="1">Default handler function name</span>
 </dd>
 </dl>
-<p>Like last time we will use <code>Pipenv</code> to install dependencies. If you’re new, kindly visit <a href="https://dr563105.github.io/posts/2023-06-03-deploy-with-docker/">deploy with docker</a> post to know why we use <code>Pipenv</code>.</p>
+<p>Like last time we will use <code>Pipenv</code> to install dependencies. If you’re new, kindly visit <a href="https://deepakramani.github.io/posts/2023-06-03-deploy-with-docker/">deploy with docker</a> post to know why we use <code>Pipenv</code>.</p>
 </section>
 <section id="dockerfile" class="level2">
 <h2 class="anchored" data-anchor-id="dockerfile">Dockerfile</h2>
@@ -680,7 +680,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/dr563105\.github\.io");
+      var filterRegex = new RegExp("https:\/\/deepakramani\.github\.io");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -1046,7 +1046,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<script src="https://utteranc.es/client.js" repo="dr563105/blog_comments" issue-term="pathname" theme="github-dark" crossorigin="anonymous" async="">
+<script src="https://utteranc.es/client.js" repo="deepakramani/blog_comments" issue-term="pathname" theme="github-dark" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 <footer class="footer">
@@ -1056,7 +1056,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
 
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/dr563105/dr563105.github.io/blob/master/posts/2023-06-03-lambda-docker/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/deepakramani/dr563105.github.io/blob/master/posts/2023-06-03-lambda-docker/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">

@@ -139,13 +139,13 @@ cookieconsent.run({
 
 <meta property="og:title" content="Testing Data Pipelines – Deepak Ramani’s blog">
 <meta property="og:description" content="A post on how to test data pipelines">
-<meta property="og:image" content="https://dr563105.github.io/posts/2023-09-02-testing-data-pipelines/SDLC-stages.png">
+<meta property="og:image" content="https://deepakramani.github.io/posts/2023-09-02-testing-data-pipelines/SDLC-stages.png">
 <meta property="og:site_name" content="Deepak Ramani's blog">
 <meta property="og:image:height" content="627">
 <meta property="og:image:width" content="627">
 <meta name="twitter:title" content="Testing Data Pipelines – Deepak Ramani’s blog">
 <meta name="twitter:description" content="A post on how to test data pipelines">
-<meta name="twitter:image" content="https://dr563105.github.io/posts/2023-09-02-testing-data-pipelines/SDLC-stages.png">
+<meta name="twitter:image" content="https://deepakramani.github.io/posts/2023-09-02-testing-data-pipelines/SDLC-stages.png">
 <meta name="twitter:creator" content="@thosegradients">
 <meta name="twitter:image-height" content="627">
 <meta name="twitter:image-width" content="627">
@@ -261,7 +261,7 @@ cookieconsent.run({
   </ul></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
-<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/dr563105/dr563105.github.io/blob/master/posts/2023-09-02-testing-data-pipelines/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/deepakramani/dr563105.github.io/blob/master/posts/2023-09-02-testing-data-pipelines/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
@@ -279,7 +279,7 @@ cookieconsent.run({
 <p>Testing is one of the important phases in software development cycle before a software is turned to production.</p>
 <p><img src="SDLC-stages.png" class="img-fluid"></p>
 <p>Testing is a way to simulate and the application for all possible actions from users before delivery. It reveals flaws in development and sometimes even upto design phase. Imagine a scenario in which a user has to enter price of a product. Mistakenly they enter <code>1w</code> instead of 12. If this pattern happens regularly, and in the monthly report, these numbers won’t add up at all. With testing, we can set guardrails to protect against such mistakes.</p>
-<p>In my <a href="https://dr563105.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/">post</a>, I designed a pipeline to check a Postgres DB for data changes and transport those changes through Apache Kafka and store in S3-like storage. However, I didn’t have time to write proper test cases. After publishing that post, I created unit and integration test cases. In this post we will go through how each test case was developed.</p>
+<p>In my <a href="https://deepakramani.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/">post</a>, I designed a pipeline to check a Postgres DB for data changes and transport those changes through Apache Kafka and store in S3-like storage. However, I didn’t have time to write proper test cases. After publishing that post, I created unit and integration test cases. In this post we will go through how each test case was developed.</p>
 </section>
 <section id="testing-environment" class="level1">
 <h1>Testing Environment</h1>
@@ -287,7 +287,7 @@ cookieconsent.run({
 <p>In our case, the architecture as shown below, there are source and sink systems with Apache Kafka in the middle. The Debezium connects source database(DB) to Kafka. Testing the data pipeline shouldn’t affect development environment or live environment. So we will setup a testing environment that mimics the live environment – using a different port numbers, source DB, topics, buckets.</p>
 <p>In the first part of testing, we will do unit and integration for the source systems - Fake datagen and source Postgres DB</p>
 <p><img src="cdc-pipeline.png" class="img-fluid"></p>
-<p>Full project is located <a href="https://github.com/dr563105/cdc-pg-dbz-kafka-s3">here</a>.</p>
+<p>Full project is located <a href="https://github.com/deepakramani/cdc-pg-dbz-kafka-s3">here</a>.</p>
 <section id="source-system" class="level2">
 <h2 class="anchored" data-anchor-id="source-system">Source system</h2>
 <p>Source system in our case is just two components – a python script that generates data and Postgres database that stores the generated data. With automated testing, we will do checks on individual component – unit tests, a combined test – integration test.</p>
@@ -809,7 +809,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/dr563105\.github\.io");
+      var filterRegex = new RegExp("https:\/\/deepakramani\.github\.io");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -1175,7 +1175,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<script src="https://utteranc.es/client.js" repo="dr563105/blog_comments" issue-term="pathname" theme="github-dark" crossorigin="anonymous" async="">
+<script src="https://utteranc.es/client.js" repo="deepakramani/blog_comments" issue-term="pathname" theme="github-dark" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 <footer class="footer">
@@ -1185,7 +1185,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
 
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/dr563105/dr563105.github.io/blob/master/posts/2023-09-02-testing-data-pipelines/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/deepakramani/dr563105.github.io/blob/master/posts/2023-09-02-testing-data-pipelines/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
