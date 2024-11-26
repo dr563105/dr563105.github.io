@@ -5,17 +5,26 @@
       xmlns:dc="http://purl.org/dc/elements/1.1/" 
       version="2.0">
 <channel>
-<title>Deepak Ramani&#39;s blog</title>
+<title>Deepak Ramani blog</title>
 <link>https://deepakramani.github.io/</link>
 <atom:link href="https://deepakramani.github.io/index.xml" rel="self" type="application/rss+xml"/>
-<description>This is Deepak Ramani&#39;s personal blog.</description>
-<generator>quarto-1.7.0</generator>
+<description>This is Deepak Ramani personal blog.</description>
+<generator>quarto-1.7.1</generator>
 <lastBuildDate>Sat, 02 Sep 2023 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Testing Data Pipelines</title>
   <dc:creator>Deepak Ramani</dc:creator>
   <link>https://deepakramani.github.io/posts/2023-09-02-testing-data-pipelines/</link>
   <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
 
 
 
@@ -616,6 +625,15 @@ font-style: inherit;">in</span> usernames</span><div class="code-annotation-gutt
   <dc:creator>Deepak Ramani</dc:creator>
   <link>https://deepakramani.github.io/posts/2023-08-30-secrets-in-json/</link>
   <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
 
 
 
@@ -1170,6 +1188,15 @@ font-style: inherit;">    }'</span></span></code></pre></div>
   <dc:creator>Deepak Ramani</dc:creator>
   <link>https://deepakramani.github.io/posts/2023-08-29-cdc-debezium-kafka-pg/</link>
   <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
 
 
 
@@ -3501,6 +3528,15 @@ font-style: inherit;">20</span>;</span></code></pre></div>
   <dc:creator>Deepak Ramani</dc:creator>
   <link>https://deepakramani.github.io/posts/2023-06-13-Github-Actions-CI-CD-TF/</link>
   <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
 
 
 
@@ -3882,6 +3918,15 @@ font-style: inherit;">terraform destroy -var-file=vars/prod.tfvars</span></span>
   <dc:creator>Deepak Ramani</dc:creator>
   <link>https://deepakramani.github.io/posts/2023-06-12-Attach-iam-policy-to-roles/</link>
   <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
 
 
 
@@ -4458,6 +4503,15 @@ font-style: inherit;">}</span></span><div class="code-annotation-gutter-bg"></di
   <dc:creator>Deepak Ramani</dc:creator>
   <link>https://deepakramani.github.io/posts/2023-06-11-terraform-aws/</link>
   <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
 
 
 
@@ -5016,6 +5070,15 @@ font-style: inherit;">}</span></span></code></pre></div>
   <dc:creator>Deepak Ramani</dc:creator>
   <link>https://deepakramani.github.io/posts/2023-06-04-api-lambda-ecr/</link>
   <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
 
 
 
@@ -5928,6 +5991,15 @@ font-style: inherit;">'successfully created item!'</span>,</span>
   <dc:creator>Deepak Ramani</dc:creator>
   <link>https://deepakramani.github.io/posts/2023-06-03-lambda-docker/</link>
   <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
 
 
 
@@ -6355,6 +6427,15 @@ font-style: inherit;">python</span> test_docker_fn.py</span></code></pre></div>
   <dc:creator>Deepak Ramani</dc:creator>
   <link>https://deepakramani.github.io/posts/2023-06-03-deploy-with-docker/</link>
   <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
 
 
 
@@ -6954,6 +7035,15 @@ font-style: inherit;">print</span>(response.json())</span></code></pre></div>
   <dc:creator>Deepak Ramani</dc:creator>
   <link>https://deepakramani.github.io/posts/2023-06-02-Terraform-setup/</link>
   <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
 
 
 
@@ -7516,6 +7606,15 @@ font-style: inherit;">}</span></span></code></pre></div>
   <title>Getting started with S3 using boto3</title>
   <link>https://deepakramani.github.io/posts/2023-04-27-getting-started-with-s3/</link>
   <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
 
 
 
@@ -8280,6 +8379,15 @@ font-style: inherit;">'downloaded_turtlesim.jpg'</span>)</span></code></pre></di
   <dc:creator>Deepak Ramani</dc:creator>
   <link>https://deepakramani.github.io/posts/2023-02-06-skim-vimtex/</link>
   <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
 
 
 
@@ -8454,6 +8562,15 @@ Important
   <dc:creator>Deepak Ramani</dc:creator>
   <link>https://deepakramani.github.io/posts/2022-09-24-using-json-normalize/</link>
   <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
 
 
 
@@ -10887,6 +11004,15 @@ font-style: inherit;">=</span> json.loads(requests.get(URL).text)</span>
   <dc:creator>Deepak Ramani</dc:creator>
   <link>https://deepakramani.github.io/posts/2022-01-09-dotfiles/</link>
   <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
 
 
 
@@ -11100,6 +11226,15 @@ font-style: inherit;">&gt;</span> ../.dotfiles/nvim/.config/nvim</span></code></
   <dc:creator>Deepak Ramani</dc:creator>
   <link>https://deepakramani.github.io/posts/2021-09-18-kaggle-setup/</link>
   <description><![CDATA[ 
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
 
 
 

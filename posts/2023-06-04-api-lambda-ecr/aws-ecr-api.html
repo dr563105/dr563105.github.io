@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.0">
+<meta name="generator" content="quarto-1.7.1">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>aws-ecr-api – Deepak Ramani's blog</title>
+<title>aws-ecr-api – Deepak Ramani blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -72,12 +72,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-91bc82464c0a89e8ccb35a6b84f272e5.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-91bc82464c0a89e8ccb35a6b84f272e5.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-fd460097b7106462c6deaf207e669fc9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-fd460097b7106462c6deaf207e669fc9.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-0f7cc14843093d9c55317794c9a4264a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark-31b4a9985dc152c78a44e917023c51a3.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-contrib/iconify-2.1.0/iconify-icon.min.js"></script>
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": true,
@@ -86,9 +87,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "type": "overlay",
   "limit": 50,
   "keyboard-shortcut": [
-    "f",
-    "/",
-    "s"
+    "/"
   ],
   "language": {
     "search-no-results-text": "No results",
@@ -104,24 +103,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-V08NSV8XPF"></script>
-
-<script type="text/plain" cookie-consent="tracking">
-
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-V08NSV8XPF', { 'anonymize_ip': true});
-</script>
 
 <script type="text/javascript" charset="UTF-8">
 document.addEventListener('DOMContentLoaded', function () {
 cookieconsent.run({
   "notice_banner_type":"simple",
-  "consent_type":"express",
+  "consent_type":"implied",
   "palette":"light",
   "language":"en",
-  "page_load_consent_levels":["strictly-necessary"],
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
   "notice_banner_reject_button_hide":false,
   "preferences_center_close_button_hide":false,
   "website_name":""
@@ -134,14 +124,14 @@ cookieconsent.run({
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<meta property="og:title" content="Deepak Ramani’s blog">
-<meta property="og:description" content="This is Deepak Ramani’s personal blog.">
+<meta property="og:title" content="Deepak Ramani blog">
+<meta property="og:description" content="This is Deepak Ramani personal blog.">
 <meta property="og:image" content="https://deepakramani.github.io/posts/2023-06-04-api-lambda-ecr/images/ecr-upload.png">
-<meta property="og:site_name" content="Deepak Ramani's blog">
+<meta property="og:site_name" content="Deepak Ramani blog">
 <meta property="og:image:height" content="640">
 <meta property="og:image:width" content="2872">
-<meta name="twitter:title" content="Deepak Ramani’s blog">
-<meta name="twitter:description" content="This is Deepak Ramani’s personal blog.">
+<meta name="twitter:title" content="Deepak Ramani blog">
+<meta name="twitter:description" content="This is Deepak Ramani personal blog.">
 <meta name="twitter:image" content="https://deepakramani.github.io/posts/2023-06-04-api-lambda-ecr/images/ecr-upload.png">
 <meta name="twitter:creator" content="@thosegradients">
 <meta name="twitter:image-height" content="640">
@@ -208,6 +198,15 @@ cookieconsent.run({
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
 
 
 
@@ -906,12 +905,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
 
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/deepakramani/dr563105.github.io/blob/master/posts/2023-06-04-api-lambda-ecr/aws-ecr-api.md" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/deepakramani/dr563105.github.io/blob/master/posts/2023-06-04-api-lambda-ecr/aws-ecr-api.md" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center"> </a></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
     <a class="nav-link" href="../../archive.html">
-<p>Archive</p>
+<p><iconify-icon role="img" inline="" icon="mage:archive-drawer" aria-label="Icon archive-drawer from mage Iconify.design set." title="Icon archive-drawer from mage Iconify.design set." width="20" height="27"></iconify-icon></p>
 </a>
   </li>  
     <li class="nav-item compact">
@@ -919,6 +918,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       <i class="bi bi-rss" role="img">
 </i> 
     </a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="../../sitemap.xml">
+<p><iconify-icon role="img" inline="" icon="fe:sitemap" aria-label="Icon sitemap from fe Iconify.design set." title="Icon sitemap from fe Iconify.design set." width="20" height="27"></iconify-icon></p>
+</a>
   </li>  
 </ul>
     </div>

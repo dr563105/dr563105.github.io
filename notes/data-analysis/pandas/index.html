@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.0">
+<meta name="generator" content="quarto-1.7.1">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="dcterms.date" content="2023-09-13">
 <meta name="description" content="general notes, tips on using Pandas">
 
-<title>Notes on Pandas – Deepak Ramani’s blog</title>
+<title>Notes on Pandas – Deepak Ramani blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -74,12 +74,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-91bc82464c0a89e8ccb35a6b84f272e5.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-91bc82464c0a89e8ccb35a6b84f272e5.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-fd460097b7106462c6deaf207e669fc9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-fd460097b7106462c6deaf207e669fc9.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../../site_libs/bootstrap/bootstrap-5f725b00c51cfe72551ecfb8fd6d3fe5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../../site_libs/bootstrap/bootstrap-dark-dbec91b4f18a83b10d123d4c5fb46d61.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../../site_libs/quarto-contrib/iconify-2.1.0/iconify-icon.min.js"></script>
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": true,
@@ -88,9 +89,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "type": "overlay",
   "limit": 50,
   "keyboard-shortcut": [
-    "f",
-    "/",
-    "s"
+    "/"
   ],
   "language": {
     "search-no-results-text": "No results",
@@ -106,24 +105,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-V08NSV8XPF"></script>
-
-<script type="text/plain" cookie-consent="tracking">
-
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-V08NSV8XPF', { 'anonymize_ip': true});
-</script>
 
 <script type="text/javascript" charset="UTF-8">
 document.addEventListener('DOMContentLoaded', function () {
 cookieconsent.run({
   "notice_banner_type":"simple",
-  "consent_type":"express",
+  "consent_type":"implied",
   "palette":"light",
   "language":"en",
-  "page_load_consent_levels":["strictly-necessary"],
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
   "notice_banner_reject_button_hide":false,
   "preferences_center_close_button_hide":false,
   "website_name":""
@@ -136,10 +126,10 @@ cookieconsent.run({
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<meta property="og:title" content="Notes on Pandas – Deepak Ramani’s blog">
+<meta property="og:title" content="Notes on Pandas – Deepak Ramani blog">
 <meta property="og:description" content="general notes, tips on using Pandas">
-<meta property="og:site_name" content="Deepak Ramani's blog">
-<meta name="twitter:title" content="Notes on Pandas – Deepak Ramani’s blog">
+<meta property="og:site_name" content="Deepak Ramani blog">
+<meta name="twitter:title" content="Notes on Pandas – Deepak Ramani blog">
 <meta name="twitter:description" content="general notes, tips on using Pandas">
 <meta name="twitter:creator" content="@thosegradients">
 <meta name="twitter:card" content="summary">
@@ -233,6 +223,15 @@ cookieconsent.run({
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8HL173849C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8HL173849C');
+</script>
 
 
 
@@ -507,11 +506,11 @@ cookieconsent.run({
 <span id="annotated-cell-9-6"><a href="#annotated-cell-9-6" aria-hidden="true" tabindex="-1"></a></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="4">4</button><span id="annotated-cell-9-7" class="code-annotation-target"><a href="#annotated-cell-9-7" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Shifted Value'</span>] <span class="op">=</span> df[<span class="st">'Value'</span>].shift(<span class="op">-</span><span class="dv">1</span>)</span>
 <span id="annotated-cell-9-8"><a href="#annotated-cell-9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-9-9"><a href="#annotated-cell-9-9" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Rank'</span>] <span class="op">=</span> df[<span class="st">'Value'</span>].rank()</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="5">5</button><span id="annotated-cell-9-9" class="code-annotation-target"><a href="#annotated-cell-9-9" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Rank'</span>] <span class="op">=</span> df[<span class="st">'Value'</span>].rank()</span>
 <span id="annotated-cell-9-10"><a href="#annotated-cell-9-10" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="5">5</button><span id="annotated-cell-9-11" class="code-annotation-target"><a href="#annotated-cell-9-11" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Percentage Change'</span>] <span class="op">=</span> df[<span class="st">'Value'</span>].pct_change()</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="6">6</button><span id="annotated-cell-9-11" class="code-annotation-target"><a href="#annotated-cell-9-11" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Percentage Change'</span>] <span class="op">=</span> df[<span class="st">'Value'</span>].pct_change()</span>
 <span id="annotated-cell-9-12"><a href="#annotated-cell-9-12" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="6">6</button><span id="annotated-cell-9-13" class="code-annotation-target"><a href="#annotated-cell-9-13" aria-hidden="true" tabindex="-1"></a>weekly_rolling_mean <span class="op">=</span> df[<span class="st">'data'</span>].resample(<span class="st">'W'</span>).mean().rolling(window<span class="op">=</span><span class="dv">3</span>).mean()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="7">7</button><span id="annotated-cell-9-13" class="code-annotation-target"><a href="#annotated-cell-9-13" aria-hidden="true" tabindex="-1"></a>weekly_rolling_mean <span class="op">=</span> df[<span class="st">'data'</span>].resample(<span class="st">'W'</span>).mean().rolling(window<span class="op">=</span><span class="dv">3</span>).mean()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-9" data-target-annotation="1">1</dt>
 <dd>
@@ -527,15 +526,19 @@ cookieconsent.run({
 </dd>
 <dt data-target-cell="annotated-cell-9" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-9" data-code-lines="7,9" data-code-annotation="4">Shifts up the current row by one row. SQL equivalent of <code>LEAD</code>.</span>
+<span data-code-cell="annotated-cell-9" data-code-lines="7" data-code-annotation="4">Shifts up the current row by one row. SQL equivalent of <code>LEAD</code>.</span>
 </dd>
 <dt data-target-cell="annotated-cell-9" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-cell="annotated-cell-9" data-code-lines="11" data-code-annotation="5">Assigns a rank to each value in a column based on a specified ordering.</span>
+<span data-code-cell="annotated-cell-9" data-code-lines="9" data-code-annotation="5">Assigns a rank to each value in a column based on a specified ordering.</span>
 </dd>
 <dt data-target-cell="annotated-cell-9" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-cell="annotated-cell-9" data-code-lines="13" data-code-annotation="6">Computes the percentage change between the current and a prior element.</span>
+<span data-code-cell="annotated-cell-9" data-code-lines="11" data-code-annotation="6">Computes the percentage change between the current and a prior element.</span>
+</dd>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="7">7</dt>
+<dd>
+<span data-code-cell="annotated-cell-9" data-code-lines="13" data-code-annotation="7">Resample to weekly data and calculate the rolling mean over a window of 3 weeks.</span>
 </dd>
 </dl>
 </section>
@@ -1179,12 +1182,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
 
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/deepakramani/dr563105.github.io/blob/master/notes/data-analysis/pandas/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/deepakramani/dr563105.github.io/blob/master/notes/data-analysis/pandas/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div><div class="cookie-consent-footer"><a href="#" id="open_preferences_center"> </a></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
     <a class="nav-link" href="../../../archive.html">
-<p>Archive</p>
+<p><iconify-icon role="img" inline="" icon="mage:archive-drawer" aria-label="Icon archive-drawer from mage Iconify.design set." title="Icon archive-drawer from mage Iconify.design set." width="20" height="27"></iconify-icon></p>
 </a>
   </li>  
     <li class="nav-item compact">
@@ -1192,6 +1195,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       <i class="bi bi-rss" role="img">
 </i> 
     </a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="../../../sitemap.xml">
+<p><iconify-icon role="img" inline="" icon="fe:sitemap" aria-label="Icon sitemap from fe Iconify.design set." title="Icon sitemap from fe Iconify.design set." width="20" height="27"></iconify-icon></p>
+</a>
   </li>  
 </ul>
     </div>
