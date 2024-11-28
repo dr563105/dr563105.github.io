@@ -2,13 +2,16 @@ project:
   type: website
   preview:
     port: 6542
+  resources: 
+    - robots.txt
+
 
 website:
   favicon: logo.png
   title: "Deepak Ramani blog"
   description: "This is Deepak Ramani personal blog."
-  site-url: https://deepakramani.github.io
-  repo-url: https://github.com/deepakramani/dr563105.github.io
+  site-url: "https://deepakramani.github.io/"
+  repo-url: "https://github.com/deepakramani/dr563105.github.io/"
   repo-actions: source
   repo-branch: master
   open-graph: true

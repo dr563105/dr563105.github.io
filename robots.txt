@@ -1,0 +1,4 @@
+robots:
+  - "User-agent: *"
+  - "Allow: /"
+  - "Sitemap: https://deepakramani.github.io/sitemap.xml"
