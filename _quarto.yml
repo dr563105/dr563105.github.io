@@ -2,16 +2,13 @@ project:
   type: website
   preview:
     port: 6542
-  resources: 
-    - robots.txt
-
 
 website:
   favicon: logo.png
   title: "Deepak Ramani blog"
   description: "This is Deepak Ramani personal blog."
-  site-url: "https://deepakramani.github.io/"
-  repo-url: "https://github.com/deepakramani/dr563105.github.io/"
+  site-url: "https://deepakramani.github.io"
+  repo-url: "https://github.com/deepakramani/dr563105.github.io"
   repo-actions: source
   repo-branch: master
   open-graph: true
@@ -81,7 +78,8 @@ format:
     # css: _includes/styles.css
     include-before-body: 
       _includes/analytics.html
-    # include-in-header:
+    include-in-header:
+      _includes/canonical.html
     #   _includes/google-ads.html
     code-link: true
     smooth-scroll: true
